@@ -31,7 +31,7 @@ def wget_ft(fn,ft):
     add_ext(fn,ft)
 
 def wget_rdf(urn):
-    if(urn.startswith('urn:')):
+    if(urn!=None and urn.startswith('urn:')):
         url=urn.replace(":","/").replace("urn","https://oss.geodex.org",1)
         urlroot=path_leaf(url) #root before ext added
         url += ".rdf"
