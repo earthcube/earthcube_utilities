@@ -30,12 +30,16 @@ def wget_ft(fn,ft):
     wget(fn)
     add_ext(fn,ft)
 
+rdflib_inited=None
 def init_rdflib():
-  cs='pip install rdflib networkx'
-  os.system(cs)
+    cs='pip install rdflib networkx'
+    os.system(cs)
+    rdflib_inited=cs
 
 #https://stackoverflow.com/questions/39274216/visualize-an-rdflib-graph-in-python
 def rdflib_viz(url,ft=None):
+    if rdflib_inited==None:
+        init_rdflib()
     import rdflib
     from rdflib.extras.external_graph_libs import rdflib_to_networkx_multidigraph
     import networkx as nx
@@ -56,7 +60,7 @@ def rdflib_viz(url,ft=None):
 
 #still use above, although ontospy also allows for some viz
 
-def wget_rdf(urn):
+def wget_rdf(urn,viz=None):
     if(urn!=None and urn.startswith('urn:')):
         url=urn.replace(":","/").replace("urn","https://oss.geodex.org",1)
         urlroot=path_leaf(url) #root before ext added
@@ -70,28 +74,37 @@ def wget_rdf(urn):
         #from rdflib import Graph
         #g = Graph()
         #g.parse(fn2)
-#       rdflib_viz(fn2) #can work, but looks crowded now
+        if viz: #can still get errors
+            rdflib_viz(fn2) #can work, but looks crowded now
     else:
         return f'bad-urn:{urn}'
 
+rdf_inited=None
 def init_rdf():
-  cs='apt-get install raptor2-utils graphviz'
-  os.system(cs)
+    cs='apt-get install raptor2-utils graphviz'
+    os.system(cs)
+    rdf_inited=cs
 
-def nt2svg(fn):
-  cs= f'rapper -i ntriples -o dot {fn}.nt|cat>{fn}.dot'
-  os.system(cs)
-  cs= f'dot -Tsvg {fn}.dot |cat> {fn}.svg'
-  os.system(cs)
+def nt2svg(fnb):
+    if rdf_inited==None:
+        init_rdf()
+    cs= f'rapper -i ntriples -o dot {fnb}.nt|cat>{fnb}.dot'
+    os.system(cs) 
+    cs= f'dot -Tsvg {fnb}.dot |cat> {fnb}.svg'
+    os.system(cs)
+
 
 #https://stackoverflow.com/questions/30334385/display-svg-in-ipython-notebook-from-a-function
 def display_svg(fn):
+    if rdf_inited==None:
+        init_rdf()
     from IPython.display import SVG, display
     display(SVG(fn))
 
-def nt_viz(fn):
-    nt2svg(fn)
-    display_svg(fn)
+def nt_viz(fnb):
+    nt2svg(fnb) #base(before ext)of .nt file, makes .svg version&displays
+    fns= fnb + ".svg"
+    display_svg(fns)
 
 #should change os version of wget to request so can more easily log the return code
  #maybe, but this is easiest way to get the file locally to have to use
