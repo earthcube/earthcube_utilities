@@ -30,6 +30,32 @@ def wget_ft(fn,ft):
     wget(fn)
     add_ext(fn,ft)
 
+def init_rdflib():
+  cs='pip install rdflib networkx'
+  os.system(cs)
+
+#https://stackoverflow.com/questions/39274216/visualize-an-rdflib-graph-in-python
+def rdflib_viz(url,ft=None):
+    import rdflib
+    from rdflib.extras.external_graph_libs import rdflib_to_networkx_multidigraph
+    import networkx as nx
+    import matplotlib.pyplot as plt 
+    g = rdflib.Graph()
+    if ft!=None:
+        result = g.parse(url) #if didn't do mv, could send in format= 
+    else:
+        result = g.parse(url,ft)
+    G = rdflib_to_networkx_multidigraph(result) 
+    # Plot Networkx instance of RDF Graph
+    pos = nx.spring_layout(G, scale=2)
+    edge_labels = nx.get_edge_attributes(G, 'r')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+    nx.draw(G, with_labels=True) 
+    #if not in interactive mode for
+    plt.show()
+
+#still use above, although ontospy also allows for some viz
+
 def wget_rdf(urn):
     if(urn!=None and urn.startswith('urn:')):
         url=urn.replace(":","/").replace("urn","https://oss.geodex.org",1)
@@ -44,8 +70,28 @@ def wget_rdf(urn):
         #from rdflib import Graph
         #g = Graph()
         #g.parse(fn2)
+#       rdflib_viz(fn2) #can work, but looks crowded now
     else:
         return f'bad-urn:{urn}'
+
+def init_rdf():
+  cs='apt-get install raptor2-utils graphviz'
+  os.system(cs)
+
+def nt2svg(fn):
+  cs= f'rapper -i ntriples -o dot {fn}.nt|cat>{fn}.dot'
+  os.system(cs)
+  cs= f'dot -Tsvg {fn}.dot |cat> {fn}.svg'
+  os.system(cs)
+
+#https://stackoverflow.com/questions/30334385/display-svg-in-ipython-notebook-from-a-function
+def display_svg(fn):
+    from IPython.display import SVG, display
+    display(SVG(fn))
+
+def nt_viz(fn):
+    nt2svg(fn)
+    display_svg(fn)
 
 #should change os version of wget to request so can more easily log the return code
  #maybe, but this is easiest way to get the file locally to have to use
@@ -72,13 +118,13 @@ def read_file(fnp, ext=None):
         df="no fileType info, doing:[!wget $url ],to see:[ !ls -l ]"
     elif ft=='.tsv' or re.search('tsv',ext,re.IGNORECASE) or re.search('tab-sep',ext,re.IGNORECASE):
         try:
-            df=pd.read_csv(fn, sep='\t',comment='#')
+            df=pd.read_csv(fn, sep='\t',comment='#',warn_bad_lines=True, error_bad_lines=False)
         except:
             df = str(sys.exc_info()[0])
             pass
     elif ft=='.csv' or re.search('csv',ext,re.IGNORECASE):
         try:
-            df=pd.read_csv(fn)
+            df=pd.read_csv(fn,comment="#",warn_bad_lines=True, error_bad_lines=False)
         except:
             df = str(sys.exc_info()[0])
             pass
