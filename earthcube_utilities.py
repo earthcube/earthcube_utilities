@@ -14,6 +14,18 @@ def file_ext(fn):
     st=os.path.splitext(fn)
     return st[-1]
 
+def file_base(fn):
+    st=os.path.splitext(fn)
+    return st[0]
+
+#could think a file w/'.'s in it's name, had an .ext
+ #so improve if possible; hopefully not by having a list of exts
+  #but maybe that the ext is say 6char max,..
+#only messed up filename when don't send in w/.ext and has dots, but ok w/.ext
+
+def has_ext(fn):
+    return (fn != file_base(fn))
+
 def wget(fn):
     cs= f'wget -a log {fn}' 
     os.system(cs)
@@ -86,6 +98,8 @@ def init_rdf():
     rdf_inited=cs
 
 def nt2svg(fnb):
+    if has_ext(fnb):
+        fnb=file_base(fnb)
     if rdf_inited==None:
         init_rdf()
     cs= f'rapper -i ntriples -o dot {fnb}.nt|cat>{fnb}.dot'
@@ -102,6 +116,8 @@ def display_svg(fn):
     display(SVG(fn))
 
 def nt_viz(fnb):
+    if has_ext(fnb):
+        fnb=file_base(fnb)
     nt2svg(fnb) #base(before ext)of .nt file, makes .svg version&displays
     fns= fnb + ".svg"
     display_svg(fns)
@@ -144,6 +160,12 @@ def read_file(fnp, ext=None):
     elif ft=='.txt' or re.search('text',ext,re.IGNORECASE):
         try:
             df=pd.read_csv(fn, sep='\n',comment='#')
+        except:
+            df = str(sys.exc_info()[0])
+            pass
+    elif ft=='.html' or re.search('htm',ext,re.IGNORECASE):
+        try:
+            df=pd.read_html(fn)
         except:
             df = str(sys.exc_info()[0])
             pass
