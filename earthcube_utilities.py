@@ -4,6 +4,11 @@
 import os
 import sys
 
+#from qry.py
+def put_txtfile(fn,s):
+    with open(fn, "w") as f:
+        return f.write(s)
+
 #start adding more utils, can use to: fn=read_file.path_leaf(url) then: !head fn
 def path_leaf(path):
     import ntpath
@@ -33,14 +38,25 @@ def wget(fn):
 def add_ext(fn,ft):
     fn1=path_leaf(fn) #just the file, not it's path
     fext=file_ext(fn1) #&just it's .ext
+    r=fn1
     if fext==None or fext=='':
         fnt=fn1 + ft
         cs= f'mv {fn1} {fnt}' 
         os.system(cs)
+        r=fnt
+    return r
 
 def wget_ft(fn,ft):
     wget(fn)
-    add_ext(fn,ft)
+    fnl=add_ext(fn,ft)
+    #does it block/do we have2wait?, eg. time.sleep(sec)
+    #fnl=path_leaf(fn) #just the file, not it's path
+    fs=os.path.getsize(fnl) #assuming it downloads w/that name
+    #if fs>999 and fs<999999999: #try upper limit later
+    if fs>699:
+        cs=f'unzip {fnl}'
+        os.system(cs)
+    return fs
 
 rdflib_inited=None
 def init_rdflib():
@@ -48,8 +64,21 @@ def init_rdflib():
     os.system(cs)
     rdflib_inited=cs
 
+#get fnb + ".nt" and put_txtfile that str
+def xml2nt(fn):
+    if rdflib_inited==None:
+        init_rdflib()
+    fnb=file_base(fn)
+    from rdflib import Graph
+    g = Graph()
+    g.parse(fn, format="xml")
+    s=g.serialize(format="ntriples").decode("u8") #works via cli,nb had ntserializer prob
+    fnt=fnb+".nt"
+    put_txtfile(fnt,s)
+    return len(s) 
+
 #https://stackoverflow.com/questions/39274216/visualize-an-rdflib-graph-in-python
-def rdflib_viz(url,ft=None):
+def rdflib_viz(url,ft=None): #or have it default to ntriples ;'turtle'
     if rdflib_inited==None:
         init_rdflib()
     import rdflib
@@ -60,8 +89,11 @@ def rdflib_viz(url,ft=None):
     if ft!=None:
         result = g.parse(url) #if didn't do mv, could send in format= 
     else:
-        result = g.parse(url,ft)
+        result = g.parse(url,format=ft)
     G = rdflib_to_networkx_multidigraph(result) 
+    #stackoverflow.com/questions/3567018/how-can-i-specify-an-exact-output-size-for-my-networkx-graph
+    #plt.figure(3,figsize=(12,12)) 
+    plt.figure(3,figsize=(16,16)) 
     # Plot Networkx instance of RDF Graph
     pos = nx.spring_layout(G, scale=2)
     edge_labels = nx.get_edge_attributes(G, 'r')
@@ -87,7 +119,7 @@ def wget_rdf(urn,viz=None):
         #g = Graph()
         #g.parse(fn2)
         if viz: #can still get errors
-            rdflib_viz(fn2) #can work, but looks crowded now
+            rdflib_viz(fn2) #.nt file #can work, but looks crowded now
     else:
         return f'bad-urn:{urn}'
 
@@ -144,7 +176,7 @@ def read_file(fnp, ext=None):
     df=""
     if ext==None and len(ft)<1:
         wget(fn)
-        df="no fileType info, doing:[!wget $url ],to see:[ !ls -l ]"
+        df="no fileType info, doing:[!wget $url ],to see:[ !ls -l ] or FileExplorerPane on the left"
     elif ft=='.tsv' or re.search('tsv',ext,re.IGNORECASE) or re.search('tab-sep',ext,re.IGNORECASE):
         try:
             df=pd.read_csv(fn, sep='\t',comment='#',warn_bad_lines=True, error_bad_lines=False)
@@ -171,14 +203,24 @@ def read_file(fnp, ext=None):
             pass
     elif ft=='.zip' or re.search('zip',ext,re.IGNORECASE):
         ft='.zip'
-        wget_ft(fn,ft)
+        fs=wget_ft(fn,ft)
+        #fs=os.path.getsize(fnl) #assuming it downloads w/that name
 #       df=pd.read_csv(fn, sep='\t',comment='#')
-        df="can't read zip w/o knowing what is in it, doing:[!wget $url ],to see:[ !ls -l ]"
+        #df="can't read zip w/o knowing what is in it, doing:[!wget $url ],to see:[ !ls -l ]"
+        df=f'can not read zip w/o knowing what is in it, doing:[!wget $url ],to see:[ !ls -l ]size:{fs} or FileExplorerPane on the left'
+        if fs<300:
+            df+= "[Warn:small]"
     else:
-        wget_ft(fn,ft)
+        fs=wget_ft(fn,ft)
+        #fs=os.path.getsize(fnl) #assuming it downloads w/that name
         #df="no reader, can !wget $url"
-        df="no reader, doing:[!wget $url ],to see:[ !ls -l ]"
+        df=f'no reader, doing:[!wget $url ],to see:[ !ls -l ]size:{fs} or FileExplorerPane on the left'
+        if fs<300:
+            df+= "[Warn:small]"
     #look into bagit next/maybe, also log get errors, see if metadata lets us know when we need auth2get data
     #if(urn!=None): #put here for now
     #    wget_rdf(urn)
     return df
+
+ #probably drop the [ls-l] part&just have ppl use fileBrowser, even though some CLI would still be good
+#not just 404, getting small file back also worth logging
