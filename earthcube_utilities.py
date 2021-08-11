@@ -53,9 +53,13 @@ def wget_ft(fn,ft):
     #fnl=path_leaf(fn) #just the file, not it's path
     fs=os.path.getsize(fnl) #assuming it downloads w/that name
     #if fs>999 and fs<999999999: #try upper limit later
-    if fs>699:
-        cs=f'unzip {fnl}'
-        os.system(cs)
+    #if fs>699:
+    #    cs=f'unzip {fnl}'
+    #    os.system(cs)
+    #unzip even if small broken file
+    cs=f'unzip {fnl}'
+    #cs=f'unzip *.zip' #try
+    os.system(cs)
     return fs
 
 rdflib_inited=None
@@ -72,7 +76,8 @@ def xml2nt(fn):
     from rdflib import Graph
     g = Graph()
     g.parse(fn, format="xml")
-    s=g.serialize(format="ntriples").decode("u8") #works via cli,nb had ntserializer prob
+    #s=g.serialize(format="ntriples").decode("u8") #works via cli,nb had ntserializer prob
+    s=g.serialize(format="ntriples") #try w/o ;no, but works in NB w/just a warning
     fnt=fnb+".nt"
     put_txtfile(fnt,s)
     return len(s) 
@@ -93,7 +98,7 @@ def rdflib_viz(url,ft=None): #or have it default to ntriples ;'turtle'
     G = rdflib_to_networkx_multidigraph(result) 
     #stackoverflow.com/questions/3567018/how-can-i-specify-an-exact-output-size-for-my-networkx-graph
     #plt.figure(3,figsize=(12,12)) 
-    plt.figure(3,figsize=(16,16)) 
+    plt.figure(3,figsize=(18,18)) 
     # Plot Networkx instance of RDF Graph
     pos = nx.spring_layout(G, scale=2)
     edge_labels = nx.get_edge_attributes(G, 'r')
