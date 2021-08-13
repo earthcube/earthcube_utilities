@@ -32,7 +32,8 @@ def has_ext(fn):
     return (fn != file_base(fn))
 
 def wget(fn):
-    cs= f'wget -a log {fn}' 
+    #cs= f'wget -a log {fn}' 
+    cs= f'wget --tries=2 -a log {fn}' 
     os.system(cs)
 
 def add_ext(fn,ft):
@@ -41,14 +42,15 @@ def add_ext(fn,ft):
     r=fn1
     if fext==None or fext=='':
         fnt=fn1 + ft
-        cs= f'mv {fn1} {fnt}' 
+        #cs= f'mv {fn1} {fnt}' 
+        cs= f'sleep 2;mv {fn1} {fnt}' 
         os.system(cs)
         r=fnt
     return r
 
 def wget_ft(fn,ft):
     wget(fn)
-    fnl=add_ext(fn,ft)
+    fnl=add_ext(fn,ft) #try sleep right before the mv
     #does it block/do we have2wait?, eg. time.sleep(sec)
     #fnl=path_leaf(fn) #just the file, not it's path
     fs=os.path.getsize(fnl) #assuming it downloads w/that name
@@ -58,7 +60,6 @@ def wget_ft(fn,ft):
     #    os.system(cs)
     #unzip even if small broken file
     cs=f'unzip {fnl}'
-    #cs=f'unzip *.zip' #try
     os.system(cs)
     return fs
 
@@ -110,9 +111,12 @@ def rdflib_viz(url,ft=None): #or have it default to ntriples ;'turtle'
 #still use above, although ontospy also allows for some viz
 
 def wget_rdf(urn,viz=None):
-    if(urn!=None and urn.startswith('urn:')):
+    if urn==None:
+        return f'no-urn:{urn}'
+    #if(urn!=None and urn.startswith('urn:')):
+    elif urn.startswith('urn:'):
         url=urn.replace(":","/").replace("urn","https://oss.geodex.org",1)
-        urlroot=path_leaf(url) #root before ext added
+        urlroot=path_leaf(url) #file w/o path
         url += ".rdf"
         cs= f'wget -a log {url}' 
         os.system(cs)
@@ -125,6 +129,16 @@ def wget_rdf(urn,viz=None):
         #g.parse(fn2)
         if viz: #can still get errors
             rdflib_viz(fn2) #.nt file #can work, but looks crowded now
+    elif urn.startswith('/'):
+        url=urn.replace("/","http://mbobak-ofc.ncsa.illinois.edu/ld/",1).replace(".jsonld",".nt",1)
+        urlroot=path_leaf(url) #file w/o path
+        #url += ".nt"
+        cs= f'wget -a log {url}' 
+        os.system(cs)
+        #fn2 = urlroot + ".nt" #more specificially, what is really in it
+        if viz: #can still get errors
+            #rdflib_viz(fn2) #.nt file #can work, but looks crowded now
+            rdflib_viz(urlroot) #.nt file #can work, but looks crowded now
     else:
         return f'bad-urn:{urn}'
 
@@ -152,12 +166,22 @@ def display_svg(fn):
     from IPython.display import SVG, display
     display(SVG(fn))
 
-def nt_viz(fnb):
+def append2allnt(fnb):
+    cs= f'cat {fnb}.nt >> .all.nt'
+    os.system(cs) 
+
+def nt_viz(fnb=".all.nt"):
     if has_ext(fnb):
         fnb=file_base(fnb)
     nt2svg(fnb) #base(before ext)of .nt file, makes .svg version&displays
     fns= fnb + ".svg"
     display_svg(fns)
+    if fnb!=".all":
+        append2allnt(fnb)
+
+def rdfxml_viz(fnb):
+    xml2nt(fnb)
+    nt_viz(fnb)
 
 #should change os version of wget to request so can more easily log the return code
  #maybe, but this is easiest way to get the file locally to have to use
