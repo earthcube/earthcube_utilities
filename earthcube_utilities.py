@@ -205,16 +205,39 @@ def rdfxml_viz(fnb):
 #should change os version of wget to request so can more easily log the return code
  #maybe, but this is easiest way to get the file locally to have to use
   #though if we use a kglab/sublib or other that puts right to graph, could dump from that too
+host = "http://141.142.218.86:3031"
+import requests
+
+def alive():
+    r = requests.get(f'{host}/alive')
+    return r
+
+def log_msg(url): #in mknb.py logbad routed expects 'url' but can encode things
+    r = requests.get(f'{host}/logbad/?url={url}')
+    return r 
 
 #add 'rty'/error handling, which will incl sending bad-download links back to mknp.py
  #log in the except sections, below
 
-def check_size(fs,df):
+def check_size_(fs,df):
     if fs:
         if fs<300:
             df+= "[Warn:small]"
     else:
         df+= "[Warn:No File]"
+    return df
+
+def check_size(fs,df):
+    "FileSize,DataFrame as ret txt"
+    dfe=None
+    if fs:
+        if fs<300:
+            dfe= "[Warn:small]"
+    else:
+        dfe= "[Warn:No File]"
+    if dfe:
+        log_msg(dfe) #should incl url/etc but start w/this
+        df+=dfe
     return df
 
 def read_file(fnp, ext=None):
