@@ -7,6 +7,13 @@
 import os
 import sys
 
+#more loging
+#def install_recipy():
+#    cs='pip install recipy'
+#    os.system(cs)
+#install_recipy()
+#import recipy
+
 #from qry.py
 def put_txtfile(fn,s):
     with open(fn, "w") as f:
@@ -75,8 +82,13 @@ def wget_ft(fn,ft):
     #    cs=f'unzip {fnl}'
     #    os.system(cs)
     #unzip even if small broken file
-    cs=f'unzip {fnl}'
-    os.system(cs)
+    if ft=='.zip': #should check if zip
+        cs=f'unzip {fnl}'
+        os.system(cs)
+        fnb=file_base(fnl)
+        if os.path.isdir(fnb):
+            cs=f'ln -s {fnb} content'
+            os.system(cs)
     return fs
 
 rdflib_inited=None
@@ -125,6 +137,7 @@ def rdflib_viz(url,ft=None): #or have it default to ntriples ;'turtle'
     plt.show()
 
 #still use above, although ontospy also allows for some viz
+fnt=None
 
 def wget_rdf(urn,viz=None):
     if urn==None:
@@ -140,6 +153,7 @@ def wget_rdf(urn,viz=None):
         fn2 = urlroot + ".nt" #more specificially, what is really in it
         cs= f'mv {fn1} {fn2}' #makes easier to load into rdflib..eg: 
         os.system(cs)
+        fnt=fn2
         #from rdflib import Graph
         #g = Graph()
         #g.parse(fn2)
@@ -249,9 +263,13 @@ def read_file(fnp, ext=None):
     fext=file_ext(fn1) #&just it's .ext
     #url = fn
     if(ext!=None):
-        ft="." + ext
+        if ext.startswith('.'):
+            ft=ext
+        else:
+            ft="." + ext
     else: #use ext from fn
         ft=str(fext)
+        ext=ft
     df=""
     if ext==None and len(ft)<1:
         wget(fn)
