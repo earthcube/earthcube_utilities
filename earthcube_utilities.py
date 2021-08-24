@@ -87,7 +87,7 @@ def wget_ft(fn,ft):
         os.system(cs)
         fnb=file_base(fnl)
         if os.path.isdir(fnb):
-            cs=f'ln -s {fnb} content'
+            cs=f'ln -s . content' #so can put . before what you paste
             os.system(cs)
     return fs
 
