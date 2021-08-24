@@ -258,7 +258,7 @@ def read_file(fnp, ext=None):
     "can be a url, will call pd read_.. for the ext type"
     import pandas as pd
     import re
-    fn=fnp.strip('/')
+    fn=fnp.rstrip('/') #only on right side, for trailing slash, not start of full pasted path
     fn1=path_leaf(fn) #just the file, not it's path
     fext=file_ext(fn1) #&just it's .ext
     #url = fn
