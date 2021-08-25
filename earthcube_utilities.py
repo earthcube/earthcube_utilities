@@ -15,9 +15,18 @@ import sys
 #import recipy
 
 #from qry.py
-def put_txtfile(fn,s):
-    with open(fn, "w") as f:
+def put_txtfile(fn,s,wa="w"):
+    #with open(fn, "w") as f:
+    with open(fn, wa) as f:
         return f.write(s)
+
+def add2log(s):
+    fs=f'[{s}]\n'
+    put_txtfile("log",fs,"a")
+
+def os_system(cs):
+    os.system(cs)
+    add2log(cs)
 
 #start adding more utils, can use to: fn=read_file.path_leaf(url) then: !head fn
 def path_leaf(path):
@@ -44,12 +53,12 @@ def has_ext(fn):
 def wget(fn):
     #cs= f'wget -a log {fn}' 
     cs= f'wget --tries=2 -a log {fn}' 
-    os.system(cs)
+    os_system(cs)
 
 def pre_rm(url):
     fnb=path_leaf(url)
     cs=f'rm {fnb}'
-    os.system(cs)
+    os_system(cs)
 
 def get_ec(url="http://mbobak-ofc.ncsa.illinois.edu/ext/ec/nb/ec.py"):
     pre_rm(url)
@@ -64,7 +73,7 @@ def add_ext(fn,ft):
         fnt=fn1 + ft
         #cs= f'mv {fn1} {fnt}' 
         cs= f'sleep 2;mv {fn1} {fnt}' 
-        os.system(cs)
+        os_system(cs)
         r=fnt
     return r
 
@@ -84,17 +93,17 @@ def wget_ft(fn,ft):
     #unzip even if small broken file
     if ft=='.zip': #should check if zip
         cs=f'unzip {fnl}'
-        os.system(cs)
+        os_system(cs)
         fnb=file_base(fnl)
         if os.path.isdir(fnb):
             cs=f'ln -s . content' #so can put . before what you paste
-            os.system(cs)
+            os_system(cs)
     return fs
 
 rdflib_inited=None
 def init_rdflib():
     cs='pip install rdflib networkx'
-    os.system(cs)
+    os_system(cs)
     rdflib_inited=cs
 
 #get fnb + ".nt" and put_txtfile that str
@@ -137,23 +146,24 @@ def rdflib_viz(url,ft=None): #or have it default to ntriples ;'turtle'
     plt.show()
 
 #still use above, although ontospy also allows for some viz
-fnt=None
+f_nt=None
 
 def wget_rdf(urn,viz=None):
     if urn==None:
         return f'no-urn:{urn}'
     #if(urn!=None and urn.startswith('urn:')):
     elif urn.startswith('urn:'):
+        global f_nt
         url=urn.replace(":","/").replace("urn","https://oss.geodex.org",1)
         urlroot=path_leaf(url) #file w/o path
         url += ".rdf"
         cs= f'wget -a log {url}' 
-        os.system(cs)
+        os_system(cs)
         fn1 = urlroot + ".rdf"
         fn2 = urlroot + ".nt" #more specificially, what is really in it
         cs= f'mv {fn1} {fn2}' #makes easier to load into rdflib..eg: 
-        os.system(cs)
-        fnt=fn2
+        os_system(cs)
+        f_nt=fn2
         #from rdflib import Graph
         #g = Graph()
         #g.parse(fn2)
@@ -164,7 +174,7 @@ def wget_rdf(urn,viz=None):
         urlroot=path_leaf(url) #file w/o path
         #url += ".nt"
         cs= f'wget -a log {url}' 
-        os.system(cs)
+        os_system(cs)
         #fn2 = urlroot + ".nt" #more specificially, what is really in it
         if viz: #can still get errors
             #rdflib_viz(fn2) #.nt file #can work, but looks crowded now
@@ -175,7 +185,7 @@ def wget_rdf(urn,viz=None):
 rdf_inited=None
 def init_rdf():
     cs='apt-get install raptor2-utils graphviz'
-    os.system(cs)
+    os_system(cs)
     rdf_inited=cs
 
 def nt2svg(fnb):
@@ -184,9 +194,9 @@ def nt2svg(fnb):
     if rdf_inited==None:
         init_rdf()
     cs= f'rapper -i ntriples -o dot {fnb}.nt|cat>{fnb}.dot'
-    os.system(cs) 
+    os_system(cs) 
     cs= f'dot -Tsvg {fnb}.dot |cat> {fnb}.svg'
-    os.system(cs)
+    os_system(cs)
 
 #consider running sed "/https/s//http/g" on the .nt file, as an option, 
  #for cases were it's use as part of the namespace is inconsistent
@@ -201,9 +211,11 @@ def display_svg(fn):
 
 def append2allnt(fnb):
     cs= f'cat {fnb}.nt >> .all.nt'
-    os.system(cs) 
+    os_system(cs) 
 
 def nt_viz(fnb=".all.nt"):
+    if fnb==".all.nt" and f_nt!=None and os.path.isfile(f_nt):
+        fnb=f_nt  #if have urn .nt file, &nothing run yet, can call w/o arg&will view it
     if has_ext(fnb):
         fnb=file_base(fnb)
     nt2svg(fnb) #base(before ext)of .nt file, makes .svg version&displays
@@ -212,7 +224,7 @@ def nt_viz(fnb=".all.nt"):
     if fnb!=".all":
         append2allnt(fnb)
 
-def rdfxml_viz(fnb):
+def rdfxml_viz(fnb): #cp&paste (rdf)xml file paths from in .zip files
     xml2nt(fnb)
     nt_viz(fnb)
 
