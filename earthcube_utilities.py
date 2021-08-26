@@ -95,9 +95,9 @@ def wget_ft(fn,ft):
         cs=f'unzip {fnl}'
         os_system(cs)
         fnb=file_base(fnl)
-        if os.path.isdir(fnb):
-            cs=f'ln -s . content' #so can put . before what you paste
-            os_system(cs)
+#       if os.path.isdir(fnb):
+#           cs=f'ln -s . content' #so can put . before what you paste
+#           os_system(cs)
     return fs
 
 rdflib_inited=None
@@ -107,13 +107,14 @@ def init_rdflib():
     rdflib_inited=cs
 
 #get fnb + ".nt" and put_txtfile that str
-def xml2nt(fn):
+def xml2nt(fn,frmt="xml"):
     if rdflib_inited==None:
         init_rdflib()
     fnb=file_base(fn)
     from rdflib import Graph
     g = Graph()
-    g.parse(fn, format="xml")
+    #g.parse(fn, format="xml")
+    g.parse(fn, format=frmt) #allow for "json-ld"..
     #s=g.serialize(format="ntriples").decode("u8") #works via cli,nb had ntserializer prob
     s=g.serialize(format="ntriples") #try w/o ;no, but works in NB w/just a warning
     fnt=fnb+".nt"
