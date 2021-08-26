@@ -229,6 +229,19 @@ def rdfxml_viz(fnb): #cp&paste (rdf)xml file paths from in .zip files
     xml2nt(fnb)
     nt_viz(fnb)
 
+def viz(fn=".all.nt"):
+    if has_ext(fn):
+        ext=file_ext(fn)
+        fnb=file_base(fn)
+    else:
+        return "need a file extension, to know which routines to run to show it"
+    if ext==".nt":
+        nt_viz(fn)
+    elif ext=='.xml':
+        rdfxml_viz(fn)
+    else:
+        return "only handle .nt and .xml (rdf) right now"
+
 #should change os version of wget to request so can more easily log the return code
  #maybe, but this is easiest way to get the file locally to have to use
   #though if we use a kglab/sublib or other that puts right to graph, could dump from that too
