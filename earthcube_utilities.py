@@ -2,8 +2,9 @@
  #but for cutting edge can just get the file from the test server, so can use: get_ec()
 
 #pagemil parameterized colab/gist can get this code via:
-#with httpimport.github_repo('MBcode', 'ec'):
+#with httpimport.github_repo('MBcode', 'ec'):   
 #  import ec
+#version in template used the earthcube utils
 import os
 import sys
 
@@ -41,12 +42,12 @@ def path_leaf(path):
 
 def file_ext(fn):
     st=os.path.splitext(fn)
-    add2log(f'fe:st={st}\n')
+    add2log(f'fe:st={st}')
     return st[-1]
 
 def file_base(fn):
     st=os.path.splitext(fn)
-    add2log(f'fb:st={st}\n')
+    add2log(f'fb:st={st}')
     return st[0]
 
 #could think a file w/'.'s in it's name, had an .ext
@@ -73,6 +74,8 @@ def get_ec(url="http://mbobak-ofc.ncsa.illinois.edu/ext/ec/nb/ec.py"):
     return "import ec"
 
 def add_ext(fn,ft):
+    if ft==None or ft=='' or ft=='.' or len(ft)<2:
+        return None
     fn1=path_leaf(fn) #just the file, not it's path
     fext=file_ext(fn1) #&just it's .ext
     r=fn1
@@ -86,7 +89,9 @@ def add_ext(fn,ft):
 
 def wget_ft(fn,ft):
     wget(fn)
-    fnl=add_ext(fn,ft) #try sleep right before the mv
+    fnl=fn
+    if ft!='.' and ft!='' and ft!=None and len(ft)>2:
+        fnl=add_ext(fn,ft) #try sleep right before the mv
     #does it block/do we have2wait?, eg. time.sleep(sec)
     #fnl=path_leaf(fn) #just the file, not it's path
     if os.path.isfile(fnl):
@@ -206,7 +211,7 @@ def nt2svg(fnb):
     cs= f'dot -Tsvg {fnb}.dot |cat> {fnb}.svg'
     os_system(cs)
 
-#consider running sed "/https/s//http/g" on the .nt file, as an option, 
+#re/consider running sed "/https/s//http/g" on the .nt file, as an option, 
  #for cases were it's use as part of the namespace is inconsistent
 
 
@@ -287,11 +292,11 @@ def check_size(fs,df):
         df+=dfe
     return df
 
-def nt2ft(url):
+#considter ext2ft taking the longer-txt down to the stnd file-ext eg. .tsv ..
+
+def nt2ft(url): #could also use rdflib, but will wait till doing other queries as well
     cs=f"grep -A4 {url} *.nt|grep encoding|cut -d' ' -f3"
-    #s=os.popen(cs).read()
-    #return s
-    return os_system_(cs)
+    return os_system_(cs) 
 
 def read_file(fnp, ext=None):  #download url and ext/filetype
 #def read_file(fnp, ext=nt2ft(fnp)):
@@ -311,11 +316,6 @@ def read_file(fnp, ext=None):  #download url and ext/filetype
             ft="." + ext
     else: #use ext from fn
         ft=str(fext)
-        ##if ft is blank, can: grep -A4 $url *.nt|grep encoding|cut -d' ' -f3  #do above
-        #if ft and len(ft)<2:
-        #    ext=nt2ft(fnp) #but put in 'ext' bc it does the re. of the longer txt from the .nt file
-        #else:
-        #    ext=ft
         ext=ft
     df=""
     if ext==None and len(ft)<1:
