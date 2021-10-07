@@ -26,6 +26,16 @@ def tpg(fn="https/darchive.mblwhoilibrary.org_bitstream_1912_26532_1_dataset-752
     print(r)
 #==will replace this w/tgy.py code, that includes finding a fn in the gitsts, vs remaking it
 import os
+import urllib.parse
+
+# Need username for GIST tokent
+# need template path so papermill can find things. use OS path?
+# need to write to temp directory, if possible, or clean up on exit
+# use development flag for the cleanup.
+# should we just hash the name... would be simpler, because we want to pass multiple files to a notebook for a run.
+# be able to pass a different template, or pull from a repo/url.
+## can papermill to memory file reads, or be embedded to do such things?
+
 
 def first_str(s):
     r=s.split(' ', 1 )
@@ -86,7 +96,7 @@ def colab_url(gist_id,fn):
     if useEC:
         return 'https://colab.research.google.com/gist/earthcube/' + gist_id + "/" + fn
     else:
-        return 'https://colab.research.google.com/gist/MBcode/' + gist_id + "/" + fn
+        return 'https://colab.research.google.com/gist/valentinedwv/' + gist_id + "/" + fn
 
 
 def htm_url(url):
@@ -135,10 +145,10 @@ def find_gist(ffnp):
 #==
 #change dwnurl to path for the nb that pagemill makes, so if we see it again, it can just reuse cached version
 def dwnurl2fn(dwnurl):
-    #fn = dwnurl.replace("/","_").replace(":__","/",1) + ".ipynb"
-    #fn = dwnurl.replace("/","_").replace(":__","/",1).replace("?","") + ".ipynb"
-    fn = dwnurl.replace("/","_").replace(":__","/",1).replace("?","").replace("#","_") + ".ipynb"
-    #fn = dwnurl.replace("/","_").replace(":__","/",1).replace("?","").replace("#","_").replace(" ; ","_") + ".ipynb"
+    # #fn = dwnurl.replace("/","_").replace(":__","/",1) + ".ipynb"
+    # #fn = dwnurl.replace("/","_").replace(":__","/",1).replace("?","") + ".ipynb"
+    fn = dwnurl.replace("/","_").replace(":__","/",1).replace("?","").replace("#","<hash>") + ".ipynb"
+    # #fn = dwnurl.replace("/","_").replace(":__","/",1).replace("?","").replace("#","_").replace(" ; ","_") + ".ipynb"
     return fn
 
 #pagemill insert param&run the NB
@@ -152,7 +162,7 @@ def pm_nb(dwnurl, ext=None):
     else: #could use the template.ipynb w/o cached data, if the 1st try w/'mybinder-read-pre-gist.ipynb' fails
         try:
             e = pm.execute_notebook(
-               'template.ipynb', #path/to/input.ipynb',
+               'templates/template.ipynb', #path/to/input.ipynb',
                fn,  #'path/to/output.ipynb',
                parameters = dict(url=dwnurl, ext=ext)
             )
@@ -168,7 +178,7 @@ def pm_nb3(dwn_url, ext=None, urn=None):
     import os
     from os import path
     import urllib.parse
-    dwnurl=dwn_url.strip('/')
+    dwnurl=dwn_url.replace('/','')
     fn=dwnurl2fn(dwnurl)
     if path.exists(fn):
         print(f'reuse:{fn}')
@@ -193,7 +203,7 @@ def pm_nb3(dwn_url, ext=None, urn=None):
         else:
             urn_arg=""
         #cs=f'papermill --prepare-only template.ipynb {fn} -p contenturl {dwnurl} {ext_arg} {urn_arg}'
-        cs=f'papermill --prepare-only template.ipynb {fn} -p url {dwnurl} {ext_arg} {urn_arg}'
+        cs=f'papermill --prepare-only /Users/valentin/development/dev_earthcube/earthcube_utilities/src/notebook_proxy/templates/template.ipynb {fn} -p url {dwnurl} {ext_arg} {urn_arg}'
         print(cs)
         os.system(cs)
     return post_gist(fn)
