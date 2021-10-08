@@ -9,7 +9,9 @@ REQUIRED ENV
 * GIST_TOKEN - application token from Github
 * GIST_USERNAME - Github Username for applicaiton token
 """
-
+# dwv 2021-10-08 added env varaibles, and error checks when missing.
+#       worked to used embedded papermill to issues with parameter passing
+#       pass parameter for templates
 
 #1st cut at a version of mknb.py that can handle sending in(differing)ext info to the new template
  #&right now, just incl the tgy.py gist-mgt which should not only to the post but look up cached gists,returing colab urls
@@ -35,9 +37,13 @@ def tpg(fn="https/darchive.mblwhoilibrary.org_bitstream_1912_26532_1_dataset-752
     r=post_gist(fn)
     print(r)
 #==will replace this w/tgy.py code, that includes finding a fn in the gitsts, vs remaking it
+
 import os
+import sys
 import urllib.parse
 import papermill as pm
+from os import path
+import tempfile
 
 
 # (x) Need username for GIST tokent
@@ -169,9 +175,6 @@ def dwnurl2fn(dwnurl):
 #pagemill insert param&run the NB
 #def pm(dwnurl, fn):
 def pm_nb(dwn_url, ext=None, urn=None,template=None):
-    import papermill as pm
-    from os import path
-    import tempfile
     dwnurl = dwn_url.replace('/', '')
     fn=dwnurl2fn(dwnurl)
     temp_dir = tempfile.gettempdir()
@@ -196,9 +199,6 @@ def pm_nb(dwn_url, ext=None, urn=None,template=None):
     #above had problems(on1machine), so have cli backup in case:
 
 def pm_nb3(dwn_url, ext=None, urn=None):
-    import os
-    from os import path
-    import urllib.parse
     dwnurl=dwn_url.replace('/','')
     fn=dwnurl2fn(dwnurl)
     if path.exists(fn):
@@ -285,8 +285,6 @@ def alive():
     return "alive"
 
 if __name__ == '__main__':
-    #app.run()
-    import sys
     if(len(sys.argv)>1):
         dwnurl_str = sys.argv[1]
         if(len(sys.argv)>2):
