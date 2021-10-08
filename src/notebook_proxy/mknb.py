@@ -246,6 +246,7 @@ def mknb(dwnurl_str,ext=None,urn=None,template=None):
 
 from flask import Flask
 from flask import request
+from flask import render_template
 from flask_ipban import IpBan
 app = Flask(__name__)
 ip_ban = IpBan(ban_seconds=200)
@@ -253,6 +254,10 @@ ip_ban.init_app(app)
 blockip=os.getenv("blockip")
 if blockip:
     ip_ban.block(blockip)
+
+@app.route('/')
+def template():
+    return render_template('index.html')
 
 @app.route('/mknb/') #works, but often have2rerun the clicked link2get rid of errors
 def mk_nb():
