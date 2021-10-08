@@ -2,8 +2,9 @@
  #but for cutting edge can just get the file from the test server, so can use: get_ec()
 
 #pagemil parameterized colab/gist can get this code via:
-#with httpimport.github_repo('MBcode', 'ec'):
+#with httpimport.github_repo('MBcode', 'ec'):   
 #  import ec
+#version in template used the earthcube utils
 import os
 import sys
 
@@ -28,6 +29,11 @@ def os_system(cs):
     os.system(cs)
     add2log(cs)
 
+def os_system_(cs):
+    s=os.popen(cs).read()
+    add2log(cs)
+    return s
+
 #start adding more utils, can use to: fn=read_file.path_leaf(url) then: !head fn
 def path_leaf(path):
     import ntpath
@@ -36,10 +42,12 @@ def path_leaf(path):
 
 def file_ext(fn):
     st=os.path.splitext(fn)
+    add2log(f'fe:st={st}')
     return st[-1]
 
 def file_base(fn):
     st=os.path.splitext(fn)
+    add2log(f'fb:st={st}')
     return st[0]
 
 #could think a file w/'.'s in it's name, had an .ext
@@ -66,6 +74,8 @@ def get_ec(url="http://mbobak-ofc.ncsa.illinois.edu/ext/ec/nb/ec.py"):
     return "import ec"
 
 def add_ext(fn,ft):
+    if ft==None or ft=='' or ft=='.' or len(ft)<2:
+        return None
     fn1=path_leaf(fn) #just the file, not it's path
     fext=file_ext(fn1) #&just it's .ext
     r=fn1
@@ -79,7 +89,9 @@ def add_ext(fn,ft):
 
 def wget_ft(fn,ft):
     wget(fn)
-    fnl=add_ext(fn,ft) #try sleep right before the mv
+    fnl=fn
+    if ft!='.' and ft!='' and ft!=None and len(ft)>2:
+        fnl=add_ext(fn,ft) #try sleep right before the mv
     #does it block/do we have2wait?, eg. time.sleep(sec)
     #fnl=path_leaf(fn) #just the file, not it's path
     if os.path.isfile(fnl):
@@ -199,7 +211,7 @@ def nt2svg(fnb):
     cs= f'dot -Tsvg {fnb}.dot |cat> {fnb}.svg'
     os_system(cs)
 
-#consider running sed "/https/s//http/g" on the .nt file, as an option, 
+#re/consider running sed "/https/s//http/g" on the .nt file, as an option, 
  #for cases were it's use as part of the namespace is inconsistent
 
 
@@ -229,10 +241,10 @@ def rdfxml_viz(fnb): #cp&paste (rdf)xml file paths from in .zip files
     xml2nt(fnb)
     nt_viz(fnb)
 
-def viz(fn=".all.nt"):
+def viz(fn=".all.nt"): #might call this rdf_viz once we get some other type of viz going
     if has_ext(fn):
         ext=file_ext(fn)
-        fnb=file_base(fn)
+        fnb=file_base(fn) #unused, bc they should strip the ext anyway
     else:
         return "need a file extension, to know which routines to run to show it"
     if ext==".nt":
@@ -280,10 +292,19 @@ def check_size(fs,df):
         df+=dfe
     return df
 
-def read_file(fnp, ext=None):
+#considter ext2ft taking the longer-txt down to the stnd file-ext eg. .tsv ..
+
+def nt2ft(url): #could also use rdflib, but will wait till doing other queries as well
+    cs=f"grep -A4 {url} *.nt|grep encoding|cut -d' ' -f3"
+    return os_system_(cs) 
+
+def read_file(fnp, ext=None):  #download url and ext/filetype
+#def read_file(fnp, ext=nt2ft(fnp)):
     "can be a url, will call pd read_.. for the ext type"
     import pandas as pd
     import re
+    if(ext==None): #find filetype from .nt ecodingFormat
+        ext=nt2ft(fnp)
     fn=fnp.rstrip('/') #only on right side, for trailing slash, not start of full pasted path
     fn1=path_leaf(fn) #just the file, not it's path
     fext=file_ext(fn1) #&just it's .ext
