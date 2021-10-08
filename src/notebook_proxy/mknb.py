@@ -1,6 +1,16 @@
 #!/usr/bin/env python3
 #mknb.py has all the gist/colab w/caching, and working service,  clean&hook up soon
 
+"""
+RUN
+* flask run
+
+REQUIRED ENV
+* GIST_TOKEN - application token from Github
+* GIST_USERNAME - Github Username for applicaiton token
+"""
+
+
 #1st cut at a version of mknb.py that can handle sending in(differing)ext info to the new template
  #&right now, just incl the tgy.py gist-mgt which should not only to the post but look up cached gists,returing colab urls
 
@@ -27,27 +37,31 @@ def tpg(fn="https/darchive.mblwhoilibrary.org_bitstream_1912_26532_1_dataset-752
 #==will replace this w/tgy.py code, that includes finding a fn in the gitsts, vs remaking it
 import os
 import urllib.parse
+import papermill as pm
 
-# Need username for GIST tokent
-# need template path so papermill can find things. use OS path?
-# need to write to temp directory, if possible, or clean up on exit
+
+# (x) Need username for GIST tokent
+# (x) need template path so papermill can find things. use OS path?
+# (x) need to write to temp directory, if possible, or clean up on exit
 # use development flag for the cleanup.
 # should we just hash the name... would be simpler, because we want to pass multiple files to a notebook for a run.
-# be able to pass a different template, or pull from a repo/url.
-## can papermill to memory file reads, or be embedded to do such things?
+# (x) be able to pass a different template, or pull from a repo/url.
+## (implemented temp file) can papermill to memory file reads, or be embedded to do such things?
 
 
 def first_str(s):
     r=s.split(' ', 1 )
     return r[0]
 
-useEC=None #"yes"
-if useEC:
-    AUTH_TOKEN=os.getenv('ec_gist_token') #for when post to earthcube gists, soon
-else:
-    AUTH_TOKEN=os.getenv('gist_token')
-if AUTH_TOKEN==None:
-    print("Error set a gist_token or ec_gist_token env variable ")
+AUTH_TOKEN = os.getenv('GIST_TOKEN')
+AUTH_USER = os.getenv('GIST_USERNAME')
+# useEC=None #"yes"
+# if useEC:
+#     AUTH_TOKEN=os.getenv('ec_gist_token') #for when post to earthcube gists, soon
+# else:
+#     AUTH_TOKEN=os.getenv('gist_token')
+if AUTH_TOKEN==None or AUTH_USER == None:
+    print("Error set a GIST_TOKEN and GIST_USERNAME env variable ")
     exit(1)
 #https://github.com/ThomasAlbin/gistyc
 import gistyc
@@ -93,10 +107,11 @@ def gist_fn(gj):
     return list(gj['files'].keys())[0]
 
 def colab_url(gist_id,fn):
-    if useEC:
-        return 'https://colab.research.google.com/gist/earthcube/' + gist_id + "/" + fn
-    else:
-        return 'https://colab.research.google.com/gist/valentinedwv/' + gist_id + "/" + fn
+    # if useEC:
+    #     return 'https://colab.research.google.com/gist/earthcube/' + gist_id + "/" + fn
+    # else:
+    #     return 'https://colab.research.google.com/gist/valentinedwv/' + gist_id + "/" + fn
+    return f'https://colab.research.google.com/gist/{AUTH_USER}/{gist_id}/{fn}'
 
 
 def htm_url(url):
@@ -153,18 +168,24 @@ def dwnurl2fn(dwnurl):
 
 #pagemill insert param&run the NB
 #def pm(dwnurl, fn):
-def pm_nb(dwnurl, ext=None):
+def pm_nb(dwn_url, ext=None, urn=None,template=None):
     import papermill as pm
     from os import path
+    import tempfile
+    dwnurl = dwn_url.replace('/', '')
     fn=dwnurl2fn(dwnurl)
+    temp_dir = tempfile.gettempdir()
+    fn = os.path.join(temp_dir, fn)
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    template_file = os.path.join(basedir, f'templates/{template}')
     if path.exists(fn):
         print(f'reuse:{fn}')
     else: #could use the template.ipynb w/o cached data, if the 1st try w/'mybinder-read-pre-gist.ipynb' fails
         try:
             e = pm.execute_notebook(
-               'templates/template.ipynb', #path/to/input.ipynb',
+               template_file, # 'templates/template.ipynb', #path/to/input.ipynb',
                fn,  #'path/to/output.ipynb',
-               parameters = dict(url=dwnurl, ext=ext)
+               parameters = dict(url=dwn_url, ext=ext, urn=urn, prepare_only=True, log_output=True)
             )
         except:
             print(f'except:{e}') #might have to catch this exception
@@ -203,7 +224,7 @@ def pm_nb3(dwn_url, ext=None, urn=None):
         else:
             urn_arg=""
         #cs=f'papermill --prepare-only template.ipynb {fn} -p contenturl {dwnurl} {ext_arg} {urn_arg}'
-        cs=f'papermill --prepare-only /Users/valentin/development/dev_earthcube/earthcube_utilities/src/notebook_proxy/templates/template.ipynb {fn} -p url {dwnurl} {ext_arg} {urn_arg}'
+        cs=f'papermill --prepare-only src/notebook_proxy/templates/template.ipynb {fn} -p url {dwnurl} {ext_arg} {urn_arg}'
         print(cs)
         os.system(cs)
     return post_gist(fn)
@@ -211,13 +232,14 @@ def pm_nb3(dwn_url, ext=None, urn=None):
 #def pm2(dwnurl, fn):
 #def pm_nb2(dwn_url, ext=None):
 
-def mknb(dwnurl_str,ext=None,urn=None):
+def mknb(dwnurl_str,ext=None,urn=None,template=None):
     "url2 pm2gist/colab nb"
     if(dwnurl_str and dwnurl_str.startswith("http")):
         #fn=dwnurl2fn(dwnurl_str) #already done in pm_nb
         #r=pm_nb(dwnurl_str, ext)
         #r=pm_nb2(dwnurl_str, ext)
-        r=pm_nb3(dwnurl_str, ext, urn)
+        #r=pm_nb3(dwnurl_str, ext, urn)
+        r = pm_nb(dwnurl_str, ext, urn, template)
     else:
         r=f'bad-url:{dwnurl_str}'
     return r
@@ -241,7 +263,9 @@ def mk_nb():
     print(f'ext={ext}')
     urn = request.args.get('urn', default = 'None',   type = str)
     print(f'urn={urn}')
-    r= mknb(dwnurl_str,ext,urn)
+    template = request.args.get('template', default='template.ipynb', type=str)
+    print(f'template={template}')
+    r= mknb(dwnurl_str,ext,urn, template)
     return r
 
 @app.route('/logbad/')  #have try/except, so log errors soon, also have 'log' file in NB from wget/etc
