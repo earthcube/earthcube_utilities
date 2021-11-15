@@ -25,7 +25,8 @@ import json
 #import recipy
 
 #from qry.py
-def get_txtfile(fn):
+
+def get_textfile(fn):
     with open(fn, "r") as f:
         return f.read()
 
