@@ -26,7 +26,7 @@ import json
 
 #from qry.py
 
-def get_textfile(fn):
+def get_txtfile(fn):
     with open(fn, "r") as f:
         return f.read()
 
