@@ -31,7 +31,7 @@ def get_textfile(fn):
         return f.read()
 
 def get_jsfile2dict(fn):
-    s=get_textfile(fn)
+    s=get_txtfile(fn)
     return json.loads(s)
 
 def put_txtfile(fn,s,wa="w"):
