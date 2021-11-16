@@ -68,6 +68,8 @@ AUTH_USER = os.getenv('GIST_USERNAME')
 #     AUTH_TOKEN=os.getenv('gist_token')
 if AUTH_TOKEN==None or AUTH_USER == None:
     print("Error set a GIST_TOKEN and GIST_USERNAME env variable ")
+    print("e.g. docker run -e GIST_TOKEN={YOUR TOKEN} -e GIST_USERNAME={YOU USERNAME}  -p 127.0.0.1:3031:3031 nsfearthcube/mknb:latest")
+    print("or set in docker-compose or kubernetes secrets")
     exit(1)
 #https://github.com/ThomasAlbin/gistyc
 import gistyc
