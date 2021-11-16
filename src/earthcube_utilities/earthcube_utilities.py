@@ -26,12 +26,12 @@ import json
 
 #from qry.py
 
-def get_textfile(fn):
+def get_txtfile(fn):
     with open(fn, "r") as f:
         return f.read()
 
 def get_jsfile2dict(fn):
-    s=get_textfile(fn)
+    s=get_txtfile(fn)
     return json.loads(s)
 
 def put_txtfile(fn,s,wa="w"):
