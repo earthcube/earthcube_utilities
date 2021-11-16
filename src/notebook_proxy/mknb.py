@@ -33,6 +33,12 @@ REQUIRED ENV
 #import urllib.parse #mostly want safe filenames v url's right now, but enough overlap worth using
 
 #=original gist code: ;now only testing, rm-soon
+import json
+import pathlib
+
+from authlib.oauth2.rfc6749 import OAuth2Token
+
+
 def tpg(fn="https/darchive.mblwhoilibrary.org_bitstream_1912_26532_1_dataset-752737_bergen-mesohux-2017-dissolved-nutrients__v1.tsv.ipynb"): #test
     r=post_gist(fn)
     print(r)
@@ -44,6 +50,14 @@ import urllib.parse
 import papermill as pm
 from os import path
 import tempfile
+
+from flask import Flask, redirect, session, jsonify
+from flask import request
+from flask import g, url_for, render_template
+from flask_ipban import IpBan
+from authlib.integrations.flask_client import OAuth
+from functools import wraps
+from requests_toolbelt import MultipartEncoder
 
 
 # (x) Need username for GIST tokent
@@ -61,6 +75,8 @@ def first_str(s):
 
 AUTH_TOKEN = os.getenv('GIST_TOKEN')
 AUTH_USER = os.getenv('GIST_USERNAME')
+GITHUB_OAUTHSECRET = os.getenv('GITHUB_SECRET')
+GITHUB_OAUTHCLIENTID = os.getenv('GITHUB_CLIENTID')
 # useEC=None #"yes"
 # if useEC:
 #     AUTH_TOKEN=os.getenv('ec_gist_token') #for when post to earthcube gists, soon
@@ -87,7 +103,24 @@ def post_gist(fn):
     else:
         #return gist_api.create_gist(file_name=fn)
         print(f'file_name={fn}')
-        gist_api.create_gist(file_name=fn)
+        filename = pathlib.Path(fn)
+        gistFile = open(fn, 'r')
+        obj = gistFile.read()
+        #files = ("ec_gist", obj, "application/vnd.jupyter")
+        fileRes = [("files",("ec_gist", obj, "application/vnd.jupyter"))]
+        files ={  os.path.basename(fn): {"content":obj }}
+        fields = {"public": True,
+                  "description":"Earthcube Gist",
+                  "files" : files
+                  }
+        #encoder = MultipartEncoder(fields)
+        #headers = {'Content-Type': encoder.content_type}
+        #gist_api.create_gist(file_name=fn)
+        token = session.get('token')
+      #  g = oauth.github.post('gists', token=token, data=encoder, headers=headers)
+        #g = oauth.github.post('gists', token=token, data={"public": "True"}, files=fileRes)
+        j=json.dumps(fields )
+        g = oauth.github.post('gists', token=token, data=j, )
         #could look up url, but find should do it, also makes sure it's there/in a way
         fcu = find_gist(fn)
         print(f'found-made-gist:{fcu}')
@@ -97,8 +130,9 @@ def update_gist(fn): #might come into play later
     return gist_api.update_gist(file_name=fn)
 
 # Get a list of GISTs
-gist_list = gist_api.get_gists()
-g=gist_list #could get this in each fnc that needs it, or leave it global
+# this before auth prevents running.
+#gist_list = gist_api.get_gists()
+#g=gist_list #could get this in each fnc that needs it, or leave it global
 #g=None #just reset in flask app before calling mknb fnc
  #might need to update in other places, maybe even w/in find_gist
 
@@ -151,7 +185,12 @@ def print_nb_gists(g): #was used before writing find_gist
 #def find_gist(ffn):
 def find_gist(ffnp):
     ffn=path_leaf(ffnp)
-    g = gist_api.get_gists() #was in global but refresh here
+   # g = gist_api.get_gists() #was in global but refresh here
+
+    token = session.get('token')
+    res = oauth.github.get('gists', token=token)
+    g = res.json()
+    # TODO, look for response 200... if not throw error
     for gn in range(len(g)):
         fn=gist_fn(g[gn])
         if(ffn == fn):
@@ -246,24 +285,81 @@ def mknb(dwnurl_str,ext=None,urn=None,template=None):
         r=f'bad-url:{dwnurl_str}'
     return r
 
-from flask import Flask
-from flask import request
-from flask import render_template
-from flask_ipban import IpBan
+##############
+# Server
+#   imports move to top of file
+################
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+oauth = OAuth(app)
 ip_ban = IpBan(ban_seconds=200)
 ip_ban.init_app(app)
 blockip=os.getenv("blockip")
 if blockip:
     ip_ban.block(blockip)
+###
+## Auth
+#########
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # if g.user is None:
+        if session.get('token') is None:
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
 
+oauth.register(
+    name='github',
+    client_id=GITHUB_OAUTHCLIENTID,
+    client_secret=GITHUB_OAUTHSECRET,
+    access_token_url='https://github.com/login/oauth/access_token',
+    access_token_params=None,
+    authorize_url='https://github.com/login/oauth/authorize',
+    authorize_params=None,
+    api_base_url='https://api.github.com/',
+    client_kwargs={'scope': 'gist,user:email'},
+)
+github = oauth.create_client('github')
+
+@app.route('/login')
+def login():
+    session['next'] = request.args.get('next') or '/'
+    redirect_uri = url_for('auth', _external=True)
+    return oauth.github.authorize_redirect(redirect_uri)
+
+@app.route('/auth')
+def auth():
+    token = oauth.github.authorize_access_token()
+    if token:
+        session['token'] = token
+    user = token.get('userinfo')
+    if user:
+        session['user'] = user
+    return redirect(session.get('next'))
+
+@app.route('/logout')
+def logout():
+    session.pop('token', None)
+    return redirect('/')
+#### #############
+## Notebook Proxy
+##############
 @app.route('/')
 def template():
-    return render_template('index.html')
+    user = session.get('token')
+    return render_template('index.html', user=user)
+
 
 @app.route('/mknb/') #works, but often have2rerun the clicked link2get rid of errors
+@login_required
 def mk_nb():
-    "make a NoteBook"
+    # dwv setup userauth
+    token = session.get('token')
+    access_token = token['access_token']
+    #gist_api = gistyc.GISTyc(auth_token=access_token)
+    gist_api = gistyc.GISTyc(auth_token=token)
+    #"make a NoteBook"
     dwnurl_str = request.args.get('url',  type = str)
     print(f'url={dwnurl_str}')
     ext = request.args.get('ext', default = 'None',   type = str)
@@ -291,6 +387,25 @@ def log_bad():
 def alive():
     return "alive"
 
+
+@app.route('/gists/')
+@login_required
+def gists():
+    token = session.get('token')
+
+    # token = OAuth2Token.find(
+    #     name='github',
+    #     user=request.user
+    # )
+    # API URL: https://api.github.com/user/repos
+    resp = oauth.github.get('gists', token=token)
+
+    # API URL: https://api.github.com/user/repos
+    #resp = oauth.github.get('user')
+    resp.raise_for_status()
+    gists = resp.json()
+    return jsonify({'gists': gists})
+
 if __name__ == '__main__':
     if(len(sys.argv)>1):
         dwnurl_str = sys.argv[1]
@@ -303,6 +418,10 @@ if __name__ == '__main__':
         print(r)
     else: #w/o args, just to run a service:
         #app.run(host='0.0.0.0', port=8004, debug=True)
+        app.secret_key = 'super secret key'
+        app.config['SESSION_TYPE'] = 'filesystem'
+
+        #sess.init_app(app)
         app.run(host='0.0.0.0', port=3031, debug=True)
 
 #this works, incl pm&gist caches, &now flask works too

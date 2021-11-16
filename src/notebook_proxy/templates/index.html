@@ -13,6 +13,15 @@ JSON-LD files, and sent to the proxy</div>
     <li>urn - urn geocodes urn. While passed url encoded, a custom encoding for a hash is needed: &gt; hash &lt; to replace a # </li>
     <li>template --  name of the template file to render. (optional: default: template.ipynb) </li>
 
-</ul></div>
+</ul>
+{% if user %}
+<pre>
+{{ user|tojson }}
+</pre>
+<a href="/logout">logout</a>
+{% else %}
+<a href="/login">login</a>
+{% endif %}
+</div>
 </body>
 </html>
