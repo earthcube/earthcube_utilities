@@ -10,7 +10,7 @@ defaults:
     working-directory: .
 jobs:
   deploy:
-    name: Dockerize Vue Client b
+    name: Dockerize Flask
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
