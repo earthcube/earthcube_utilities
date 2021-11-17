@@ -231,13 +231,14 @@ def pm_nb(dwn_url, ext=None, urn=None,template=None):
     if path.exists(fn):
         print(f'reuse:{fn}')
     else: #could use the template.ipynb w/o cached data, if the 1st try w/'mybinder-read-pre-gist.ipynb' fails
+        e = None
         try:
             e = pm.execute_notebook(
                template_file, # 'templates/template.ipynb', #path/to/input.ipynb',
                fn,  #'path/to/output.ipynb',
                parameters = dict(url=dwn_url, ext=ext, urn=urn, prepare_only=True, log_output=True)
             )
-        except BaseException as err:
+        except Exception as err:
             print(f'except:{err}') #might have to catch this exception
         print(f'pm:{e}') #might have to catch this exception
     #return base_url + fn
