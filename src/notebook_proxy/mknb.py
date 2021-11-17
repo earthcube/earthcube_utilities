@@ -159,7 +159,8 @@ def colab_url(gist_id,fn):
     #     return 'https://colab.research.google.com/gist/earthcube/' + gist_id + "/" + fn
     # else:
     #     return 'https://colab.research.google.com/gist/valentinedwv/' + gist_id + "/" + fn
-    return f'https://colab.research.google.com/gist/{AUTH_USER}/{gist_id}/{fn}'
+    username = session.get('user')
+    return f'https://colab.research.google.com/gist/{username}/{gist_id}/{fn}'
 
 
 def htm_url(url):
@@ -233,7 +234,7 @@ def pm_nb(dwn_url, ext=None, urn=None,template=None):
     else: #could use the template.ipynb w/o cached data, if the 1st try w/'mybinder-read-pre-gist.ipynb' fails
         e = None
         try:
-            e = pm.execute_notebook(
+            e = pm.execute_notebook( #  not env sure we need to have e. https://github.com/nteract/papermill
                template_file, # 'templates/template.ipynb', #path/to/input.ipynb',
                fn,  #'path/to/output.ipynb',
                parameters = dict(url=dwn_url, ext=ext, urn=urn, prepare_only=True, log_output=True)
@@ -325,7 +326,7 @@ oauth.register(
     authorize_url='https://github.com/login/oauth/authorize',
     authorize_params=None,
     api_base_url='https://api.github.com/',
-    client_kwargs={'scope': 'gist,user:email'},
+    client_kwargs={'scope': 'gist,read:user'},
 )
 github = oauth.create_client('github')
 
@@ -340,7 +341,11 @@ def auth():
     token = oauth.github.authorize_access_token()
     if token:
         session['token'] = token
-
+    user = oauth.github.get('user', token=token)
+    if user.status_code == 200:
+        u = user.json()
+        userlogin = u.get('login')
+        session['user'] = userlogin
     return redirect(session.get('next'))
 
 @app.route('/logout')
@@ -410,6 +415,7 @@ def gists():
     resp.raise_for_status()
     gists = resp.json()
     return jsonify({'gists': gists})
+
 
 if __name__ == '__main__':
     if(len(sys.argv)>1):
