@@ -18,7 +18,7 @@ before use you need a token:
 ```
 docker pull nsfearthcube/mknb:latest
 
-docker run -e GIST_TOKEN={YOUR TOKEN} -e GIST_USERNAME={YOU USERNAME}  -p 127.0.0.1:3031:3031 nsfearthcube/mknb:latest
+docker run -e GITHUB_CLIENTID={YOUR TOKEN} -e GITHUB_SECRET={YOU USERNAME}  -p 127.0.0.1:3031:3031 nsfearthcube/mknb:latest
 ```
 
 
@@ -42,16 +42,16 @@ image id is: 1f0ebd17e990
 ``` docker run -e GIST_TOKEN={YOUR TOKEN} -e GIST_USERNAME={YOU USERNAME}  -p 127.0.0.1:3031:3031 {image id}``` 
 
 Proxy is now running at:
- http://127.0.0.1:3031/
+ http://localhost:3031/
 
 ---
 ## Calling the Notebook Proxy
 
- http://127.0.0.1:3031/ should return an index.html
+ http://localhost:3031/ should return an index.html
 
- http://127.0.0.1:3031/alive/ will let you know it's working.
+ http://localhost:3031/alive/ will let you know it's working.
 
-http://127.0.0.1:3031/mknb/
+http://localhost:3031/mknb/
 This proxy creates a notebook in Google Collab from a template. The parameters extracted from the Scicence on Schema JSON-LD files, and sent to the proxy
 /mknb
 * url - url of the resource

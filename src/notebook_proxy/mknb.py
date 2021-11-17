@@ -91,8 +91,8 @@ GITHUB_OAUTHCLIENTID = os.getenv('GITHUB_CLIENTID')
 #     exit(1)
 #https://github.com/ThomasAlbin/gistyc
 if GITHUB_OAUTHSECRET==None or GITHUB_OAUTHCLIENTID == None:
-    print("Error set a GITHUB_OAUTHSECRET and GITHUB_OAUTHCLIENTID env variable ")
-    print("e.g. docker run -e GITHUB_OAUTHCLIENTID={GITHUB_OAUTHCLIENTID} -e GITHUB_OAUTHSECRET={YOU GITHUB_OAUTHSECRET}  -p 127.0.0.1:3031:3031 nsfearthcube/mknb:latest")
+    print("Error set a GITHUB_SECRET and GITHUB_CLIENTID env variable ")
+    print("e.g. docker run -e GITHUB_SECRET={GITHUB_OAUTHCLIENTID} -e GITHUB_CLIENTID={YOU GITHUB_OAUTHSECRET}  -p 127.0.0.1:3031:3031 nsfearthcube/mknb:latest")
     print("or set in docker-compose or kubernetes secrets")
     exit(1)
 
@@ -237,8 +237,8 @@ def pm_nb(dwn_url, ext=None, urn=None,template=None):
                fn,  #'path/to/output.ipynb',
                parameters = dict(url=dwn_url, ext=ext, urn=urn, prepare_only=True, log_output=True)
             )
-        except:
-            print(f'except:{e}') #might have to catch this exception
+        except BaseException as err:
+            print(f'except:{err}') #might have to catch this exception
         print(f'pm:{e}') #might have to catch this exception
     #return base_url + fn
     return post_gist(fn) #htm w/link to colab of the gist
