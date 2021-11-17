@@ -694,25 +694,25 @@ def txt_query(qry_str,sqs=None): #a generalized version would take pairs/eg. <${
     return df
 
 #==w/in-search-related-data: https://github.com/MBcode/ec/blob/master/qry/rec.py
-import pandas as pd
-import numpy as np
-import simplejson
-import sparqldataframe
+#import pandas as pd
+#import numpy as np
+#import simplejson
+#import sparqldataframe
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 cosine_sim=None
 
 def get_subj_from_index(index):
-	return df[df.index == index]["subj"].values[0]
+    return df[df.index == index]["subj"].values[0]
 
 def get_index_from_subj(subj):
-	return df[df.subj == subj]["index"].values[0]
+    return df[df.subj == subj]["index"].values[0]
 
 def combine_features(row):
-	try:
-		return row['kw'] +" "+row['name']+" "+row["description"]+" "+row["pubname"]
-	except:
-		print("Error:", row)
+    try:
+        return row['kw'] +" "+row['name']+" "+row["description"]+" "+row["pubname"]
+    except:
+        print("Error:", row)
 
 def get_related(likes):
     global cosine_sim
