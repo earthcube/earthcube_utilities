@@ -8,6 +8,8 @@ RUN
 REQUIRED ENV
 * GIST_TOKEN - application token from Github
 * GIST_USERNAME - Github Username for applicaiton token
+GITHUB_OAUTHSECRET = GITHUB APP Secret
+GITHUB_OAUTHCLIENTID = GIHUB Client ID
 """
 # dwv 2021-10-08 added env varaibles, and error checks when missing.
 #       worked to used embedded papermill to issues with parameter passing
@@ -58,7 +60,7 @@ from flask_ipban import IpBan
 from authlib.integrations.flask_client import OAuth
 from functools import wraps
 from requests_toolbelt import MultipartEncoder
-
+import gistyc
 
 # (x) Need username for GIST tokent
 # (x) need template path so papermill can find things. use OS path?
@@ -82,16 +84,20 @@ GITHUB_OAUTHCLIENTID = os.getenv('GITHUB_CLIENTID')
 #     AUTH_TOKEN=os.getenv('ec_gist_token') #for when post to earthcube gists, soon
 # else:
 #     AUTH_TOKEN=os.getenv('gist_token')
-if AUTH_TOKEN==None or AUTH_USER == None:
-    print("Error set a GIST_TOKEN and GIST_USERNAME env variable ")
-    print("e.g. docker run -e GIST_TOKEN={YOUR TOKEN} -e GIST_USERNAME={YOU USERNAME}  -p 127.0.0.1:3031:3031 nsfearthcube/mknb:latest")
+# if AUTH_TOKEN==None or AUTH_USER == None:
+#     print("Error set a GIST_TOKEN and GIST_USERNAME env variable ")
+#     print("e.g. docker run -e GIST_TOKEN={YOUR TOKEN} -e GIST_USERNAME={YOU USERNAME}  -p 127.0.0.1:3031:3031 nsfearthcube/mknb:latest")
+#     print("or set in docker-compose or kubernetes secrets")
+#     exit(1)
+#https://github.com/ThomasAlbin/gistyc
+if GITHUB_OAUTHSECRET==None or GITHUB_OAUTHCLIENTID == None:
+    print("Error set a GITHUB_OAUTHSECRET and GITHUB_OAUTHCLIENTID env variable ")
+    print("e.g. docker run -e GITHUB_OAUTHCLIENTID={GITHUB_OAUTHCLIENTID} -e GITHUB_OAUTHSECRET={YOU GITHUB_OAUTHSECRET}  -p 127.0.0.1:3031:3031 nsfearthcube/mknb:latest")
     print("or set in docker-compose or kubernetes secrets")
     exit(1)
-#https://github.com/ThomasAlbin/gistyc
-import gistyc
 
 # Initiate the GISTyc class with the auth token
-gist_api = gistyc.GISTyc(auth_token=AUTH_TOKEN)
+#gist_api = gistyc.GISTyc(auth_token=AUTH_TOKEN)
 
 #in mknb called post_gist, could call create_
 #def mk_gist(fn):
@@ -126,8 +132,8 @@ def post_gist(fn):
         print(f'found-made-gist:{fcu}')
         return fcu
 
-def update_gist(fn): #might come into play later
-    return gist_api.update_gist(file_name=fn)
+# def update_gist(fn): #might come into play later
+#     return gist_api.update_gist(file_name=fn)
 
 # Get a list of GISTs
 # this before auth prevents running.
@@ -333,9 +339,7 @@ def auth():
     token = oauth.github.authorize_access_token()
     if token:
         session['token'] = token
-    user = token.get('userinfo')
-    if user:
-        session['user'] = user
+
     return redirect(session.get('next'))
 
 @app.route('/logout')
@@ -358,7 +362,7 @@ def mk_nb():
     token = session.get('token')
     access_token = token['access_token']
     #gist_api = gistyc.GISTyc(auth_token=access_token)
-    gist_api = gistyc.GISTyc(auth_token=token)
+    #gist_api = gistyc.GISTyc(auth_token=token)
     #"make a NoteBook"
     dwnurl_str = request.args.get('url',  type = str)
     print(f'url={dwnurl_str}')
@@ -413,12 +417,12 @@ if __name__ == '__main__':
             ext=sys.argv[2]
         else:
             ext=None
-        g = gist_api.get_gists() #set the global w/fresh value
+        # g = gist_api.get_gists() #set the global w/fresh value
         r=mknb(dwnurl_str, ext) #or trf.py test, that will be in ipynb template soon
         print(r)
     else: #w/o args, just to run a service:
         #app.run(host='0.0.0.0', port=8004, debug=True)
-        app.secret_key = 'super secret key'
+        app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
         app.config['SESSION_TYPE'] = 'filesystem'
 
         #sess.init_app(app)
