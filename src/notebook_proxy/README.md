@@ -6,6 +6,8 @@ A docker container is built using github actions:
 
 https://hub.docker.com/repository/docker/nsfearthcube/mknb
 
+Note need to update to https://github.com/tiangolo/uwsgi-nginx-flask-docker
+
 ---
 ## Setting up a developer access token
 before use you need a token:
