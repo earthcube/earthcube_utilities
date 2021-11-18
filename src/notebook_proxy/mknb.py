@@ -57,6 +57,7 @@ from flask import Flask, redirect, session, jsonify
 from flask import request
 from flask import g, url_for, render_template
 from flask_ipban import IpBan
+from werkzeug.middleware.proxy_fix import ProxyFix
 from authlib.integrations.flask_client import OAuth
 from functools import wraps
 from requests_toolbelt import MultipartEncoder
@@ -299,12 +300,14 @@ def mknb(dwnurl_str,ext=None,urn=None,template=None):
 ################
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+
 oauth = OAuth(app)
 ip_ban = IpBan(ban_seconds=200)
 ip_ban.init_app(app)
 blockip=os.getenv("blockip")
 if blockip:
     ip_ban.block(blockip)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_prefix = 1)
 ###
 ## Auth
 #########
