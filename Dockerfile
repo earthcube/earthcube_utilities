@@ -11,6 +11,6 @@ RUN pip3 install -r requirements.txt
 ENV FLASK_APP=mknb
 
 
-ENTRYPOINT [ "flask" ]
+ENTRYPOINT [ "python3" ]
 
-CMD [ "run" ]
+CMD [ "mknb.py" ]
