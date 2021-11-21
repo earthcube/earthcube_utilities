@@ -102,7 +102,7 @@ if GITHUB_OAUTHSECRET==None or GITHUB_OAUTHCLIENTID == None:
 
 #in mknb called post_gist, could call create_
 #def mk_gist(fn):
-def post_gist(fn,executionParameters=None):
+def post_gist(fn, collection=None):
     fcu = find_gist(fn)
     if fcu:
         print(f'found saved gist:{fn}')
@@ -116,14 +116,14 @@ def post_gist(fn,executionParameters=None):
         notebookFilename = os.path.basename(fn)
         #files = ("ec_gist", obj, "application/vnd.jupyter")
 
-        if executionParameters != None:
+        if collection != None:
             # fileRes = [("files",
             #             ("ec_gist", obj, "application/vnd.jupyter"),
             #             ("datasets.json", executionParameters, "application/vnd.jupyter"),
             #             )
             #            ]
             files = {notebookFilename: {"content": obj},
-                     "zzdatasets.json": {"content": str(executionParameters)}}
+                     "zzdatasets.json": {"content": str(collection)}}
             # gist is titled after the first file, and not renamable.
         else:
             #fileRes = [("files", ("ec_gist", obj, "application/vnd.jupyter"))]
@@ -241,10 +241,10 @@ def dwnurl2fn(dwnurl):
 
 #pagemill insert param&run the NB
 #def pm(dwnurl, fn):
-def pm_nb(executionParameters,template=None):
-    dwn_url = executionParameters["datasets"][0].get("downloadurl")
-    ext = executionParameters["datasets"][0].get("ext")
-    urn = executionParameters["datasets"][0].get("urn")
+def pm_nb(collection, template=None):
+    dwn_url = collection["datasets"][0].get("downloadurl")
+    ext = collection["datasets"][0].get("ext")
+    urn = collection["datasets"][0].get("urn")
 
     dwnurl = dwn_url.replace('/', '')
     fn=dwnurl2fn(dwnurl)
@@ -266,7 +266,7 @@ def pm_nb(executionParameters,template=None):
             print(f'except:{err}') #might have to catch this exception
         print(f'pm:{e}') #might have to catch this exception
     #return base_url + fn
-    return post_gist(fn, executionParameters) #htm w/link to colab of the gist
+    return post_gist(fn, collection) #htm w/link to colab of the gist
 
     #above had problems(on1machine), so have cli backup in case:
 
@@ -305,20 +305,20 @@ def pm_nb3(dwn_url, ext=None, urn=None):
 #def pm2(dwnurl, fn):
 #def pm_nb2(dwn_url, ext=None):
 
-def mknb(executionParameters,template=None):
+def mknb(collection, template=None):
     "url2 pm2gist/colab nb"
-    if executionParameters is None or len(executionParameters["datasets"]) <1:
+    if collection is None or len(collection["datasets"]) <1:
         r = f'bad-parameter:no datasets or empty datasets'
-    dwnurl_str = executionParameters["datasets"][0].get("downloadurl")
-    ext = executionParameters["datasets"][0].get("ext")
-    urn = executionParameters["datasets"][0].get("urn")
+    dwnurl_str = collection["datasets"][0].get("downloadurl")
+    ext = collection["datasets"][0].get("ext")
+    urn = collection["datasets"][0].get("urn")
     if(dwnurl_str and dwnurl_str.startswith("http")):
         #fn=dwnurl2fn(dwnurl_str) #already done in pm_nb
         #r=pm_nb(dwnurl_str, ext)
         #r=pm_nb2(dwnurl_str, ext)
         #r=pm_nb3(dwnurl_str, ext, urn)
        ## r = pm_nb(dwnurl_str, ext, urn, template)
-        r = pm_nb(executionParameters, template)
+        r = pm_nb(collection, template)
     else:
         r=f'bad-url:{dwnurl_str}'
     return r
@@ -410,10 +410,10 @@ def mk_nb():
     print(f'urn={urn}')
     template = request.args.get('template', default='template.ipynb', type=str)
     print(f'template={template}')
-    executionParameters ={}
-    executionParameters["datasets"]= [{"urn":urn,"ext":ext,"downloadurl":dwnurl_str}]
+    collection_parameter ={}
+    collection_parameter["datasets"]= [{"urn":urn,"ext":ext,"downloadurl":dwnurl_str}]
    # r= mknb(dwnurl_str,ext,urn, template)
-    r = mknb(executionParameters, template)
+    r = mknb(collection_parameter, template)
     return r
 
 @app.route('/logbad/')  #have try/except, so log errors soon, also have 'log' file in NB from wget/etc
