@@ -102,7 +102,7 @@ if GITHUB_OAUTHSECRET==None or GITHUB_OAUTHCLIENTID == None:
 
 #in mknb called post_gist, could call create_
 #def mk_gist(fn):
-def post_gist(fn):
+def post_gist(fn, collection=None):
     fcu = find_gist(fn)
     if fcu:
         print(f'found saved gist:{fn}')
@@ -113,11 +113,23 @@ def post_gist(fn):
         filename = pathlib.Path(fn)
         gistFile = open(fn, 'r')
         obj = gistFile.read()
+        notebookFilename = os.path.basename(fn)
         #files = ("ec_gist", obj, "application/vnd.jupyter")
-        fileRes = [("files",("ec_gist", obj, "application/vnd.jupyter"))]
-        files ={  os.path.basename(fn): {"content":obj }}
+
+        if collection != None:
+            # fileRes = [("files",
+            #             ("ec_gist", obj, "application/vnd.jupyter"),
+            #             ("datasets.json", executionParameters, "application/vnd.jupyter"),
+            #             )
+            #            ]
+            files = {notebookFilename: {"content": obj},
+                     "zzdatasets.json": {"content": str(collection)}}
+            # gist is titled after the first file, and not renamable.
+        else:
+            #fileRes = [("files", ("ec_gist", obj, "application/vnd.jupyter"))]
+            files ={ notebookFilename: {"content":obj }}
         fields = {"public": True,
-                  "description":"Earthcube Gist",
+                  "description":f'Earthcube Gist:{fn}',
                   "files" : files
                   }
         #encoder = MultipartEncoder(fields)
@@ -128,8 +140,14 @@ def post_gist(fn):
         #g = oauth.github.post('gists', token=token, data={"public": "True"}, files=fileRes)
         j=json.dumps(fields )
         g = oauth.github.post('gists', token=token, data=j, )
+        if (g.status_code == 201):
+            createdGist = g.json()
+            cu = colab_url(createdGist['id'], notebookFilename)
+            hcu=htm_url(cu)
+            return hcu
+
         #could look up url, but find should do it, also makes sure it's there/in a way
-        fcu = find_gist(fn)
+        fcu = find_gist(notebookFilename)
         print(f'found-made-gist:{fcu}')
         return fcu
 
@@ -223,7 +241,11 @@ def dwnurl2fn(dwnurl):
 
 #pagemill insert param&run the NB
 #def pm(dwnurl, fn):
-def pm_nb(dwn_url, ext=None, urn=None,template=None):
+def pm_nb(collection, template=None):
+    dwn_url = collection["datasets"][0].get("downloadurl")
+    ext = collection["datasets"][0].get("ext")
+    urn = collection["datasets"][0].get("urn")
+
     dwnurl = dwn_url.replace('/', '')
     fn=dwnurl2fn(dwnurl)
     temp_dir = tempfile.gettempdir()
@@ -244,11 +266,12 @@ def pm_nb(dwn_url, ext=None, urn=None,template=None):
             print(f'except:{err}') #might have to catch this exception
         print(f'pm:{e}') #might have to catch this exception
     #return base_url + fn
-    return post_gist(fn) #htm w/link to colab of the gist
+    return post_gist(fn, collection) #htm w/link to colab of the gist
 
     #above had problems(on1machine), so have cli backup in case:
 
 def pm_nb3(dwn_url, ext=None, urn=None):
+
     dwnurl=dwn_url.replace('/','')
     fn=dwnurl2fn(dwnurl)
     if path.exists(fn):
@@ -282,14 +305,20 @@ def pm_nb3(dwn_url, ext=None, urn=None):
 #def pm2(dwnurl, fn):
 #def pm_nb2(dwn_url, ext=None):
 
-def mknb(dwnurl_str,ext=None,urn=None,template=None):
+def mknb(collection, template=None):
     "url2 pm2gist/colab nb"
+    if collection is None or len(collection["datasets"]) <1:
+        r = f'bad-parameter:no datasets or empty datasets'
+    dwnurl_str = collection["datasets"][0].get("downloadurl")
+    ext = collection["datasets"][0].get("ext")
+    urn = collection["datasets"][0].get("urn")
     if(dwnurl_str and dwnurl_str.startswith("http")):
         #fn=dwnurl2fn(dwnurl_str) #already done in pm_nb
         #r=pm_nb(dwnurl_str, ext)
         #r=pm_nb2(dwnurl_str, ext)
         #r=pm_nb3(dwnurl_str, ext, urn)
-        r = pm_nb(dwnurl_str, ext, urn, template)
+       ## r = pm_nb(dwnurl_str, ext, urn, template)
+        r = pm_nb(collection, template)
     else:
         r=f'bad-url:{dwnurl_str}'
     return r
@@ -381,7 +410,10 @@ def mk_nb():
     print(f'urn={urn}')
     template = request.args.get('template', default='template.ipynb', type=str)
     print(f'template={template}')
-    r= mknb(dwnurl_str,ext,urn, template)
+    collection_parameter ={}
+    collection_parameter["datasets"]= [{"urn":urn,"ext":ext,"downloadurl":dwnurl_str}]
+   # r= mknb(dwnurl_str,ext,urn, template)
+    r = mknb(collection_parameter, template)
     return r
 
 @app.route('/logbad/')  #have try/except, so log errors soon, also have 'log' file in NB from wget/etc
