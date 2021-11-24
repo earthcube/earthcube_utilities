@@ -239,6 +239,18 @@ def dwnurl2fn(dwnurl):
     # #fn = dwnurl.replace("/","_").replace(":__","/",1).replace("?","").replace("#","_").replace(" ; ","_") + ".ipynb"
     return fn
 
+# papermill can read templates from different sources. https://github.com/nteract/papermill/blob/3002e9f4ca221eed8286116e26b0bd8d15114a1f/papermill/iorw.py#L421
+# so if template name starts will approved name (http://github) then pass that
+# otherwise join with template path
+
+def templateUri(templateName):
+    if  templateName.startswith("http://") or templateName.startswith("https://") : # catches github, too.
+        return templateName
+    else:
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        template_file = os.path.join(basedir, f'templates/{template}')
+        return template_file
+
 #pagemill insert param&run the NB
 #def pm(dwnurl, fn):
 def pm_nb(collection, template=None):
@@ -250,21 +262,34 @@ def pm_nb(collection, template=None):
     fn=dwnurl2fn(dwnurl)
     temp_dir = tempfile.gettempdir()
     fn = os.path.join(temp_dir, fn)
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    template_file = os.path.join(basedir, f'templates/{template}')
-    if path.exists(fn):
-        print(f'reuse:{fn}')
-    else: #could use the template.ipynb w/o cached data, if the 1st try w/'mybinder-read-pre-gist.ipynb' fails
-        e = None
-        try:
-            e = pm.execute_notebook( #  not env sure we need to have e. https://github.com/nteract/papermill
-               template_file, # 'templates/template.ipynb', #path/to/input.ipynb',
-               fn,  #'path/to/output.ipynb',
-               parameters = dict(url=dwn_url, ext=ext, urn=urn, prepare_only=True, log_output=True)
-            )
-        except Exception as err:
-            print(f'except:{err}') #might have to catch this exception
-        print(f'pm:{e}') #might have to catch this exception
+    # basedir = os.path.abspath(os.path.dirname(__file__))
+    # template_file = os.path.join(basedir, f'templates/{template}')
+    template_file = templateUri(template)
+    # dont try reusung until we get the naming issues resolved. Templates named after datasets, so if user changes
+    # template, old template is used.
+    e = None
+    try:
+        e = pm.execute_notebook( #  not env sure we need to have e. https://github.com/nteract/papermill
+           template_file, # 'templates/template.ipynb', #path/to/input.ipynb',
+           fn,  #'path/to/output.ipynb',
+           parameters = dict(url=dwn_url, ext=ext, urn=urn, prepare_only=True, log_output=True)
+        )
+    except Exception as err:
+        print(f'except:{err}') #might have to catch this exception
+    print(f'pm:{e}') #might have to catch this exception
+    # if path.exists(fn):
+    #     print(f'reuse:{fn}')
+    # else: #could use the template.ipynb w/o cached data, if the 1st try w/'mybinder-read-pre-gist.ipynb' fails
+    #     e = None
+    #     try:
+    #         e = pm.execute_notebook( #  not env sure we need to have e. https://github.com/nteract/papermill
+    #            template_file, # 'templates/template.ipynb', #path/to/input.ipynb',
+    #            fn,  #'path/to/output.ipynb',
+    #            parameters = dict(url=dwn_url, ext=ext, urn=urn, prepare_only=True, log_output=True)
+    #         )
+    #     except Exception as err:
+    #         print(f'except:{err}') #might have to catch this exception
+    #     print(f'pm:{e}') #might have to catch this exception
     #return base_url + fn
     return post_gist(fn, collection) #htm w/link to colab of the gist
 
