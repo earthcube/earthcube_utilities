@@ -248,7 +248,7 @@ def templateUri(templateName):
         return templateName
     else:
         basedir = os.path.abspath(os.path.dirname(__file__))
-        template_file = os.path.join(basedir, f'templates/{template}')
+        template_file = os.path.join(basedir, f'templates/{templateName}')
         return template_file
 
 #pagemill insert param&run the NB

@@ -78,6 +78,8 @@ becomes:
 
 
 Other test urls:
+
+
 from raw.github
 http://localhost:5000/mknb?url=http://lipdverse.org/Temp12k/1_0_2/Svartvatnet-Norway.Seppa.2009.lpd&ext=application%2Fzip%20%3B%20http%3A%2F%2Flinked.earth%2Fontology%2Fcore%2F1.2.0%2Findex-en.html%3Chash%3EDataset&urn=urn:gleaner:milled:lipdverse:509e465d0793506b237cea8069c3cb2d276fe9c2&encoding=application%2Fzip%20%3B%20http%3A%2F%2Flinked.earth%2Fontology%2Fcore%2F1.2.0%2Findex-en.html%3Chash%3EDataset&template=https://raw.githubusercontent.com/earthcube/NotebookTemplates/geocodes_template/GeoCODEStemplates/ARGO/SA_01_Argo_Data_Exploration.ipynb
 
