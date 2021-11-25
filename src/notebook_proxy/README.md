@@ -2,6 +2,54 @@
 This proxy creates a notebook in Google Collab from a template. The parameters extracted from the Scicence on Schema JSON-LD files, and sent to the proxy
 /mknb
 
+## Calling the Notebook Proxy
+
+ http://localhost:3031/ should return the index.html
+
+ http://localhost:3031/alive/ will let you know it's working.
+
+http://localhost:3031/mknb/
+This proxy creates a notebook in Google Collab from a template. The parameters extracted from the Scicence on Schema JSON-LD files, and sent to the proxy
+/mknb
+* url - url of the resource
+* ext - encoding format of the resource.
+* urn - urn geocodes urn. 
+* template -- name of the template file to render. (optional: default: template.ipynb)
+
+Note about url, urns, ext:
+A hash in the name of the item causes the rest of the url passed to be ignored.
+To avoid this, we custom encode '#' as &lt;hash&gt;
+
+so:
+
+`ext=http://linked.earth/ontology/core/1.2.0/index-en.html#Dataset`
+
+becomes:
+
+`ext=http://linked.earth/ontology/core/1.2.0/index-en.html<hash>Dataset`
+
+
+## Development:
+In order to use oauth, you need to setup a github app, and set the following environment variables
+
+GITHUB_OAUTHSECRET = GITHUB APP Secret
+GITHUB_OAUTHCLIENTID = GIHUB Client ID
+
+
+```shell
+cd src/notebook_proxy
+flask mknb
+```
+this will start it at:
+ http://localhost:5000/
+
+```shell
+cd src/notebook_proxy
+python mknb.py
+```
+ http://localhost:3031/
+
+## Docker 
 A docker container is built using github actions:
 
 https://hub.docker.com/repository/docker/nsfearthcube/mknb
@@ -50,34 +98,9 @@ try:
 http://localhost:3031/mknb?url=http://lipdverse.org/Temp12k/1_0_2/Svartvatnet-Norway.Seppa.2009.lpd&ext=application%2Fzip%20%3B%20http%3A%2F%2Flinked.earth%2Fontology%2Fcore%2F1.2.0%2Findex-en.html%3Chash%3EDataset&urn=urn:gleaner:milled:lipdverse:509e465d0793506b237cea8069c3cb2d276fe9c2&encoding=application%2Fzip%20%3B%20http%3A%2F%2Flinked.earth%2Fontology%2Fcore%2F1.2.0%2Findex-en.html%3Chash%3EDataset&
 
 ---
-## Calling the Notebook Proxy
-
- http://localhost:3031/ should return an index.html
-
- http://localhost:3031/alive/ will let you know it's working.
-
-http://localhost:3031/mknb/
-This proxy creates a notebook in Google Collab from a template. The parameters extracted from the Scicence on Schema JSON-LD files, and sent to the proxy
-/mknb
-* url - url of the resource
-* ext - encoding format of the resource.
-* urn - urn geocodes urn. 
-* template -- name of the template file to render. (optional: default: template.ipynb)
-
-Note about url, urns, ext:
-A hash in the name of the item causes the rest of the url passed to be ignored.
-To avoid this, we custom encode '#' as &lt;hash&gt;
-
-so:
-
-`ext=http://linked.earth/ontology/core/1.2.0/index-en.html#Dataset`
-
-becomes:
-
-`ext=http://linked.earth/ontology/core/1.2.0/index-en.html<hash>Dataset`
 
 
-Other test urls:
+### Testing and development notes
 
 
 from raw.github

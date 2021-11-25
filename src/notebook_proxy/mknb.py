@@ -60,6 +60,9 @@ from flask_ipban import IpBan
 from werkzeug.middleware.proxy_fix import ProxyFix
 from authlib.integrations.flask_client import OAuth
 from functools import wraps
+import markdown
+import markdown.extensions.fenced_code
+
 from requests_toolbelt import MultipartEncoder
 import gistyc
 
@@ -417,6 +420,14 @@ def template():
     user = session.get('token')
     return render_template('index.html', user=user)
 
+@app.route('/readme')
+def readme():
+    readme_file = open("README.md", "r")
+    md_template_string = markdown.markdown(
+        readme_file.read(), extensions=["fenced_code"]
+    )
+
+    return md_template_string
 
 @app.route('/mknb/') #works, but often have2rerun the clicked link2get rid of errors
 @login_required
