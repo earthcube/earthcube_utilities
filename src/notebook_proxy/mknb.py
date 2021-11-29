@@ -275,7 +275,9 @@ def pm_nb(collection, template=None):
         e = pm.execute_notebook( #  not env sure we need to have e. https://github.com/nteract/papermill
            template_file, # 'templates/template.ipynb', #path/to/input.ipynb',
            fn,  #'path/to/output.ipynb',
-           parameters = dict(url=dwn_url, ext=ext, urn=urn, prepare_only=True, log_output=True)
+           parameters = dict(url=dwn_url, ext=ext, urn=urn, ),
+           prepare_only = True,
+            log_output=True
         )
     except Exception as err:
         print(f'except:{err}') #might have to catch this exception
