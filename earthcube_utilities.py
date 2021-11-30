@@ -394,6 +394,28 @@ def sq_file(sq,fn=1):
     o= o2.get_ontology(fnt).load()
     return list(o2.default_world.sparql(sq))
 #-
+def pp_l2s(pp,js=None):
+    "predicatePath list2str"
+    if(js): #["spatialCoverage" "geo" "box" ], True  -> "spatialCoverage.geo.box"
+        return "." + ".".join(pp)
+    else: #["spatialCoverage" "geo" "box" ]  -> ":spatialCoverage/:geo/:box"
+        return ":" + "/:".join(pp)
+
+def rget(pp,fn=1):
+    "predicate path to s/o values"
+    dfn=dfn(fn)
+#r=ec.sq_file("PREFIX : <http://www.w3.org/ns/dcat#> SELECT distinct ?s ?o WHERE  { ?s :spatialCoverage/:geo/:box ?o}","d1.nt")
+    #s1="PREFIX : <http://www.w3.org/ns/dcat#> SELECT distinct ?s ?o WHERE  { ?s "
+    s1="PREFIX : <https://schema.org/> SELECT distinct ?s ?o WHERE  { ?s " #till fix sed
+    s2=" ?o}"
+    #r=ec.sq_file(s1 + ":spatialCoverage/:geo/:box" + s2,dfn)
+    pps=pp_l2s(pp)
+    qs=s1 + pps + s2
+    print(qs)
+    add2log(f'rget:{qs}')
+    r=sq_file(qs,dfn)
+    return r
+#-
 def sparql_f2(fq,fn,r=None): #jena needs2be installed for this, so not in NB yet;can emulate though
     "files: qry,data"
     if r: #--results= Results format (Result set: text, XML, JSON, CSV, TSV; Graph: RDF serialization)
@@ -410,7 +432,7 @@ def nt2dn(fn,n):
     ".nt to d#.nt where n=#, w/http/s schema.org all as dcat" 
     fdn= f'd{n}.nt'
     #fnd=dfn(fn) #maybe gen fn from int
-    cs=f'cat {fn}|sed "/ht*[ps]:..schema.org./s//http:\/\/www.w3.org\/ns\/dcat#/g"|cat>{fdn}'
+    cs=f'cat {fn}|sed "/ht*[ps]:..schema.org./s//http:\/\/www.w3.org\/ns\/dcat#/g"|cat>{fdn}'  #FIX
     os_system(cs) #this makes queries a LOT easier
     return fdn
 
@@ -698,8 +720,8 @@ def txt_query(qry_str,sqs=None): #a generalized version would take pairs/eg. <${
 #import numpy as np
 #import simplejson
 #import sparqldataframe
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+#from sklearn.feature_extraction.text import CountVectorizer
+#from sklearn.metrics.pairwise import cosine_similarity
 cosine_sim=None
 
 def get_subj_from_index(index):
@@ -743,6 +765,8 @@ def get_related_indices(like_index):
 
 def dfCombineFeaturesSimilary(df, features = ['kw','name','description','pubname']):
     "run only once per new sparql-df"
+    from sklearn.feature_extraction.text import CountVectorizer
+    from sklearn.metrics.pairwise import cosine_similarity
     global cosine_sim
     df.insert(0,'index',range(0,len(df)))
     df.set_index('index')
@@ -750,6 +774,9 @@ def dfCombineFeaturesSimilary(df, features = ['kw','name','description','pubname
     ##Step 4: Create count matrix from this new combined column
     cv = CountVectorizer()
     count_matrix = cv.fit_transform(df["combined_features"])
+    terms=cv.get_feature_names() #new for topic-modeling
+    tl=len(terms)
+    print(f'topic-terms:{tl}')
     ##Step 5: Compute the Cosine Similarity based on the count_matrix
     cosine_sim = cosine_similarity(count_matrix) 
 
@@ -766,7 +793,7 @@ def test_related(q,row=0): #eg "Norway"
 def show_related(df,row):  #after dfCombineFeaturesSimilary is run on your df 'sparql results'
     main=df['description'][row]
     print(f'related to row={row},{main}')
-    related=ec.get_related_indices(row)
+    related=get_related_indices(row)
     for ri in related:
         des=df['description'][ri]
         print(f'{ri}:{des}')
