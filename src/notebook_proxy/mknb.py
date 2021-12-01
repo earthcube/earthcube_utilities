@@ -310,15 +310,22 @@ def templateUri(templateName):
 
 # pagemill insert param&run the NB
 # def pm(dwnurl, fn):
-def pm_nb(collection, template=None):
-    dwn_url = collection["datasets"][0].get("downloadurl")
-    ext = collection["datasets"][0].get("ext")
-    urn = collection["datasets"][0].get("urn")
+def pm_nb(collection, template=None, filename="temp.ipynb"):
+    dwn_url= None
+    ext = None
+    urn = None
+    query_q = None
+    if collection.get("datasets") != None:
+        dwn_url = collection["datasets"][0].get("downloadurl")
+        ext = collection["datasets"][0].get("ext")
+        urn = collection["datasets"][0].get("urn")
+        dwnurl = dwn_url.replace('/', '')
+        fn = dwnurl2fn(dwnurl)
+        temp_dir = tempfile.gettempdir()
+        fn = os.path.join(temp_dir, fn)
+    if collection.get("query") != None:
+        query_q = collection["query"].get("q")
 
-    dwnurl = dwn_url.replace('/', '')
-    fn = dwnurl2fn(dwnurl)
-    temp_dir = tempfile.gettempdir()
-    fn = os.path.join(temp_dir, fn)
     # basedir = os.path.abspath(os.path.dirname(__file__))
     # template_file = os.path.join(basedir, f'templates/{template}')
     template_file = templateUri(template)
@@ -328,8 +335,8 @@ def pm_nb(collection, template=None):
     try:
         e = pm.execute_notebook(  # not env sure we need to have e. https://github.com/nteract/papermill
             template_file,  # 'templates/template.ipynb', #path/to/input.ipynb',
-            fn,  # 'path/to/output.ipynb',
-            parameters=dict(url=dwn_url, ext=ext, urn=urn, ),
+            filename,  # 'path/to/output.ipynb',
+            parameters=dict(url=dwn_url, ext=ext, urn=urn, q=query_q),
             prepare_only=True,
             log_output=True
         )
@@ -351,7 +358,7 @@ def pm_nb(collection, template=None):
     #         print(f'except:{err}') #might have to catch this exception
     #     print(f'pm:{e}') #might have to catch this exception
     # return base_url + fn
-    return post_gist(fn, collection)  # htm w/link to colab of the gist
+    return post_gist(filename, collection)  # htm w/link to colab of the gist
 
     # above had problems(on1machine), so have cli backup in case:
 
@@ -404,7 +411,11 @@ def mknb(collection, template=None):
         # r=pm_nb2(dwnurl_str, ext)
         # r=pm_nb3(dwnurl_str, ext, urn)
         ## r = pm_nb(dwnurl_str, ext, urn, template)
-        r = pm_nb(collection, template)
+        dwnurl = dwnurl_str.replace('/', '')
+        fn = dwnurl2fn(dwnurl)
+        temp_dir = tempfile.gettempdir()
+        fn = os.path.join(temp_dir, fn)
+        r = pm_nb(collection, template, fn)
     else:
         r = f'bad-url:{dwnurl_str}'
     return r
@@ -532,6 +543,23 @@ def mk_nb():
     r = mknb(collection_parameter, template)
     return r
 
+@app.route('/mkQ/')
+@login_required
+def mk_Q():
+    "make a NoteBook"
+    q = request.args.get('q',  type = str)
+    print(f'q={q}')
+    template = request.args.get('template', default='sparql.ipynb', type=str)
+    print(f'template={template}')
+    #r= mkQ(q) #just pagemill directly
+    #r= pm_q3(q)
+    collection_parameter = {}
+    collection_parameter["query"] = {"q": q,}
+    fn = "q_" + q + ".ipynb"
+    temp_dir = tempfile.gettempdir()
+    fn = os.path.join(temp_dir, fn)
+    r = pm_nb(collection_parameter, template,fn)
+    return r
 
 @app.route('/logbad/')  # have try/except, so log errors soon, also have 'log' file in NB from wget/etc
 def log_bad():
