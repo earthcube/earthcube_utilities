@@ -111,14 +111,14 @@ elif AUTH_MODE == "service":
     if GITHUB_OAUTHSECRET == None or GITHUB_OAUTHCLIENTID == None:
         print("Error set a GITHUB_SECRET and GITHUB_CLIENTID env variable ")
         print(
-            "e.g. docker run -e GITHUB_SECRET={GITHUB_OAUTHCLIENTID} -e GITHUB_CLIENTID={YOU GITHUB_OAUTHSECRET}  -p localhost:3031:3031 nsfearthcube/mknb:latest")
+            "e.g. docker run -e AUTH_MODE=service -e GITHUB_SECRET={GITHUB_OAUTHCLIENTID} -e GITHUB_CLIENTID={YOU GITHUB_OAUTHSECRET}  -p localhost:3031:3031 nsfearthcube/mknb:latest")
         print("or set in docker-compose or kubernetes secrets")
         exit(1)
 elif AUTH_MODE == "apikey":
-    if GITHUB_OAUTHSECRET == None or GITHUB_OAUTHCLIENTID == None:
+    if AUTH_TOKEN == None or AUTH_USER == None:
         print("Error set a GITHUB_SECRET and GITHUB_CLIENTID env variable ")
         print(
-            "e.g. docker run -e GITHUB_SECRET={GITHUB_OAUTHCLIENTID} -e GITHUB_CLIENTID={YOU GITHUB_OAUTHSECRET}  -p localhost:3031:3031 nsfearthcube/mknb:latest")
+            "e.g. docker run -e AUTH_MODE=apikey -e AUTH_USER={USER} -e AUTH_TOKEN={YOU GITHUB_APIKEY}  -p localhost:3031:3031 nsfearthcube/mknb:latest")
         print("or set in docker-compose or kubernetes secrets")
         exit(1)
 else:
