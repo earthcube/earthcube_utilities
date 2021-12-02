@@ -1,0 +1,4 @@
+
+Be wary of straight pasting raw notebook.json from github raw into a notebook, it just becomes as cell.
+You need to do in outside pycharm
+or cell by cell

@@ -1,0 +1,41 @@
+version: '3'
+## dev s3, and alpha
+  # this needs to be run with the geocodes/geodex compose file
+  # docker-compose --env-file env.beta -f docker-compose.yaml -f docker-compose_base.yaml up -d
+  # env needs to contain
+  ## GITHUB_SECRET
+  ## GITHUB_CLIENTID
+  ## SERVER
+## HOST
+services:
+  notebook-proxy:
+    image: nsfearthcube/mknb:latest
+    restart: unless-stopped
+    #build: ./client
+    environment:
+      - GITHUB_SECRET=${GITHUB_SECRET}
+      - GITHUB_CLIENTID=${GITHUB_CLIENTID}
+      - DOMAIN=https://${SERVER}.${HOST:?HOST environment varaible is required}/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nb.entrypoints=http"
+      - "traefik.http.routers.nb.priority=13"
+      - "traefik.http.routers.nb.rule=Host(`${SERVER}.${HOST:?HOST environment varaible is required}`) && PathPrefix(`/notebook`)"
+      - "traefik.http.middlewares.nb-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.nb.middlewares=nb-https-redirect"
+      - "traefik.http.routers.nb-secure.entrypoints=https"
+      - "traefik.http.routers.nb-secure.priority=12"
+      - "traefik.http.routers.nb-secure.rule=Host(`${SERVER}.${HOST:?HOST environment is required}`) && PathPrefix(`/notebook`)"
+      - "traefik.http.routers.nb-secure.tls=true"
+      - "traefik.http.routers.nb-secure.tls.certresolver=http"
+      - "traefik.http.routers.nb-secure.service=beta"
+      - "traefik.http.services.nb.loadbalancer.server.port=3031"
+      - "traefik.docker.network=traefik_default"
+      - "traefik.http.middlewares.nb.headers.accesscontrolallowmethods=GET,OPTIONS,POST"
+      - "traefik.http.middlewares.nb.headers.accesscontrolalloworigin=*"
+      - "traefik.http.middlewares.nb.headers.accesscontrolmaxage=100"
+      - "traefik.http.middlewares.nb.headers.addvaryheader=true"
+    networks:
+      - traefik_default
+networks:
+  traefik_default:
