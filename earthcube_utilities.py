@@ -46,7 +46,12 @@ def put_txtfile(fn,s,wa="w"):
     with open(fn, wa) as f:
         return f.write(s)
 
+def date2log():
+    cs="date>>log"
+    os.system(cs)
+
 def add2log(s):
+    date2log()
     fs=f'[{s}]\n'
     put_txtfile("log",fs,"a")
 
@@ -99,7 +104,7 @@ def pre_rm(url):
     os_system(cs)
     return fnb
 
-def get_ec(url="http://mbobak-ofc.ncsa.illinois.edu/ext/ec/nb/ec.py"):
+def get_ec(url="http://geocodes.ddns.net/ec/nb/ec.py"):
     pre_rm(url)
     wget(url)
     return "import ec"
@@ -111,6 +116,11 @@ def get_ec_txt(url):
     fnb= pre_rm(url)
     wget(url)
     return get_txtfile(fnb)
+
+#get_  _txt   fncs:
+#def get_relateddatafilename_txt(url="https://raw.githubusercontent.com/earthcube/facetsearch/toolMatchNotebookQuery/client/src/sparql_blaze/sparql_relateddatafilename.txt"):
+def get_relateddatafilename_txt(url="https://raw.githubusercontent.com/MBcode/ec/master/NoteBook/sparql_relateddatafilename.txt"):
+    return get_ec_txt(url)  #need var to be {?q} so dont have to write extra logic below
 
 def get_webservice_txt(url="https://raw.githubusercontent.com/earthcube/facetsearch/master/client/src/sparql_blaze/sparql_gettools_webservice.txt"):
     return get_ec_txt(url)
@@ -167,7 +177,8 @@ rdflib_inited=None
 def init_rdflib():
     #cs='pip install rdflib networkx'
     #cs='pip install rdflib networkx extruct' 
-    cs='pip install rdflib rdflib-jsonld networkx extruct' 
+    #cs='pip install rdflib rdflib-jsonld networkx extruct' 
+    cs='pip install rdflib rdflib-jsonld networkx extruct python-magic' 
     os_system(cs)
     rdflib_inited=cs
 
@@ -340,7 +351,7 @@ def wget_rdf(urn,viz=None):
             rdflib_viz(fn2) #.nt file #can work, but looks crowded now
         return read_rdf(f_nt)
     elif urn.startswith('/'):
-        url=urn.replace("/","http://mbobak-ofc.ncsa.illinois.edu/ld/",1).replace(".jsonld",".nt",1)
+        url=urn.replace("/","http://geocodes.ddns.net/ld/",1).replace(".jsonld",".nt",1)
         urlroot=path_leaf(url) #file w/o path
         #url += ".nt"
         cs= f'wget -a log {url}' 
@@ -355,7 +366,8 @@ def wget_rdf(urn,viz=None):
 
 rdf_inited=None
 def init_rdf():
-    cs='apt-get install raptor2-utils graphviz'
+    #cs='apt-get install raptor2-utils graphviz'
+    cs='apt-get install raptor2-utils graphviz libmagic-dev'
     os_system(cs)  #incl rapper, can do a few rdf conversions
     rdf_inited=cs
 
@@ -374,7 +386,7 @@ def init_sparql():
 
 #-
 def dfn(fn):
-    "FileName ore d#"
+    "FileName or int:for:d#.nt"
     if isinstance(fn, int):
         fnt=f'd{fn}.nt'
     else:
@@ -403,7 +415,7 @@ def pp_l2s(pp,js=None):
 
 def rget(pp,fn=1):
     "predicate path to s/o values"
-    dfn=dfn(fn)
+    fnt=dfn(fn)
 #r=ec.sq_file("PREFIX : <http://www.w3.org/ns/dcat#> SELECT distinct ?s ?o WHERE  { ?s :spatialCoverage/:geo/:box ?o}","d1.nt")
     #s1="PREFIX : <http://www.w3.org/ns/dcat#> SELECT distinct ?s ?o WHERE  { ?s "
     s1="PREFIX : <https://schema.org/> SELECT distinct ?s ?o WHERE  { ?s " #till fix sed
@@ -412,8 +424,9 @@ def rget(pp,fn=1):
     pps=pp_l2s(pp)
     qs=s1 + pps + s2
     print(qs)
-    add2log(f'rget:{qs}')
-    r=sq_file(qs,dfn)
+    #add2log(f'rget:{qs}')
+    add2log(f'rget:{qs},{fnt}')
+    r=sq_file(qs,fnt)
     return r
 #-
 def sparql_f2(fq,fn,r=None): #jena needs2be installed for this, so not in NB yet;can emulate though
@@ -428,13 +441,38 @@ def sparql_f2(fq,fn,r=None): #jena needs2be installed for this, so not in NB yet
     return os_system_(cs)
 
 #-
-def nt2dn(fn,n):
+#def nt2dn(fn,n):
+def nt2dn(fn=f_nt,n=1):
     ".nt to d#.nt where n=#, w/http/s schema.org all as dcat" 
     fdn= f'd{n}.nt'
     #fnd=dfn(fn) #maybe gen fn from int
     cs=f'cat {fn}|sed "/ht*[ps]:..schema.org./s//http:\/\/www.w3.org\/ns\/dcat#/g"|cat>{fdn}'  #FIX
     os_system(cs) #this makes queries a LOT easier
     return fdn
+
+def df2URNs(df):
+  return df['g']
+
+def dfRow2urn(df,row):
+  URNs=df2URNs(df)
+  return URNs[row]
+
+def urn2rdf(urn,n=1):
+    df=wget_rdf(urn)
+    global f_nt
+    nt2dn(f_nt,n)
+    return df
+
+def dfRow2rdf(df,row):
+    urn=dfRow2urn(df,row)
+    return urn2rdf(urn,row)
+
+def dfRow2urls(df,row): 
+    fnt=dfn(row) #check if dfRow2rdf already done
+    from os.path import exists #can check if cached file there
+    if not exists(fnt):
+        dfRow2rdf(df,row)
+    return rget(["contentUrl"],row)
 
 def pp2so(pp,fn): #might alter name ;basicly the start of jq via sparql on .nt files
     "SPARQL qry given a predicate-path, ret subj&obj, given nt2dn run 1st, giving fn"
@@ -568,8 +606,20 @@ def nt2ft(url): #could also use rdflib, but will wait till doing other queries a
     else:
         return None
 
-def read_file(fnp, ext=None):  #download url and ext/filetype
+def file_type(fn):
+    from os.path import exists 
+    import magic
+    if exists(fn):
+        add2log(magic.from_file(fn))
+        mt=magic.from_file(fn, mime = True)
+    else:
+        mt="file not found"
+    add2log(f'{fn},mime:{mt}')
+    return mt
+#get something that can look of header of download, before get the file, too
+
 #def read_file(fnp, ext=nt2ft(fnp)):
+def read_file(fnp, ext=None):  #download url and ext/filetype
     "can be a url, will call pd read_.. for the ext type"
     import pandas as pd
     import re
@@ -625,6 +675,7 @@ def read_file(fnp, ext=None):  #download url and ext/filetype
 #       df=pd.read_csv(fn, sep='\t',comment='#')
         #df="can't read zip w/o knowing what is in it, doing:[!wget $url ],to see:[ !ls -l ]"
         df=f'can not read zip w/o knowing what is in it, doing:[!wget $url ],to see:[ !ls -l ]size:{fs} or FileExplorerPane on the left'
+        file_type(fn1) #save2 mt and use, next
         #if fs and fs<300:
         #    df+= "[Warn:small]"
         df=check_size(fs,df)
@@ -633,6 +684,7 @@ def read_file(fnp, ext=None):  #download url and ext/filetype
         #fs=os.path.getsize(fnl) #assuming it downloads w/that name
         #df="no reader, can !wget $url"
         df=f'no reader, doing:[!wget $url ],to see:[ !ls -l ]size:{fs} or FileExplorerPane on the left'
+        file_type(fn1) #save2 mt and use, next
         #if fs and fs<300:
         #    df+= "[Warn:small]"
         df=check_size(fs,df)
@@ -659,6 +711,9 @@ def v2iqt(var,sqs):  #does the above fncs
         return sqs.replace('<${g}>',f'<{var}>')
     if '${q}' in sqs:   #var=q
         return sqs.replace('${q}',var)
+    #could add relatedData case, but changed to 'q' for now
+    #really if only 1 var, could always just change it
+    #_someday could send in dict to replace if >1
 
 def iqt2df(iqt,endpoint="https://graph.geodex.org/blazegraph/namespace/nabu/sparql"):
     "instantiated-query-template/txt to df"
@@ -674,12 +729,18 @@ def iqt2df(iqt,endpoint="https://graph.geodex.org/blazegraph/namespace/nabu/spar
 
 def v4qry(var,qt):
     "var + query-type 2 df"
-    sqs = eval("get_" + qt + "_txt()")
+    sqs = eval("get_" + qt + "_txt()") #get_  _txt   fncs, are above
     iqt = v2iqt(var,sqs)
+    #add2log(iqt) #logged in next fnc
     return iqt2df(iqt)
 
 def search_query(q): #same as txt_query below
     return v4qry(q,"query")
+
+#functionality that is see on dataset page:
+
+def search_relateddatafilename(q):
+    return v4qry(q,"relateddatafilename")
 
 def search_download(urn):
     return v4qry(urn,"download")
@@ -791,9 +852,11 @@ def test_related(q,row=0): #eg "Norway"
 #but sparql-nd will already have the df calculated, so just do the similarity-matrix for it once, 
  #then call get_related_indices for each dataset/row you want to look at, or can now use:
 def show_related(df,row):  #after dfCombineFeaturesSimilary is run on your df 'sparql results'
-    main=df['description'][row]
-    print(f'related to row={row},{main}')
+    #main=df['description'][row].strip() #this should be in the related-df
+    #print(f'related to row={row},{main}')
     related=get_related_indices(row)
+    if len(df)<4:
+        print("not many to compare with")
     for ri in related:
-        des=df['description'][ri]
+        des=df['description'][ri].strip()
         print(f'{ri}:{des}')
