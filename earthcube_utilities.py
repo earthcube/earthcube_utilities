@@ -623,6 +623,9 @@ def read_file(fnp, ext=None):  #download url and ext/filetype
     "can be a url, will call pd read_.. for the ext type"
     import pandas as pd
     import re
+    if rdf_inited==None: #new, going to need it
+        init_rdflib()
+        init_rdf()
     if(ext==None): #find filetype from .nt ecodingFormat
         ext=nt2ft(fnp)
     fn=fnp.rstrip('/') #only on right side, for trailing slash, not start of full pasted path
