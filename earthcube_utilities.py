@@ -647,7 +647,9 @@ def read_file(fnp, ext=None):  #download url and ext/filetype
         df="no fileType info, doing:[!wget $url ],to see:[ !ls -l ] or FileExplorerPane on the left"
     elif ft=='.tsv' or re.search('tsv',ext,re.IGNORECASE) or re.search('tab-sep',ext,re.IGNORECASE):
         try:
-            df=pd.read_csv(fn, sep='\t',comment='#',warn_bad_lines=True, error_bad_lines=False)
+            #df=pd.read_csv(fn, sep='\t',comment='#',warn_bad_lines=True, error_bad_lines=False)
+            #df=pd.read_csv(fn, sep='\t',comment='#',warn_bad_lines=True, on_bad_lines='skip')
+            df=pd.read_csv(fn, sep='\t',comment='#', on_bad_lines='skip')
             #df=pd.read_csv(fn, sep='\t',comment='#')
         except:
             df = str(sys.exc_info()[0])
