@@ -38,12 +38,14 @@ def get_txtfile(fn):
         return f.read()
 
 def get_jsfile2dict(fn):
-    s=get_textfile(fn)
-    return json.loads(s)
+    #s=get_txtfile(fn)
+    #return json.loads(s)
+    with open(fn, "r") as f:
+        return json.load(f)
 
 def put_txtfile(fn,s,wa="w"):
     #with open(fn, "w") as f:
-    with open(fn, wa) as f:
+    with open(fn, "a") as f:
         return f.write(s)
 
 def date2log():
@@ -98,6 +100,10 @@ def wget(fn):
     cs= f'wget --tries=2 -a log {fn}' 
     os_system(cs)
 
+def mkdir(dir):
+    cs=f'mkdir {dir}'
+    return os_system(cs)
+
 def pre_rm(url):
     fnb=path_leaf(url)
     cs=f'rm {fnb}'
@@ -132,6 +138,9 @@ def get_notebook_txt(url="https://raw.githubusercontent.com/MBcode/ec/master/Not
     return get_ec_txt(url)
 
 def get_query_txt(url="https://raw.githubusercontent.com/MBcode/ec/master/NoteBook/sparql-query.txt"):
+    return get_ec_txt(url)
+
+def get_subj2urn_txt(url="http://geocodes.ddns.net/ec/nb/sparql_subj2urn.txt"):
     return get_ec_txt(url)
 
 def add_ext(fn,ft):
@@ -183,6 +192,7 @@ def init_rdflib():
     rdflib_inited=cs
 
 #-from crawlLD.py
+#def crawl_LD(url) ;could get other than jsonld, &fuse
 def url2jsonLD(url):
     "get jsonLD from w/in url"
     add2log(f'url2jsonLD({url})')
@@ -205,6 +215,14 @@ def url2jsonLD(url):
         ld =""
     add2log(ld)
     return ld
+
+def url2jsonLD_file(url):
+    "get jsonLD from w/in url, save to file"
+    ld=url2jsonLD(url)
+    fnb=file_leaf_base(url)
+    LD=json.dumps(ld, indent= 2)
+    put_txtfile(fnb,LD)
+    return fnb
 
 #def fn2jsonld(fn, base_url=None):
 def fn2jsonld(fn, base_url=None):
@@ -254,6 +272,7 @@ def getjsonLD(url):
     return fnj
 
 #get fnb + ".nt" and put_txtfile that str
+#def 2nt  from any rdf frmt to a .nt file, bc easiest to concat
 def xml2nt(fn,frmt="xml"):  #could also use rapper here, see: rdfxml2nt
     "turn .xml(rdf) to .nt"
     if rdflib_inited==None:
@@ -291,6 +310,33 @@ def url2nt(url):
     add2log(f'url2nt,{fnj},{fnt}')
     return fnt
 
+def append2everyline(fn,aptxt,fn2=None):
+    with open(fn) as fp:
+        lines= fp.read().splitlines()
+    if(fn2==None):
+        fn2=fn.replace(".nt",".nq") #main use for triples to quads
+    with open(fn2, "w") as fp:
+        for line in lines:
+            line= line.strip('.') #get rid of this from triples
+            print(line + " " + aptxt, file=fp)
+    return fn2
+
+def url2nq(url):
+    "crawl url ret .jsonld .nt .nq"
+    fn= url2nt(url)
+    apptxt= f'<{url}> .'
+    return append2everyline(fn, apptxt)
+
+def crawl_sitemap(url):
+    "url w/o sitemap.xml, might try other lib"
+    cs='pip install ultimate_sitemap_parser' #assume done rarely, once/session 
+    os_system(cs)
+    from usp.tree import sitemap_tree_for_homepage
+    tree = sitemap_tree_for_homepage(url)
+    for page in tree.all_pages():
+        url2nq(page.url)
+        #print(f'url2nq({page.url})') #dbg
+
 #https://stackoverflow.com/questions/39274216/visualize-an-rdflib-graph-in-python
 def rdflib_viz(url,ft=None): #or have it default to ntriples ;'turtle'
     if rdflib_inited==None:
@@ -322,6 +368,24 @@ f_nt=None
 #could load .nt as a tsv file, to look at if interested
 def read_rdf(fn,ext=".tsv"):  #too bad no tabs though../fix?
     return read_file(fn,ext)
+
+def urn2uri(urn): #from wget_rdf, replace w/this call soon
+    "way we map URNs ~now" #check on this w/the URN changes 
+    if urn==None:
+        return f'no-urn:{urn}'
+    #if(urn!=None and urn.startswith('urn:')):
+    elif urn.startswith('urn:'):
+        global f_nt
+        url=urn.replace(":","/").replace("urn","https://oss.geodex.org",1)
+        urlroot=path_leaf(url) #file w/o path
+        urlj= url + ".jsonld" #get this as well so can get_jsfile2dict the file
+        urlj.replace("milled","summoned")
+        url += ".rdf"
+        #cs= f'wget -a log {url}' 
+        #os_system(cs)
+        #cs= f'wget -a log {urlj}' 
+        #os_system(cs)
+        return url
 
 def wget_rdf(urn,viz=None):
     if urn==None:
@@ -367,7 +431,7 @@ def wget_rdf(urn,viz=None):
 rdf_inited=None
 def init_rdf():
     #cs='apt-get install raptor2-utils graphviz'
-    cs='apt-get install raptor2-utils graphviz libmagic-dev'
+    cs='apt-get install raptor2-utils graphviz libmagic-dev' #can add jq yourself
     os_system(cs)  #incl rapper, can do a few rdf conversions
     rdf_inited=cs
 
@@ -756,6 +820,9 @@ def search_webservice(urn):
 def search_notebook(urn):
     return v4qry(urn,"notebook")
 
+def subj2urn(doi):
+    return v4qry(doi,"subj2urn")
+
 #=========append fnc from filtereSPARQLdataframe.ipynb
 #def sq2df(qry_str):
 #def txt_query(qry_str): #consider sending in qs=None =dflt lookup as now, or use what sent in
@@ -865,3 +932,94 @@ def show_related(df,row):  #after dfCombineFeaturesSimilary is run on your df 's
     for ri in related:
         des=df['description'][ri].strip()
         print(f'{ri}:{des}')
+
+#-------------------------------------------------------------
+#convert a jsonld record to a minimal crate ;started in j2c.py
+crate_top = """
+{ "@context": "https://w3id.org/ro/crate/1.1/context",
+  "@graph": [
+    {
+        "@type": "CreativeWork",
+        "@id": "ro-crate-metadata.json",
+        "conformsTo": {"@id": "https://w3id.org/ro/crate/1.1"},
+        "about": {"@id": "./"}
+  },  
+  {
+    "@id": "./",
+    "@type": [
+      "Dataset"
+    ],
+    "hasPart":  
+    """
+#then all "@id": ...  ;w/, btwn
+crate_middle = "},"
+#then all distribution records w/"@id": ... inserted  ;w/, btwn
+crate_bottom = "]}"
+
+#now given a filename, load in the jsonld, and find the distribution
+# go over that array, and make the ..url into @id's that will also go w/in the hasPart
+
+def get_distr_dicts(fn):
+    "distribution dictionary/s"
+    d=get_jsfile2dict(fn)
+    return d.get("distribution")
+
+def add_id(d): #there will be other predicates to check
+    "set @id as (access)url"
+    u=d.get("dcat:accessURL")
+    d["@id"]=u
+    return d
+
+def get_id(d):
+    return d.get("@id")
+
+def get_idd(d):
+    "dict of @id value, for hasPart[]"
+    id=d.get("@id")
+    dr={}
+    dr["@id"]=id
+    return dr
+
+#jsonld to minimal ro-crate
+#started by iterativly changing the distribution, then get IDs out for hasPart
+def jld2crate(fn):
+    print(crate_top)
+    #d=get_distribution(fn)
+    dl=get_distr_dicts(fn)
+    #for d in dl: #needs a comma btwn
+    #    print(json.dumps(d))
+    dl2=list(map(add_id,dl))
+    ids=list(map(get_idd,dl))
+    print(json.dumps(ids))
+    print(crate_middle)
+    print(json.dumps(dl2))
+    print(crate_bottom)
+
+def jld2crate_(fn):
+    mkdir("roc") #for now
+    fn_out="roc/" + fn
+    put_txtfile(fn_out,crate_top)
+    dl=get_distr_dicts(fn)
+    dl2=list(map(add_id,dl))
+    ids=list(map(get_idd,dl))
+    put_txtfile(fn_out,json.dumps(ids))
+    put_txtfile(fn_out,crate_middle)
+    put_txtfile(fn_out,json.dumps(dl2))
+    put_txtfile(fn_out,crate_bottom)
+
+#so can take URN jsonld and make a crate, still need the URNs though
+#tests on http://geocodes.ddns.net/ld/iedadata/324529.jsonld will take these out
+def t1():
+    jld2crate("324529.jsonld")
+
+def t2(fn="324529.jsonld"):
+    jld2crate_(fn)
+#if we stay w/python /need to run on all
+#I will have it put to files, w/more checks
+#&use alt predicates for the @id if needed
+
+#Still should add URN as another entry in crate
+ #which is something gleaner generated
+ #I wish we could use(a version of)the download url
+ #and then we would all know what to expect w/o 
+  #depending on some centeral rand#generator
