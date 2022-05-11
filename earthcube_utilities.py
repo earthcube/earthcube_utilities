@@ -105,6 +105,7 @@ def mkdir(dir):
     return os_system(cs)
 
 def pre_rm(url):
+    "rm (possibly alredy) downloaded version of url"
     fnb=path_leaf(url)
     cs=f'rm {fnb}'
     os_system(cs)
@@ -337,6 +338,29 @@ def crawl_sitemap(url):
         url2nq(page.url)
         #print(f'url2nq({page.url})') #dbg
 
+#if already crawled and just need to convert
+
+#since  no request to pull base_url from, will have to setenv it
+#def nt2nq(fn,dir="nt"): #default ~hardcode, bc not sent in loop
+def nt2nq(fn,dir=""): #use this dflt in ec.py in case no ./nt
+    import os
+    base_url= os.getenv('BASE_URL')
+    if (not base_url):
+        print("for now, need to: setenv BASE_URL ...")
+    fnb=file_base(fn)
+    #url=base_url + fnb.lstrip("nt") + "/" #hard coded 'dir'
+    url=base_url + fnb.lstrip(dir) + "/"
+    aptxt= f'<{url}> .'
+    return append2everyline(fn,aptxt)
+
+def all_nt2nq(dir):
+    import glob
+    get= dir + "/*.nt"
+    ntfiles = glob.glob(get)
+    for fn in ntfiles:
+        #nt2nq(fn)
+        print(nt2nq(fn))
+
 #https://stackoverflow.com/questions/39274216/visualize-an-rdflib-graph-in-python
 def rdflib_viz(url,ft=None): #or have it default to ntriples ;'turtle'
     if rdflib_inited==None:
@@ -369,15 +393,36 @@ f_nt=None
 def read_rdf(fn,ext=".tsv"):  #too bad no tabs though../fix?
     return read_file(fn,ext)
 
-def urn2uri(urn): #from wget_rdf, replace w/this call soon
+#if I ever get a chance, I'm going to go back to my more understandable /ld/repo/name format
+#def urn2uri_(urn):  #looking for a more stable indicator
+def urn2uri(urn): 
+    "URN to backup store"
+    if urn==None:
+        return f'no-urn:{urn}'
+    elif urn.startswith('urn:'):
+        #url=urn.replace("urn:","http://141.142.218.86/",1).replace(":","/") ;gives///
+        url=urn.replace(":","/").replace("urn","http://141.142.218.86",1)
+        url += ".rdf"
+        return url
+
+minio_backup= "http://141.142.218.86" #can also reset this global
+
+minio_prod= "https://oss.geodex.org" #minio
+minio_dev= "https://oss.geocodes.earthcube.org"
+minio=minio_prod #but need to reset for amgeo in dev, would rather have all in one space, eg.just above
+
+#summoned=jsonld milled=rdf=which is really .nt ;though gets asserted as quads /?
+#def urn2uri(urn): #from wget_rdf, replace w/this call soon
+def urn2urls(urn): #from wget_rdf, replace w/this call soon
     "way we map URNs ~now" #check on this w/the URN changes 
     if urn==None:
         return f'no-urn:{urn}'
     #if(urn!=None and urn.startswith('urn:')):
     elif urn.startswith('urn:'):
-        global f_nt
-        url=urn.replace(":","/").replace("urn","https://oss.geodex.org",1)
-        urlroot=path_leaf(url) #file w/o path
+        #global f_nt
+       #url=urn.replace(":","/").replace("urn","https://oss.geodex.org",1) #minio
+        url=urn.replace(":","/").replace("urn",minio,1) #minio
+      # urlroot=path_leaf(url) #file w/o path
         urlj= url + ".jsonld" #get this as well so can get_jsfile2dict the file
         urlj.replace("milled","summoned")
         url += ".rdf"
@@ -385,29 +430,47 @@ def urn2uri(urn): #from wget_rdf, replace w/this call soon
         #os_system(cs)
         #cs= f'wget -a log {urlj}' 
         #os_system(cs)
-        return url
+        #return url, urlroot, urlj
+        return url, urlj
 
+def rdf2nt(urlroot_):
+    "DFs rdf is really .nt, also regularize2dcat"
+    urlroot=urlroot_.replace(".rdf","") #to be sure
+    global f_nt
+    fn1 = urlroot + ".rdf"
+    fn2 = urlroot + ".nt" #more specificially, what is really in it
+    #cs= f'mv {fn1} {fn2}' #makes easier to load into rdflib..eg: #&2 read into df
+    cs= f'cat {fn1}|sed "/> /s//>\t/g"|sed "/ </s//\t</g"|sed "/doi:/s//DOI:/g"|cat>{fn2}'
+    os_system(cs)   #fix .nt so .dot is better ;eg. w/doi
+    f_nt=fn2
+    return fn2
+
+#take urn2uri out of this, but have to return a few vars
 def wget_rdf(urn,viz=None):
     if urn==None:
         return f'no-urn:{urn}'
     #if(urn!=None and urn.startswith('urn:')):
     elif urn.startswith('urn:'):
         global f_nt
-        url=urn.replace(":","/").replace("urn","https://oss.geodex.org",1)
+ #      url=urn.replace(":","/").replace("urn","https://oss.geodex.org",1)
+ #      urlroot=path_leaf(url) #file w/o path
+ #      urlj= url + ".jsonld" #get this as well so can get_jsfile2dict the file
+ #      urlj.replace("milled","summoned")
+ #      url += ".rdf"
+        #url, urlroot, urlj = urn2uri(urn) #so can reuse this, also getting sys change/fining missing in minio
+        url, urlj = urn2urls(urn) #so can reuse this, also getting sys change/fining missing in minio
         urlroot=path_leaf(url) #file w/o path
-        urlj= url + ".jsonld" #get this as well so can get_jsfile2dict the file
-        urlj.replace("milled","summoned")
-        url += ".rdf"
         cs= f'wget -a log {url}' 
         os_system(cs)
         cs= f'wget -a log {urlj}' 
         os_system(cs)
-        fn1 = urlroot + ".rdf"
-        fn2 = urlroot + ".nt" #more specificially, what is really in it
-        #cs= f'mv {fn1} {fn2}' #makes easier to load into rdflib..eg: #&2 read into df
-        cs= f'cat {fn1}|sed "/> /s//>\t/g"|sed "/ </s//\t</g"|sed "/doi:/s//DOI:/g"|cat>{fn2}'
-        os_system(cs)   #fix .nt so .dot is better ;eg. w/doi
-        f_nt=fn2
+      # fn1 = urlroot + ".rdf"
+      # fn2 = urlroot + ".nt" #more specificially, what is really in it
+      # #cs= f'mv {fn1} {fn2}' #makes easier to load into rdflib..eg: #&2 read into df
+      # cs= f'cat {fn1}|sed "/> /s//>\t/g"|sed "/ </s//\t</g"|sed "/doi:/s//DOI:/g"|cat>{fn2}'
+      # os_system(cs)   #fix .nt so .dot is better ;eg. w/doi
+      # f_nt=fn2
+        rdf2nt(urlroot)
         #from rdflib import Graph
         #g = Graph()
         #g.parse(fn2)
@@ -720,7 +783,8 @@ def read_file(fnp, ext=None):  #download url and ext/filetype
             pass
     elif ft=='.csv' or re.search('csv',ext,re.IGNORECASE):
         try:
-            df=pd.read_csv(fn,comment="#",warn_bad_lines=True, error_bad_lines=False)
+            #df=pd.read_csv(fn,comment="#",warn_bad_lines=True, error_bad_lines=False)
+            df=pd.read_csv(fn,comment='#', on_bad_lines='skip')
             #df=pd.read_csv(fn,comment="#")
         except:
             df = str(sys.exc_info()[0])
@@ -764,6 +828,24 @@ def read_file(fnp, ext=None):  #download url and ext/filetype
 
  #probably drop the [ls-l] part&just have ppl use fileBrowser, even though some CLI would still be good
 #not just 404, getting small file back also worth logging
+#---- sources:
+def get_sources_csv(url="https://raw.githubusercontent.com/MBcode/ec/master/crawl/sources.csv"):
+    return get_ec_txt(url)
+
+def get_sources_df(url="https://raw.githubusercontent.com/MBcode/ec/master/crawl/sources.csv"):
+    s= read_file(url,".csv")
+    return s.loc[s['Active']] #can only crawl the active ones
+
+#def get_sources_urls(): #could become crawl_
+def crawl_sources_urls(): #work on sitemap lib to handle non-stnd ones
+    import re
+    s=get_sources_df()
+    for url in s['URL']:
+        print(f'sitemap:({url})') #dbg
+        #urlb=re.sub('\/site*.xml','',url)
+        urlb=re.sub('sitemap.xml','',url)
+        #crawl_sitemap(urlb)
+        print(f'crawl_sitemap({urlb})') #dbg
 #----
 def qs2graph(q,sqs):
     return sqs.replace('${q}',q)
@@ -784,7 +866,8 @@ def v2iqt(var,sqs):  #does the above fncs
     #really if only 1 var, could always just change it
     #_someday could send in dict to replace if >1
 
-def iqt2df(iqt,endpoint="https://graph.geodex.org/blazegraph/namespace/nabu/sparql"):
+#def iqt2df(iqt,endpoint="https://graph.geodex.org/blazegraph/namespace/nabu/sparql"):
+def iqt2df(iqt,endpoint="https://graph.geocodes.earthcube.org/blazegraph/namespace/earthcube/sparql"):
     "instantiated-query-template/txt to df"
     if not iqt:
         return "need isntantiated query text"
@@ -823,6 +906,8 @@ def search_notebook(urn):
 def subj2urn(doi):
     return v4qry(doi,"subj2urn")
 
+#should get graph.geo.. from https://dev.geocodes.earthcube.org/#/config dynamically
+ #incl the default path for each of those other queries, ecrr, ;rdf location as well
 #=========append fnc from filtereSPARQLdataframe.ipynb
 #def sq2df(qry_str):
 #def txt_query(qry_str): #consider sending in qs=None =dflt lookup as now, or use what sent in
@@ -837,7 +922,8 @@ def txt_query(qry_str,sqs=None): #a generalized version would take pairs/eg. <${
         #qs=get_txtfile("sparql-query.txt")
         qs= sqs or get_txtfile("sparql-query.txt")
     import sparqldataframe, simplejson
-    endpoint = "https://graph.geodex.org/blazegraph/namespace/nabu/sparql"
+    #endpoint = "https://graph.geodex.org/blazegraph/namespace/nabu/sparql"
+    endpoint = "https://graph.geocodes.earthcube.org/blazegraph/namespace/earthcube/sparql"
     add2log(qry_str)
     q=qs.replace('${q}',qry_str)
     add2log(q)
