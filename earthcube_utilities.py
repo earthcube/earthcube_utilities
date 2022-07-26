@@ -25,6 +25,27 @@ IN_COLAB = 'google.colab' in sys.modules
 if not IN_COLAB:
     local()
 
+def ndtq(name=None,datasets=None,queries=None,tools=None):
+  "get collection args for colab or binder"
+  import json
+  if IN_COLAB: #this has to come from top level
+    n=json.loads(name)
+    d=json.loads(datasets)
+    t=json.loads(tools)
+    Q=json.loads(queries)
+  else:
+    ds = ipyparams.params['collection']
+    print(ds)
+    dso = json.loads(ds)
+    # if this cell fails the first run.
+    #run a second time, and it works.
+    n=dso.get('name')
+    d=dso.get('datasets')
+    t=dso.get('tools')
+    Q=dso.get('queries')
+  print(f'n={n},d={d},q={Q},t={t}')
+  return n,d,t,Q
+
 #more loging
 #def install_recipy():
 #    cs='pip install recipy'
@@ -39,6 +60,9 @@ def first(l):
         return list(l)[0]
     else:
         return l
+
+def flatten(xss): #stackoverflow
+    return [x for xs in xss for x in xs]
 
 #from qry.py
 def get_txtfile(fn):
@@ -95,6 +119,12 @@ def file_leaf_base(path):
     pl=path_leaf(path)
     return file_base(pl)
 
+def collect_ext(l,ext):
+  return list(filter(lambda x: file_ext(x)==ext,flatten(l)))
+
+def collect_str(l,s):
+  return list(filter(lambda x: s in x ,flatten(l)))
+
 #could think a file w/'.'s in it's name, had an .ext
  #so improve if possible; hopefully not by having a list of exts
   #but maybe that the ext is say 6char max,..
@@ -104,9 +134,15 @@ def has_ext(fn):
     return (fn != file_base(fn))
 
 def wget(fn):
-    #cs= f'wget -a log {fn}' 
+    #cs= f'wget -a log {fn}'  #--quiet
     cs= f'wget --tries=2 -a log {fn}' 
     os_system(cs)
+
+def wget2(fn,fnl): #might make optional in wget
+    "wget url, save to " #eg. sitemap to repo.xml
+    cs= f'wget -O {fnl} --tries=2 -a log {fn}' 
+    os_system(cs) 
+    return get_txtfile(fnl) #not necc,but useful
 
 def mkdir(dir):
     cs=f'mkdir {dir}'
@@ -132,6 +168,94 @@ def get_ec_txt(url):
     wget(url)
     return get_txtfile(fnb)
 
+#testing:
+#=merge using:
+def merge_dict_list(d1,d2):
+    from collections import defaultdict
+    dd = defaultdict(list)
+    for d in (d1, d2): # you can list as many input dicts as you want here
+        for key, value in d.items():
+            dd[key].append(value)
+    return dd
+
+def repos2counts(repos):
+    "from cached sitemaps,etc"
+    repo_df_loc={}
+    for repo in repos:
+        repo_df_loc[repo]=repo2site_loc_df(repo)
+    repo_counts={}
+    #for repo in repos:
+    for repo in repo_df_loc:
+        repo_counts[repo]=len(repo_df_loc[repo])
+    #for now on ld-cache-counts:
+    repo_ld_counts={}
+    repo_fnum=wget2("http://geocodes.ddns.net/ec/test/repo_fnum.txt","summoned.txt")
+    repo_fnum_list=repo_fnum.split('\n')
+    for repo_num in repo_fnum_list:
+        repo_num_list=repo_num.split(' ')
+        if len(repo_num_list)>1:
+            #print(repo_num_list)
+            repo_=repo_num_list[0]
+            fnum=repo_num_list[1]
+            rl=repo_.split('/')
+            if len(rl)>2:
+                #print(rl)
+                rn=rl[2]
+                repo_ld_counts[rn]=fnum
+    #for now on final-counts: #next from graph.csv and run system cmd on it,then strip extra spaces
+    repoCounts=wget2("http://geocodes.ddns.net/ec/test/graph_counts.txt","graph.txt")
+    final_counts={}
+    rl2_list=repoCounts.split('\n')
+    for  rl2 in rl2_list:
+        num_repo=rl2.split(' ')
+        if len(num_repo)>1:
+            #print(num_repo)
+            count=num_repo[0]
+            repo=num_repo[1].lstrip('milled:').lstrip('summoned:') #in case either
+            final_counts[repo]=count
+    return repo_counts,repo_ld_counts,final_counts,      repo_df_loc 
+
+def post_untar(url,uncompress="tar -zxvf "): #could be "unzip -qq "
+    "uncompress downloaded version of url"
+    fnb=path_leaf(url)
+    cs=f'{uncompress} {fnb}'
+    os_system(cs)
+    return fnb
+
+def install_url(url): #use type for uncompress later
+    pre_rm(url)
+    wget(url)
+    fnb=post_untar(url) #
+    return fnb.rstrip(".tar.gz").rstrip(".zip") #handle either type
+
+def install_java():
+    ca= "apt-get install -y openjdk-8-jdk-headless -qq > /dev/null"
+    os_system(cs)  #needed for jena..
+    os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
+    # !java -version #check java version
+
+def install_jena(url="https://dlcdn.apache.org/jena/binaries/apache-jena-4.5.0.tar.gz"):
+    install_url(url)
+
+def install_fuseki(url="https://dlcdn.apache.org/jena/binaries/apache-jena-fuseki-4.5.0.tar.gz"):
+    install_url(url)
+
+def install_any23(url="https://dlcdn.apache.org/any23/2.7/apache-any23-cli-2.7.tar.gz"):
+    install_url(url)
+
+def setup_j(jf=None):
+    install_java()
+    path=os.getenv("PATH")
+    jena_dir=install_jena()
+    any23_dir=install_any23()
+    if jf:
+        fuseki_dir=install_jena()
+        addpath= f':{jena_dir}/bin:{fuseki_dir}/bin:{any23_dir}/bin'
+    else:
+        addpath= f':{jena_dir}/bin:{any23_dir}/bin'
+    os.environ["PATH"]= path + addpath 
+    return addpath
+
 #get_  _txt   fncs:
 #def get_relateddatafilename_txt(url="https://raw.githubusercontent.com/earthcube/facetsearch/toolMatchNotebookQuery/client/src/sparql_blaze/sparql_relateddatafilename.txt"):
 def get_relateddatafilename_txt(url="https://raw.githubusercontent.com/MBcode/ec/master/NoteBook/sparql_relateddatafilename.txt"):
@@ -150,7 +274,14 @@ def get_query_txt(url="https://raw.githubusercontent.com/MBcode/ec/master/NoteBo
     return get_ec_txt(url)
 
 def get_subj2urn_txt(url="http://geocodes.ddns.net/ec/nb/sparql_subj2urn.txt"):
-    return get_ec_txt(url)
+    #return get_ec_txt(url)
+    return """prefix sschema: <https://schema.org/>
+            SELECT distinct    ?g WHERE {
+            graph ?g { <${g}> a schema:Dataset }}"""
+
+def get_graphs_txt(url="http://geocodes.ddns.net/ec/nb/sparql_graphs.txt"):
+    #return get_ec_txt(url)
+    return "SELECT distinct ?g  WHERE {GRAPH ?g {?s ?p ?o}}"
 
 def add_ext(fn,ft):
     if ft==None or ft=='' or ft=='.' or len(ft)<2:
@@ -224,6 +355,13 @@ def url2jsonLD(url):
         ld =""
     add2log(ld)
     return ld
+
+def url2jsonLD_fn(url,fn):
+    "url2jsonLD_file w/forced filename"
+    ld=url2jsonLD(url)
+    LD=json.dumps(ld, indent= 2)
+    fnj = fn + ".jsonld" #only if not there
+    return put_txtfile(fnj,LD)
 
 def url2jsonLD_file(url):
     "get jsonLD from w/in url, save to file"
@@ -336,14 +474,69 @@ def url2nq(url):
     apptxt= f'<{url}> .'
     return append2everyline(fn, apptxt)
 
-def crawl_sitemap(url):
-    "url w/o sitemap.xml, might try other lib"
-    cs='pip install ultimate_sitemap_parser' #assume done rarely, once/session 
+def setup_s3fs(): #do this by hand for now
+    cs='pip install s3fs' #assume done rarely, once/session 
     os_system(cs)
+
+def setup_sitemap(): #do this by hand for now
+    cs='pip install ultimate_sitemap_parser' #assume done rarely, once/session 
+    os_system(cs) #get rid of top one soon
+    cs='pip install advertools' #assume done rarely, once/session 
+    os_system(cs)
+
+def sitemap_tree(url): #will depricate
+    "len .all_pages for count"
+    #print("assume: setup_sitemap()")
     from usp.tree import sitemap_tree_for_homepage
     tree = sitemap_tree_for_homepage(url)
-    for page in tree.all_pages():
-        url2nq(page.url)
+    return tree
+
+#switch over libs from tree to df
+
+def sitemap_df(url):
+    import  advertools as adv
+    df=adv.sitemap_to_df(url)
+    return df
+
+def sitemap_all_pages(url):
+    #tree=sitemap_tree(url)
+    #return tree.all_pages()
+    df=sitemap_df(url)
+    return df['loc']
+
+def repo2site_loc_df(repo):
+    "get df[loc] from repos sitemap" #use cached sitemap
+    base_url="http://geocodes.ddns.net/ec/crawl/sitemaps/"
+    url=f'{base_url}{repo}.xml'
+    return sitemap_all_pages(url)
+
+def sitemaps_all_loc(sitemaps):
+    "list(iterable) to get all DFs of LOCs"
+    return map(sitemap_all_pages,sitemaps)
+    #also be able to work w/dictionaries,  repo_name sitmap in, count out
+
+def sitemap_len(url):
+    "for counts" # maybe allow filtering types later
+    pages=sitemap_all_pages(url)
+    pl=list(pages)
+    return len(pl)
+
+def sitemaps_count(sitemaps):
+    sitemap_count = {}
+    for sitemap in sitemaps:
+        count=sitemap_len(sitemap)
+        print(f'{sitemap} has {count} records')
+        sitemap_count[sitemap]=count
+    return sitemap_count
+
+def crawl_sitemap(url):
+    "url w/o sitemap.xml, might try other lib"
+    #tree=sitemap_tree(url)
+    pages=sitemap_all_pages(url)
+    #for page in tree.all_pages():
+    for page in pages:
+        url2nq(page)
+        #url2nq(page.url)
         #print(f'url2nq({page.url})') #dbg
 
 #if already crawled and just need to convert
@@ -492,7 +685,7 @@ def urn2urls(urn): #from wget_rdf, replace w/this call soon
         url=urn.replace(":","/").replace("urn",minio,1) #minio
       # urlroot=path_leaf(url) #file w/o path
         urlj= url + ".jsonld" #get this as well so can get_jsfile2dict the file
-        urlj.replace("milled","summoned")
+      # urlj.replace("milled","summoned")
         url += ".rdf"
         #cs= f'wget -a log {url}' 
         #os_system(cs)
@@ -500,6 +693,12 @@ def urn2urls(urn): #from wget_rdf, replace w/this call soon
         #os_system(cs)
         #return url, urlroot, urlj
         return url, urlj
+
+#only urls of rdf not downloadable yet
+def urn2fnt(urn):
+    rdf_urls=urn2urls(urn)
+    fnt=file_base(path_leaf(rdf_urls[0])) + ".nt"
+    return fnt
 
 def rdf2nt(urlroot_):
     "DFs rdf is really .nt, also regularize2dcat"
@@ -611,11 +810,11 @@ def pp_l2s(pp,js=None):
 def rget(pp,fn=1):
     "predicate path to s/o values"
     fnt=dfn(fn)
-#r=ec.sq_file("PREFIX : <http://www.w3.org/ns/dcat#> SELECT distinct ?s ?o WHERE  { ?s :spatialCoverage/:geo/:box ?o}","d1.nt")
+#r=sq_file("PREFIX : <http://www.w3.org/ns/dcat#> SELECT distinct ?s ?o WHERE  { ?s :spatialCoverage/:geo/:box ?o}","d1.nt")
     #s1="PREFIX : <http://www.w3.org/ns/dcat#> SELECT distinct ?s ?o WHERE  { ?s "
     s1="PREFIX : <https://schema.org/> SELECT distinct ?s ?o WHERE  { ?s " #till fix sed
     s2=" ?o}"
-    #r=ec.sq_file(s1 + ":spatialCoverage/:geo/:box" + s2,dfn)
+    #r=sq_file(s1 + ":spatialCoverage/:geo/:box" + s2,dfn)
     pps=pp_l2s(pp)
     qs=s1 + pps + s2
     print(qs)
@@ -624,13 +823,52 @@ def rget(pp,fn=1):
     r=sq_file(qs,fnt)
     return r
 #-
+def grep_po_(p,fn):
+  "find predicate in nt file and returns the objects"
+  #cs= f"grep '{p}' {fn}|cut -f 3"
+  cs= f"grep '{p}' {fn}|cut -d' ' -f 3"
+  rs= os_system_(cs)
+  #ra=rs.split(" .\n")
+  ra=rs.split("\n")
+  ra=list(map(lambda x: x.strip(".").strip(" "), ra))[:-1]
+  return ra #get rid of these
+
 def grep_po(p,fn):
-  "find predicate in nt file and returns it's objects"
-  cs= f"grep '{p}' {fn}|cut -f 3"
-  rs= ec.os_system_(cs)
+  "find predicate in nt file and returns the objects"
+  cs= f"egrep '{p}' {fn}|cut -f 3"
+  #cs= f"grep '{p}' {fn}|cut -d' ' -f 3"
+  rs= os_system_(cs)
   ra=rs.split(" .\n")
   return ra
-#-
+#could ret the Predicate,Object,(lists)and pred(s) could be the 2nd return
+#unless where to call it grep_p2o or grep_pred2obj
+#def grep_pred2obj(p,fn):
+def grep2obj(p,fn): #=f_nt): #fn could default to (global) f_nt
+  "find pattern in nt file and returns the objects, of the spo lines"
+  cs= f"egrep '{p}' {fn}|cut -f 3"
+  rs= os_system_(cs)
+  #ra=rs.split(" .\n")
+  ra=rs.split(".\n")
+  if ra:
+      ra=list(map(lambda x: x.strip().replace('"',''), ra))
+  return ra
+#get pack to using a local store, to be more robust
+#def urn2accessURL(urn):
+def urn2accessURL(urn,fnt=None):
+    "get access/content url from urn/it's .nt file"
+    if not fnt:
+        fnt=urn2fnt(urn) #should be same as f_nt
+    print(f'grep2obj:{fnt}')
+    return grep2obj('accessURL|contentUrl',fnt)
+#to iterate over this could have a getDatasetURLs &either give URNs or  ROWs&dfSPARQL
+def getDatasetURLs(IDs,dfS=None):
+  "return the URLs from every dataset given, by URNs or df w/rows"
+  d1p= not isinstance(IDs[0], int)
+  ds_urls= list(map(urn2accessURL,IDs)) if d1p else list(map(lambda row: dfRow2urls(dfS,row),IDs))  #or put in another row number to get url
+  #ds_url= list(map(lambda urls: urls[0],ds_urls)) if d1p else list(map(lambda urls: urls[row][1], ds_urls)) #default to 1st of the urls
+  ds_url= list(map(lambda urls: urls[0],ds_urls)) #default to 1st of the urls ;need to check in 2nd/sparql_nb w/o collection
+  return ds_urls, ds_url #1st of each right now
+#-might want to collect/order by file types
 def sparql_f2(fq,fn,r=None): #jena needs2be installed for this, so not in NB yet;can emulate though
     "files: qry,data"
     if r: #--results= Results format (Result set: text, XML, JSON, CSV, TSV; Graph: RDF serialization)
@@ -675,6 +913,53 @@ def dfRow2urls(df,row):
     if not exists(fnt):
         dfRow2rdf(df,row)
     return rget(["contentUrl"],row)
+
+def nt2g(fnt):
+    from rdflib import ConjunctiveGraph #might just install rdflib right away
+    g = ConjunctiveGraph(identifier=fnt)
+    data = open(fnt, "rb") #or get_textfile -no
+    g.parse(data, format="ntriples")
+    return g
+
+#def diff_nt(fn1,fn2):
+def diff_nt_g(fn1,fn2):
+    #import rdflib
+    from rdflib.compare import to_canonical_graph, to_isomorphic, graph_diff
+    g1=nt2g(fn1)
+    g2=nt2g(fn2)
+    iso1 = to_isomorphic(g1)
+    iso2 = to_isomorphic(g2)
+    if iso1 == iso2:
+        return g, None, None
+    else:
+        in_both, in_first, in_second = graph_diff(iso1, iso2)
+        #dump_nt_sorted(in_both)
+        #dump_nt_sorted(in_first)
+        #dump_nt_sorted(in_second)
+        return in_both, in_first, in_second 
+
+#https://github.com/RDFLib/rdflib/blob/master/rdflib/compare.py
+
+def dump_nt_sorted(g):
+    for l in sorted(g.serialize(format='nt').splitlines()):
+        if l: print(l.decode('ascii'))
+
+#fix: rdflib/plugins/serializers/nt.py:28: UserWarning: NTSerializer does not use custom encoding.
+ #warnings.warn("NTSerializer does not use custom encoding.")
+
+def diff_nt(fn1,fn2):
+    in_both, in_first, in_second = diff_nt_g(fn1,fn2)
+    if in_both:
+        print(f'in_both:{in_both}')
+        dump_nt_sorted(in_both)
+    if in_first:
+        print(f'in_first:{in_first}')
+        dump_nt_sorted(in_first)
+    if in_second:
+        print(f'in_second:{in_second}')
+        dump_nt_sorted(in_second)
+    return in_both, in_first, in_second 
+
 
 def pp2so(pp,fn): #might alter name ;basicly the start of jq via sparql on .nt files
     "SPARQL qry given a predicate-path, ret subj&obj, given nt2dn run 1st, giving fn"
@@ -944,6 +1229,8 @@ def v2iqt(var,sqs):  #does the above fncs
         return sqs.replace('<${g}>',f'<{var}>')
     if '${q}' in sqs:   #var=q
         return sqs.replace('${q}',var)
+    else:
+        return sqs #when nothing to replace, like in get_graphs
     #could add relatedData case, but changed to 'q' for now
     #really if only 1 var, could always just change it
     #_someday could send in dict to replace if >1
@@ -987,6 +1274,9 @@ def search_notebook(urn):
 
 def subj2urn(doi):
     return v4qry(doi,"subj2urn")
+
+def get_graphs():
+    return v4qry("","graphs")
 
 #should get graph.geo.. from https://dev.geocodes.earthcube.org/#/config dynamically
  #incl the default path for each of those other queries, ecrr, ;rdf location as well
@@ -1081,7 +1371,7 @@ def dfCombineFeaturesSimilary(df, features = ['kw','name','description','pubname
     ##Step 5: Compute the Cosine Similarity based on the count_matrix
     cosine_sim = cosine_similarity(count_matrix) 
 
-#=so after sparql-nb: df=ec.txt_query(q)
+#=so after sparql-nb: df=txt_query(q)
 #can dfCombineFeaturesSimilary(df)
 #then get_related_indices(row)
 #=I should also write other fnc to access rows of txt_query df returns, to get possible donwloads
