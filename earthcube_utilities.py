@@ -3,6 +3,11 @@
 #=this is also at gitlab now, but won't get autoloaded until in github or allow for gitlab_repo
  #but for cutting edge can just get the file from the test server, so can use: get_ec()
 rdf_inited,rdflib_inited,sparql_inited=None,None,None
+endpoint=None
+testing_endpoint="http://ideational.ddns.net:3030/geocodes_demo_datasets/sparql"
+testing_bucket="citesting"
+dflt_endpoint = "https://graph.geocodes.earthcube.org/blazegraph/namespace/earthcube/sparql"
+local=None
 def laptop(): #could call: in_binder
     "already have libs installed"
     global rdf_inited,rdflib_inited,sparql_inited
@@ -12,7 +17,7 @@ def laptop(): #could call: in_binder
 def local():
     "do in binder till can autoset if not in colab"
     #put in a binder version of sparql_nb template, for now
-    laptop()
+    local=laptop()
 
 #pagemil parameterized colab/gist can get this code via:
 #with httpimport.github_repo('MBcode', 'ec'):   
@@ -137,6 +142,7 @@ def wget(fn):
     #cs= f'wget -a log {fn}'  #--quiet
     cs= f'wget --tries=2 -a log {fn}' 
     os_system(cs)
+    return path_leaf(fn) #new
 
 def wget2(fn,fnl): #might make optional in wget
     "wget url, save to " #eg. sitemap to repo.xml
@@ -169,6 +175,236 @@ def get_ec_txt(url):
     return get_txtfile(fnb)
 
 #testing:
+jar=os.getenv("jar") #move this to top, near global endpoint
+if not jar:
+    if local:
+        jar="~/bin/jar" #have set by local, setup will have to get otherwise
+    else:
+        jar="."
+
+def blabel_l(fn): 
+    "get rid of BlankNodes, needs setup_j"
+    fb=file_base(fn) 
+    ext=file_ext(fn)
+    cs=f'java -Xmx4155M -jar {jar}/blabel.jar  LabelRDFGraph -l -i {fn} -o {fb}_l{ext}'
+    os_system(cs)
+
+def read_sd_(fn):
+    "read_csv space delimited"
+    import pandas as pd
+    return pd.read_csv(fn,delimiter=" ")
+
+def read_sd(fn):
+    "read_file space delimited"
+    fn_=fn.replace("urn:","")
+    print(f'read_sd:{fn_}')
+    #return read_file(fn_,".txt")
+    import pandas as pd
+    try:
+        df=pd.read_csv(fn, sep='\n',header=None,comment='#')
+    except:
+        df = str(sys.exc_info()[0])
+    return df
+
+def read_json_(fn):
+    "read_json and flatten for df_diff"
+    #import pandas as pd
+    #return pd.read_json(fn) #finish or skip for:
+    return read_file(fn,".json") #getting "<class 'NameError'>"
+
+#def read_json(url):
+def read_json(urn):
+    "request json, ret dict"
+    import urllib.request
+    import json
+    url=urn.replace("urn:","")
+    print(f'read_json:{url}')
+    with urllib.request.urlopen(url) as response:
+        #try:
+        res = response.read()
+        if res:
+            return json.loads(res)
+        else:
+            return None
+
+#https://stackoverflow.com/questions/48647534/python-pandas-find-difference-between-two-data-frames
+def df_diff(df1,df2):
+    import pandas as pd
+    return pd.concat([df1,df2]).drop_duplicates(keep=False)
+
+def diff_sd(fn1,fn2):
+    "df_diff 2 space delimited files"
+    df1=read_sd(fn1)
+    df2=read_sd(fn2)
+    dfdiff=df_diff(df1,df2)
+    if dfdiff.empty:
+        return True
+    else:
+        return dfdiff
+
+def diff_flat_json(fn1,fn2):
+    "df_diff 2 space delimited files"
+    df1=read_json(fn1)
+    df2=read_json(fn2)
+    return df_diff(df1,df2) #or skip for:
+
+def get_json_eq(fn1,fn2):
+    d1=read_json(fn1)
+    d2=read_json(fn2)
+    if not d1:
+        print("d1 missing")
+    if not d2:
+        print("d2 missing")
+    return d1 == d2
+
+def get_json_diff(fn1,fn2):
+    d1=read_json(fn1)
+    d2=read_json(fn2)
+    #(https://pypi.org/project/deepdiff/)  or (https://dictdiffer.readthedocs.io/en/latest/)
+    return d1 == d2 #finish, as will have to install in NBs too
+
+#def list_diff(li1,li2):
+def list_diff_not_in(li1,li2):
+    "those in l1 not in l2"
+    s = set(li2)
+    return [x for x in li1 if x not in s]
+
+#testing cmp w/gold-stnd should now comes from github 
+ #also can send alt bucket ..., now citesting, but be able to set: testing_bucket
+#now endpoint loaded from ld-cache to work out mechanics of these fncs, 
+ #will get from live workflow one we are sure it will be up during testing ;can be reset from script
+
+def find_urn_diffs(endpoint="http://ideational.ddns.net:3030/geocodes_demo_datasets/sparql", 
+        gold="https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/mb_sample/metadata/Dataset/standard/milled/geocodes_demo_datasets/URNs.txt"):
+       #gold="https://raw.githubusercontent.com/MBcode/ec/master/test/standard/milled/geocodes_demo_datasets/URNs.txt"):
+    "get_graphs_list and saved gold-list, and diff" #~do a set diff
+    print("in find_urn_diffs,read_sd gold")
+    #df_gold=read_sd(gold)
+    df_gold=read_file(gold,".txt")
+    print(f'gold:{df_gold}')
+    #get_graphs w/convience gives list
+    #return df_diff(df_gold, )
+    global testing_endpoint
+    if endpoint == testing_endpoint:
+        test_endpoint=endpoint
+    else: #use global so can set by script
+        test_endpoint=testing_endpoint
+    test_list=get_graphs_list(test_endpoint)
+    print(f'test:{test_list}')
+    gold_list=df_gold['g'].tolist()
+    print(f'gold:{gold_list}')
+    tl=len(test_list)
+    tg=len(gold_list)
+    print(f'got:{tl},expected:{tg}') #consider also listing sitmap counts
+    #return list_diff(test_list,gold_list)
+    return list_diff_not_in(gold_list,test_list)
+
+#if have url for gold-stnd bucket, and have missing urn
+#milled_bucket="" #either the test milled, or from production then from diff buckets, ;still missing URNs from end2end start it off
+
+#check_urn_ rdf|jsonld look up from LD-cache of latest run, and compare w/gold-stnd in github
+  #tested separately, &ok on 1st pass;  ret True if ok=the same as gold-stnd
+
+def check_urn_rdf(urn,
+        test_bucket="https://oss.geocodes-dev.earthcube.org/citesting/milled/geocodes_demo_datasets/",
+        gold="https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/mb_sample/metadata/Dataset/standard/milled/geocodes_demo_datasets/"):
+       #gold="https://raw.githubusercontent.com/MBcode/ec/master/test/standard/milled/geocodes_demo_datasets/"):
+    "check a URNs milled-rdf diff btw urls for current+gold-stnd buckets"
+    import pandas as pd
+    #gold_rdf=f'{test_bucket}{urn}.rdf' #test_rdf=f'{milled_bucket}{urn}.rdf'
+    gold_rdf=f'{gold}{urn}.rdf'
+    test_rdf=f'{test_bucket}{urn}.rdf'
+    #could blabel_l them both if need be
+    #df_gold=pd.read_csv(gold_rdf)
+    #df_test=pd.read_csv(test_rdf)
+    #return df_diff(df_gold,df_test)
+    return diff_sd(gold_rdf,test_rdf) #the read should skip the header
+
+def check_urn_jsonld(urn,
+        test_bucket="https://oss.geocodes-dev.earthcube.org/citesting/summoned/geocodes_demo_datasets/",
+        gold="https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/mb_sample/metadata/Dataset/standard/summoned/geocodes_demo_datasets/"):
+       #gold="https://raw.githubusercontent.com/MBcode/ec/master/test/standard/summoned/geocodes_demo_datasets/"):
+    "check a URNs summonded-jsonld diff btw urls for current+gold-stnd buckets"
+    #rm urn: if necessary
+    gold_rdf=f'{gold}{urn}.jsonld'
+    test_rdf=f'{test_bucket}{urn}.jsonld'
+    print(f'check_urn_jsonld:{urn}')
+    #return diff_sd(gold_rdf,test_rdf)
+    #return diff_flat_json(gold_rdf,test_rdf)
+    return get_json_eq(gold_rdf,test_rdf) #if not= then use dict-diff lib to show the diffs
+
+#might make a check_urn_ld_cache(urn,bucket=,test_set=,test_base=): #and it knows summoned .jsonld, milled .rdf
+def check_urn_ld_cache(urn,bucket="citesting",test_set="geocodes_demo_datasets",test_base="https://oss.geocodes-dev.earthcube.org/"):
+    "given URN, compare latest run LD_cache with gold-std" #check_urn_ fncs hold default gold url
+    global testing_bucket
+    if(testing_bucket != "citesting"): #to change test_bucket ...
+        test_bucket=test_bucket.replace("citesting",testing_bucket)
+    else:
+        test_bucket=bucket
+    test_rdf=f'{test_base}{test_bucket}/milled/{test_set}/' #{urn}.rdf added later
+    print(f'new rdf:{test_rdf}')
+    #rdf_check= list(check_urn_rdf(urn,test_rdf)) #bool not iterable
+    rdf_check= check_urn_rdf(urn,test_rdf)
+    test_jsonld=f'{test_base}{test_bucket}/summoned/{test_set}/' #{urn}.jsonld added later
+    print(f'new jsonld:{test_jsonld}')
+    jsonld_check= check_urn_jsonld(urn,test_jsonld) 
+    #return rdf_check.append(jsonld_check) #mapping over these, they would come back in pairs
+    return rdf_check, jsonld_check 
+
+#endpoint loaded like nabu, to work on all this functionality, then can make sure it keeps it up like the ld-cache
+def get_urn_diffs(endpoint="http://ideational.ddns.net:3030/geocodes_demo_datasets/sparql", 
+        gold="https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/mb_sample/metadata/Dataset/standard/milled/geocodes_demo_datasets/"):
+       #gold="https://raw.githubusercontent.com/MBcode/ec/master/test/standard/milled/geocodes_demo_datasets/"):
+    "see which URN/graphs are in endpoint, and compare with expected"
+    gold_URNs= gold + "URNs.txt"
+    print(f'find_urn_diffs:{endpoint},{gold_URNs}')
+    dfu=find_urn_diffs(endpoint,gold_URNs)
+    return dfu
+
+#'validation'  ;check consituent fncs before switch over to this one
+def check_urn_diffs(endpoint="http://ideational.ddns.net:3030/geocodes_demo_datasets/sparql", 
+        test_bucket="https://oss.geocodes-dev.earthcube.org/citesting/milled/geocodes_demo_datasets/",
+        gold="https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/mb_sample/metadata/Dataset/standard/milled/geocodes_demo_datasets/"):
+       #gold="https://raw.githubusercontent.com/MBcode/ec/master/test/standard/milled/geocodes_demo_datasets/"):
+    dfu=get_urn_diffs(endpoint,gold)
+    #ld_checks= list(map(lambda urn: check_urn_ld_cache(urn,test_bucket),dfu)) #could send more or less:
+    ld_checks= list(map(check_urn_ld_cache,dfu))
+    return ld_checks
+#vs
+#'validation'
+def check_urn_diffs_(endpoint="http://ideational.ddns.net:3030/geocodes_demo_datasets/sparql", 
+        test_bucket="https://oss.geocodes-dev.earthcube.org/citesting/milled/geocodes_demo_datasets/",
+        gold="https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/mb_sample/metadata/Dataset/standard/milled/geocodes_demo_datasets/"):
+       #gold="https://raw.githubusercontent.com/MBcode/ec/master/test/standard/milled/geocodes_demo_datasets/"):
+    "find_urn_diffs and for each missing check_urn_rdf|jsonld" #get_graphs diff w/expected URNs, then check each missing
+    gold_URNs= gold + "URNs.txt"
+    print(f'find_urn_diffs:{endpoint},{gold_URNs}')
+    dfu=find_urn_diffs(endpoint,gold_URNs)
+    #dfu=find_urn_diffs(endpoint) #use it's default for a bit, bc read_sd prob w/github raw right now ;change2 read_file
+    global testing_bucket
+    if(testing_bucket != "citesting"): #to change test_bucket ...
+        use_test_bucket=test_bucket.replace("citesting",testing_bucket)
+        print(f'need2setup2pass changed test_bucket:{use_test_bucket}')
+        #maybe have test_ url made of test_base + bucket + (summonde4.jsonld,milled4.rdf) + test_set
+        test_base="https://oss.geocodes-dev.earthcube.org/"
+        test_set="geocodes_demo_datasets" #could set this as a global as well
+        test_rdf=f'{test_base}{use_test_bucket}/milled/{test_set}/'
+        print(f'new rdf:{test_rdf}')
+        test_jsonld=f'{test_base}{use_test_bucket}/summoned/{test_set}/'
+        print(f'new jsonld:{test_jsonld}')
+        #rdf_checks= list(map(lambda urn: check_urn_rdf(urn,endpoint,rdf_checks),dfu))
+        rdf_checks= list(map(lambda urn: check_urn_rdf(urn,test_rdf),dfu))
+        #jsonld_checks= list(map(lambda urn: check_urn_jsonld(urn,endpoint,jsonld_checks),dfu)) 
+        jsonld_checks= list(map(lambda urn: check_urn_jsonld(urn,test_jsonld),dfu)) 
+    else: # the other way   #got similar output w/missing bucket,so needs more test situations/closer look
+        #will need lambdas if want to pass any change to the defaults on
+        print(f'check_urn_rdf of:{dfu}')
+        rdf_checks= list(map(check_urn_rdf,dfu))
+        jsonld_checks= list(map(check_urn_jsonld,dfu)) #could do after, only if a problem, or just check them all now
+        print(f'get:{rdf_checks}')
+    return rdf_checks.append(jsonld_checks) 
+    #return rdf_checks #test the check fncs w/any (array of) URNs that exist
+
 #=merge using:
 def merge_dict_list(d1,d2):
     from collections import defaultdict
@@ -235,13 +471,16 @@ def install_java():
     # !java -version #check java version
 
 def install_jena(url="https://dlcdn.apache.org/jena/binaries/apache-jena-4.5.0.tar.gz"):
-    install_url(url)
+    return install_url(url)
 
 def install_fuseki(url="https://dlcdn.apache.org/jena/binaries/apache-jena-fuseki-4.5.0.tar.gz"):
-    install_url(url)
+    return install_url(url)
 
 def install_any23(url="https://dlcdn.apache.org/any23/2.7/apache-any23-cli-2.7.tar.gz"):
-    install_url(url)
+    return install_url(url)
+
+def setup_blabel(url="http://geocodes.ddns.net/ld/bn/blabel.jar"):
+    wget(url)
 
 def setup_j(jf=None):
     install_java()
@@ -254,6 +493,7 @@ def setup_j(jf=None):
     else:
         addpath= f':{jena_dir}/bin:{any23_dir}/bin'
     os.environ["PATH"]= path + addpath 
+    setup_blabel() #which also needs java
     return addpath
 
 #get_  _txt   fncs:
@@ -1105,7 +1345,7 @@ def file_type(fn):
     return mt
 #get something that can look of header of download, before get the file, too
 
-#def read_file(fnp, ext=nt2ft(fnp)):
+#def read_file(fnp, ext=nt2ft(fnp)):  $should send 'header' in
 def read_file(fnp, ext=None):  #download url and ext/filetype
     "can be a url, will call pd read_.. for the ext type"
     import pandas as pd
@@ -1149,7 +1389,7 @@ def read_file(fnp, ext=None):  #download url and ext/filetype
         except:
             df = str(sys.exc_info()[0])
             pass
-    elif ft=='.txt' or re.search('text',ext,re.IGNORECASE):
+    elif ft=='.txt' or re.search('text',ext,re.IGNORECASE): #want to be able to header=None here
         try:
             df=pd.read_csv(fn, sep='\n',comment='#')
         except:
@@ -1236,7 +1476,9 @@ def v2iqt(var,sqs):  #does the above fncs
     #_someday could send in dict to replace if >1
 
 #def iqt2df(iqt,endpoint="https://graph.geodex.org/blazegraph/namespace/nabu/sparql"):
-def iqt2df(iqt,endpoint="https://graph.geocodes.earthcube.org/blazegraph/namespace/earthcube/sparql"):
+#def iqt2df(iqt,endpoint="https://graph.geocodes.earthcube.org/blazegraph/namespace/earthcube/sparql"):
+#def iqt2df(iqt,endpoint=dflt_endpoint):
+def iqt2df(iqt,endpoint=None):
     "instantiated-query-template/txt to df"
     if not iqt:
         return "need isntantiated query text"
@@ -1244,7 +1486,12 @@ def iqt2df(iqt,endpoint="https://graph.geocodes.earthcube.org/blazegraph/namespa
     if sparql_inited==None:
         si= init_sparql()  #still need to init
         #qs= iqt #or si  #need q to instantiate
-    add2log(iqt)
+    #add2log(iqt)
+    global dflt_endpoint
+    if not endpoint:
+        endpoint=dflt_endpoint
+    add2log(f'query:{iqt}')
+    add2log(f'endpoint:{endpoint}')
     df = sparqldataframe.query(endpoint, iqt)
     return df
 
@@ -1272,11 +1519,26 @@ def search_webservice(urn):
 def search_notebook(urn):
     return v4qry(urn,"notebook")
 
+#
 def subj2urn(doi):
+    "<<doi a so:Dataset>>'s graph"
     return v4qry(doi,"subj2urn")
 
 def get_graphs():
+    "return all the g URNs"
     return v4qry("","graphs")
+
+def get_graphs_list(endpoint=None):
+    "get URNs as list, can send in alt endpoint"
+    global dflt_endpoint
+    if not endpoint:
+        dfg=get_graphs()
+    else:
+        save = dflt_endpoint
+        dflt_endpoint = endpoint
+        dfg=get_graphs()
+        dflt_endpoint = save
+    return dfg['g'].tolist()
 
 #should get graph.geo.. from https://dev.geocodes.earthcube.org/#/config dynamically
  #incl the default path for each of those other queries, ecrr, ;rdf location as well
@@ -1295,7 +1557,9 @@ def txt_query(qry_str,sqs=None): #a generalized version would take pairs/eg. <${
         qs= sqs or get_txtfile("sparql-query.txt")
     import sparqldataframe, simplejson
     #endpoint = "https://graph.geodex.org/blazegraph/namespace/nabu/sparql"
-    endpoint = "https://graph.geocodes.earthcube.org/blazegraph/namespace/earthcube/sparql"
+    #endpoint = "https://graph.geocodes.earthcube.org/blazegraph/namespace/earthcube/sparql"
+    global dflt_endpoint
+    endpoint = dflt_endpoint
     add2log(qry_str)
     q=qs.replace('${q}',qry_str)
     add2log(q)
@@ -1481,3 +1745,36 @@ def t2(fn="324529.jsonld"):
  #I wish we could use(a version of)the download url
  #and then we would all know what to expect w/o 
   #depending on some centeral rand#generator
+
+#blabel: take a triple file w/every line ending in " ." and use filename to make a quad, needed for gleaner/testing
+#potentially useful elsewhere; eg. if added repo: could use this in my workflow to make quads
+#DF's gleaner uses the shah of the jsonld to name the .rdf files which are actually .nt files
+# but then there are lots of .nq files that are actually .nt files, but should be able to get them w/this
+#maybe someplace in nabu this is done, but by then I can't have the files to load them
+
+#use filename to convert .rdf file to a .nq file
+#▶<102 a09local: /milled/geocodes_demo_datasets> mo 09517b808d22d1e828221390c845b6edef7e7a40.rdf
+#_:bcbhdkms5s8cef2c4s7j0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> .
+#goes to:
+#_:bcbhdkms5s8cef2c4s7j0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> "urn:09517b808d22d1e828221390c845b6edef7e7a40".
+#fn = "09517b808d22d1e828221390c845b6edef7e7a40.rdf"
+
+#https://stackoverflow.com/questions/3675318/how-to-replace-the-some-characters-from-the-end-of-a-string
+def replace_last(source_string, replace_what, replace_with):
+    head, _sep, tail = source_string.rpartition(replace_what)
+    return head + replace_with + tail
+
+def fn2nq(fn):
+    "take a fn.* returns a fn.nq w/4th col urn:fn"
+    fnb = file_base(fn)
+    fn2 = fnb + ".nq"
+    with open(fn2,'w') as fd_out:
+        with open(fn,'r') as fd_in:
+            for line in fd_in:
+                #line_out = line.replace(" .",f' "urn:{fnb}" .')
+                #replace_with = f' "urn:{fnb}" .'
+                replace_with = f' <urn:{fnb}> .'
+                line_out = replace_last(line, " .", replace_with)
+                fd_out.write(line_out)
+    return fn2
+
