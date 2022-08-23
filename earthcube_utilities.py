@@ -124,11 +124,24 @@ def file_leaf_base(path):
     pl=path_leaf(path)
     return file_base(pl)
 
+#sparql.ipynb:    "ds_url=ec.collect_ext(ds_urls,ext)\n",
 def collect_ext(l,ext):
   return list(filter(lambda x: file_ext(x)==ext,flatten(l)))
 
+def collect_ext_(l,ext):
+  return list(filter(lambda x: file_ext(x)==ext,l))
+
+def collect_pre(l,pre):
+  return list(filter(lambda x: x.startswith(pre),flatten(l)))
+
+def collect_pre_(l,pre):
+  return list(filter(lambda x: x.startswith(pre),l))
+
 def collect_str(l,s):
   return list(filter(lambda x: s in x ,flatten(l)))
+
+def collect_str_(l,s):
+  return list(filter(lambda x: s in x ,l))
 
 #could think a file w/'.'s in it's name, had an .ext
  #so improve if possible; hopefully not by having a list of exts
@@ -268,6 +281,15 @@ def list_diff_not_in(li1,li2):
     "those in l1 not in l2"
     s = set(li2)
     return [x for x in li1 if x not in s]
+#>>> list_diff_not_in(["a","b","c"],["a","b"])
+#['c']
+def list_diff_dropoff(li1,li2):
+    ldiff= list_diff_not_in(li1,li2)
+    #print(f'li1={li1}')
+    #print(f'li2={li2}')
+    #print(f'ldiff={ldiff}')
+    return ldiff
+    #return list_diff_not_in(li1,li2)
 
 #testing cmp w/gold-stnd should now comes from github 
  #also can send alt bucket ..., now citesting, but be able to set: testing_bucket
@@ -366,10 +388,11 @@ def check_urn_diffs(endpoint="http://ideational.ddns.net:3030/geocodes_demo_data
         test_bucket="https://oss.geocodes-dev.earthcube.org/citesting/milled/geocodes_demo_datasets/",
         gold="https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/mb_sample/metadata/Dataset/standard/milled/geocodes_demo_datasets/"):
        #gold="https://raw.githubusercontent.com/MBcode/ec/master/test/standard/milled/geocodes_demo_datasets/"):
-    dfu=get_urn_diffs(endpoint,gold)
-    #ld_checks= list(map(lambda urn: check_urn_ld_cache(urn,test_bucket),dfu)) #could send more or less:
-    ld_checks= list(map(check_urn_ld_cache,dfu))
-    return ld_checks
+       "looks at endpoint for missing URNs, then check LD-cache for each"
+       dfu=get_urn_diffs(endpoint,gold)
+       #ld_checks= list(map(lambda urn: check_urn_ld_cache(urn,test_bucket),dfu)) #could send more or less:
+       ld_checks= list(map(check_urn_ld_cache,dfu))
+       return ld_checks
 #vs
 #'validation'
 def check_urn_diffs_(endpoint="http://ideational.ddns.net:3030/geocodes_demo_datasets/sparql", 
@@ -715,7 +738,8 @@ def url2nq(url):
     return append2everyline(fn, apptxt)
 
 def setup_s3fs(): #do this by hand for now
-    cs='pip install s3fs' #assume done rarely, once/session 
+    #cs='pip install s3fs' #assume done rarely, once/session 
+    cs='pip install s3fs xmltodict' #want to switch to just request of url&parse xml:bucket_files.py
     os_system(cs)
 
 def setup_sitemap(): #do this by hand for now
@@ -1778,3 +1802,59 @@ def fn2nq(fn):
                 fd_out.write(line_out)
     return fn2
 
+#==bucket_files.py to get (minio) files list from a bucket path
+ci_url="https://oss.geocodes-dev.earthcube.org/citesting"
+def bucket_xml(url):
+    "given bucket url ret raw xml listing"
+    import requests
+    r=requests.get(url)
+    test_xml=r.content
+    #print(test_xml)
+    return test_xml
+
+def bucket_xml2dict(test_xml):
+    "bucket url to list of dicts, w/file in key"
+    import xmltodict
+    d=xmltodict.parse(test_xml)
+    #print(d)
+    lbr=d.get("ListBucketResult")
+    c=lbr.get("Contents")
+    return c
+
+def bucket_files(url):
+    "bucket_url to file listing"
+    test_xml=bucket_xml(url)
+    c=bucket_xml2dict(test_xml)
+    files=map(lambda kd: kd.get('Key'), c)
+    return list(files)
+
+def bucket_files2(url):
+    "url to tuple of summoned+milled lists"
+    fi=bucket_files(url)
+    s=collect_pre_(fi,"summoned")
+    m=collect_pre_(fi,"milled")
+    return s,m
+
+def bucket_files2diff(url,URNs=None):
+    "list_diff_dropoff summoned milled, URNs"
+    sm=bucket_files2(url)
+    sf=list(map(path_leaf,sm[0]))
+    su=list(map(file_base,sf))
+    print(f'summoned-URNs:{su}')
+    mf=list(map(path_leaf,sm[1]))
+    mu=list(map(file_base,mf))
+    print(f'milled-URNs:{mu}')
+    sl=len(su)
+    ml=len(mu)
+    dsm=sl-ml
+    print(f's:{sl}/m:{ml} diff:{dsm}')
+    lose_s2m=list_diff_dropoff(sf,mf)
+    if URNs:
+        ul=len(URNs)
+        dmu=ml-ul
+        print(f'expected-URNs:{URNs}')
+        print(f'm:{ml}/u:{ul} diff:{dmu}')
+        lose_m2u=list_diff_dropoff(mf,URNs) #should work
+        return lose_s2m, lose_m2u
+    else:
+        return lose_s2m
