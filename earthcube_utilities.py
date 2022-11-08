@@ -25,8 +25,10 @@ ncsa_endpoint_ = "https://mbobak.ncsa.illinois.edu:9999/blazegraph/namespace/nab
 ncsa_endpoint = "https://mbobak.ncsa.illinois.edu:9999/bigdata/namespace/ld/sparql"
 gc1_endpoint = "https://graph.geocodes-1.earthcube.org/blazegraph/namespace/earthcube/sparql"
 dev_https_endpoint="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/https/sparql"
-dflt_endpoint = ncsa_endpoint
-dflt_endpoint = "https://graph.geodex.org/blazegraph/namespace/nabu/sparql"
+#dflt_endpoint = ncsa_endpoint
+#dflt_endpoint = "https://graph.geodex.org/blazegraph/namespace/nabu/sparql"
+dflt_endpoint = gc1_endpoint
+summary_endpoint = dflt_endpoint.replace("earthcube","summary")
 #from 'sources' gSheet: can use for repo:file_leaf naming/printing
 base_url2repo ={"https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/main/metadata/Dataset/json": "geocodes_demo_datasets",
         "https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/main/metadata/Dataset/allgood": "geocodes_demo_datasets",
@@ -1286,9 +1288,108 @@ def rdf2nt(urlroot_):
     os_system(cs)   #fix .nt so .dot is better ;eg. w/doi
     f_nt=fn2
     return fn2
+##
+def is_node(url): #not yet
+    return (url.startswith("<") or url.startswith("_:B"))
 
+#def is_tn(url):
+def tn2bn(url):
+    "make blaze BNs proper for .nt"
+    if url.startswith("t1"):
+        return url.replace("t1","_:Bt1")
+    else:
+        return url
+
+def cap_http(url):
+    "<url>"
+    if is_http(url):
+        return f'<{url}>'
+    else:
+        return url
+
+def cap_doi(url):
+    "<doi>"
+    if url.startswith("doi:"):
+        return f'<{url}>'
+    elif url.startswith("DOI:"):
+        return f'<{url}>'
+    else:
+        return url
+
+def fix_url3(url):
+    "cap http/doi tn2bn"
+    url=tn2bn(url)
+    url=cap_http(url)
+    url=cap_doi(url)
+    #could put is_node check here
+    return url
+
+#def fix_url_(url,obj=True): #should only get a chance to quote if the obj of the triple
+def fix_url(url):
+    "fix_url and quote otherwise"
+    if is_node(url):
+        return url
+    elif url.startswith("t1"):
+        return url.replace("t1","_:Bt1")
+    elif is_http(url):
+        return f'<{url}>'
+    elif url.startswith("doi:"):
+        return f'<{url}>'
+    elif url.startswith("DOI:"):
+        return f'<{url}>'
+    #elif obj:
+    else:
+        import json
+        return json.dumps(url)
+    #else:
+    #    return url
+
+def df2nt(df,fn=None):
+    "print out df as .nt file"
+    import json
+    if fn:
+        put_txtfile(fn,"")
+    for index, row in df.iterrows():
+        #s=row['s']
+        s=df["s"][index]
+        s=fix_url(s)
+        s=fix_url(s)
+        p=df["p"][index]
+        p=fix_url(p)
+        o=df["o"][index]
+        o=fix_url(o)
+        if o=="NaN":
+            o=""
+        str3=f'{s} {p} {o} .\n'
+        if dbg:
+            print(str3)
+        if fn:
+            put_txtfile(fn,str3,"a")
+        #need to finish up w/dumping to a file
+    return df
+
+def get_rdf(urn,viz=None):
+    "start of replacement for wget_rdf" #that doesn't need the ld cache
+    df=get_graph(urn)
+    df2nt(df)
+    if viz: #should fix this below 
+        fn2=urn_leaf(urn) + ".nt" #try tail
+        rdflib_viz(fn2) #find out if can viz later as well via hidden .nt file
+    return df #already returns the same as wget_rdf
+
+def get_rdf2nt(urn):
+    "get and rdf2nt" #rdf2nt was getting around df's naming, will be glad to get away from that cache
+    df=get_rdf(urn)
+    fn2=urn_leaf(urn) # + ".nt" 
+    append2allnt(fn2)
+    fn2 = fn2 + ".nt"
+    return df2nt(df,fn2) #seems to work w/a test urn
+    #return df2nt(df)
+##
 #take urn2uri out of this, but have to return a few vars
 def wget_rdf(urn,viz=None):
+    if not viz:
+        return get_rdf2nt(urn) #use get_graph version for now
     if urn==None:
         return f'no-urn:{urn}'
     #if(urn!=None and urn.startswith('urn:')):
@@ -1317,6 +1418,7 @@ def wget_rdf(urn,viz=None):
         #g = Graph()
         #g.parse(fn2)
         if viz: #can still get errors
+            fn2=urn_leaf(urn) #try new
             rdflib_viz(fn2) #.nt file #can work, but looks crowded now
         return read_rdf(f_nt)
     elif urn.startswith('/'):
@@ -1874,11 +1976,19 @@ def get_summary(g): #g not used but could make a version that gets it for only 1
     return v4qry(g,"summary")
 
 
+#summary_endpoint = dflt_endpoint.replace("earthcube","summary")
+#def txt_query_(q,endpoint=None):
 def txt_query_(q,endpoint=None):
     "or can just reset dflt_endpoint"
     global dflt_endpoint
     if not endpoint:
         df=txt_query(q)
+    elif endpoint=="summary": #1st try for summary query
+        save = dflt_endpoint #but do not do till can switch the qry as well
+        dflt_endpoint = dflt_endpoint.replace("earthcube","summary")
+        print(f'summary:txt_query,w/:{dflt_endpoint}')
+        df=txt_query(q)
+        dflt_endpoint = save
     else:
         save = dflt_endpoint
         dflt_endpoint = endpoint
@@ -3310,6 +3420,7 @@ def rcsv(fn,d=","):
     return pd.read_csv(fn,delimiter=d)
 
 def tgc1_(ep=None):
+    "tgc1 that can use other than dflt namespace"
     if ep:
         global dflt_endpoint
         dflt_endpoint=ep
@@ -3321,6 +3432,7 @@ def tgc1_(ep=None):
     return df #assume pandas
 
 def tgc1():
+    "summarize and endpoint to csv for tsum.py to turn to tll for loading into summary namespace"
     global dflt_endpoint,gc1_endpoint
     dflt_endpoint=gc1_endpoint
     print(f'using:{dflt_endpoint}')
@@ -3330,3 +3442,6 @@ def tgc1():
     df.to_csv("summary-gc1.csv")
     return df #assume pandas
 
+#might very well put tsum.py functionality here
+ #will also write a similar df row mapping as 1st quick dump of sparqldataframe df to .nt file
+  #though I'm sure there will be better/more build up ways
