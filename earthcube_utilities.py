@@ -1389,6 +1389,9 @@ def get_rdf2nt(urn):
 #take urn2uri out of this, but have to return a few vars
 def wget_rdf(urn,viz=None):
     if not viz:
+        #if sparql_inited==None:
+        if not sparql_inited:
+            init_sparql()
         return get_rdf2nt(urn) #use get_graph version for now
     if urn==None:
         return f'no-urn:{urn}'
@@ -1937,6 +1940,9 @@ def iqt2df(iqt,endpoint=None):
 def v4qry(var,qt):
     "var + query-type 2 df"
     sqs = eval("get_" + qt + "_txt()") #get_  _txt   fncs, are above
+    if not is_str(sqs):
+        print('f4qry get_ {qt} _txt() gave; {sqs}, so aborting')
+        return ""
     iqt = v2iqt(var,sqs)
     #add2log(iqt) #logged in next fnc
     return iqt2df(iqt)
