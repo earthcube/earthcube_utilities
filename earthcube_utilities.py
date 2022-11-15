@@ -3,6 +3,7 @@
 #=this is also at gitlab now, but won't get autoloaded until in github or allow for gitlab_repo
  #but for cutting edge can just get the file from the test server, so can use: get_ec()
 dbg=None #can use w/logging as well soon, once there is more need&time
+f_nt=None #the .nt file last downloaded
 rdf_inited,rdflib_inited,sparql_inited=None,None,None
 endpoint=None
 #keep these more in sync ;could have a dict for each setup
@@ -10,7 +11,9 @@ repo_name="geocodes_demo_datasets" #for testing
 #testing_bucket="citesting" #or bucket_name
 #testing_bucket="test3" #or bucket_name
 testing_bucket="mbci2" #using this vs what send in in places/fix this
-ci_url=f'https://oss.geocodes-dev.earthcube.org/{testing_bucket}'
+ci_minio="https://oss.geocodes-dev.earthcube.org"
+#ci_url=f'https://oss.geocodes-dev.earthcube.org/{testing_bucket}'
+ci_url=f'{ci_minio}/{testing_bucket}' #better to have a fnc set it
 bucket_url=f'https://oss.geocodes-dev.earthcube.org/{testing_bucket}' #use in oss
 #testing_endpoint="http://ideational.ddns.net:3030/geocodes_demo_datasets/sparql"
 testing_endpoint=f'http://ideational.ddns.net:3030/{repo_name}/sparql'
@@ -23,8 +26,9 @@ mb_endpoint = "http://24.13.90.91:9999/bigdata/namespace/nabu/sparql"
 ncsa_endpoint_old = "http://mbobak.ncsa.illinois.edu:9999/blazegraph/namespace/nabu/sparql"
 ncsa_endpoint_ = "https://mbobak.ncsa.illinois.edu:9999/blazegraph/namespace/nabu/sparql"
 ncsa_endpoint = "https://mbobak.ncsa.illinois.edu:9999/bigdata/namespace/ld/sparql"
-gc1_endpoint = "https://graph.geocodes-1.earthcube.org/blazegraph/namespace/earthcube/sparql"
 dev_https_endpoint="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/https/sparql"
+gc1_endpoint = "https://graph.geocodes-1.earthcube.org/blazegraph/namespace/earthcube/sparql"
+gc1_minio = "https://oss.geocodes-1.earthcube.org/"
 #dflt_endpoint = ncsa_endpoint
 #dflt_endpoint = "https://graph.geodex.org/blazegraph/namespace/nabu/sparql"
 dflt_endpoint = gc1_endpoint
@@ -126,6 +130,7 @@ import os
 import sys
 import json
 IN_COLAB = 'google.colab' in sys.modules
+cwd = os.getcwd()
 
 def falsep(val):
     return val == False
@@ -1033,6 +1038,19 @@ def oss_ls(path='test3/summoned',full_path=True,minio_endpoint_url="https://oss.
 #['test3/summoned/geocodes_demo_datasets/257108e0760f96ef7a480e1d357bcf8720cd11e4.jsonld', 'test3/summoned/geocodes_demo_datasets/261c022db9edea9e4fc025987f1826ee7a704f06.jsonld', 'test3/summoned/geocodes_demo_datasets/7435cba44745748adfe80192c389f77d66d0e909.jsonld', 'test3/summoned/geocodes_demo_datasets/9cf121358068c7e7f997de84fafc988083b72877.jsonld', 'test3/summoned/geocodes_demo_datasets/b2fb074695be7e40d5ad5d524d92bba32325249b.jsonld', 'test3/summoned/geocodes_demo_datasets/c752617ea91a725643d337a117bd13386eae3203.jsonld', 'test3/summoned/geocodes_demo_datasets/ce020471830dc75cb1639eae403a883f9072bb60.jsonld', 'test3/summoned/geocodes_demo_datasets/fcc47ef4c3b1d0429d00f6fb4be5e506a7a3b699.jsonld', 'test3/summoned/geocodes_demo_datasets/fe3c7c4f7ca08495b8962e079920c06676d5a166.jsonld']
 #>>> 
 
+def wget_oss_repo(repo=None,path="gleaner/milled",bucket=gc1_minio):
+    "download all the rdf from a gleaner bucket"
+    if not repo:
+        global cwd
+        repo=cwd
+        print(f'using, repo:{repo}=cwd') #as 2nq.py will use cwd for repo, if it runs .rdf files
+    files=oss_ls(f'{path}/{repo}',True,bucket)
+    #print(f'will wget:{files}')
+    for f in files:
+        print(f'will wget:{f}')
+        wget(f)
+    return files
+
 def setup_sitemap(): #do this by hand for now
     cs='pip install ultimate_sitemap_parser' #assume done rarely, once/session 
     os_system(cs) #get rid of top one soon
@@ -1284,6 +1302,7 @@ def rdf2nt(urlroot_):
     fn1 = urlroot + ".rdf"
     fn2 = urlroot + ".nt" #more specificially, what is really in it
     #cs= f'mv {fn1} {fn2}' #makes easier to load into rdflib..eg: #&2 read into df
+    print(f'rdf2nt,fn1:{fn1}')
     cs= f'cat {fn1}|sed "/> /s//>\t/g"|sed "/ </s//\t</g"|sed "/doi:/s//DOI:/g"|cat>{fn2}'
     os_system(cs)   #fix .nt so .dot is better ;eg. w/doi
     f_nt=fn2
@@ -1309,6 +1328,7 @@ def cap_http(url):
 
 def cap_doi(url):
     "<doi>"
+    #if url.lower().startswith("doi:"):
     if url.startswith("doi:"):
         return f'<{url}>'
     elif url.startswith("DOI:"):
@@ -1353,7 +1373,6 @@ def df2nt(df,fn=None):
         #s=row['s']
         s=df["s"][index]
         s=fix_url(s)
-        s=fix_url(s)
         p=df["p"][index]
         p=fix_url(p)
         o=df["o"][index]
@@ -1381,10 +1400,38 @@ def get_rdf2nt(urn):
     "get and rdf2nt" #rdf2nt was getting around df's naming, will be glad to get away from that cache
     df=get_rdf(urn)
     fn2=urn_leaf(urn) # + ".nt" 
-    append2allnt(fn2)
+    #append2allnt(fn2) #file not made yet, done during ec.viz() call
+    if not is_str(fn2):
+        print(f'get_rdf2nt,warning,fn2:{fn2}, make sure to run the Parameters cell to get the urn')
+        fn2=""
     fn2 = fn2 + ".nt"
+    global f_nt
+    f_nt = fn2
     return df2nt(df,fn2) #seems to work w/a test urn
     #return df2nt(df)
+##
+#added warning bc saw eval'd params that still had urn as None, so re-ran it, and was ok
+##
+#have a version that returns jsonld, via file, then maybe more directly for a route
+ #I have versions that build something up in a str(2nq)for rdflib, can do that..
+ #for file version:
+  #nt2g then dump in diff version, there are a few from url/file to jsonld as well
+   #xml2nt &variants have use of serialize
+def nt2jld(fn):
+    "load .nt and convert2 jsonld"
+    g=nt2g(fn)
+    s=g.serialize(format="json-ld") 
+    fnb=file_base(fn)
+    fnt=fnb+".jsonld" 
+    put_txtfile(fnt,s)
+    return fnt
+
+def get_rdf2jld(urn):
+    "get_graph 2 nt then 2 jsonld"
+    df=get_rdf2nt(urn)
+    #fn2=urn_leaf(urn) # + ".nt" 
+    fn2=urn_leaf(urn)  + ".nt" 
+    return nt2jld(fn2)
 ##
 #take urn2uri out of this, but have to return a few vars
 def wget_rdf(urn,viz=None):
@@ -1392,6 +1439,7 @@ def wget_rdf(urn,viz=None):
         #if sparql_inited==None:
         if not sparql_inited:
             init_sparql()
+        print(f'get_rdf2nt({urn})')
         return get_rdf2nt(urn) #use get_graph version for now
     if urn==None:
         return f'no-urn:{urn}'
@@ -1566,6 +1614,7 @@ def nt2dn(fn=f_nt,n=1):
     ".nt to d#.nt where n=#, w/http/s schema.org all as dcat" 
     fdn= f'd{n}.nt'
     #fnd=dfn(fn) #maybe gen fn from int
+    print(f'nt2nd,fn:{fn}')
     cs=f'cat {fn}|sed "/ht*[ps]:..schema.org./s//http:\/\/www.w3.org\/ns\/dcat#/g"|cat>{fdn}'  #FIX
     os_system(cs) #this makes queries a LOT easier
     return fdn
@@ -1691,6 +1740,8 @@ def display_svg(fn):
     display(SVG(fn))
 
 def append2allnt(fnb):
+    if dbg: 
+        print(f'append2allnt,fnb:{fnb}')
     cs= f'cat {fnb}.nt >> .all.nt'
     os_system(cs) 
 
@@ -1727,7 +1778,8 @@ def viz(fn=".all.nt"): #might call this rdf_viz once we get some other type of v
 #should change os version of wget to request so can more easily log the return code
  #maybe, but this is easiest way to get the file locally to have to use
   #though if we use a kglab/sublib or other that puts right to graph, could dump from that too
-host = "http://141.142.218.86:3031"
+#host = "http://141.142.218.86:3031"
+host = "http://mbobak.ncsa.illinois.edu:3031"
 #import requests
 
 def alive():
@@ -1737,8 +1789,13 @@ def alive():
 
 def log_msg(url): #in mknb.py logbad routed expects 'url' but can encode things
     import requests
-    r = requests.get(f'{host}/logbad/?url={url}')
-    return r 
+    ##r = requests.get(f'{host}/logbad/?url={url}')
+    get=f'{host}/logbad/?url={url}'
+    #had old url, but should be in sync w/ui url, and don't really need this, so
+    #r = requests.get(get) #skip remote logging for now, &just do locally:
+    add2log(get)
+    #return r 
+    return "" 
 
 #add 'rty'/error handling, which will incl sending bad-download links back to mknp.py
  #log in the except sections, below
@@ -1939,6 +1996,8 @@ def iqt2df(iqt,endpoint=None):
 
 def v4qry(var,qt):
     "var + query-type 2 df"
+    if not var:
+        var=""
     sqs = eval("get_" + qt + "_txt()") #get_  _txt   fncs, are above
     if not is_str(sqs):
         print('f4qry get_ {qt} _txt() gave; {sqs}, so aborting')
@@ -1977,7 +2036,7 @@ def get_graph(g):
     "return all triples from g w/URN"
     return v4qry(g,"graph")
 
-def get_summary(g): #g not used but could make a version that gets it for only 1 graph
+def get_summary(g=""): #g not used but could make a version that gets it for only 1 graph
     "return summary version of all the graphs quads"
     return v4qry(g,"summary")
 
@@ -2318,7 +2377,7 @@ def riot2nq(fn):
                 fd_out.write('\n')
     return fn2
 
-def to_nq(fn):
+def to_nq(fn,prefix=None):
     "process .jsonld put out .nq"
     fnb = file_base(fn)
     fn2 = fnb + ".nq"
@@ -2339,6 +2398,7 @@ def to_nq(fn):
                 fd_out.write('\n')
     return fn2
 
+#this seems to be out of sync w/2nq.py, fix
 def fn2nq(fn): #if is_http wget and call self again/tranfrom input
     "output fn as .nq"
     if is_http(fn):
@@ -2347,6 +2407,13 @@ def fn2nq(fn): #if is_http wget and call self again/tranfrom input
     ext = file_ext(fn)
     print(f'2nq file_ext:{ext}')
     fn2="Not Found"
+  # if ext==".rdf": #df's idea for .nt files
+  #     #print(f'cwd:{cwd}')
+  #     repo=path_leaf(cwd)
+  #     #print(f'repo:{repo}')
+  #     prefix=f'gleaner:summoned:{repo}'
+  #     print(f'prefix:{prefix}')
+  #     fn2=fn2nq(fn,prefix)
     if ext==".nt":
         fn2=fn2nq(fn)
     if ext==".jsonld":
@@ -2377,6 +2444,7 @@ def summoned2nq(s=None):
     os_system(f'echo ""> {fnout}')
     nql=list(map(fn2nq,s))
     for nq in nql:
+        print(f'summoned2nq,nq:{nq}')
         os_system(f'cat {nq}>>{fnout}')
     return fnout
 
