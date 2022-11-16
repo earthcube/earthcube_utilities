@@ -1041,14 +1041,21 @@ def oss_ls(path='test3/summoned',full_path=True,minio_endpoint_url="https://oss.
 def wget_oss_repo(repo=None,path="gleaner/milled",bucket=gc1_minio):
     "download all the rdf from a gleaner bucket"
     if not repo:
-        global cwd
-        repo=cwd
-        print(f'using, repo:{repo}=cwd') #as 2nq.py will use cwd for repo, if it runs .rdf files
+        global cwd  #I like having it go from the dirname, so files don't get mixed up
+        repo=path_leaf(cwd)
+        print(f'using, repo:{repo}=path_leaf({cwd})') #as 2nq.py will use cwd for repo, if it runs .rdf files
     files=oss_ls(f'{path}/{repo}',True,bucket)
     #print(f'will wget:{files}')
     for f in files:
-        print(f'will wget:{f}')
-        wget(f)
+        fl=path_leaf(f)
+        from os.path import exists #can check if cached file there
+        if not exists(fl):
+            print(f'will wget:{f}')
+            wget(f)
+        else:
+            print(f'have:{fl} already')
+    if dbg: #might dump this all time, or by arg
+        list2txtfile("l1h",files)
     return files
 
 def setup_sitemap(): #do this by hand for now
@@ -1291,6 +1298,7 @@ def urn2urls(urn): #from wget_rdf, replace w/this call soon
 
 #only urls of rdf not downloadable yet
 def urn2fnt(urn):
+    "urn to end of rdf url as name for .nt file"
     rdf_urls=urn2urls(urn)
     fnt=file_base(path_leaf(rdf_urls[0])) + ".nt"
     return fnt
@@ -1309,7 +1317,8 @@ def rdf2nt(urlroot_):
     return fn2
 ##
 def is_node(url): #not yet
-    return (url.startswith("<") or url.startswith("_:B"))
+    #return (url.startswith("<") or url.startswith("_:B")) #a <p> slipped in
+    return (url.startswith("<ht") or url.startswith("_:B"))
 
 #def is_tn(url):
 def tn2bn(url):
@@ -1387,8 +1396,8 @@ def df2nt(df,fn=None):
         #need to finish up w/dumping to a file
     return df
 
-def get_rdf(urn,viz=None):
-    "start of replacement for wget_rdf" #that doesn't need the ld cache
+def get_rdf(urn,viz=None): #get graph 
+    "get_graph as df, start of replacement for wget_rdf" #that doesn't need the ld cache
     df=get_graph(urn)
     df2nt(df)
     if viz: #should fix this below 
@@ -1426,12 +1435,28 @@ def nt2jld(fn):
     put_txtfile(fnt,s)
     return fnt
 
+def nt2ttl(fn):
+    "load .nt and convert2 .ttl"
+    g=nt2g(fn)
+    s=g.serialize(format="ttl") 
+    fnb=file_base(fn)
+    fnt=fnb+".ttl" 
+    put_txtfile(fnt,s)
+    return fnt
+
 def get_rdf2jld(urn):
     "get_graph 2 nt then 2 jsonld"
     df=get_rdf2nt(urn)
     #fn2=urn_leaf(urn) # + ".nt" 
     fn2=urn_leaf(urn)  + ".nt" 
     return nt2jld(fn2)
+
+def get_rdf2ttl(urn):
+    "get_graph 2 nt then 2 ttl"
+    df=get_rdf2nt(urn)
+    #fn2=urn_leaf(urn) # + ".nt" 
+    fn2=urn_leaf(urn)  + ".nt" 
+    return nt2ttl(fn2)
 ##
 #take urn2uri out of this, but have to return a few vars
 def wget_rdf(urn,viz=None):
@@ -2042,6 +2067,8 @@ def get_summary(g=""): #g not used but could make a version that gets it for onl
 
 
 #summary_endpoint = dflt_endpoint.replace("earthcube","summary")
+ #for now, but will have to check, at times
+ #no 2nd change, all vars should be the same from the summary
 #def txt_query_(q,endpoint=None):
 def txt_query_(q,endpoint=None):
     "or can just reset dflt_endpoint"
