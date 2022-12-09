@@ -32,7 +32,7 @@ gc1_minio = "https://oss.geocodes-1.earthcube.org/"
 #dflt_endpoint = ncsa_endpoint
 #dflt_endpoint = "https://graph.geodex.org/blazegraph/namespace/nabu/sparql"
 dflt_endpoint = gc1_endpoint
-summary_endpoint = dflt_endpoint.replace("earthcube","summary")
+summary_endpoint = dflt_endpoint.replace("earthcube","summary") #can't always just switch
 #from 'sources' gSheet: can use for repo:file_leaf naming/printing
 base_url2repo ={"https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/main/metadata/Dataset/json": "geocodes_demo_datasets",
         "https://raw.githubusercontent.com/earthcube/GeoCODES-Metadata/main/metadata/Dataset/allgood": "geocodes_demo_datasets",
@@ -143,6 +143,15 @@ if falsep(IN_COLAB):
     print("not IN_COLAB")
     #local()
     laptop()
+
+def ndtq_(name=None,datasets=None,queries=None,tools=None):
+    "force colab version, best for cli"
+    n=json.loads(name)
+    d=json.loads(datasets)
+    t=json.loads(tools)
+    Q=json.loads(queries)
+    print(f'n={n},d={d},q={Q},t={t}')
+    return n,d,t,Q
 
 def ndtq(name=None,datasets=None,queries=None,tools=None):
   "get collection args for colab or binder"
@@ -721,8 +730,35 @@ def get_download_txt(url="https://raw.githubusercontent.com/earthcube/facetsearc
 def get_notebook_txt(url="https://raw.githubusercontent.com/MBcode/ec/master/NoteBook/sparql_gettools_notebook.txt"):
     return get_ec_txt(url)
 
+#in feat_summary:
+#def get_query_txt(url="https://raw.githubusercontent.com/earthcube/facetsearch/master/client/src/sparql_blaze/sparql_query.txt"):
 def get_query_txt(url="https://raw.githubusercontent.com/MBcode/ec/master/NoteBook/sparql-query.txt"):
     return get_ec_txt(url)
+
+#def get_summary_query_txt(url="https://raw.githubusercontent.com/earthcube/facetsearch/master/client/src/sparql_blaze/sparql_query.txt"): #had limit at end
+def get_summary_query_txt(url="http://mbobak.ncsa.illinois.edu/ec/nb/sparql_blaze.txt"):
+    #return get_ec_txt(url)  #start to use this in the sparql-nb txt_query
+    return """PREFIX bds: <http://www.bigdata.com/rdf/search#>
+ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+ prefix schema: <https://schema.org/>
+ SELECT distinct ?g ?pubname ?placenames ?kw  ?datep
+        (MAX(?score1) as ?score)  ?name ?description ?resourceType
+          WHERE {
+            ?lit bds:search "${q}" .
+            ?lit bds:matchAllTerms false .
+            ?lit bds:relevance ?score1 .
+            ?lit bds:minRelevance 0.14 .
+            ?g ?p ?lit .
+        ?g schema:name ?name .
+        ?g schema:description ?description .
+ BIND (IF (exists {?g a schema:Dataset .}  , "data", "tool") AS ?resourceType).
+ OPTIONAL {?g schema:date ?datep .}
+ OPTIONAL {?g schema:publisher ?pubname .}
+ OPTIONAL {?g schema:place ?placenames .}
+ OPTIONAL {?g schema:keywords ?kw .} }
+ GROUP BY ?g ?pubname ?placenames ?kw ?datep ?disurl ?score ?name ?description  ?resourceType
+         ORDER BY DESC(?score)"""
 
 def get_subj2urn_txt(url="http://geocodes.ddns.net/ec/nb/sparql_subj2urn.txt"):
     #return get_ec_txt(url)
@@ -740,8 +776,10 @@ def get_graph_txt(url="http://geocodes.ddns.net/ec/nb/get_graph.txt"):
     return "SELECT distinct ?s ?p ?o  WHERE { graph ?g {?s ?p ?o} filter(?g = <${q}>)}" #there will be a better way
     #return "describe <${q}>)}" #similar but can't do this    #also want where can ask for format as jsonld for ui
     #consider ret CONSTRUCT from a direct match vs filter
+    #I'm ok w/filter given the changing URNs taking a subset should still return something
 
 def get_summary_txt(url="http://geocodes.ddns.net/ec/nb/get_summary.txt"):
+    "this is to make a summary, not to do a qry on the summary"
     return get_ec_txt(url)
 
 ## so/eg. this last one is where get_graph(g) calls v4qry(g,"graph")
@@ -1458,14 +1496,25 @@ def get_rdf2ttl(urn):
     fn2=urn_leaf(urn)  + ".nt" 
     return nt2ttl(fn2)
 ##
-#take urn2uri out of this, but have to return a few vars
 def wget_rdf(urn,viz=None):
+    "new version to get_rdf from the endpoint"
     if not viz:
         #if sparql_inited==None:
         if not sparql_inited:
             init_sparql()
         print(f'get_rdf2nt({urn})')
         return get_rdf2nt(urn) #use get_graph version for now
+    else:
+        return wget_rdf_(urn,viz)
+#take urn2uri out of this, but have to return a few vars
+def wget_rdf_(urn,viz=None):
+    "old version, still wget's from the urn" #as long as the mapping fnc does not change again
+    if not viz:
+        #if sparql_inited==None:
+        if not sparql_inited:
+            init_sparql()
+      # print(f'get_rdf2nt({urn})') #tried new version here 1st, but want option for old too
+      # return get_rdf2nt(urn) #use get_graph version for now
     if urn==None:
         return f'no-urn:{urn}'
     #if(urn!=None and urn.startswith('urn:')):
@@ -1752,6 +1801,7 @@ def nt2svg(fnb):
     os_system(cs) 
     cs= f'dot -Tsvg {fnb}.dot |cat> {fnb}.svg'
     os_system(cs)
+    #could spit out nt2dot and dot2svg, and check if output file exists, so wouldn't have to make it again
 
 #re/consider running sed "/https/s//http/g" on the .nt file, as an option, 
  #for cases were it's use as part of the namespace is inconsistent
@@ -1764,7 +1814,14 @@ def display_svg(fn):
     from IPython.display import SVG, display
     display(SVG(fn))
 
-def append2allnt(fnb):
+#def append2allnt(fnb): #in_colab no .all.nt to start w/
+def append2allnt(fnb=None):
+    "append to default viz file"
+    if has_ext(fnb): #bc not switching .ext could just give full name
+        fnb=file_base(fnb)
+    if not fnb:
+        global f_nt #the current .nt file being looked at
+        fnb=file_base(f_nt)
     if dbg: 
         print(f'append2allnt,fnb:{fnb}')
     cs= f'cat {fnb}.nt >> .all.nt'
@@ -1857,12 +1914,20 @@ def nt2ft(url): #could also use rdflib, but will wait till doing other queries a
     else:
         return None
 
-def file_type(fn):
-    from os.path import exists 
+def file_type(fn): #w/unzip it can be a dir; so fix
+    from os.path import exists, isdir, isfile 
     import magic
+  # if exists(fn):
+  #     add2log(magic.from_file(fn))
+  #     mt=magic.from_file(fn, mime = True)
     if exists(fn):
-        add2log(magic.from_file(fn))
-        mt=magic.from_file(fn, mime = True)
+        if isfile(fn):
+            add2log(magic.from_file(fn))
+            mt=magic.from_file(fn, mime = True)
+        elif isdir(fn):
+            mt="is a dir"
+        else:
+            mt="exists, but not file or dir"
     else:
         mt="file not found"
     add2log(f'{fn},mime:{mt}')
@@ -2065,6 +2130,13 @@ def get_summary(g=""): #g not used but could make a version that gets it for onl
     "return summary version of all the graphs quads"
     return v4qry(g,"summary")
 
+#def get_summary_query(g=""): #g not used but could make a version that gets it for only 1 graph
+#search_query above, should now use this
+def summary_query(g=""): #this is finally used in: txt_query_summary
+    "replacement txt_query of new summary namespace" #or summary2/etc check
+    return v4qry(g,"summary_query") #could call this the fast_query
+
+
 
 #summary_endpoint = dflt_endpoint.replace("earthcube","summary")
  #for now, but will have to check, at times
@@ -2077,9 +2149,10 @@ def txt_query_(q,endpoint=None):
         df=txt_query(q)
     elif endpoint=="summary": #1st try for summary query
         save = dflt_endpoint #but do not do till can switch the qry as well
-        dflt_endpoint = dflt_endpoint.replace("earthcube","summary")
+        dflt_endpoint = dflt_endpoint.replace("/earthcube/","/summary2/")
         print(f'summary:txt_query,w/:{dflt_endpoint}')
-        df=txt_query(q)
+        #df=txt_query(q)
+        df=summary_query(q)
         dflt_endpoint = save
     else:
         save = dflt_endpoint
@@ -2088,6 +2161,9 @@ def txt_query_(q,endpoint=None):
         df=txt_query(q)
         dflt_endpoint = save
     return df
+
+def txt_query_summary(q): #might need to switch qry as well, to gs.txt
+    return txt_query_(q,"summary")
 
 #def get_graphs_list(endpoint=None):
 def get_graphs_list(endpoint=None,dump_file=None):
@@ -2242,7 +2318,7 @@ def dfCombineFeaturesSimilary(df, features = ['kw','name','description','pubname
 #then get_related_indices(row)
 #=I should also write other fnc to access rows of txt_query df returns, to get possible donwloads
 def test_related(q,row=0): #eg "Norway"
-    df=txt_query(q)
+    df=txt_query(q) #this should use summary soon too
     dfCombineFeaturesSimilary(df)
     return get_related_indices(row)
 #but sparql-nd will already have the df calculated, so just do the similarity-matrix for it once, 
