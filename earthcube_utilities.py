@@ -1414,6 +1414,7 @@ def fix_url(url):
 def df2nt(df,fn=None):
     "print out df as .nt file"
     import json
+    nt_str=""
     if fn:
         put_txtfile(fn,"")
     for index, row in df.iterrows():
@@ -1429,19 +1430,44 @@ def df2nt(df,fn=None):
         str3=f'{s} {p} {o} .\n'
         if dbg:
             print(str3)
+        #else:
+        nt_str += str3
         if fn:
             put_txtfile(fn,str3,"a")
         #need to finish up w/dumping to a file
-    return df
+    return df, nt_str
 
 def get_rdf(urn,viz=None): #get graph 
     "get_graph as df, start of replacement for wget_rdf" #that doesn't need the ld cache
     df=get_graph(urn)
-    df2nt(df)
+    dfo,nt_str=df2nt(df)
     if viz: #should fix this below 
         fn2=urn_leaf(urn) + ".nt" #try tail
         rdflib_viz(fn2) #find out if can viz later as well via hidden .nt file
-    return df #already returns the same as wget_rdf
+    #return df #already returns the same as wget_rdf
+    return df, nt_str #now str version of the .nt file as well
+
+def get_rdf2nt_str(urn): #get graph 
+    "get_graph as nt string" #that doesn't need the ld cache
+    df=get_graph(urn)
+    dfo,nt_str=df2nt(df)
+    return nt_str #use for get_rdf2jld _str
+
+def get_rdf2jld_str(urn):
+    "get jsonld from endpoint" #for get_graph_jld route
+    nt_str= get_rdf2nt_str(urn) #only strings no files
+    g= nt_str2g(nt_str) #like nt2g
+    jld_str = g.serialize(format="json-ld") #from nt2jld
+    return compact_jld_str(jld_str)
+
+def compact_jld_str(jld_str):
+    from pyld import jsonld
+    import json
+    context = { "@vocab": "https://schema.org/"}
+    doc = json.loads(jld_str)
+    compacted = jsonld.compact(doc, context)
+    r = json.dumps(compacted, indent=2)
+    return r
 
 def get_rdf2nt(urn):
     "get and rdf2nt" #rdf2nt was getting around df's naming, will be glad to get away from that cache
@@ -1723,6 +1749,22 @@ def nt2g(fnt):
     data = open(fnt, "rb") #or get_textfile -no
     g.parse(data, format="ntriples")
     return g
+
+def nt_str2g(nt_str): 
+    "nt2g w/str input"
+    #from rdflib import ConjunctiveGraph #might just install rdflib right away
+    from rdflib import Graph 
+    import io
+    #g = ConjunctiveGraph(identifier=fnt)
+    g = Graph()
+    ##data = open(fnt, "rb") #or get_textfile -no
+    #data = io.StringIO(nt_str)
+    print(f'data={nt_str}') #TypeError: can't concat str to bytes
+    #g.parse(data, format="ntriples")
+    g.parse(data=nt_str, format="ntriples")
+    return g
+#get_rdf2jld_str("urn:gleaner:summoned:lipdverse:509e465d0793506b237cea8069c3cb2d276fe9c2")
+#data=<_io.StringIO object at 0x104a89a60>
 
 #def diff_nt(fn1,fn2):
 def diff_nt_g(fn1,fn2):
