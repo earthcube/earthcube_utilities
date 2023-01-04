@@ -824,11 +824,12 @@ def wget_ft(fn,ft):
     return fs
 
 #rdflib_inited=None
-def init_rdflib():
+def init_rdflib(): #maybe combine w/init_sparql
     #cs='pip install rdflib networkx'
     #cs='pip install rdflib networkx extruct' 
     #cs='pip install rdflib rdflib-jsonld networkx extruct' 
-    cs='pip install rdflib rdflib-jsonld networkx extruct python-magic' 
+    #cs='pip install rdflib rdflib-jsonld networkx extruct python-magic' 
+    cs='pip install rdflib networkx extruct python-magic pyld' 
     os_system(cs)
     rdflib_inited=cs
 
@@ -1457,7 +1458,7 @@ def get_rdf2jld_str(urn):
     "get jsonld from endpoint" #for get_graph_jld route
     nt_str= get_rdf2nt_str(urn) #only strings no files
     g= nt_str2g(nt_str) #like nt2g
-    jld_str = g.serialize(format="json-ld") #from nt2jld
+    jld_str = g.serialize(format="json-ld") #from nt2jld #shouldn't need rdflib-jsonld
     return compact_jld_str(jld_str)
 
 def compact_jld_str(jld_str):
@@ -1596,9 +1597,9 @@ def init_rdf():
 #should just put sparql init in w/rdf _init, as not that much more work
 
 #sparql_inited=None
-def init_sparql():
+def init_sparql(): #maybe combine w/init_rdflib
     #cs='pip install sparqldataframe simplejson'
-    cs='pip install sparqldataframe simplejson owlready2'
+    cs='pip install sparqldataframe simplejson owlready2 pyld'
     os_system(cs)
     sparql_inited=cs
     ##get_ec("http://mbobak-ofc.ncsa.illinois.edu/ext/ec/nb/sparql-query.txt")
