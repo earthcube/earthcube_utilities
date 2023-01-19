@@ -1,0 +1,16 @@
+
+requests
+rdflib
+rdflib-jsonld
+networkx
+extruct
+sparqldataframe
+simplejson
+
+matplotlib
+owlready2
+IPython
+pandas
+ipyparams
+logging
+xmltodict
