@@ -12,10 +12,20 @@ https://hub.docker.com/repository/docker/nsfearthcube/mknb
 
 See README.md in src/notebook_proxy
 
+There is no pypi package, since this is code that runs in a docker container/local server
+
 ### Earthcube Utilties:
 https://test.pypi.org/project/earthcube-utilities/
 (presently test.pypi)
 
 python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube-utilities
 
-The notebooks (presenly on master_dataformats) contain example usage.
+DOCUMENTATION IS NEEDED.
+
+### Earthcube Utility Summarize:
+https://test.pypi.org/project/earthcube-utility-summarize/
+(presently test.pypi)
+
+python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube-utility-summarize
+
+
