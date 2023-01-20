@@ -12,6 +12,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/notebook_proxy
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
