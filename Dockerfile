@@ -4,7 +4,7 @@ FROM python
 
 
 WORKDIR /app
-COPY ../src/notebook_proxy/ /app
+COPY ../notebook_proxy/ /app
 #COPY ./requirements_mknb.txt /app/requirements.txt
 RUN pip3 install -r requirements.txt
 

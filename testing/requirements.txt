@@ -1,4 +1,3 @@
-
 requests
 rdflib
 rdflib-jsonld
@@ -12,5 +11,6 @@ owlready2
 IPython
 pandas
 ipyparams
-logging
+
 xmltodict
+minio

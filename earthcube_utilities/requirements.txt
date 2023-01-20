@@ -12,5 +12,4 @@ owlready2
 IPython
 pandas
 ipyparams
-logging
 xmltodict
