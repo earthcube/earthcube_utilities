@@ -11,7 +11,7 @@ jobs:
         python-version: [3.8,3.9]
     defaults:
       run:
-        working-directory: src/notebook_proxy
+        working-directory: notebook_proxy
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
@@ -40,7 +40,7 @@ jobs:
           python-version: [3.8,3.9]
       defaults:
         run:
-          working-directory: src/earthcube_utilities
+          working-directory: earthcube_utilities
       steps:
         - uses: actions/checkout@v3
         - name: Set up Python ${{ matrix.python-version }}
@@ -69,7 +69,7 @@ jobs:
         python-version: [ 3.8,3.9 ]
     defaults:
       run:
-        working-directory: src/summarize
+        working-directory: summarize
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
