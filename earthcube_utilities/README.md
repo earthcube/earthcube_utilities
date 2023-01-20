@@ -6,13 +6,6 @@
 ### also an (upcoming) infrastructure enhancement [update](https://mbcode.github.io/ec/)
 ### Please try the  [search](https://geocodes.earthcube.org/) & click on it's feedback, incl for use-case that we can try to attain 
 
-## Artifacts
-### Notebook Proxy:
-https://hub.docker.com/repository/docker/nsfearthcube/mknb
-
-See README.md in src/notebook_proxy
-
-There is no pypi package, since this is code that runs in a docker container/local server
 
 ### Earthcube Utilties:
 https://test.pypi.org/project/earthcube-utilities/
@@ -20,12 +13,4 @@ https://test.pypi.org/project/earthcube-utilities/
 
 python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube-utilities
 
-DOCUMENTATION IS NEEDED.
-
-### Earthcube Utility Summarize:
-https://test.pypi.org/project/earthcube-utility-summarize/
-(presently test.pypi)
-
-python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube-utility-summarize
-
-
+The notebooks (presenly on master_dataformats) contain example usage.

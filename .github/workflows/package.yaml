@@ -2,31 +2,80 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-
-name: Upload Python Package
+# pacakge the earhtcube utilities, and summarize codebases
+#  do not need to package the notebook proxy, since it runs in a container.
+name: Upload Python Package On PUBLISH
 
 on:
   release:
     types: [published]
 
 jobs:
-  deploy:
+  deploy_summarize:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: summarize
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install build
-      - name: Build package
-        run: python -m build
+      - name: Install pypa/build
+        run: >-
+          python -m
+          pip install
+          build
+          --user
+      - name: Build a binary wheel and a source tarball
+        run: >-
+          python -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
       - name: Publish package
-        uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          password: ${{ secrets.TEST_PYPI_SUMMARIZE }}
           repository_url: https://test.pypi.org/legacy/
+          packages_dir: summarize/dist
+  deploy_utilities:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: earthcube_utilities
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+      - name: Install pypa/build
+        run: >-
+          python -m
+          pip install
+          build
+          --user
+      - name: Build a binary wheel and a source tarball
+        run: >-
+          python -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.TEST_PYPI_UTILITIES }}
+          repository_url: https://test.pypi.org/legacy/
+          packages_dir: earthcube_utilities/dist

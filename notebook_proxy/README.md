@@ -2,6 +2,10 @@
 This proxy creates a notebook in Google Collab from a template. The parameters extracted from the Scicence on Schema JSON-LD files, and sent to the proxy
 /mknb
 
+For testing, running locally works well.
+
+In production, a container is utilized. This is created by a github workflow, (containerize.yaml)
+
 ## Calling the Notebook Proxy
 
  http://localhost:3031/ should return the index.html
