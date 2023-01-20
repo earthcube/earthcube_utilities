@@ -4,7 +4,7 @@
 # documentation.
 # pacakge the earhtcube utilities, and summarize codebases
 #  do not need to package the notebook proxy, since it runs in a container.
-name: Upload Python Package
+name: Upload Python Package On PUBLISH
 
 on:
   release:

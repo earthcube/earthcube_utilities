@@ -1,4 +1,4 @@
-name: Python Build and Lint
+name: Python Build and Lint ON PUSH
 
 on: [push]
 
