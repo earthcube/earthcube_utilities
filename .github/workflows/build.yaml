@@ -13,9 +13,9 @@ jobs:
       run:
         working-directory: src/notebook_proxy
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -42,9 +42,9 @@ jobs:
         run:
           working-directory: src/earthcube_utilities
       steps:
-        - uses: actions/checkout@v2
+        - uses: actions/checkout@v3
         - name: Set up Python ${{ matrix.python-version }}
-          uses: actions/setup-python@v2
+          uses: actions/setup-python@v4
           with:
             python-version: ${{ matrix.python-version }}
         - name: Install dependencies
@@ -71,9 +71,9 @@ jobs:
       run:
         working-directory: src/summarize
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
