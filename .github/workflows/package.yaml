@@ -44,6 +44,7 @@ jobs:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
+          packages_dir: summarize/dist
   deploy_utilities:
     runs-on: ubuntu-latest
     defaults:
@@ -77,3 +78,4 @@ jobs:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
+          packages_dir: earthcube_utilities/dist
