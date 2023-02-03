@@ -3,7 +3,7 @@
 ## Overview
 
 Steps:
-1. Insure that a gleaner crawl has already been done, and you have the location of it's buck
+1. Insure that a gleaner crawl has already been done, and you have the location of it's bucket
 2. run> repo2summary.sh repo
 
 where repo is the name of a repo directory in that crawl's bucket
