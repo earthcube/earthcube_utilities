@@ -4,12 +4,16 @@
 
 Steps:
 1. Insure that a gleaner crawl has already been done, and you have the location of it's buck
-2. Step2
-run> repo2summary.sh repo
+2. run> repo2summary.sh repo
+
 where repo is the name of a repo directory in that crawl's bucket
 
-it will call 'fix_runX.sh repo' to get all the rdf and convert it to quads
+[What it calls](https://github.com/earthcube/ec/blob/master/summary/call.md):
+
+It will call 'fix_runX.sh repo' to get all the rdf and convert it to quads
+
 then it will call 'summarize_repo.sh repo' to put it in fuseki so it can be queried and summarized
+
 producing a: repo.ttl file that can be loaded into the blazegraph summary namespace of your choice
 
 ## Example
