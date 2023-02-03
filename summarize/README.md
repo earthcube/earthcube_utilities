@@ -26,12 +26,12 @@ rdf_inited,rdflib_inited,sparql_inited=True,True,True
 will get files for earthchem in a dir named after it
 will create the earthchem dir
 cd to: cwd=/var/www/html/LD/earthchem to get the repo=earthchem to downloads files into
+
 will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/00b0ad684052b7674832f1dff8e537dbcffcbb84.rdf
 will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/00e34d1f624300099a0f72b3a33444ee4e970019.rdf
 will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/01272511a24c726c45cf9f6d2804543b081a685a.rdf
 will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/017e6dd8b16d4e102f0f3d85c3d7deedc0b23fea.rdf
-will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/02b76c2c64934dfd54c16925510a1d4823185496.rdf
-will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/037ee404dae1fbf42b491a7856b2d20fbd6b983b.rdf
+ 
 ...
 
 will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/fec94d837fe1c0c2f255e0ffd49a1e704c72bd16.rdf
@@ -52,8 +52,11 @@ found:639 rdf files
 2nq,gives:earthchem/3e6dadf0c1023922c0e791ec296c3c1e8628da7a.nq
 2nq,gives:earthchem/cbb4289de24fad2906a8e9164c7b0382619652d0.nq
 out-filename=earthchem.nq
+
 created
+
 try:http://localhost:3030/earthchem/sparql
+
 ps:['mbobak', '736052', '1', '1', '13:08', 'pts/4', '00:00:06', '/usr/lib/jvm/default-java/bin/java', '-Xmx4G', '-Dlog4j.configurationFile=/home/mbobak/dwn/ai/sw/db/jena/apache-jena-fuseki-4.6.1/log4j2.properties', '-cp', '/home/mbobak/dwn/ai/sw/db/jena/apache-jena-fuseki-4.6.1/fuseki-server.jar', 'org.apache.jena.fuseki.cmd.FusekiCmd', '--file', 'iris.nq', '/iris\n']
 pid:736052
 will kill server, from:736052
