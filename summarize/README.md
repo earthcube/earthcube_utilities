@@ -37,8 +37,11 @@ will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/017e6d
 will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/fec94d837fe1c0c2f255e0ffd49a1e704c72bd16.rdf
 will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/fee66304ce6dc4b36bb02294262f04033b3e6e17.rdf
 will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/ff277f4a4042a542fd443c8bde936cfe8a6a4de3.rdf
+
 will run over:earthchem
+
 found:640 files
+
 ['a37ce54862443b2fb1e62c91c9fb59ab2f8b3e24.rdf', 'e81b92cc8f1787f7d770ad4230658bb00b4ced50.rdf', '35c3d84f9cb38cb560fd7282860bcedc57ba78a2.rdf', '26baf57de16e4ecbe9daae4f16609ea0fe1da3f8.rdf', 
 ...
  '4bc9b6764dfbc9cbfe4386b0ee24a548f4b7b240.rdf', '69368abc14ed22a2b1eee380df7ce560031b5021.rdf', '3cdd4212b1d865c63ca6f4d1ab61f79e0d31732c.rdf', '3e6dadf0c1023922c0e791ec296c3c1e8628da7a.rdf', 'cbb4289de24fad2906a8e9164c7b0382619652d0.rdf']
@@ -51,6 +54,7 @@ found:639 rdf files
 
 2nq,gives:earthchem/3e6dadf0c1023922c0e791ec296c3c1e8628da7a.nq
 2nq,gives:earthchem/cbb4289de24fad2906a8e9164c7b0382619652d0.nq
+
 out-filename=earthchem.nq
 
 created
