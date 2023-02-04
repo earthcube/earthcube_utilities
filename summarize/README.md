@@ -7,31 +7,35 @@ performance a searches for geocodes. It basically flattens the JSONLD arrays int
 
 To do this, it reads the triples that gleaner generates as part of it's workflow, then 
 converts them into quads for uploading into a 'summary' graph namespace.
+A more detailed overview is in [Summarize](docs/summarize.md)
 
 ## Dependencies
  fuskei
  some ec library
 
 ## INSTALL
-pull repository,
-git clone 
-cd earthcube_utilities/summarize
+
+* install dependinces
+* pull repository,
+    * `git clone https://github.com/earthcube/earthcube_utilities.git`
+* `cd earthcube_utilities/summarize`
+* Run steps below
 
 ## Steps: 
-1. `cd  earthcube_utilities/summarize`
+ 
+1. if you have not, change to the summarize directory: `cd  earthcube_utilities/summarize`
 2. Insure that a gleaner crawl has already been done, and you have the location of it's bucket
-   3. gleaner needs to be configured with milled: true 
+> gleaner needs to be configured with milled: true 
 3. run> `repo2summary.sh repo`
-
-where repo is the name of a repo directory in that crawl's bucket
+> where repo is the name of a repo directory in that crawl's bucket
 
 [What it calls](docs/call.md):
 
-It will call 'fix_runX.sh repo' to get all the rdf and convert it to quads
+It will call `fix_runX.sh repo`'` to get all the rdf and convert it to quads
 
-then it will call 'summarize_repo.sh repo' to put it in fuseki so it can be queried and summarized
+then it will call `summarize_repo.sh repo`'` to put it in fuseki so it can be queried and summarized
 
-producing a: repo.ttl file that can be loaded into the blazegraph summary namespace of your choice
+producing a file {repo}.ttl that can be loaded into the blazegraph summary namespace of your choice
 
 ## Example
 
