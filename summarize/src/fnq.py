@@ -120,7 +120,8 @@ if __name__ == '__main__':
     if(len(sys.argv)>1):
         repo_ = sys.argv[1] #start of if repo was the end of a path
         repo=path_leaf(repo_) #but for now expect repo.nq around so it can make the repo.ttl summary
-        ftsp=os.getenv('fuseki_tmp_summary_port')
+        #ftsp=os.getenv('fuseki_tmp_summary_port')
+        ftsp=os.getenv('tmp_summary_port')
         if ftsp:
             print(f'changing port from {port} to {ftsp}')
             port=ftsp
