@@ -1,0 +1,45 @@
+=for last touches for summarization:
+
+▶<174 f06local: /org/summary> gred default get_repo.py
+    ec.wget_oss_repo(repo) #defaults to bucket=ncsa_minio =https://oss.geocodes.ncsa.illinois.edu/
+
+▶<177 f06local: /org/ecu> gred wget_oss_repo earthcube_utilities.py
+def wget_oss_repo(repo=None,path="gleaner/milled",bucket=gc1_minio):
+
+=so could:
+import earthcube_utilities as ec
+
+=and call with:
+wget_oss_repo(repo=None,path="gleaner/milled",bucket="https://oss.geocodes.ncsa.illinois.edu/")
+
+=assuming that is the 'bucket setup' in step 1
+
+
+==also I would like it if the 'sleep' here got longer if the .nq file that we are waiting to load got longer
+
+==> summarize_repo.sh <==
+fnq.py $1
+sleep 20
+tsum.py $1 |egrep -v "not IN_COLAB|rdf_initd"|cat>$1.ttl
+
+=which is why if tsum.py is called before it is loaded, I kept around this, to call the 2nd part
+
+==> sr2.sh <==
+#fnq.py $1
+#echo =fuseki=started=
+tsum.py $1 |egrep -v "not IN_COLAB|rdf_inited|try:http"|cat>$1.ttl
+echo =summarization=done=
+
+=Finally, I could put the ttl2blaze.sh here
+though you can still use the blazegraph dashboard to load into the summary namespace that the UI is using
+
+ =also, this process also gets a 'g' sync'd repo.nq files together, which could also be loaded
+   if you don't want to do that via the final gleaner step of running nabu 
+
+=there was a question about the 'g' that came up just for wifire
+ which was already running for the rest
+ so my suggestion is that the UI be able to take eiterh URN format
+ because really the UI shouldn't even be parsing the URN
+ it should just use it to get it via http
+  either as a url like most linked-data or via rest call to the endpoint (or via mknb2)
+ 
