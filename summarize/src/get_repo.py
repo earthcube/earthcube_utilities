@@ -6,7 +6,8 @@ import os
  #where it takes the it's filename, to turn the triples into quads w/that name
 
 def get_repo(repo):
-    import ec
+    #import ec
+    import earthcube_utilities as ec
     #I think it uses cwd for repo, but want to override that
     if not repo:
         #print(f'cwd={ec.cwd} used to be the dir you would download the repo-s files into')
@@ -21,7 +22,8 @@ def get_repo(repo):
         os.chdir(repo)
         cwd=os.getcwd()
         print(f'cd to: cwd={cwd} to get the repo={repo} to downloads files into')
-    ec.wget_oss_repo(repo) #defaults to bucket=ncsa_minio =https://oss.geocodes.ncsa.illinois.edu/
+    #ec.wget_oss_repo(repo) #defaults to bucket=ncsa_minio =https://oss.geocodes.ncsa.illinois.edu/
+    ec.wget_oss_repo(repo=None,path="gleaner/milled",bucket="https://oss.geocodes.ncsa.illinois.edu/")
 
 
 if __name__ == '__main__':

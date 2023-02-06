@@ -65,7 +65,8 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
 #print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
 #< not IN_COLAB
 #< rdf_inited,rdflib_inited,sparql_inited=True,True,True
-import ec
+#import ec
+import earthcube_utilities as ec #check that it has been updated for newer work/later
 #ec.dflt_endpoint = tmp_endpoint
 #df=ec.get_summary("")
 #all are tabbed after context
