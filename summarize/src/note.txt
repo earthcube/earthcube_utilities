@@ -1,6 +1,8 @@
 Mike Bobak
 have a branch of earthcube_utilities where I change the import, and add extra sleep for fuseki start if it is a bit file(which I’m still testing)
 
+just had to get env var: tmp_summary_port same in fnq.py and tsum.py in case fuseki already running
+
 =for last touches for summarization: putting this in ecu+sleep branch
 
 ▶<174 f06local: /org/summary> grep default get_repo.py
@@ -19,6 +21,7 @@ wget_oss_repo(repo=None,path="gleaner/milled",bucket="https://oss.geocodes.ncsa.
 
 
 ==also I would like it if the 'sleep' here got longer if the .nq file that we are waiting to load got longer
+  _new functions seem to make it wait long enough to load
 
 ==> summarize_repo.sh <==
 fnq.py $1
