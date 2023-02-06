@@ -1,3 +1,11 @@
+=I was running off of ec.py now earthcube_utilities.py
+which will need to be available in this dir
+
+The bucket from step one is set in get_repo.py
+ but I can have it take HOST
+  then if 2nd arg after repo, have it sent in
+
+
 Mike Bobak
 have a branch of earthcube_utilities where I change the import, and add extra sleep for fuseki start if it is a bit file(which I’m still testing)
 
