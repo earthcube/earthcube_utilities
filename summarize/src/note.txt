@@ -16,6 +16,8 @@ just had to get env var: tmp_summary_port same in fnq.py and tsum.py in case fus
 ▶<174 f06local: /org/summary> grep default get_repo.py
     ec.wget_oss_repo(repo) #defaults to bucket=ncsa_minio =https://oss.geocodes.ncsa.illinois.edu/
 
+==Have more code to set this, but still have to check if it effects it's running well
+
 ▶<177 f06local: /org/ecu> grep wget_oss_repo earthcube_utilities.py
 def wget_oss_repo(repo=None,path="gleaner/milled",bucket=gc1_minio):
 
@@ -57,3 +59,6 @@ though you can still use the blazegraph dashboard to load into the summary names
  it should just use it to get it via http
   either as a url like most linked-data or via rest call to the endpoint (or via mknb2)
  
+
+==I have something: nabu2v.py that will call ttl2blaze.sh &nq2blaze.sh to
+update a version of summary &earchcube namespaces, but have to fix/check the upload
