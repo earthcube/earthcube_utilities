@@ -28,6 +28,8 @@ A more detailed overview is in [Summarize](docs/summarize.md)
 1. if you have not, change to the summarize directory: `cd  earthcube_utilities/summarize`
 2. Insure that a gleaner crawl has already been done, and you have the location of it's bucket
 > gleaner needs to be configured with milled: true 
+
+> put the bucket url in S3ADDRESS env var
 3. run> `repo2summary.sh repo`
 > where repo is the name of a repo directory in that crawl's bucket
 
