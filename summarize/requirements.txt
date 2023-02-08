@@ -5,7 +5,7 @@ rdflib-jsonld
 networkx
 extruct
 simplejson
+sparqldataframe
 s3fs
-
 
 xmltodict
