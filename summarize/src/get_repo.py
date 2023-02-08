@@ -33,7 +33,7 @@ def url_w_end_slash(url):
     else:
         return url
 
-
+#later can import click, have 2nd arg be named eg.-bucket, and incl a -help
 if __name__ == '__main__':
     import sys
     print(f'argv={sys.argv}')
@@ -45,7 +45,7 @@ if __name__ == '__main__':
         print(f'set default_bucket to S3ADDRESS={s3}')
         default_bucket=s3
     if(len(sys.argv)>2):
-        default_bucket = sys.argv[1]
+        default_bucket = url_w_end_slash(sys.argv[2])
         print(f'reset default_bucket to 2nd cli arg:{default_bucket}')
     if(len(sys.argv)>1):
         repo = sys.argv[1]
