@@ -27,6 +27,12 @@ def get_repo(repo, default_bucket= "https://oss.geocodes.ncsa.illinois.edu/"):
     #ec.wget_oss_repo(repo) #defaults to bucket=ncsa_minio =https://oss.geocodes.ncsa.illinois.edu/
     ec.wget_oss_repo(repo=repo,path="gleaner/milled",bucket=default_bucket)
 
+def url_w_end_slash(url):
+    if len(url)-1 != "/":
+        return url + "/"
+    else:
+        return url
+
 
 if __name__ == '__main__':
     import sys
@@ -35,7 +41,7 @@ if __name__ == '__main__':
     s3=os.getenv("S3ADDRESS") 
     if ec.is_str(s3):
         if not ec.is_http(s3):
-            s3="https://" + s3
+            s3="https://" + url_w_end_slash(s3)
         print(f'set default_bucket to S3ADDRESS={s3}')
         default_bucket=s3
     if(len(sys.argv)>2):
