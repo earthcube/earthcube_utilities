@@ -164,7 +164,8 @@ def v4qry(var,qt):
         return ""
     iqt = v2iqt(var,sqs)
     #add2log(iqt) #logged in next fnc
-    return iqt2df(iqt)
+    adf = iqt2df(iqt)
+    return adf
 
 def search_query(q): #same as txt_query below
     return v4qry(q,"query")
