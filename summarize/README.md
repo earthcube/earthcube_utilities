@@ -28,6 +28,11 @@ A more detailed overview is in [Summarize](docs/summarize.md)
 1. if you have not, change to the summarize directory: `cd  earthcube_utilities/summarize`
 2. Insure that a gleaner crawl has already been done, and you have the location of it's bucket
 > gleaner needs to be configured with milled: true 
+
+> put the minio-server url in ECU_S3ADDRESS env var
+
+once gleaner has been run it should have a gleaner/milled path full of repos you can summarize
+
 3. run> `repo2summary.sh repo`
 > where repo is the name of a repo directory in that crawl's bucket
 
@@ -121,6 +126,8 @@ geocodes: /org/LD> wc earthchem.*
 ```
 
 
-load via dashboard, or I'll have a ttl2blaze.sh
+load via dashboard, or I'll have a ttl2blaze.sh 
+
+which can be called via [nabu2v.py](https://github.com/earthcube/ec/blob/master/summary/nabu2v.md) to fill both namespace in a sync'd manner, vs nabu alone
 
 
