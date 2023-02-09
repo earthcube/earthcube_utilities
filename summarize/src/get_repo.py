@@ -13,6 +13,7 @@ ncsa_minio = "https://oss.geocodes.ncsa.illinois.edu/"
 S3ADDRESS=os.getenv("S3ADDRESS")
 S3KEY=os.getenv("S3KEY")
 S3SECRET=os.getenv("S3SECRET")
+dbg=False
 
 def is_str(v):
     return type(v) is str
@@ -73,13 +74,14 @@ def wget(fn):
     os_system(cs)
     return path_leaf(fn) #new
 
-def wget_oss_repo(repo=None,path="gleaner/milled",bucket=ncsa_minio):
+#def wget_oss_repo(repo=None,path="gleaner/milled",bucket=ncsa_minio):
+def wget_oss_repo(repo=None,path="gleaner/milled",s3address=ncsa_minio):
     "download all the rdf from a gleaner bucket"
     if not repo:
         global cwd  #I like having it go from the dirname, so files don't get mixed up
         repo=path_leaf(cwd)
         print(f'using, repo:{repo}=path_leaf({cwd})') #as 2nq.py will use cwd for repo, if it runs .rdf files
-    files=oss_ls(f'{path}/{repo}',True,bucket)
+    files=oss_ls(f'{path}/{repo}',True,s3address)
     #print(f'will wget:{files}')
     for f in files:
         fl=path_leaf(f)
@@ -96,7 +98,7 @@ def wget_oss_repo(repo=None,path="gleaner/milled",bucket=ncsa_minio):
 #=end utils
 
 #def get_repo(repo):
-def get_repo(repo, default_bucket= "https://oss.geocodes.ncsa.illinois.edu/"):
+def get_repo(repo, default_s3address= "https://oss.geocodes.ncsa.illinois.edu/"):
     #I think it uses cwd for repo, but want to override that
     if not repo:  
         #was cwd=ec.cwd, which are the same
@@ -115,7 +117,7 @@ def get_repo(repo, default_bucket= "https://oss.geocodes.ncsa.illinois.edu/"):
         print(f'cd to: cwd={cwd} to get the repo={repo} to downloads files into')
     #ec.wget_oss_repo(repo) #defaults to bucket=ncsa_minio =https://oss.geocodes.ncsa.illinois.edu/
     #ec.wget_oss_repo(repo=repo,path="gleaner/milled",bucket=default_bucket)
-    wget_oss_repo(repo=repo,path="gleaner/milled",bucket=default_bucket)
+    wget_oss_repo(repo=repo,path="gleaner/milled",s3address=default_s3address)
 
 def url_w_end_slash(url):
     if len(url)-1 != "/":
@@ -127,7 +129,7 @@ def url_w_end_slash(url):
 if __name__ == '__main__':
     import sys
     print(f'argv={sys.argv}')
-    default_bucket= "https://oss.geocodes.ncsa.illinois.edu/"
+    default_s3address= "https://oss.geocodes.ncsa.illinois.edu/"
     #s3=os.getenv("S3ADDRESS") 
     s3=os.getenv("ECU_S3ADDRESS") 
     #if ec.is_str(s3):
@@ -136,16 +138,16 @@ if __name__ == '__main__':
         if not is_http(s3):
             s3="https://" + url_w_end_slash(s3)
         #print(f'set default_bucket to S3ADDRESS={s3}')
-        print(f'set default_bucket to ECU_S3ADDRESS={s3}')
-        default_bucket=s3
+        print(f'set default_s3address to ECU_S3ADDRESS={s3}')
+        default_s3address=s3
     if(len(sys.argv)>2):
-        default_bucket = url_w_end_slash(sys.argv[2])
-        print(f'reset default_bucket to 2nd cli arg:{default_bucket}')
+        default_s3address = url_w_end_slash(sys.argv[2])
+        print(f'reset default_s3address to 2nd cli arg:{default_s3address}')
     if(len(sys.argv)>1):
         repo = sys.argv[1]
         print(f'will run over:{repo}')
         #get_repo(repo)
-        get_repo(repo,default_bucket)
+        get_repo(repo,default_s3address)
         #run2nq(repo) #done in next step
     else:
         print("use cwd=repo")
