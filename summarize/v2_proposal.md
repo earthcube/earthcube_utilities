@@ -80,11 +80,12 @@ sparql:
 ```
 4. python request to create a temp_repo namespaces in a blazegraph (temp_repo, repo_summary)
 5. Quads/Nabu step (future:  nabu can write out a file. )
+    * modify nabu file with a correct sparql.endpoint
     * run nabu for repository: `glcon nabu prefix --cfg {nabu_cfg} --prefix summonned/{repo}` 
 * run tsum
-* write out to file
-* future
-   * upload to repo_summary
+* write out to file, or whatever
+* upload to repo_summary with a python script.
+* python request to delete temp namespace
 
 ##### tsum, or tsumv2 steps to make graph using rdflib.
 ideas on how to improve the summary generate to make less use of print, and more use of a 
