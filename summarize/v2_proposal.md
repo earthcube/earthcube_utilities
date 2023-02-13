@@ -1,6 +1,8 @@
 # Proposal for v2 summary
 
 ## v1
+this is what summary version on has implemented. The first three steps duplicate what nabu does, 
+
 * get_repo: read s3 stored triples from gleaner, write files
 * fnq: start stop fuseki, and create a temporary namespace
 * rdf2nq: convert triples to quads write to a local (fuseki) graph namespace
@@ -14,14 +16,14 @@
 
 ### Questions
 * nabu converts to quads
-  * does this work: `nabu prefix --cfg {path to nabu config} --prefix milled/{repo}` 
+  * does this work (**dv, yes**): `nabu prefix --cfg {path to nabu config} --prefix milled/{repo}` 
      * probably need to add a --namespace and/or --graphurl 
-       * these are conviencne effort, and not a blocker on use. Use a config file.
-  * are these quads usable to create summaries
-  * Can we just use nabu/glcon nabu **DV, I say yes**
+       * these are convince effort, and not a blocker on use. 
+  * are these quads usable to create summaries (**dv, yes, tsum dev branch can generate summaries**)
+     * Can we just use nabu/glcon nabu **DV, I say yes**
 * can we just create a temporary namespace in blazegraph?
-    * yes. Did it by hand. Coding up a class to do it. 
-    * just use rdflib
+    * **yes there is an rest api to create and delete a nsamspace**. Coding up a class to do it. 
+    * just use rdflib. 
 
 
 ### Dependencies
@@ -39,10 +41,10 @@
    * nabu_cfg. glcon generates a gleaner and a nabu file. where is this nabu file.
    * repo name
    * (override) graphendpoint
-   * uploadSummary - if true, upload summary triples to summary_namespace
-   * (opt) summary_namespace (default: {repo}summary)
    * (override) path to glcon
-   * (later)output file|graphsummary
+   * (override) output=filename
+   * (future) graphsummary if true, upload summary triples to summary_namespace
+      * (opt) summary_namespace (default: {repo}summary)
    * (later) upload to s3
 * **workflow**
    * see if nabu_cfg exists, get sparql.endpoint from file
@@ -52,7 +54,7 @@
    * if uploadSummary, use python requests to upload summary
 
 
-*** details***
+**details**
 
 1. cli to read parameters
 2. read sparql.endpoint from nabu file (unless overriden by graphendpoint )
@@ -77,12 +79,17 @@ sparql:
     password: ""
 ```
 4. python request to create a temp_repo namespaces in a blazegraph (temp_repo, repo_summary)
-5. Quads/Nabu step
-In the future hope nabu can write out a file. 
-    3. run nabu for repository
-        * `glcon nabu prefix --cfg {nabu_cfg} --prefix summonned/{repo}` 
+5. Quads/Nabu step (future:  nabu can write out a file. )
+    * run nabu for repository: `glcon nabu prefix --cfg {nabu_cfg} --prefix summonned/{repo}` 
+* run tsum
+* write out to file
+* future
+   * upload to repo_summary
 
 ##### tsum, or tsumv2 steps to make graph using rdflib.
+ideas on how to improve the summary generate to make less use of print, and more use of a 
+library to generate triples/quad, etc
+
     1. create an rdflib graph
 ```python
 from rdflib import Graph
