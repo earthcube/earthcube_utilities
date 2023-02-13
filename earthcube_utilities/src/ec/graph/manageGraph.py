@@ -54,8 +54,27 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         # BODY
        # add this to the createTemplates
         # # com.bigdata.rdf.sail.namespace = {namespace}
-        pass
+        if quads:
+            template = self.createTemplateQuad
+        else:
+            template = self.createTemplateTriples
+        template = template + f"com.bigdata.rdf.sail.namespace = {self.namespace}\n"
+        url = f"{self.baseurl}/namespace"
+        headers = {"Content-Type": "text/plain"}
+        r = requests.post(url,data=template, headers=headers)
+        if r.status_code==201:
+            return True
+        else:
+            return False
 
-    def deleteNamespace(self, quads=True):
+
+    def deleteNamespace(self):
         # DELETE /bigdata/namespace/NAMESPACE
+        url = f"{self.baseurl}/namespace/{self.namespace}"
+        headers = {"Content-Type": "text/plain"}
+        r = requests.delete(url, headers=headers)
+        if r.status_code == 200:
+            return True
+        else:
+            return False
         pass

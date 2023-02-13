@@ -1,9 +1,14 @@
 import unittest
 
+import manageGraph
 
-class MyTestCase(unittest.TestCase):
+
+class BrazgraphTestCase(unittest.TestCase):
     def test_createAndDelete(self):
-        self.assertEqual(True, False)  # add assertion here
+        bg =  manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", "test")
+        create = bg.createNamespace()
+        self.assertEqual(True, create)  # add assertion here
+        destroy = bg.deleteNamespace()
 
 
 if __name__ == '__main__':
