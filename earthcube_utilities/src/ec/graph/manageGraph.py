@@ -1,7 +1,7 @@
 import requests
 import logging
 
-class ManageGraph:
+class ManageGraph: #really a manage graph namespace, bc a graph has several of them, &this represents only one
     baseurl = "http://localhost:3030" # basically fuskei
     namespace = "temp_summary"
     path = "namespace"
@@ -78,3 +78,32 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         else:
             return False
         pass
+
+    #seems like above should be passed a namespace, vs init w/it, but
+    # we can assume an instance of this is made, w/the namespace=repo as one of it's instatiation args
+
+    def upload_file(self, filename, namespace=None):
+        "to temp namespace or final one if given"
+        print(f'upload:{filename}')
+        if namespace:
+            ns=namespace
+        else:
+            ns=self.namespace
+
+    def upload_nq_file(self, ns="summary"):
+        filename=self.namespace + ".nq"
+        self.upload_file(filename,ns)
+
+    def upload_ttl_file(self):
+        filename=self.namespace + ".ttl"
+        self.upload_file(filename)
+
+    def call_summarize(self):
+        print(f'call tsum on:{self.namespace}')
+
+    def summarize(self, ns="summary"):
+        self.createNamespace()
+        self.upload_nq_file()
+        self.call_summarize() #creates repo.ttl
+        self.deleteNamespace()
+        self.upload_ttl_file(ns)  #uploads it
