@@ -9,6 +9,7 @@ class BrazgraphTestCase(unittest.TestCase):
         create = bg.createNamespace()
         self.assertEqual(True, create)  # add assertion here
         destroy = bg.deleteNamespace()
+        self.assertEqual(True, destroy)
 
 
 if __name__ == '__main__':
