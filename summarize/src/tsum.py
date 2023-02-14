@@ -205,9 +205,9 @@ def summaryDF2ttl(df):
 def get_summary4repo(repo):
     "so can call interactively to look at the df"
     ##tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
-    tmp_endpoint=f'http://localhost:{port}/{repo}/sparql' #fnq repo #fuseki
-    #repo="iris_nabu" #just for 1st test
-    #tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/{repo}/sparql' #1st blaze call  *
+    #tmp_endpoint=f'http://localhost:{port}/{repo}/sparql' #fnq repo #fuseki
+    repo="iris_nabu" #just for 1st test
+    tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql' #1st blaze call  *
     print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
     #when try:https://graph.geocodes.ncsa.illinois.edu/iris_nabu/sparql  get 404, have to check
     ec.dflt_endpoint = tmp_endpoint
