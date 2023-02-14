@@ -6,11 +6,11 @@ import os
 import sys
 import argparse
 context = "@prefix : <https://schema.org/> ." #https for now
-#if qry.py is still using this file, at least get in git, or just use qry below
- #Nov  5 17:24 get_summary.txt -> get_summary_good.txt
- #still using txt file on my server right now instead
-#=port setup for fuseki, but might now also do 1st one shot from blaze on 9999; ~as above
-port=3030
+#qry.py does get_summary_txt for get_summary.txt from raw git link, but same as qry below
+#=port setup for fuseki, but might now also do 1st one shot from blaze on 9999; for 1st shot off main namespace
+ #dv wants to skip local throw away fuseki in memory instance, and create namespace on blaze endpoint summarize
+  #from it, then delete it, then upload back to the final summary namespace
+port=3030 #do not this this is used anymore, so should rm
 #ftsp=os.getenv('fuseki_tmp_summary_port')
 ftsp=os.getenv('tmp_summary_port') #if 9999 will use blaze
 if ftsp:
@@ -64,6 +64,8 @@ import qry as ec #check that it has been updated for newer work/later
 #column names:
 # "subj" , "g" , "resourceType" , "name" , "description" , "pubname" , "placenames" , "kw" , "datep" ,
 #next time just get a mapping file/have qry w/so keywords as much a possilbe
+##in dc/summarize.py have a version that would do this all from repo.nq &be done w/it
+## if we didn't need to do some much checking below, could do w/sparql only
 #dbg=True
 dbg=False
 
@@ -104,12 +106,12 @@ def summaryDF2ttl(df):
     urns = {}
     import json
 
-    ns="test"
-    if repo:
-        ns=repo
-        print(f'ns=repo={repo}')
-    mg=manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", ns) #can put tmp namespaces here, for now
-    print(f'have graph instance:{mg}')
+  # ns="test"
+  # if repo:
+  #     ns=repo
+  #     print(f'ns=repo={repo}')
+  # mg=manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", ns) #can put tmp namespaces here, for now
+  # print(f'have graph instance:{mg}')
 
     def is_str(v): #i don't need this to be private, bc it is a generic util
         return type(v) is str
@@ -260,11 +262,12 @@ def summarize_repo(repo, final_ns="summary"):
     mg=manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", tmp_ns) #put tmp namespaces here, for now
     print(f'have graph instance:{mg}')
     mg.createNamespace()
-#   self.upload_nq_file() #is this done by glcon nabu? if done here, will know it is in sync w/generated quads
+#  #self.upload_nq_file() #is this done by glcon nabu? probably for the big_namespace
+    mg.upload_nq_file() #will need to get repo.nq up so can be summarized in next step
     call_summarize(repo) #creates repo.ttl
     #could check to see file is there/ok
     mg.deleteNamespace()
-#   self.upload_ttl_file(ns)  #uploads it
+    mg.upload_ttl_file()  #uploads it
     print(f'will upload {repo}.ttl from here')
 
 if __name__ == '__main__':
