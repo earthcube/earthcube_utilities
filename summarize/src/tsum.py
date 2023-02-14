@@ -3,6 +3,7 @@
  #this is almost like nq2ttl, but is sumarizing via the qry
 import pandas as pd
 import os
+import sys
 import argparse
 context = "@prefix : <https://schema.org/> ." #https for now
 #if qry.py is still using this file, at least get in git, or just use qry below
@@ -66,16 +67,18 @@ import qry as ec #check that it has been updated for newer work/later
 #dbg=True
 dbg=False
 
+cwd=os.getcwd()
+cwd_leaf = ec.path_leaf(cwd)
 #instead of conversion by file-query or tmp-server right here, dv wants to use the main endpoint
 #so that will include creating and destroying namespaces there, which can be done w/libs, like:
 #should probably do this in pkg, wish not so distant/might lnk for now
+sys.path.append("..")
+sys.path.append("../..")
+if cwd_leaf == "src":
+    sys.path.append("../../earthcube_utilities/src/ec/graph")
+if cwd_leaf == "summarize":
+    sys.path.append("../earthcube_utilities/src/ec/graph")
 import manageGraph
-#import ../../earthcube_utilities/src/ec/graph/manageGraph
-#import earthcube_utilities.src.ec.graph.manageGraph
-#from ... import earthcube_utilities.src.ec.graph.manageGraph
-#from .. import earthcube_utilities/src/ec/graph/manageGraph
-#from earthcube_utilities import src/ec/graph/manageGraph
-#then make a instance of the class w/the temp namespace, then:
 #----from when I thought I might do it from w/in that class
 #will instantiange a graph/namespace instance in summarize code to do the logic below
     # an instance of this is made,
