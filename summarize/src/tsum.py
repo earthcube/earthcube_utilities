@@ -53,7 +53,7 @@ import qry as ec #check that it has been updated for newer work/later
     # or more like the ui, to get the above qry in github, and have the ec/qry utils use that*
     # https://raw.githubusercontent.com/earthcube/ec/master/summary/get_summary.txt
 
-#import ../earthcube_utilities as ec  #assuming it is one level above
+#import ../earthcube_utilities as ec  #assuming it is one level above #now just get qry.py part of ec.py
 #from utils:
 #dflt_endpoint = "https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/earthcube/sparql" #and summary
 #ec.dflt_endpoint = tmp_endpoint
@@ -74,6 +74,7 @@ cwd_leaf = ec.path_leaf(cwd)
 #should probably do this in pkg, wish not so distant/might lnk for now
 sys.path.append("..")
 sys.path.append("../..")
+#above not needed, but below needed in case run from src or .. w/ summarize_repo.sh
 if cwd_leaf == "src":
     sys.path.append("../../earthcube_utilities/src/ec/graph")
 if cwd_leaf == "summarize":
@@ -98,7 +99,15 @@ def summaryDF2ttl(df):
     "summarize sparql qry (or main quad store)s ret DataFrame, as triples in ttl format w/g as the new subj"
     urns = {}
     import json
-    def is_str(v):
+
+    ns="test"
+    if repo:
+        ns=repo
+        print(f'ns=repo={repo}')
+    mg=manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", ns) #can put tmp namespaces here, for now
+    print(f'have graph instance:{mg}')
+
+    def is_str(v): #i don't need this to be private, bc it is a generic util
         return type(v) is str
 
     with open(f'{repo}.ttl', "w") as f:
