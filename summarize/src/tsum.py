@@ -68,7 +68,13 @@ dbg=False
 
 #instead of conversion by file-query or tmp-server right here, dv wants to use the main endpoint
 #so that will include creating and destroying namespaces there, which can be done w/libs, like:
+#should probably do this in pkg, wish not so distant/might lnk for now
+import manageGraph
 #import ../../earthcube_utilities/src/ec/graph/manageGraph
+#import earthcube_utilities.src.ec.graph.manageGraph
+#from ... import earthcube_utilities.src.ec.graph.manageGraph
+#from .. import earthcube_utilities/src/ec/graph/manageGraph
+#from earthcube_utilities import src/ec/graph/manageGraph
 #then make a instance of the class w/the temp namespace, then:
 #----from when I thought I might do it from w/in that class
 #will instantiange a graph/namespace instance in summarize code to do the logic below
@@ -223,22 +229,25 @@ if __name__ == '__main__':
     parser.add_argument("repo",  help='repository name')
     parser.add_argument('--endpoint', dest='endpoint',
                         help='use blazegraph endpoint, fully defined, as data source; eg https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql')
-    args = parser.parse_args()
-    if(len(sys.argv)>1):
-        # repo = sys.argv[1]
-        repo = args.repo
-        #tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
-        #print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
-        #ec.dflt_endpoint = tmp_endpoint
-        #df=ec.get_summary("")
-        print(f'port={port},arg1={repo}')
-        if  args.endpoint : #when: os.getenv('tmp_summary_port') #if 9999 will use blaze
-            print("bulk 1st load from blaze")
-            df=get_summary_from_namespace( args)
-        else:
-            print("per repo through fuseki")
-            df=get_summary4repo(repo)
-        summaryDF2ttl(df)
+    if(len(sys.argv)==1):
+        print("you need to enter the name of a repo to summarize")
     else:
-        #print("need to give repo to run, or if:tmp_summary_port=9999 a namespace for initial bulk load")
-        parser.print_help()
+        args = parser.parse_args() #would fail here, if no arg w/o printing help
+        if(len(sys.argv)>1):
+            # repo = sys.argv[1]
+            repo = args.repo
+            #tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
+            #print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
+            #ec.dflt_endpoint = tmp_endpoint
+            #df=ec.get_summary("")
+            print(f'port={port},arg1={repo}')
+            if  args.endpoint : #when: os.getenv('tmp_summary_port') #if 9999 will use blaze
+                print("bulk 1st load from blaze")
+                df=get_summary_from_namespace( args)
+            else:
+                print("per repo through fuseki")
+                df=get_summary4repo(repo)
+            summaryDF2ttl(df)
+        else:
+            #print("need to give repo to run, or if:tmp_summary_port=9999 a namespace for initial bulk load")
+            parser.print_help()
