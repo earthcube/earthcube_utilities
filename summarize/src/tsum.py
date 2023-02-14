@@ -78,8 +78,8 @@ cwd_leaf = ec.path_leaf(cwd)
 #instead of conversion by file-query or tmp-server right here, dv wants to use the main endpoint
 #so that will include creating and destroying namespaces there, which can be done w/libs, like:
 #should probably do this in pkg, wish not so distant/might lnk for now
-sys.path.append("..")
-sys.path.append("../..")
+#sys.path.append("..")
+#sys.path.append("../..")
 #above not needed, but below needed in case run from src or .. w/ summarize_repo.sh
 if cwd_leaf == "src":
     sys.path.append("../../earthcube_utilities/src/ec/graph")
@@ -204,9 +204,12 @@ def summaryDF2ttl(df):
 
 def get_summary4repo(repo):
     "so can call interactively to look at the df"
-    #tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
-    tmp_endpoint=f'http://localhost:{port}/{repo}/sparql' #fnq repo
+    ##tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
+    tmp_endpoint=f'http://localhost:{port}/{repo}/sparql' #fnq repo #fuseki
+    #repo="iris_nabu" #just for 1st test
+    #tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/{repo}/sparql' #1st blaze call  *
     print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
+    #when try:https://graph.geocodes.ncsa.illinois.edu/iris_nabu/sparql  get 404, have to check
     ec.dflt_endpoint = tmp_endpoint
     df=ec.get_summary("")
     return df
@@ -228,6 +231,7 @@ def get_summary_from_namespace(args):
     df=ec.get_summary("")
     return df
 
+
 def make_graph(ns, url="https://graph.geodex.org/blazegraph"): 
     mg=manageGraph.ManageBlazegraph(url, ns) #put tmp namespaces here, for now
     print(f'have graph instance:{mg}')
@@ -247,6 +251,11 @@ def call_summarize(repo):
     df=get_summary4repo(repo)
     summaryDF2ttl(df)
 
+#till get upload into tmp_ns could switch from fuseki2blaze by hitting
+# https://graph.geocodes.ncsa.illinois.edu/blazegraph/#namespaces iris_nabu *
+#just to see it work, and create iris.ttl
+# for this temp test, don't change the create/delete location bc don't want to loose this test ns yet
+
 #   def summarize(self, ns="summary"):
 #       self.createNamespace()
 #       self.upload_nq_file()
@@ -259,12 +268,7 @@ def summarize_repo(repo, final_ns="summary"):
     if repo:
         tmp_ns=repo
         print(f'ns=repo={repo}')
-
-    #mg=manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", tmp_ns) #put tmp namespaces here, for now
-    #print(f'have graph instance:{mg}')
-    #mg.createNamespace()
     mg= make_graph_ns(tmp_ns)
-
 #  #self.upload_nq_file() #is this done by glcon nabu? probably for the big_namespace
     mg.upload_nq_file() #will need to get repo.nq up so can be summarized in next step
     call_summarize(repo) #creates repo.ttl
