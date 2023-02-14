@@ -44,6 +44,14 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         #using more constrained qry now in get_summary.txt * now above
 #import earthcube_utilities as ec #check that it has been updated for newer work/later
 import qry as ec #check that it has been updated for newer work/later
+    #make sure I can send the qry into the new qry.py ec.py subset's fncs, skipping it's usual lookup
+    #ec.get_summary(qry) vs "" as it is now
+    #def get_summary(g=""): #g not used but could make a version that gets it for only 1 graph
+    #vs changing this could dump qry's txt to: get_summary.txt which qry.py will load; 
+    # but would have to do at the right time, so time, to make the qry fncs more general
+    # or more like the ui, to get the above qry in github, and have the ec/qry utils use that*
+    # https://raw.githubusercontent.com/earthcube/ec/master/summary/get_summary.txt
+
 #import ../earthcube_utilities as ec  #assuming it is one level above
 #from utils:
 #dflt_endpoint = "https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/earthcube/sparql" #and summary
