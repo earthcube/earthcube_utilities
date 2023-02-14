@@ -1,12 +1,11 @@
 # could this just be ecutilities
-requests
+# it started as ecutilities, but got too many link warnings
+#requests
+#rdflib-jsonld
+#xmltodict
+#networkx
+#extruct
 rdflib
-rdflib-jsonld
-networkx
-extruct
 simplejson
 sparqldataframe
 s3fs
-
-xmltodict
-argparse
