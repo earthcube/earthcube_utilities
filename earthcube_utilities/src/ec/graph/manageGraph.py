@@ -45,6 +45,7 @@ com.bigdata.journal.Journal.groupCommit=false
 com.bigdata.rdf.store.AbstractTripleStore.geoSpatial=false
 com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
 """
+    #init w/namespace
 
     def createNamespace(self, quads=True):
         # POST / bigdata / namespace
@@ -79,8 +80,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
             return False
         pass
 
-    #seems like above should be passed a namespace, vs init w/it, but
-    # we can assume an instance of this is made, w/the namespace=repo as one of it's instatiation args
+    #might still have upload methods here
 
     def upload_file(self, filename, namespace=None):
         "to temp namespace or final one if given"
@@ -98,12 +98,15 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         filename=self.namespace + ".ttl"
         self.upload_file(filename)
 
-    def call_summarize(self):
-        print(f'call tsum on:{self.namespace}')
+#will instantiange a graph/namespace instance in summarize code to do the logic below
+    # an instance of this is made, 
+    #don't have to anymore assume: w/the namespace=repo as one of it's instatiation args
+#   def call_summarize(self):
+#       print(f'call tsum on:{self.namespace}')
 
-    def summarize(self, ns="summary"):
-        self.createNamespace()
-        self.upload_nq_file()
-        self.call_summarize() #creates repo.ttl
-        self.deleteNamespace()
-        self.upload_ttl_file(ns)  #uploads it
+#   def summarize(self, ns="summary"):
+#       self.createNamespace()
+#       self.upload_nq_file()
+#       self.call_summarize() #creates repo.ttl
+#       self.deleteNamespace()
+#       self.upload_ttl_file(ns)  #uploads it
