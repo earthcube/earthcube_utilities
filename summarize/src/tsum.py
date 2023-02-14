@@ -4,25 +4,10 @@
 import pandas as pd
 import os
 import argparse
-fn="iris.csv" #"xdomes.csv"
-#df=pd.read_csv(fn, comment='#') #not filling out well yet
-#df=pd.read_csv("s.csv") #head of summary.csv, from ec.py's get_summary("")
-#df=pd.read_csv("summary_urn.csv") #head of summary.csv, from ec.py's get_summary("")
-#df=pd.read_csv("s2.csv") #from similar summarizition but of my stoere, that uses URLs for graph
- #after reading csv via qry, which could be done w/rdflib like in 2nq.py but w/ec like qry
-#subj g resourceType name description pubname placenames kw datep
-#context = "@prefix : <http://schema.org/> ." #might get larger, eg.incl dcat
 context = "@prefix : <https://schema.org/> ." #https for now
-#started by tweaking fnq of fn.nq then dump to fn.csv which could read here
-# but can use ec.py utils, to just load summary.qry and get df right away
-# then iterate over it  ;load ec like I do w/check.py and use
-#could have summary in here, or give a get_summary_txt then get_summary(fnq)
-#after this get max lat/lon and put as latitude/longnitude, then get centriod
- #consider a version of the query where the vars are already the so:keywords
- #but after changinge ResourceType to 'a', .. oh, this doesn't have : so special case anyway
-#used this query on all of geodec using ec.py's get_summary and dumped to summary.csv
-#Nov  5 17:24 get_summary.txt -> get_summary_good.txt
-#still using txt file on my server right now instead
+#if qry.py is still using this file, at least get in git, or just use qry below
+ #Nov  5 17:24 get_summary.txt -> get_summary_good.txt
+ #still using txt file on my server right now instead
 #=port setup for fuseki, but might now also do 1st one shot from blaze on 9999; ~as above
 port=3030
 #ftsp=os.getenv('fuseki_tmp_summary_port')
@@ -57,16 +42,6 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?g
         """
         #using more constrained qry now in get_summary.txt * now above
-#df=pd.read_csv("summary-gc1.csv") #head of summary.csv, from ec.py's get_summary("")
-#df=pd.read_csv(f'{repo}.csv') #head of summary.csv, from ec.py's get_summary("")
-#seeing error in csv, might be time to get it directly, as repo's are small enough, to try over
-#repo="linked.earth" #get from cli now
-#testing_endpoint=f'http://ideational.ddns.net:3030/{repo_name}/sparql'
-#tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
-#print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
-#< not IN_COLAB
-#< rdf_inited,rdflib_inited,sparql_inited=True,True,True
-#import ec
 #import earthcube_utilities as ec #check that it has been updated for newer work/later
 import qry as ec #check that it has been updated for newer work/later
 #import ../earthcube_utilities as ec  #assuming it is one level above
@@ -82,6 +57,25 @@ import qry as ec #check that it has been updated for newer work/later
 #next time just get a mapping file/have qry w/so keywords as much a possilbe
 #dbg=True
 dbg=False
+
+#instead of conversion by file-query or tmp-server right here, dv wants to use the main endpoint
+#so that will include creating and destroying namespaces there, which can be done w/libs, like:
+#import ../../earthcube_utilities/src/ec/graph/manageGraph
+#then make a instance of the class w/the temp namespace, then:
+#----from when I thought I might do it from w/in that class
+#will instantiange a graph/namespace instance in summarize code to do the logic below
+    # an instance of this is made,
+    #don't have to anymore assume: w/the namespace=repo as one of it's instatiation args
+#   def call_summarize(self):
+#       print(f'call tsum on:{self.namespace}')
+
+#   def summarize(self, ns="summary"):
+#       self.createNamespace()
+#       self.upload_nq_file()
+#       self.call_summarize() #creates repo.ttl
+#       self.deleteNamespace()
+#       self.upload_ttl_file(ns)  #uploads it
+#----
 
 def summaryDF2ttl(df):
     "summarize sparql qry (or main quad store)s ret DataFrame, as triples in ttl format w/g as the new subj"
