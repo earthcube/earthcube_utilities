@@ -94,6 +94,10 @@ import manageGraph
 #       self.deleteNamespace()
 #       self.upload_ttl_file(ns)  #uploads it
 #----
+#instead of calling summaryDF2ttl and having it make the the instance, follow above method
+ #and where it says call_summarize, that would be the summaryDF2ttl call
+  #or that would be   '' = get_summary4repo    +       ''
+#==have methods above as a few funcs below/near __main__
 
 def summaryDF2ttl(df):
     "summarize sparql qry (or main quad store)s ret DataFrame, as triples in ttl format w/g as the new subj"
@@ -233,6 +237,36 @@ def get_summary_from_namespace(args):
     df=ec.get_summary("")
     return df
 
+# what I thought might be managegraph methods, now as functions here:
+#   def call_summarize(self):
+#       print(f'call tsum on:{self.namespace}')
+def call_summarize(repo):
+    print("per repo={repo} through blaze-namespace")
+    df=get_summary4repo(repo)
+    summaryDF2ttl(df)
+
+#   def summarize(self, ns="summary"):
+#       self.createNamespace()
+#       self.upload_nq_file()
+#       self.call_summarize() #creates repo.ttl
+#       self.deleteNamespace()
+#       self.upload_ttl_file(ns)  #uploads it
+#def summarize(repo, final_ns="summary"):
+def summarize_repo(repo, final_ns="summary"):
+    tmp_ns="test"
+    if repo:
+        tmp_ns=repo
+        print(f'ns=repo={repo}')
+    mg=manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", tmp_ns) #put tmp namespaces here, for now
+    print(f'have graph instance:{mg}')
+    mg.createNamespace()
+#   self.upload_nq_file() #is this done by glcon nabu? if done here, will know it is in sync w/generated quads
+    call_summarize(repo) #creates repo.ttl
+    #could check to see file is there/ok
+    mg.deleteNamespace()
+#   self.upload_ttl_file(ns)  #uploads it
+    print(f'will upload {repo}.ttl from here')
+
 if __name__ == '__main__':
     import sys
 
@@ -246,20 +280,25 @@ if __name__ == '__main__':
     else:
         args = parser.parse_args() #would fail here, if no arg w/o printing help
         if(len(sys.argv)>1):
-            # repo = sys.argv[1]
             repo = args.repo
+            # repo = sys.argv[1]
             #tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
             #print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
             #ec.dflt_endpoint = tmp_endpoint
             #df=ec.get_summary("")
             print(f'port={port},arg1={repo}')
-            if  args.endpoint : #when: os.getenv('tmp_summary_port') #if 9999 will use blaze
-                print("bulk 1st load from blaze")
-                df=get_summary_from_namespace( args)
-            else:
-                print("per repo through fuseki")
-                df=get_summary4repo(repo)
-            summaryDF2ttl(df)
+       #    if  args.endpoint : #when: os.getenv('tmp_summary_port') #if 9999 will use blaze
+       #        print("bulk 1st load from blaze")
+       #        df=get_summary_from_namespace( args)
+       #    else:
+       #        #print("per repo through fuseki")
+       #        print("per repo through blaze-namespace")
+       #        df=get_summary4repo(repo)
+       #    summaryDF2ttl(df)
+       #for now skip 1st shot summarization of all repo's from main blaze namespace, eg. earthcube
+       #and just:
+            summarize_repo(repo) #get potential final upload ns in later; 
+            #though I'd rather be able to check file before it gets loaded to final summary namespace
         else:
             #print("need to give repo to run, or if:tmp_summary_port=9999 a namespace for initial bulk load")
             parser.print_help()
