@@ -206,10 +206,11 @@ def get_summary4repo(repo):
     "so can call interactively to look at the df"
     ##tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
     #tmp_endpoint=f'http://localhost:{port}/{repo}/sparql' #fnq repo #fuseki
-    repo="iris_nabu" #just for 1st test
+    #repo="iris_nabu" #just for 1st test
     tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql' #1st blaze call  *
     print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
-    #when try:https://graph.geocodes.ncsa.illinois.edu/iris_nabu/sparql  get 404, have to check
+    #try:https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/iris_nabu/sparql
+    #seems to work, now make in /iris/ but have to get the iris.nq up there 1st to run the qry
     ec.dflt_endpoint = tmp_endpoint
     df=ec.get_summary("")
     return df
@@ -232,8 +233,9 @@ def get_summary_from_namespace(args):
     return df
 
 
-def make_graph(ns, url="https://graph.geodex.org/blazegraph"): 
-    mg=manageGraph.ManageBlazegraph(url, ns) #put tmp namespaces here, for now
+#def make_graph(ns, url="https://graph.geodex.org/blazegraph"): #put tmp namespaces here, for now
+def make_graph(ns, url="https://graph.geocodes.ncsa.illinois.edu/blazegraph"): 
+    mg=manageGraph.ManageBlazegraph(url, ns) 
     print(f'have graph instance:{mg}')
     return mg
 
@@ -271,6 +273,12 @@ def summarize_repo(repo, final_ns="summary"):
     mg= make_graph_ns(tmp_ns)
 #  #self.upload_nq_file() #is this done by glcon nabu? probably for the big_namespace
     mg.upload_nq_file() #will need to get repo.nq up so can be summarized in next step
+    #just for now could try:
+    tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql' #1st blaze call  *
+    cs=f"curl -X POST -H 'Content-Type:text/x-nquads' --data-binary  {repo}.nq {tmp_endpoint}"
+    print(f'try cs={cs}')
+    ec.os_system(cs) #then do this w/requsts #w/iris.nq that works w/fuseki w/blaze get:
+    #java.util.concurrent.ExecutionException: org.openrdf.rio.RDFParseException: Expected '<' or '_', found: i [line 1]
     call_summarize(repo) #creates repo.ttl
     #could check to see file is there/ok
     mg.deleteNamespace()
