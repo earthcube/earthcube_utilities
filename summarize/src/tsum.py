@@ -10,12 +10,15 @@ context = "@prefix : <https://schema.org/> ." #https for now
 #=port setup for fuseki, but might now also do 1st one shot from blaze on 9999; for 1st shot off main namespace
  #dv wants to skip local throw away fuseki in memory instance, and create namespace on blaze endpoint summarize
   #from it, then delete it, then upload back to the final summary namespace
+
+#get_summary4repo still uses port for fuseki, will (be)switching to blaze soon
 port=3030 #do not this this is used anymore, so should rm
 #ftsp=os.getenv('fuseki_tmp_summary_port')
 ftsp=os.getenv('tmp_summary_port') #if 9999 will use blaze
 if ftsp:
     print(f'changing port from {port} to {ftsp}')
     port=ftsp
+
 qry="""
 prefix schema: <https://schema.org/>
 SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
@@ -58,6 +61,7 @@ import qry as ec #check that it has been updated for newer work/later
 #dflt_endpoint = "https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/earthcube/sparql" #and summary
 #ec.dflt_endpoint = tmp_endpoint
 #df=ec.get_summary("")
+
 #all are tabbed after context
 #a                       :Dataset ;
 # then :so-keyword ;   last w/.
@@ -106,13 +110,6 @@ def summaryDF2ttl(df):
     urns = {}
     import json
 
-  # ns="test"
-  # if repo:
-  #     ns=repo
-  #     print(f'ns=repo={repo}')
-  # mg=manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", ns) #can put tmp namespaces here, for now
-  # print(f'have graph instance:{mg}')
-
     def is_str(v): #i don't need this to be private, bc it is a generic util
         return type(v) is str
 
@@ -145,9 +142,6 @@ def summaryDF2ttl(df):
             description=row['description']
             if is_str(description):
                 sdes=json.dumps(description)
-                #sdes=description.replace(' / ',' \/ ').replace('"','\"')
-                #sdes=sdes.replace(' / ',' \/ ').replace('"','\"')
-              # sdes=sdes.replace('"','\"')
             else:
                 sdes=f'"{description}"'
             kw_=row['kw']
@@ -181,13 +175,8 @@ def summaryDF2ttl(df):
                 f.write(f'        a :SoftwareApplication ;\n')
             else:
                 f.write(f'        a :Dataset ;\n')
-           #print(f'        :name "{name}" ;')
             f.write(f'        :name {name} ;\n')
-           #print(f'        :description """{description}""" ;')
-           #print(f'        :description """{sdes}""" ;')
             f.write(f'        :description ""{sdes}"" ;\n')
-           #print(f'        :keyword "{kw}" ;')
-           #print(f'        :keyword {kw} ;') #not what schema.org &the new query uses
             f.write(f'        :keywords {kw} ;\n')
             f.write(f'        :publisher "{pubname}" ;\n')
             f.write(f'        :place "{placename}" ;\n')
@@ -239,6 +228,17 @@ def get_summary_from_namespace(args):
     df=ec.get_summary("")
     return df
 
+def make_graph(ns, url="https://graph.geodex.org/blazegraph"): 
+    mg=manageGraph.ManageBlazegraph(url, ns) #put tmp namespaces here, for now
+    print(f'have graph instance:{mg}')
+    return mg
+
+def make_graph_ns(ns):
+    mg= make_graph(ns)
+    mg.createNamespace()
+    print(f'with namespace:{ns}')
+    return mg
+
 # what I thought might be managegraph methods, now as functions here:
 #   def call_summarize(self):
 #       print(f'call tsum on:{self.namespace}')
@@ -259,9 +259,12 @@ def summarize_repo(repo, final_ns="summary"):
     if repo:
         tmp_ns=repo
         print(f'ns=repo={repo}')
-    mg=manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", tmp_ns) #put tmp namespaces here, for now
-    print(f'have graph instance:{mg}')
-    mg.createNamespace()
+
+    #mg=manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", tmp_ns) #put tmp namespaces here, for now
+    #print(f'have graph instance:{mg}')
+    #mg.createNamespace()
+    mg= make_graph_ns(tmp_ns)
+
 #  #self.upload_nq_file() #is this done by glcon nabu? probably for the big_namespace
     mg.upload_nq_file() #will need to get repo.nq up so can be summarized in next step
     call_summarize(repo) #creates repo.ttl
