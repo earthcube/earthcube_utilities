@@ -236,7 +236,7 @@ def get_summary_from_namespace(args):
 #def make_graph(ns, url="https://graph.geodex.org/blazegraph"): #put tmp namespaces here, for now
 def make_graph(ns, url="https://graph.geocodes.ncsa.illinois.edu/blazegraph"): 
     mg=manageGraph.ManageBlazegraph(url, ns) 
-    print(f'have graph instance:{mg}')
+    print(f'have graph instance:{mg}, for url:{url}')
     return mg
 
 graphs={} #so can look up graph by namespace, to rm later, w/o having to keep track
@@ -279,24 +279,17 @@ def summarize_repo(repo, final_ns="summary"):
         tmp_ns=repo
         print(f'ns={tmp_ns}=repo={repo}')
     else:
-        print(f'warning ns={tmp_ns}')
+        print(f'WARNING ns={tmp_ns}') #log after I finish debugging this
     mg= make_graph_ns(tmp_ns)
-#  #self.upload_nq_file() #is this done by glcon nabu? probably for the big_namespace
+    print(f'mg.upload_nq_file(){repo}')
     mg.upload_nq_file() #will need to get ns=repo.nq up to ns so can be summarized in next step
-    #just for now could try:
-    #tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql' #1st blaze call  *
-    #cs=f"curl -X POST -H 'Content-Type:text/x-nquads' --data-binary {repo}.nq {tmp_endpoint}"
-    #print(f'try cs={cs}')
-    print(f'mg.upload_nq_file({repo})')
-    #mg.upload_nq_file(repo) #should do the same thing ;already done above, should work w/defaults
-    #ec.os_system(cs) #then do this w/requsts #w/iris.nq that works w/fuseki w/blaze get:
-    #java.util.concurrent.ExecutionException: org.openrdf.rio.RDFParseException: Expected '<' or '_', found: i [line 1]
+    #the insert should error if it didn't get in there
     call_summarize(repo) #creates repo.ttl
     #could check to see file is there/ok
-    #ec.os_system("sleep 10") #hopefully will block long enough to get qry in
-    mg.deleteNamespace()
+ #  mg.deleteNamespace()  #could keep around during debugging just to check ;makes it, but isn't getting filled yet
     mg.upload_ttl_file()  #uploads it
-    print(f'will upload {repo}.ttl from here')
+    print(f'would upload {repo}.ttl from here/after checking')
+    #but should really check this before doing it
 
 if __name__ == '__main__':
     import sys

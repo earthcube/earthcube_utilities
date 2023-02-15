@@ -86,6 +86,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         url = f"{self.baseurl}/namespace/{self.namespace}{self.sparql}"
         headers = {"Content-Type": f"{content_type}"}
         r = requests.post(url,data=data, headers=headers)
+        print(f' status:{r.status_code}') #status:404
         if r.status_code == 200:
             # '<?xml version="1.0"?><data modified="0" milliseconds="7"/>'
             if 'data modified="0"'  in r.text:
@@ -94,23 +95,19 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         else:
             return False
         
-    #might still have upload methods here
+    #have upload methods here
+    #have graph instance:<manageGraph.ManageBlazegraph object at ..>, for url:https://graph.geocodes.ncsa.illinois.edu/blazegraph
+    #tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql'
 
-    #def upload_file(self, filename, namespace=None, content_type="text/x-nquads"):
     def upload_file(self, filename, content_type="text/x-nquads"):
         "to temp namespace or final one if given"
         print(f'upload_file:{filename}')
-    #   if namespace:
-    #       ns=namespace
-    #   else: #best to use the instance's namespace
-    #       ns=self.namespace
-        #could open file and insert data
+        #open file and insert data
         with open(filename, 'rb+') as f:   
             lines = f.read()
             print(f'insert:{filename}')
             self.insert(f, content_type)
 
-    #def upload_nq_file(self, ns="summary"): #this would be for final ttl upload, &I would just pass it in
     def upload_nq_file(self, fn=None):
         "will default to ns.nq"
         if fn:
@@ -119,19 +116,21 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
             filename=self.namespace + ".nq"
         self.upload_file(filename)
 
+    #in end will make_graph_ns("summary") to upload repo.ttl to
+     #but will never delete it, just keep using it; so will have to be able to reaquire it, w/o making it
     def upload_ttl_file(self, fn=None):
         "will default to ns.ttl"
-   #def upload_ttl_file(self, ns=None, fn=None):
-   #    if ns:
-   #        namespace=ns
-   #    else:
-   #        namespace=self.namespace
         if fn: #will want to upload ns=repo.ttl to ns=summary in the end
             filename=fn
         else:
             filename=self.namespace + ".ttl"
         self.upload_file(filename, 'Content-Type:text/x-turtle')
 
+#tsum.py does this, it also has make_graph_ns and rm_graph_ns
+ #can find the instance by the 'ns' arg given, but can't do that btw calls
+  #so ok if iterate over all the repos, but if shut down tsum, 
+   #it will need to be able to make an instace for a ns, w/o creating it
+   #which I think it does, as tsum's make_graph should do that, w/o the create yet
 #will instantiange a graph/namespace instance in summarize code to do the logic below
     # an instance of this is made, 
     #don't have to anymore assume: w/the namespace=repo as one of it's instatiation args
