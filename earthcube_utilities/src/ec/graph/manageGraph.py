@@ -80,6 +80,20 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
             return False
         pass
 
+    def insert(self, data, content_type="text/x-nquads"):
+        # rdf datatypes: https://github.com/blazegraph/database/wiki/REST_API#rdf-data
+        # insert: https://github.com/blazegraph/database/wiki/REST_API#insert
+        url = f"{self.baseurl}/namespace/{self.namespace}{self.sparql}"
+        headers = {"Content-Type": f"{content_type}"}
+        r = requests.post(url,data=data, headers=headers)
+        if r.status_code == 200:
+            # '<?xml version="1.0"?><data modified="0" milliseconds="7"/>'
+            if 'data modified="0"'  in r.text:
+                raise Exception("No Data Added: " + r.text)
+            return True
+        else:
+            return False
+        
     #might still have upload methods here
 
     def upload_file(self, filename, namespace=None):
@@ -89,6 +103,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
             ns=namespace
         else:
             ns=self.namespace
+        #could open file and insert data
 
     def upload_nq_file(self, ns="summary"):
         filename=self.namespace + ".nq"
