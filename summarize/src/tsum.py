@@ -10,6 +10,9 @@ context = "@prefix : <https://schema.org/> ." #https for now
 #=port setup for fuseki, but might now also do 1st one shot from blaze on 9999; for 1st shot off main namespace
  #dv wants to skip local throw away fuseki in memory instance, and create namespace on blaze endpoint summarize
   #from it, then delete it, then upload back to the final summary namespace
+import logging as log  #have some dgb prints, that will go to logs soon/but I find it slow to have to cat the small logs everytime
+log.basicConfig(filename='tsum.log', encoding='utf-8', level=log.DEBUG,
+                format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 #get_summary4repo still uses port for fuseki, will (be)switching to blaze soon
 port=3030 #do not this this is used anymore, so should rm
@@ -46,8 +49,6 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?g
         """
         #using more constrained qry now in get_summary.txt * now above
-#import earthcube_utilities as ec #check that it has been updated for newer work/later
-import qry as ec #check that it has been updated for newer work/later
     #make sure I can send the qry into the new qry.py ec.py subset's fncs, skipping it's usual lookup
     #ec.get_summary(qry) vs "" as it is now
     #def get_summary(g=""): #g not used but could make a version that gets it for only 1 graph
@@ -55,21 +56,14 @@ import qry as ec #check that it has been updated for newer work/later
     # but would have to do at the right time, so time, to make the qry fncs more general
     # or more like the ui, to get the above qry in github, and have the ec/qry utils use that*
     # https://raw.githubusercontent.com/earthcube/ec/master/summary/get_summary.txt
-
+#import earthcube_utilities as ec #check that it has been updated for newer work/later
 #import ../earthcube_utilities as ec  #assuming it is one level above #now just get qry.py part of ec.py
 #from utils:
 #dflt_endpoint = "https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/earthcube/sparql" #and summary
 #ec.dflt_endpoint = tmp_endpoint
 #df=ec.get_summary("")
+import qry as ec #check that it has been updated for newer work/later
 
-#all are tabbed after context
-#a                       :Dataset ;
-# then :so-keyword ;   last w/.
-#column names:
-# "subj" , "g" , "resourceType" , "name" , "description" , "pubname" , "placenames" , "kw" , "datep" ,
-#next time just get a mapping file/have qry w/so keywords as much a possilbe
-##in dc/summarize.py have a version that would do this all from repo.nq &be done w/it
-## if we didn't need to do some much checking below, could do w/sparql only
 #dbg=True
 dbg=False
 
@@ -78,8 +72,6 @@ cwd_leaf = ec.path_leaf(cwd)
 #instead of conversion by file-query or tmp-server right here, dv wants to use the main endpoint
 #so that will include creating and destroying namespaces there, which can be done w/libs, like:
 #should probably do this in pkg, wish not so distant/might lnk for now
-#sys.path.append("..")
-#sys.path.append("../..")
 #above not needed, but below needed in case run from src or .. w/ summarize_repo.sh
 if cwd_leaf == "src":
     sys.path.append("../../earthcube_utilities/src/ec/graph")
@@ -105,6 +97,15 @@ import manageGraph
   #or that would be   '' = get_summary4repo    +       ''
 #==have methods above as a few funcs below/near __main__
 
+#=output will be in format
+#all are tabbed after context
+#a                       :Dataset ;
+# then :so-keyword ;   last w/.
+#column names:
+# "subj" , "g" , "resourceType" , "name" , "description" , "pubname" , "placenames" , "kw" , "datep" ,
+#next time just get a mapping file/have qry w/so keywords as much a possilbe
+##in dc/summarize.py have a version that would do this all from repo.nq &be done w/it
+## if we didn't need to do some much checking below, could do w/sparql only
 def summaryDF2ttl(df):
     "summarize sparql qry (or main quad store)s ret DataFrame, as triples in ttl format w/g as the new subj"
     urns = {}
@@ -118,20 +119,20 @@ def summaryDF2ttl(df):
         f.write(f'{context}\n')
         for index, row in df.iterrows():
             if dbg:
-                print(f'dbg:{row}')
+                log.debug(f'dbg:{row}')
             gu=df["g"][index]
             #skip the small %of dups, that even new get_summary.txt * has
             there = urns.get(gu)
             if not there:
                 urns[gu]=1
             elif there:
-                #print(f'already:{there},so would break loop')
+                #log.debug(f'already:{there},so would break loop')
                 continue #from loop
             #rt=row['resourceType']
             rt_=row['resourceType']
             rt=rt_.replace("https://schema.org/","")
             if dbg:
-                print(f'rt:{rt}')
+                log.debug(f'rt:{rt}')
             name=json.dumps(row['name']) #check for NaN/fix
             if not name:
                 name=f'""'
@@ -170,7 +171,7 @@ def summaryDF2ttl(df):
             s=row['subj']
             f.write(" \n")
             f.write(f'<{gu}>\n')
-            #print(f'        a {rt} ;')
+            #log.debug(f'        a {rt} ;')
             if rt == "tool":
                 f.write(f'        a :SoftwareApplication ;\n')
             else:
@@ -209,6 +210,7 @@ def get_summary4repo(repo):
     #repo="iris_nabu" #just for 1st test
     tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql' #1st blaze call  *
     print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
+    log.info(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
     #try:https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/iris_nabu/sparql
     #seems to work, now make in /iris/ but have to get the iris.nq up there 1st to run the qry
     ec.dflt_endpoint = tmp_endpoint
@@ -220,6 +222,7 @@ def get_summary_from_namespace(args):
     #if not run on local(for now:ncsa)machine: 
     host=os.getenv('HOST') #checking against new store, for now
     print(f'host={host}')
+    log.info(f'host={host}')
     #tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{namespace}/sparql'
     tmp_endpoint=args.endpoint
     #if host != "geocodes.ncsa.illinois.edu":
@@ -228,6 +231,7 @@ def get_summary_from_namespace(args):
     #else: #even internally can have connection problems
     #    tmp_endpoint=f'http://localhost:9999/{namespace}/sparql' 
     print(f'try:{tmp_endpoint}') 
+    log.info(f'try:{tmp_endpoint}') 
     ec.dflt_endpoint = tmp_endpoint
     df=ec.get_summary("")
     return df
@@ -237,27 +241,31 @@ def get_summary_from_namespace(args):
 def make_graph(ns, url="https://graph.geocodes.ncsa.illinois.edu/blazegraph"): 
     mg=manageGraph.ManageBlazegraph(url, ns) 
     print(f'have graph instance:{mg}, for url:{url}')
+    log.info(f'have graph instance:{mg}, for url:{url}')
     return mg
 
 graphs={} #so can look up graph by namespace, to rm later, w/o having to keep track
 
 def make_graph_ns(ns):
     mg= make_graph(ns)
-    mg.createNamespace()
+    #should check if the namespace was already there
+    mg.createNamespace() #dflt=quads, can add False for triples later
     print(f'created ins:{mg} w/namespace:{ns}')
+    log.info(f'created ins:{mg} w/namespace:{ns}')
     graphs[ns]=mg
     return mg
 
 def rm_graph_ns(ns):
     mg=graphs.get(ns)
     print(f'deleting ins:{mg} w/namespace:{ns}')
+    log.info(f'deleting ins:{mg} w/namespace:{ns}')
     mg.deleteNamespace()
 
 # what I thought might be managegraph methods, now as functions here:
 #   def call_summarize(self):
-#       print(f'call tsum on:{self.namespace}')
+#       log.info(f'call tsum on:{self.namespace}')
 def call_summarize(repo):
-    print("per repo={repo} through blaze-namespace")
+    log.info("per repo={repo} through blaze-namespace")
     df=get_summary4repo(repo)
     summaryDF2ttl(df)
 
@@ -278,8 +286,10 @@ def summarize_repo(repo, final_ns="summary"):
     if repo:
         tmp_ns=repo
         print(f'ns={tmp_ns}=repo={repo}')
+        log.info(f'ns={tmp_ns}=repo={repo}')
     else:
         print(f'WARNING ns={tmp_ns}') #log after I finish debugging this
+        log.warning(f'WARNING ns={tmp_ns}') #log after I finish debugging this
     mg= make_graph_ns(tmp_ns)
     print(f'mg.upload_nq_file(){repo}')
     mg.upload_nq_file() #will need to get ns=repo.nq up to ns so can be summarized in next step
@@ -289,6 +299,7 @@ def summarize_repo(repo, final_ns="summary"):
  #  mg.deleteNamespace()  #could keep around during debugging just to check ;makes it, but isn't getting filled yet
     mg.upload_ttl_file()  #uploads it
     print(f'would upload {repo}.ttl from here/after checking')
+    log.info(f'would upload {repo}.ttl from here/after checking')
     #but should really check this before doing it
 
 if __name__ == '__main__':
