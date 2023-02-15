@@ -74,6 +74,12 @@ def wget(fn):
     os_system(cs)
     return path_leaf(fn) #new
 
+def list2txtfile(fn,l,wa="w"):
+    with open(fn, "a") as f:
+        for elt in l:
+            f.write(f'{elt}\n')
+    return len(l)
+
 #def wget_oss_repo(repo=None,path="gleaner/milled",bucket=ncsa_minio):
 def wget_oss_repo(repo=None,path="gleaner/milled",s3address=ncsa_minio):
     "download all the rdf from a gleaner bucket"
