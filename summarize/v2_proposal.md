@@ -66,9 +66,12 @@ sequenceDiagram
     
     summarize_repository.py->>nabu_config: reads sparql from nabu
     summarize_repository.py->>manageGraph: call to create managegraph instance for temp 
+        summarize_repository.py->>manageGraph: call to create namespace for temp 
     manageGraph->>graphstore: creates namespace  for temp
 
     summarize_repository.py->>manageGraph: call to create managegraph instance for repo_summary 
+            summarize_repository.py->>manageGraph: call to create namespace for repo_summary
+            
     manageGraph->>graphstore: creates namespace  for repo_summary, if it does not exist
     summarize_repository.py->>summarize_repository.py: create nabu config to load to temp  
     summarize_repository.py->>nabu:  execute nabu with modified config file
@@ -115,7 +118,7 @@ sparql:
 ```
 4. (sn->mg)python request to create a temp_repo namespaces in a blazegraph ((tns)temp_repo, (sns)repo_summary)
 5. (sn)Quads/Nabu step (future:  nabu can write out a file. It now can, but no binaries done yet )
-    * modify nabu file with a correct sparql.endpoint
+    * modify nabu file with a correct sparql.endpoint (aka temp_repo)
     * run nabu for repository: `glcon nabu prefix --cfg {nabu_cfg} --prefix summonned/{repo}` 
 * (sn -> ec) run tsum
 * (ec) write out to file, or whatever
