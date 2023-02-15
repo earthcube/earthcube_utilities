@@ -242,8 +242,9 @@ def get_summary_from_namespace(args):
 def make_graph(ns, url="https://graph.geocodes.ncsa.illinois.edu/blazegraph"): 
     mg=manageGraph.ManageBlazegraph(url, ns) 
     print(f'have graph instance:{mg}, for url:{url}')
-    #from pythonping import ping
-    #ping(url, verbose=True) #will try w/requests w/in class
+    import urllib.request
+    code=urllib.request.urlopen(url).getcode()
+    print(f'w/code:{code}') #good here but getting 404 during insert
     log.info(f'have graph instance:{mg}, for url:{url}')
     return mg
 
