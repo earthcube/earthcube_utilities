@@ -53,6 +53,34 @@ this is what summary version on has implemented. The first three steps duplicate
    * run tsum_v2 to create summary triples
    * if uploadSummary, use python requests to upload summary
 
+```mermaid
+sequenceDiagram
+    participant nabu_config
+    participant summarize_repository.py
+    participant manageGraph
+    participant nabu
+    participant materialize_summary.py
+    participant graphstore
+    participant repo.ttl
+    
+    summarize_repository.py->>nabu_config: reads sparql from nabu
+    summarize_repository.py->>manageGraph: call to create managegraph instance for temp 
+    manageGraph->>graphstore: creates namespace  for temp
+
+    summarize_repository.py->>manageGraph: call to create managegraph instance for repo_summary 
+    manageGraph->>graphstore: creates namespace  for repo_summary, if it does not exist
+    summarize_repository.py->>summarize_repository.py: create nabu config to load to temp  
+    summarize_repository.py->>nabu:  execute with modified config file 
+    nabu->>graphstore: read from configured s3, write quads to temp namespace
+    summarize_repository.py->>materialize_summary.py: call maternilize summary
+    graphstore->>materialize_summary.py: read from graph store
+    materialize_summary.py->>materialize_summary.py: create summary triples
+    materialize_summary.py->>repo.ttl: write out summary triples to file
+    summarize_repository.py->>manageGraph: call insert repo.ttl to repo_summary namespace
+    manageGraph->>graphstore: insert repo.ttl to repo_summary namespace
+    summarize_repository.py->>manageGraph: delete temp namespace
+    
+```
 
 **details**
 Suggested Classes/object whatever we think they should be called
