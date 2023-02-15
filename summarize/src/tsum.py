@@ -15,7 +15,8 @@ log.basicConfig(filename='tsum.log', encoding='utf-8', level=log.DEBUG,
                 format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 #get_summary4repo still uses port for fuseki, will (be)switching to blaze soon
-port=3030 #do not this this is used anymore, so should rm
+#port=3030 #do not this this is used anymore, so should rm
+port=9999 #but all our blaze urls use trafik so don't need the port, unless local
 #ftsp=os.getenv('fuseki_tmp_summary_port')
 ftsp=os.getenv('tmp_summary_port') #if 9999 will use blaze
 if ftsp:
@@ -209,7 +210,7 @@ def get_summary4repo(repo):
     #tmp_endpoint=f'http://localhost:{port}/{repo}/sparql' #fnq repo #fuseki
     #repo="iris_nabu" #just for 1st test
     tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql' #1st blaze call  *
-    print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
+    print(f'get_summary4repo try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
     log.info(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
     #try:https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/iris_nabu/sparql
     #seems to work, now make in /iris/ but have to get the iris.nq up there 1st to run the qry
@@ -220,9 +221,9 @@ def get_summary4repo(repo):
 def get_summary_from_namespace(args):
     "so can call interactively to look at the df"
     #if not run on local(for now:ncsa)machine: 
-    host=os.getenv('HOST') #checking against new store, for now
-    print(f'host={host}')
-    log.info(f'host={host}')
+  # host=os.getenv('HOST') #checking against new store, for now
+  # print(f'host={host}')
+  # log.info(f'host={host}')
     #tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{namespace}/sparql'
     tmp_endpoint=args.endpoint
     #if host != "geocodes.ncsa.illinois.edu":
@@ -230,7 +231,7 @@ def get_summary_from_namespace(args):
     #    tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/{namespace}/sparql'
     #else: #even internally can have connection problems
     #    tmp_endpoint=f'http://localhost:9999/{namespace}/sparql' 
-    print(f'try:{tmp_endpoint}') 
+    print(f'get_summary_from_namespace try:{tmp_endpoint}') 
     log.info(f'try:{tmp_endpoint}') 
     ec.dflt_endpoint = tmp_endpoint
     df=ec.get_summary("")
@@ -241,6 +242,8 @@ def get_summary_from_namespace(args):
 def make_graph(ns, url="https://graph.geocodes.ncsa.illinois.edu/blazegraph"): 
     mg=manageGraph.ManageBlazegraph(url, ns) 
     print(f'have graph instance:{mg}, for url:{url}')
+    #from pythonping import ping
+    #ping(url, verbose=True) #will try w/requests w/in class
     log.info(f'have graph instance:{mg}, for url:{url}')
     return mg
 
@@ -260,6 +263,13 @@ def rm_graph_ns(ns):
     print(f'deleting ins:{mg} w/namespace:{ns}')
     log.info(f'deleting ins:{mg} w/namespace:{ns}')
     mg.deleteNamespace()
+
+#-
+def file_size(fn):
+    size= os.path.getsize(fn)
+    print(f'size:{size}')
+    return size
+#-
 
 # what I thought might be managegraph methods, now as functions here:
 #   def call_summarize(self):
@@ -282,6 +292,11 @@ def call_summarize(repo):
 #       self.upload_ttl_file(ns)  #uploads it
 #def summarize(repo, final_ns="summary"):
 def summarize_repo(repo, final_ns="summary"):
+    repo_file=f'{repo}.nq'
+    repo_file_size=file_size(repo_file)
+    if repo_file_size < 99:
+        print(f'repo:{repo_file} only:{repo_file_size} bytes, so not ok to summarize')
+        log.warning(f'repo:{repo_file} only:{repo_file_size} bytes, so not ok to summarize')
     tmp_ns="test"
     if repo:
         tmp_ns=repo
@@ -297,7 +312,14 @@ def summarize_repo(repo, final_ns="summary"):
     call_summarize(repo) #creates repo.ttl
     #could check to see file is there/ok
  #  mg.deleteNamespace()  #could keep around during debugging just to check ;makes it, but isn't getting filled yet
-    mg.upload_ttl_file()  #uploads it
+    summary_file=f'{repo}.ttl'
+    #summary_lines=file_lines(summary_file)
+    summary_size=file_size(summary_file)
+    if summary_size > 99:
+        mg.upload_ttl_file()  #uploads it
+    else:
+        print(f'summary:{summary_file} only:{summary_size} bytes, so not ok to upload')
+        log.warning(f'summary:{summary_file} only:{summary_size} long, so not ok to upload')
     print(f'would upload {repo}.ttl from here/after checking')
     log.info(f'would upload {repo}.ttl from here/after checking')
     #but should really check this before doing it
