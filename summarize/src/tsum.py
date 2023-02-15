@@ -239,11 +239,19 @@ def make_graph(ns, url="https://graph.geocodes.ncsa.illinois.edu/blazegraph"):
     print(f'have graph instance:{mg}')
     return mg
 
+graphs={} #so can look up graph by namespace, to rm later, w/o having to keep track
+
 def make_graph_ns(ns):
     mg= make_graph(ns)
     mg.createNamespace()
-    print(f'with namespace:{ns}')
+    print(f'created ins:{mg} w/namespace:{ns}')
+    graphs[ns]=mg
     return mg
+
+def rm_graph_ns(ns):
+    mg=graphs.get(ns)
+    print(f'deleting ins:{mg} w/namespace:{ns}')
+    mg.deleteNamespace()
 
 # what I thought might be managegraph methods, now as functions here:
 #   def call_summarize(self):
@@ -269,18 +277,23 @@ def summarize_repo(repo, final_ns="summary"):
     tmp_ns="test"
     if repo:
         tmp_ns=repo
-        print(f'ns=repo={repo}')
+        print(f'ns={tmp_ns}=repo={repo}')
+    else:
+        print(f'warning ns={tmp_ns}')
     mg= make_graph_ns(tmp_ns)
 #  #self.upload_nq_file() #is this done by glcon nabu? probably for the big_namespace
-    mg.upload_nq_file() #will need to get repo.nq up so can be summarized in next step
+    mg.upload_nq_file() #will need to get ns=repo.nq up to ns so can be summarized in next step
     #just for now could try:
-    tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql' #1st blaze call  *
-    cs=f"curl -X POST -H 'Content-Type:text/x-nquads' --data-binary  {repo}.nq {tmp_endpoint}"
-    print(f'try cs={cs}')
-    ec.os_system(cs) #then do this w/requsts #w/iris.nq that works w/fuseki w/blaze get:
+    #tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql' #1st blaze call  *
+    #cs=f"curl -X POST -H 'Content-Type:text/x-nquads' --data-binary {repo}.nq {tmp_endpoint}"
+    #print(f'try cs={cs}')
+    print(f'mg.upload_nq_file({repo})')
+    #mg.upload_nq_file(repo) #should do the same thing ;already done above, should work w/defaults
+    #ec.os_system(cs) #then do this w/requsts #w/iris.nq that works w/fuseki w/blaze get:
     #java.util.concurrent.ExecutionException: org.openrdf.rio.RDFParseException: Expected '<' or '_', found: i [line 1]
     call_summarize(repo) #creates repo.ttl
     #could check to see file is there/ok
+    #ec.os_system("sleep 10") #hopefully will block long enough to get qry in
     mg.deleteNamespace()
     mg.upload_ttl_file()  #uploads it
     print(f'will upload {repo}.ttl from here')

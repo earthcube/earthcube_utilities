@@ -96,25 +96,41 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         
     #might still have upload methods here
 
-    def upload_file(self, filename, namespace=None, content_type="text/x-nquads"):
+    #def upload_file(self, filename, namespace=None, content_type="text/x-nquads"):
+    def upload_file(self, filename, content_type="text/x-nquads"):
         "to temp namespace or final one if given"
-        print(f'upload:{filename}')
-        if namespace:
-            ns=namespace
-        else:
-            ns=self.namespace
+        print(f'upload_file:{filename}')
+    #   if namespace:
+    #       ns=namespace
+    #   else: #best to use the instance's namespace
+    #       ns=self.namespace
         #could open file and insert data
         with open(filename, 'rb+') as f:   
             lines = f.read()
-        self.insert(f, content_type)
+            print(f'insert:{filename}')
+            self.insert(f, content_type)
 
-    def upload_nq_file(self, ns="summary"):
-        filename=self.namespace + ".nq"
-        self.upload_file(filename,ns)
-
-    def upload_ttl_file(self, 'Content-Type:text/x-turtle'):
-        filename=self.namespace + ".ttl"
+    #def upload_nq_file(self, ns="summary"): #this would be for final ttl upload, &I would just pass it in
+    def upload_nq_file(self, fn=None):
+        "will default to ns.nq"
+        if fn:
+            filename=fn
+        else:
+            filename=self.namespace + ".nq"
         self.upload_file(filename)
+
+    def upload_ttl_file(self, fn=None):
+        "will default to ns.ttl"
+   #def upload_ttl_file(self, ns=None, fn=None):
+   #    if ns:
+   #        namespace=ns
+   #    else:
+   #        namespace=self.namespace
+        if fn: #will want to upload ns=repo.ttl to ns=summary in the end
+            filename=fn
+        else:
+            filename=self.namespace + ".ttl"
+        self.upload_file(filename, 'Content-Type:text/x-turtle')
 
 #will instantiange a graph/namespace instance in summarize code to do the logic below
     # an instance of this is made, 
