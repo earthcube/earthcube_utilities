@@ -108,11 +108,11 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
             lines = f.read()
         self.insert(f, content_type)
 
-    def upload_nq_file(self, ns="summary", 'Content-Type:text/x-turtle'):
+    def upload_nq_file(self, ns="summary"):
         filename=self.namespace + ".nq"
         self.upload_file(filename,ns)
 
-    def upload_ttl_file(self):
+    def upload_ttl_file(self, 'Content-Type:text/x-turtle'):
         filename=self.namespace + ".ttl"
         self.upload_file(filename)
 
