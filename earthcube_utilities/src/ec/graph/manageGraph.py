@@ -5,7 +5,7 @@ class ManageGraph:
     baseurl = "http://localhost:3030" # basically fuskei
     namespace = "temp_summary"
     path = "namespace"
-    sparql = "sparql"
+    sparql = "/sparql" # blazegraph uses sparql after namespace, but let's not assume this
 
     def __init__(self, graphurl, namespace):
         self.baseurl = graphurl
@@ -63,9 +63,11 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         headers = {"Content-Type": "text/plain"}
         r = requests.post(url,data=template, headers=headers)
         if r.status_code==201:
-            return True
+            return "Created"
+        elif  r.status_code==409:
+            return "Exists"
         else:
-            return False
+            raise Exception("Create Failed.")
 
 
     def deleteNamespace(self):
@@ -74,7 +76,20 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         headers = {"Content-Type": "text/plain"}
         r = requests.delete(url, headers=headers)
         if r.status_code == 200:
+            return "Deleted"
+        else:
+            raise Exception("Delete Failed.")
+
+    def insert(self, data, content_type="text/x-nquads"):
+        # rdf datatypes: https://github.com/blazegraph/database/wiki/REST_API#rdf-data
+        # insert: https://github.com/blazegraph/database/wiki/REST_API#insert
+        url = f"{self.baseurl}/namespace/{self.namespace}{self.sparql}"
+        headers = {"Content-Type": f"{content_type}"}
+        r = requests.post(url,data=data, headers=headers)
+        if r.status_code == 200:
+            # '<?xml version="1.0"?><data modified="0" milliseconds="7"/>'
+            if 'data modified="0"'  in r.text:
+                raise Exception("No Data Added: " + r.text)
             return True
         else:
             return False
-        pass

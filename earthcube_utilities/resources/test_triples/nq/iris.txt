@@ -1,0 +1,600 @@
+<https://ds.iris.edu/ds/products/emtf/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/alternateName> "EMTF" <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpfg <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpg0 <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/dateCreated> "2013-07-17T22:17:22.003" <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/dateModified> "2019-11-20T14:48:11.228" <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/description> "USArray magnetotelluric transfer functions (MT TFs) calculated at USArray MT sites installed by Oregon State University, as well as other community magnetotelluric transfer functions, are available from the \"SPUD EMTF\":http://www.iris.edu/spud/emtf repository in both XML and EDI formats. The international magnetotelluric community is invited to use the EMTF repository to archive their MT TFs. Please contact \"Anna Kelbert\":https://www.usgs.gov/staff-profiles/anna-kelbert for support; all data formats are accepted and a data citation is created upon submission of data to the searchable repository.\r\n\r\nThe XML format for electromagnetic transfer functions and related conversion software was developed at Oregon State University under an NSF award, and later improved and updated by the USGS Geomagnetism Program, with continued support from IRIS. A living software repository is available in the \"SeisCode EMTF-FCU project\":https://seiscode.iris.washington.edu/projects/emtf-fcu File Conversion Utilities project. Detailed documentation and usage examples are provided by \"Kelbert &#40;2009&#41; \":https://library.seg.org/doi/10.1190/geo2018-0679.1." <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/image> "https://ds.iris.edu/media/product/emtf/images/mt_func_logo_1.png" <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/keywords> "Transportable Array,magnetotelluric data,seismic,USArray MT,MT data,global magnetotellurics,magnetotelluric impedance,seismology,geophysics,EMTF,impedance database,US magnetotellurics" <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/name> "Magnetotelluric Transfer Functions" <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/url> "https://ds.iris.edu/ds/products/emtf/" <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+_:bcfdaahgc1shgtrlvvpfg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+_:bcfdaahgc1shgtrlvvpfg <https://schema.org/name> "IRIS Data Products" <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+_:bcfdaahgc1shgtrlvvpg0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+_:bcfdaahgc1shgtrlvvpg0 <https://schema.org/affiliation> _:bcfdaahgc1shgtrlvvpgg <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+_:bcfdaahgc1shgtrlvvpg0 <https://schema.org/name> "Anna Kelbert" <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+_:bcfdaahgc1shgtrlvvpgg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+_:bcfdaahgc1shgtrlvvpgg <https://schema.org/name> "Geomagnetism Program, U.S. Geological Survey" <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/0368e21a1b5bd7ad0a59eacdc71bbbe5de3947c0> .
+<https://ds.iris.edu/ds/products/momenttensor/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/alternateName> "MomentTensor" <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/author> _:bcfdaah8c1shgtrlvvpa0 <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/dateCreated> "2013-06-19T23:38:40.048" <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/dateModified> "2016-10-06T15:11:29.843" <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/description> "Global Centroid-Moment-Tensors from the GCMT project at Lamont-Doherty Earth Observatory are available through SPUD within minutes after their publication. Initial quick-CMT solutions are shown and are later updated to GCMT solutions when updates arrive." <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/image> "https://ds.iris.edu/media/product/momenttensor/images/mt_logo.png" <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/keywords> "seismology,geophysics,MomentTensor,seismic" <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/name> "Centroid Moment Tensors" <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/url> "https://ds.iris.edu/ds/products/momenttensor/" <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+_:bcfdaah8c1shgtrlvvpa0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+_:bcfdaah8c1shgtrlvvpa0 <https://schema.org/name> "IRIS Data Products" <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/15f9651976fd31ccc2600d334d09fda7fae4b26e> .
+_:bcfdaah8c1shgtrlvvpdg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+_:bcfdaah8c1shgtrlvvpdg <https://schema.org/affiliation> _:bcfdaah8c1shgtrlvvpe0 <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+_:bcfdaah8c1shgtrlvvpdg <https://schema.org/name> "Luciana Astiz" <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+_:bcfdaah8c1shgtrlvvpe0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+_:bcfdaah8c1shgtrlvvpe0 <https://schema.org/name> "Array Network Facility" <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/alternateName> "StationDigest" <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/author> _:bcfdaah8c1shgtrlvvpeg <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/author> _:bcfdaah8c1shgtrlvvpdg <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/dateCreated> "2013-06-19T23:06:53.518" <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/dateModified> "2016-10-06T15:17:11.021" <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/description> "Station Digest reports for decomissioned USArray Transportable Array stations." <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/image> "https://ds.iris.edu/media/product/stationdigest/images/stationdigest_logo.png" <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/keywords> "Transportable Array,seismic,StationDigest,seismology,geophysics" <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/name> "for USArray Transportable Array stations" <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/url> "https://ds.iris.edu/ds/products/stationdigest/" <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+_:bcfdaah8c1shgtrlvvpeg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+_:bcfdaah8c1shgtrlvvpeg <https://schema.org/name> "IRIS Data Products" <urn:iris/2470f53238d2eec5c109d9edd6e8c4a3d55197b1> .
+_:bcfdaah8c1shgtrlvvpbg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+_:bcfdaah8c1shgtrlvvpbg <https://schema.org/name> "IRIS Data Products" <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+_:bcfdaah8c1shgtrlvvpc0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+_:bcfdaah8c1shgtrlvvpc0 <https://schema.org/affiliation> _:bcfdaah8c1shgtrlvvpcg <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+_:bcfdaah8c1shgtrlvvpc0 <https://schema.org/name> "Ge Jin" <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+_:bcfdaah8c1shgtrlvvpcg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+_:bcfdaah8c1shgtrlvvpcg <https://schema.org/name> "Lamont-Doherty Earth Observatory, Columbia University" <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/alternateName> "ASWMS" <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/author> _:bcfdaah8c1shgtrlvvpbg <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/author> _:bcfdaah8c1shgtrlvvpc0 <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/dateCreated> "2014-05-13T21:00:38.429" <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/dateModified> "2017-04-28T16:36:50.563" <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/description> "Do-it-yourself automated surface wave tomography using the MATLAB based ASWMS package developed by Ge Jin & James Gaherty.  This product provides 1) the ASWMS software package and 2) weekly updated USArray, Alaska surface wave tomography maps using ASWMS." <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/image> "https://ds.iris.edu/media/product/aswms/images/ASWMS_logo_1.png" <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/keywords> "ASWMS,seismology,geophysics,seismic" <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/name> "Automated Surface Wave Phase Velocity Measuring System" <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/url> "https://ds.iris.edu/ds/products/aswms/" <urn:iris/2859c1729f34cc7b13c08bc9f6ff13ffd043bb0e> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/globalstacks/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/alternateName> "globalstacks" <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvph0 <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/dateCreated> "2013-12-06T20:44:21.837" <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/dateModified> "2017-12-05T23:37:25.397" <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/description> "Global stacks of up to a million event-windowed seismograms using short-term to long-term averages (STA/LTA) in different frequency bands for vertical broadband data (1990-2012) available from the IRIS DMC.  Long period versions include vertical and horizontal component data.\r\n" <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/image> "https://ds.iris.edu/media/product/globalstacks/images/GlobalStacksLogo_2.png" <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/keywords> "seismology,geophysics,globalstacks,seismic" <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/name> "Global stacks of millions of seismograms" <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/url> "https://ds.iris.edu/ds/products/globalstacks/" <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+_:bcfdaahgc1shgtrlvvph0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+_:bcfdaahgc1shgtrlvvph0 <https://schema.org/name> "IRIS Data Products" <urn:iris/2863e6286e3de8064c62647e3fc9ba349f7f414d> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/name> "Continuous envelope functions" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/url> "https://ds.iris.edu/ds/products/envelopefunctions/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/stationdigest/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/name> "for USArray Transportable Array stations" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/stationdigest/> <https://schema.org/url> "https://ds.iris.edu/ds/products/stationdigest/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/name> "Shear-wave splitting databases" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/url> "https://ds.iris.edu/ds/products/sws-dbs/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/surface-wave-radiation-patterns/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/surface-wave-radiation-patterns/> <https://schema.org/name> " - Directional Dependency of Radiation of Seismic Energy from Surface Waves" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/surface-wave-radiation-patterns/> <https://schema.org/url> "https://ds.iris.edu/ds/products/surface-wave-radiation-patterns/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/ears/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/name> "EarthScope Automated Receiver Survey" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/url> "https://ds.iris.edu/ds/products/ears/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/name> "1D & 3D synthetic seismograms from the Global ShakeMovie project" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/url> "https://ds.iris.edu/ds/products/shakemoviesynthetics/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/name> "Global Empirical Green's Tensor database" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/url> "https://ds.iris.edu/ds/products/globalempiricalgreenstensors/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/syngine/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/name> "On demand custom 3D AxiSEM synthetic seismograms" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/url> "https://ds.iris.edu/ds/products/syngine/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/infrasound/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/name> "TA Infrasound Data Products" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/url> "https://ds.iris.edu/ds/products/infrasound/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/name> "Western US Ambient Noise Cross-Correlations" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/url> "https://ds.iris.edu/ds/products/ancc-ciei/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/hvsr/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/hvsr/> <https://schema.org/name> "Horizontal‐to‐Vertical Spectral Ratio (HVSR) IRIS Station Toolbox" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/hvsr/> <https://schema.org/url> "https://ds.iris.edu/ds/products/hvsr/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/emerald/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/name> "A software framework for seismic event processing" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/url> "https://ds.iris.edu/ds/products/emerald/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/name> "Event Bulletins" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/url> "https://ds.iris.edu/ds/products/eventbulletins/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/emc/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/name> "IRIS Earth Model Collaboration" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/url> "https://ds.iris.edu/ds/products/emc/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/seissound/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/name> "The Audio/Video Seismic Waveform Visualization" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/url> "https://ds.iris.edu/ds/products/seissound/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/calibration/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/name> "Calibration products" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/url> "https://ds.iris.edu/ds/products/calibration/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/globalstacks/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/name> "Global stacks of millions of seismograms" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/globalstacks/> <https://schema.org/url> "https://ds.iris.edu/ds/products/globalstacks/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/emtf/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/name> "Magnetotelluric Transfer Functions" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/emtf/> <https://schema.org/url> "https://ds.iris.edu/ds/products/emtf/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/name> "The IRIS DMC Noise Toolkit" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/url> "https://ds.iris.edu/ds/products/noise-toolkit/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/gmv/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/name> "The Ground Motion Visualization" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/url> "https://ds.iris.edu/ds/products/gmv/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/eqenergy/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/name> "Earthquake energy & rupture duration" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/url> "https://ds.iris.edu/ds/products/eqenergy/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/name> "Short-arc Rayleigh wave source-time functions" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/url> "https://ds.iris.edu/ds/products/sourcetimefunction/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/eventplots/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/name> "Maps, record sections & other plots for M6.0+ events" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/url> "https://ds.iris.edu/ds/products/eventplots/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/aswms/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/name> "Automated Surface Wave Phase Velocity Measuring System" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/aswms/> <https://schema.org/url> "https://ds.iris.edu/ds/products/aswms/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/aftershocks/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/name> "Aftershocks" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/url> "https://ds.iris.edu/ds/products/aftershocks/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/momenttensor/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/name> "Centroid Moment Tensors" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/momenttensor/> <https://schema.org/url> "https://ds.iris.edu/ds/products/momenttensor/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/filmchip/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/name> "The USGS WWFC Pilot Scanning Project" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/url> "https://ds.iris.edu/ds/products/filmchip/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/esec/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/name> "Exotic Seismic Events Catalog" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/url> "https://ds.iris.edu/ds/products/esec/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/backprojection/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/name> "P-wave back-projection rupture imaging" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/url> "https://ds.iris.edu/ds/products/backprojection/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/emc/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/syngine/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/eventplots/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/gmv/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/backprojection/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/globalstacks/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/surface-wave-radiation-patterns/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/esec/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/infrasound/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/aswms/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/aftershocks/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/sws-dbs/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/ears/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/eqenergy/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/envelopefunctions/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/shakemoviesynthetics/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/sourcetimefunction/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/ancc-ciei/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/momenttensor/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/emtf/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/hvsr/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/noise-toolkit/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/seissound/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/emerald/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/eventbulletins/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/filmchip/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/calibration/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/dataset> <https://ds.iris.edu/ds/products/stationdigest/> <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/description> "Data products derived from raw data are produced both by the scientific community and the IRIS DMC." <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/name> "IRIS DS Data Products" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/3f223ab035e60e48d766e9d53a4818c33946d00b> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/alternateName> "Noise Toolkit" <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvphg <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/dateCreated> "2014-09-23T15:20:19.618" <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/dateModified> "2021-02-10T02:58:39.217" <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/description> "The IRIS DMC Noise Toolkit is a collection of 3 open-source Python script bundles for:\r\n<ol> \r\n    <br />\r\n    <li>Computing Power Spectral Densities (PSD) of waveform data</li> \r\n    <li>Performing microseism energy computations from PSDs</li>\r\n    <li>Performing frequency dependent polarization analysis of seismograms</li>\r\n</ol>" <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/image> "https://ds.iris.edu/media/product/noise-toolkit/images/NTK_logo.png" <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/keywords> "seismology,geophysics,Noise Toolkit,seismic" <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/name> "The IRIS DMC Noise Toolkit" <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/noise-toolkit/> <https://schema.org/url> "https://ds.iris.edu/ds/products/noise-toolkit/" <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+_:bcfdaahgc1shgtrlvvphg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+_:bcfdaahgc1shgtrlvvphg <https://schema.org/name> "IRIS Data Products" <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/4ac785ea0d2f03429617a34885ba1de6ba37a851> .
+<https://ds.iris.edu/ds/products/backprojection/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/alternateName> "BackProjection" <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpig <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/dateCreated> "2013-06-24T16:33:04.129" <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/dateModified> "2021-12-08T15:35:30.307" <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/description> "The Back-Projection (BP) product shows the beamformed time history and location of coherent short period P-wave energy generated by large earthquakes observed at three regional arrays and across the Global Seismic Network. These are generated following all global M6.5+ earthquakes. The back-projections typically take less than 10 minutes to compute, however arrival of event triggers, travel time of P-waves, downloading of data and shared DMC computing resources delays publication of results in SPUD to about an hour after origin time. These are fully automated and not reviewed by a human." <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/image> "https://ds.iris.edu/media/product/backprojection/images/backprojections_logo.png" <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/keywords> "BackProjection,seismology,geophysics,seismic" <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/name> "P-wave back-projection rupture imaging" <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/backprojection/> <https://schema.org/url> "https://ds.iris.edu/ds/products/backprojection/" <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+_:bcfdaahgc1shgtrlvvpig <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+_:bcfdaahgc1shgtrlvvpig <https://schema.org/name> "IRIS Data Products" <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/581348ebac3b7c9e228dfbac890bd556bf712400> .
+<https://ds.iris.edu/ds/products/gmv/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/alternateName> "GMV" <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/author> _:bcfdaah8c1shgtrlvvpf0 <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/dateCreated> "2013-06-05T13:14:05.237" <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/dateModified> "2021-02-10T02:54:46.328" <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/description> "Visualizations of real data showing how seismic waves from earthquakes sweep across the North American network of seismic stations for which data are openly available and are collected using the \"federated data access\":https://service.iris.edu/irisws/fedcatalog/1/." <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/image> "https://ds.iris.edu/media/product/usarraygmv/images/gmv_logo.png" <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/keywords> "GMV,seismology,geophysics,seismic" <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/name> "The Ground Motion Visualization" <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/gmv/> <https://schema.org/url> "https://ds.iris.edu/ds/products/gmv/" <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+_:bcfdaah8c1shgtrlvvpf0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+_:bcfdaah8c1shgtrlvvpf0 <https://schema.org/name> "IRIS Data Products" <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/607b1fbca85426d73858f66bdd71c33beed29f34> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/alternateName> "EnvelopeFunctions" <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/author> _:bcfdaah8c1shgtrlvvpag <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/dateCreated> "2013-08-26T20:05:21.703" <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/dateModified> "2017-09-25T20:14:19.059" <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/description> "A collection of continuous envelope functions to search for tectonic tremor and for data quality analysis. Envelope functions are computed automatically by the Earth and Space Sciences Department of the University of Washington utilizing selected portions of the IRIS DMC waveform archive and are distributed by the IRIS DMC.\r\n" <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/image> "https://ds.iris.edu/media/product/envelopefunctions/images/envelope_functions.png" <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/keywords> "geophysics,seismic,seismology,Envelope Functions" <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/name> "Continuous envelope functions" <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/url> "https://ds.iris.edu/ds/products/envelopefunctions/" <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+_:bcfdaah8c1shgtrlvvpag <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+_:bcfdaah8c1shgtrlvvpag <https://schema.org/name> "IRIS Data Products" <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/74a742ae43242815854cd48c5b435f9ced3d8334> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/alternateName> "EventBulletins" <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpi0 <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/dateCreated> "2013-07-17T22:26:02.095" <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/dateModified> "2019-07-01T19:19:41.205" <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/description> "The DMC receives and archives phase arrivals from the Array Network Facility (\"ANF\":http://anf.ucsd.edu/). These event bulletins are accessible via DMC’s Searchable Product Depository (\"SPUD\":/spud/eventbulletin)." <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/image> "https://ds.iris.edu/media/product/eventbulletins/images/event_bull_logo.png" <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/keywords> "Transportable Array,seismic,seismology,geophysics,EventBulletins" <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/name> "Event Bulletins" <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+<https://ds.iris.edu/ds/products/eventbulletins/> <https://schema.org/url> "https://ds.iris.edu/ds/products/eventbulletins/" <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+_:bcfdaahgc1shgtrlvvpi0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+_:bcfdaahgc1shgtrlvvpi0 <https://schema.org/name> "IRIS Data Products" <urn:iris/75cee9fd19eb4880b1359d8ac5b26ab74d79d34d> .
+_:bcfdaah8c1shgtrlvvpd0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+_:bcfdaah8c1shgtrlvvpd0 <https://schema.org/name> "IRIS Data Products" <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/aftershocks/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/alternateName> "Aftershocks" <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/author> _:bcfdaah8c1shgtrlvvpd0 <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/dateCreated> "2014-01-17T01:42:39.702" <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/dateModified> "2021-07-30T17:16:54.982" <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/description> "Animations and figures of seismicity automatically generated following large global earthquakes (Mag > 7).\r\n" <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/image> "https://ds.iris.edu/media/product/aftershocks/images/AftershocksLogo-1.png" <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/keywords> "geophysics,seismic,Aftershocks,seismology" <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/name> "Aftershocks" <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/aftershocks/> <https://schema.org/url> "https://ds.iris.edu/ds/products/aftershocks/" <urn:iris/7cb6146def8a637d40d10931573d1be75250de0c> .
+<https://ds.iris.edu/ds/products/syngine/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/alternateName> "syngine" <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpj0 <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/dateCreated> "2015-09-16T05:00:16.792" <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/dateModified> "2022-08-30T16:04:20.216" <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/description> "The *Synthetics Engine* (Syngine) service provides access to custom tailored synthetic seismograms for selected *Earth* and *Mars* models." <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/image> "https://ds.iris.edu/media/product/syngine/images/Syngine_Logo.png" <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/keywords> "Green's functions,Syngine,Earth Models,seismic,miniSEED,AxiSEM,seismology,geophysics,Instaseis,Synthetics,SAC,Mars Models,mars" <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/name> "On demand custom 3D AxiSEM synthetic seismograms" <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/syngine/> <https://schema.org/url> "https://ds.iris.edu/ds/products/syngine/" <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+_:bcfdaahgc1shgtrlvvpj0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+_:bcfdaahgc1shgtrlvvpj0 <https://schema.org/name> "IRIS Data Products" <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/8185e3c355b01e6af91fd194f0e1045138665aad> .
+<https://ds.iris.edu/ds/products/seissound/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/alternateName> "SeisSound" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpk0 <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpkg <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpl0 <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/dateCreated> "2013-06-03T23:09:58.527" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/dateModified> "2017-06-23T17:12:20.540" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/description> "The SeisSound Visualization is an audio/video-based IRIS DMC data product that illustrates the frequency and amplitude content of seismograms. Conveying the seismograms frequency content both visually and audibly produces a better understanding of their spectral content." <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/image> "https://ds.iris.edu/media/product/seissound/images/seissound_logo.png" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/keywords> "geophysics,seismic,SeisSound,seismology" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/name> "The Audio/Video Seismic Waveform Visualization" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/seissound/> <https://schema.org/url> "https://ds.iris.edu/ds/products/seissound/" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvpk0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvpk0 <https://schema.org/name> "IRIS Data Products" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvpkg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvpkg <https://schema.org/affiliation> _:bcfdaahgc1shgtrlvvplg <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvpkg <https://schema.org/name> "Debi Kilb" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvplg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvplg <https://schema.org/name> "University of California, San Diego" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvpl0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvpl0 <https://schema.org/affiliation> _:bcfdaahgc1shgtrlvvpm0 <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvpl0 <https://schema.org/name> "Zhigang Peng" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvpm0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+_:bcfdaahgc1shgtrlvvpm0 <https://schema.org/name> "Georgia Tech" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/8f4dea1d03c71eb01f8f7d1a0152a8fc60d4f4c1> .
+<https://ds.iris.edu/ds/products/emc/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/alternateName> "EMC" <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/author> _:bcfdaah8c1shgtrlvvpb0 <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/dateCreated> "2013-06-13T15:51:33.574" <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/dateModified> "2022-08-25T16:25:46.344" <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/description> "A repository of Earth models with the aim of providing the research community with access to various Earth models, visualization tools for model preview, facilities to extract model data/metadata and access to the contributed processing software and scripts." <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/image> "https://ds.iris.edu/media/product/emc/images/emc_logo.png" <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/keywords> "Earth Models,seismology,geophysics,seismic" <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/name> "IRIS Earth Model Collaboration" <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/emc/> <https://schema.org/url> "https://ds.iris.edu/ds/products/emc/" <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+_:bcfdaah8c1shgtrlvvpb0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+_:bcfdaah8c1shgtrlvvpb0 <https://schema.org/name> "IRIS Data Products" <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/92f4947d20525d094b48e3cacdd523baae8567b4> .
+<https://ds.iris.edu/ds/products/eventplots/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/alternateName> "EventPlots" <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpmg <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/dateCreated> "2013-06-24T17:04:12.656" <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/dateModified> "2016-10-06T14:59:08.743" <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/description> "The IRIS DMC&apos;s Event Plot product is a suite of plots that are automatically generated following all earthquakes of magnitude 6 or greater. The plot suite uses all open broadband data, or a sub-selection, available at the IRIS DMC at the time the product was generated. Based on data availability and signal quality, some plots may not be produced for certain events." <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/image> "https://ds.iris.edu/media/product/eventplots/images/eventplots_logo.png" <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/keywords> "EventPlots,seismology,geophysics,seismic" <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/name> "Maps, record sections & other plots for M6.0+ events" <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/eventplots/> <https://schema.org/url> "https://ds.iris.edu/ds/products/eventplots/" <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+_:bcfdaahgc1shgtrlvvpmg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+_:bcfdaahgc1shgtrlvvpmg <https://schema.org/name> "IRIS Data Products" <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/98c316ec0ca4a16f45112551f0dc8bffce5b3d53> .
+<https://ds.iris.edu/ds/products/filmchip/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/alternateName> "FilmChip" <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpng <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/dateCreated> "2013-06-19T23:26:23.150" <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/dateModified> "2016-10-06T15:16:08.122" <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/description> "Results of a pilot project whereby WWSSN(World Wide Standardized Seismograph Network) seismic records, originally recorded on film, were digitized." <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/image> "https://ds.iris.edu/media/product/filmchip/images/filmchip_logo.png" <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/keywords> "geophysics,seismic,FilmChip,seismology" <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/name> "The USGS WWFC Pilot Scanning Project" <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/filmchip/> <https://schema.org/url> "https://ds.iris.edu/ds/products/filmchip/" <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+_:bcfdaahgc1shgtrlvvpng <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+_:bcfdaahgc1shgtrlvvpng <https://schema.org/name> "IRIS Data Products" <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/9948ac8949619e05c14e89b81f4fa64daf7af5ed> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/alternateName> "ShakeMovieSynthetics" <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpjg <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/dateCreated> "2013-06-25T20:38:50.876" <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/dateModified> "2017-04-28T16:36:22.965" <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/description> "<strong>Download synthetics from ShakeMovie website </strong>\r\n\r\nThe \"*Global ShakeMovie website*\":http://global.shakemovie.princeton.edu at Princeton provides bundles of all calculated synthetics in SAC format for reach event as tar files. \r\n\r\n\r\n<strong>Search for synthetics at IRIS</strong>\r\n\r\nEvents for which synthetics are available in the DMC archive are \"*listed in SPUD.*\":/spud/synthetic\r\n" <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/image> "https://ds.iris.edu/media/product/shakemoviesynthetics/images/global_shakemovie_synth_logo.png" <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/keywords> "geophysics,seismic,ShakeMovieSynthetics,seismology" <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/name> "1D & 3D synthetic seismograms from the Global ShakeMovie project" <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/shakemoviesynthetics/> <https://schema.org/url> "https://ds.iris.edu/ds/products/shakemoviesynthetics/" <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+_:bcfdaahgc1shgtrlvvpjg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+_:bcfdaahgc1shgtrlvvpjg <https://schema.org/name> "IRIS Data Products" <urn:iris/9a7641f02f312d818c2e26779d54309608ce9a72> .
+<https://ds.iris.edu/ds/products/calibration/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/alternateName> "Calibration" <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpn0 <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/dateCreated> "2013-06-19T23:15:03.817" <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/dateModified> "2019-10-16T08:56:31.154" <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/description> "Retrieve station calibrations in SEED format      ." <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/image> "https://ds.iris.edu/media/product/calibration/images/calibration_logo.png" <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/keywords> "seismometer,Calibration,geophysics,seismic,seismology,instrumentation" <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/name> "Calibration products" <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/calibration/> <https://schema.org/url> "https://ds.iris.edu/ds/products/calibration/" <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+_:bcfdaahgc1shgtrlvvpn0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+_:bcfdaahgc1shgtrlvvpn0 <https://schema.org/name> "IRIS Data Products" <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/9d8f2c44d023dc7e2b89ccb1a242c6b0156b9809> .
+_:bcfdaahgc1shgtrlvvpog <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpog <https://schema.org/name> "University of Rhode Island" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpp0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpp0 <https://schema.org/affiliation> _:bcfdaahgc1shgtrlvvppg <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpp0 <https://schema.org/name> "Yang Shen" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvppg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvppg <https://schema.org/name> "University of Rhode Island" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/alternateName> "GlobalEmpiricalGreensTensors" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpq0 <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpqg <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpp0 <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/dateCreated> "2014-09-30T22:15:57.457" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/dateModified> "2017-04-28T16:38:35.763" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/description> "A nested global empirical Green’s tensor (EGT) database derived from three-component continuous data at global, continental and local length scales.\r\n\r\nThe database is intended to be an open database for anyone to contribute as long as data processing follows a consistent, best practice." <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/image> "https://ds.iris.edu/media/product/globalempiricalgreenstensors/images/GEGT_logo.png" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/keywords> "geophysics,seismic,seismology,Green's functions" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/name> "Global Empirical Green's Tensor database" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/globalempiricalgreenstensors/> <https://schema.org/url> "https://ds.iris.edu/ds/products/globalempiricalgreenstensors/" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpq0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpq0 <https://schema.org/affiliation> _:bcfdaahgc1shgtrlvvpr0 <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpq0 <https://schema.org/name> "Ashton Flinders" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpr0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpr0 <https://schema.org/name> "University of Rhode Island" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpqg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpqg <https://schema.org/affiliation> _:bcfdaahgc1shgtrlvvpog <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+_:bcfdaahgc1shgtrlvvpqg <https://schema.org/name> "Haiying Gao" <urn:iris/9de938505669eb174ce0e8c31075efd8fd4eae01> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/alternateName> "SourceTimeFunction" <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpo0 <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/dateCreated> "2013-06-18T17:03:37.654" <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/dateModified> "2017-04-28T16:39:18.535" <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/description> "Point-source synthetic seismograms are used along with vertical component recordings of short-arc Rayleigh waves (R1) from GCMT Mw7.0+ earthquakes to calculate source-time functions (STF) at GSN and other stations. " <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/image> "https://ds.iris.edu/media/product/sourcetimefunction/images/sourcetime_logo.png" <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/keywords> "geophysics,seismic,SourceTimeFunction,seismology" <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/name> "Short-arc Rayleigh wave source-time functions" <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/sourcetimefunction/> <https://schema.org/url> "https://ds.iris.edu/ds/products/sourcetimefunction/" <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+_:bcfdaahgc1shgtrlvvpo0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+_:bcfdaahgc1shgtrlvvpo0 <https://schema.org/name> "IRIS Data Products" <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/a2c69d7d32ff5c1a1500ed5375067bf620839be4> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/alternateName> "ANCC-CIEI" <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpt0 <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvptg <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/dateCreated> "2013-06-21T18:59:42.161" <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/dateModified> "2017-04-28T16:38:09.430" <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/description> "An ambient noise cross-correlation based database of empirical Green&apos;s functions (EGFs) of the Western US using USArray Transportable Array (TA) data." <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/image> "https://ds.iris.edu/media/product/ancc-ciei/images/ancc_ciei_logo.png" <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/keywords> "Transportable Array,seismic,seismology,geophysics,ANCC-DB" <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/name> "Western US Ambient Noise Cross-Correlations" <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/ancc-ciei/> <https://schema.org/url> "https://ds.iris.edu/ds/products/ancc-ciei/" <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+_:bcfdaahgc1shgtrlvvpt0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+_:bcfdaahgc1shgtrlvvpt0 <https://schema.org/name> "IRIS Data Products" <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+_:bcfdaahgc1shgtrlvvptg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+_:bcfdaahgc1shgtrlvvptg <https://schema.org/affiliation> _:bcfdaahgc1shgtrlvvpu0 <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+_:bcfdaahgc1shgtrlvvptg <https://schema.org/name> "Mikhail Barmine" <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+_:bcfdaahgc1shgtrlvvpu0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+_:bcfdaahgc1shgtrlvvpu0 <https://schema.org/name> "Center for Imaging the Earth's Interior" <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/ab4eb5bd2c8d2d7775679f943390fecdf8c6df03> .
+<https://ds.iris.edu/ds/products/esec/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/alternateName> "ESEC" <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpv0 <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/dateCreated> "2017-01-11T20:41:26.956" <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/dateModified> "2022-04-25T14:37:46.582" <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/description> "ESEC is a compilation of data on non-earthquake seismic sources such as landslides, debris flows, dam collapses, floods, and avalanches that generate seismic signals but are rarely included in common earthquake catalogs. This catalog is designed to allow new entries as information regarding new recent and historic events becomes available. *We strongly encourage contributions to ESEC catalog*. If you are interested in becoming a contributor to this catalog, please see the \"ESEC Event Contribution Guidelines\":../esec-contribution-guide." <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/image> "https://ds.iris.edu/media/product/esec/images/ESEC-logo-2.png" <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/keywords> "debris flows,floods,seismic,dam collapses,ESEC,Data Products,seismology,geophysics,avalanches,infrasound,landslide,Exotic Seismic Events Catalog" <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/name> "Exotic Seismic Events Catalog" <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/esec/> <https://schema.org/url> "https://ds.iris.edu/ds/products/esec/" <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+_:bcfdaahgc1shgtrlvvpv0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+_:bcfdaahgc1shgtrlvvpv0 <https://schema.org/name> "IRIS Data Products" <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/afe60fc032072e54e66788823a3518257781ebf6> .
+<https://ds.iris.edu/ds/products/ears/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/alternateName> "EARS" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvprg <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvps0 <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/dateCreated> "2013-06-13T19:22:34.228" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/dateModified> "2019-11-12T21:09:52.938" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/description> "The EarthScope Automated Receiver Survey (EARS) calculates bulk crustal properties of IRIS stations using receiver functions. Originally developed at the University of South Carolina, EARS continuously monitors for new events and stations updating the database when new candidate data are found.\r\n" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/image> "https://ds.iris.edu/media/product/ears/images/ears_logo.png" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/keywords> "seismology,geophysics,EARS,seismic" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/name> "EarthScope Automated Receiver Survey" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/ears/> <https://schema.org/url> "https://ds.iris.edu/ds/products/ears/" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+_:bcfdaahgc1shgtrlvvprg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+_:bcfdaahgc1shgtrlvvprg <https://schema.org/name> "IRIS Data Products" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+_:bcfdaahgc1shgtrlvvps0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+_:bcfdaahgc1shgtrlvvps0 <https://schema.org/affiliation> _:bcfdaahgc1shgtrlvvpsg <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+_:bcfdaahgc1shgtrlvvps0 <https://schema.org/name> "Philip Crotwell" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+_:bcfdaahgc1shgtrlvvpsg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+_:bcfdaahgc1shgtrlvvpsg <https://schema.org/name> "Lithospheric Seismology" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/b5aacabf0751c9304ec32a7c21690dfab0db51f8> .
+<https://ds.iris.edu/ds/products/emerald/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/alternateName> "EMERALD" <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpvg <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvq00 <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/dateCreated> "2013-06-13T21:06:39.089" <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/dateModified> "2017-04-28T16:34:53.521" <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/description> "EMERALD is a complete open-source software server-based system for requesting and processing large sets of event based seismic data from a web browser. Data sets containing millions of seismic waveforms can easily be managed, reviewed, and processed. The system can automatically check for metadata updates, and alert the user to metadata changes. " <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/image> "https://ds.iris.edu/media/product/emerald/images/emerald_logo_1.png" <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/keywords> "geophysics,seismic,seismology,EMERALD" <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/name> "A software framework for seismic event processing" <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/emerald/> <https://schema.org/url> "https://ds.iris.edu/ds/products/emerald/" <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+_:bcfdaahgc1shgtrlvvpvg <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+_:bcfdaahgc1shgtrlvvpvg <https://schema.org/name> "IRIS Data Products" <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+_:bcfdaahgc1shgtrlvvq00 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+_:bcfdaahgc1shgtrlvvq00 <https://schema.org/affiliation> _:bcfdaahgc1shgtrlvvq0g <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+_:bcfdaahgc1shgtrlvvq00 <https://schema.org/name> "John West" <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+_:bcfdaahgc1shgtrlvvq0g <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+_:bcfdaahgc1shgtrlvvq0g <https://schema.org/name> "Arizona State University" <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/bc5533b19d4adec2eb81eeea4ff40814686d1d70> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/alternateName> "EQEnergy" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvq10 <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvq1g <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvq20 <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/dateCreated> "2013-06-09T23:22:04.030" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/dateModified> "2017-04-28T16:35:54.824" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/description> "Earthquake energy and rupture durations are estimated following all earthquakes with initial magnitude above M<sub>w</sub> 6.0 and a GCMT moment tensor.  The method follows Convers and Newman, 2011.  These are fully automated and not reviewed by a human." <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/image> "https://ds.iris.edu/media/product/eqenergy/images/eqEnergyLogo_1.png" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/keywords> "geophysics,seismic,EQEnergy,seismology" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/name> "Earthquake energy & rupture duration" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/eqenergy/> <https://schema.org/url> "https://ds.iris.edu/ds/products/eqenergy/" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq10 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq10 <https://schema.org/name> "IRIS Data Products" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq1g <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq1g <https://schema.org/affiliation> _:bcfdaahgc1shgtrlvvq2g <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq1g <https://schema.org/name> "Jamie Convers" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq2g <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq2g <https://schema.org/name> "Georgia Tech" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq20 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq20 <https://schema.org/affiliation> _:bcfdaahgc1shgtrlvvq30 <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq20 <https://schema.org/name> "Andrew Newan" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq30 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+_:bcfdaahgc1shgtrlvvq30 <https://schema.org/name> "Georgia Tech" <urn:iris/bfae59a7509205113a3ea09a04a14ef6eaf3f30f> .
+<https://ds.iris.edu/ds/products/infrasound/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/alternateName> "Infrasound" <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvpug <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/dateCreated> "2013-06-13T16:52:13.437" <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/dateModified> "2018-03-13T18:13:32.987" <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/description> "To support USArray TA infrasound data set, the IRIS Data Management Center (DMC) has developed two infrasound data products: the TA Infrasound Reference Event Database (\"TAIRED\":/ds/products/infrasound-taired) and TA Infrasound Detections (\"TAID\":/ds/products/infrasound-taid). These two data products are designed to provide insight and tools for researchers to begin working with this large, and somewhat unique, new data set." <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/image> "https://ds.iris.edu/media/product/infrasound/images/infrasound_logo_1.png" <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/keywords> "geophysics,seismic,seismology,infrasound" <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/name> "TA Infrasound Data Products" <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/infrasound/> <https://schema.org/url> "https://ds.iris.edu/ds/products/infrasound/" <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+_:bcfdaahgc1shgtrlvvpug <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+_:bcfdaahgc1shgtrlvvpug <https://schema.org/name> "IRIS Data Products" <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/cb6e5efc589cf4db24a37ec2dc84e5bbdee0f70d> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/alternateName> "SWS-DBs" <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/author> _:bcfdaahgc1shgtrlvvq3g <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/dateCreated> "2013-10-14T22:10:44.698" <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/dateModified> "2016-10-06T15:03:35.252" <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/description> "The shear-wave splitting (SWS) databases data product provides the geosciences community with an easy access to two published databases:\r\n\r\n* \"The G&eacute;osciences Montpellier SplitLab sShear-wave splitting database\":http://ds.iris.edu/ds/products/sws-db/ \r\n* \"The Missouri University of Science and Technology (Missouri S&amp;T) shear-wave splitting database\":http://ds.iris.edu/ds/products/sws-db-mst/ for western and central United States" <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/image> "https://ds.iris.edu/media/product/sws-dbs/images/shear_wave_splitting_db_logo.png" <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/keywords> "geophysics,seismic,SWS-DB,seismology" <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/name> "Shear-wave splitting databases" <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/sws-dbs/> <https://schema.org/url> "https://ds.iris.edu/ds/products/sws-dbs/" <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+_:bcfdaahgc1shgtrlvvq3g <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+_:bcfdaahgc1shgtrlvvq3g <https://schema.org/name> "IRIS Data Products" <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" <urn:iris/f75b095cc05a46dfd187c47350198d61a2ef8660> .
