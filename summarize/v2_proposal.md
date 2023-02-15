@@ -55,9 +55,13 @@ this is what summary version on has implemented. The first three steps duplicate
 
 
 **details**
+Suggested Classes/object whatever we think they should be called
+* (sn)summarize_namspace.py -- class to read configs, call summary code
+* (ec) ec_summarize.py
+   * uses (mg) manageGraph.py and other libraries
 
-1. cli to read parameters
-2. read sparql.endpoint from nabu file (unless overriden by graphendpoint )
+1. (sn)cli to read parameters
+2. (sn)read sparql.endpoint from nabu file (unless overriden by graphendpoint )
 ```minio:
     address: oss.geocodes.ncsa.illinois.edu
     port: 443
@@ -78,14 +82,14 @@ sparql:
     username: ""
     password: ""
 ```
-4. python request to create a temp_repo namespaces in a blazegraph (temp_repo, repo_summary)
-5. Quads/Nabu step (future:  nabu can write out a file. )
+4. (sn->mg)python request to create a temp_repo namespaces in a blazegraph ((tns)temp_repo, (sns)repo_summary)
+5. (sn)Quads/Nabu step (future:  nabu can write out a file. It now can, but no binaries done yet )
     * modify nabu file with a correct sparql.endpoint
     * run nabu for repository: `glcon nabu prefix --cfg {nabu_cfg} --prefix summonned/{repo}` 
-* run tsum
-* write out to file, or whatever
-* upload to repo_summary with a python script.
-* python request to delete temp namespace
+* (sn -> ec) run tsum
+* (ec) write out to file, or whatever
+* (sn ->mg(sns) ) upload to (sns)repo_summary with a python script. read file a binary, insert
+* (sn->mg(tns))  python request to delete temp namespace
 
 ##### tsum, or tsumv2 steps to make graph using rdflib.
 ideas on how to improve the summary generate to make less use of print, and more use of a 
