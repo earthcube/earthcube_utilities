@@ -60,8 +60,9 @@ sequenceDiagram
     participant manageGraph
     participant nabu
     participant materialize_summary.py
-    participant graphstore
     participant repo.ttl
+    participant graphstore
+
     
     summarize_repository.py->>nabu_config: reads sparql from nabu
     summarize_repository.py->>manageGraph: call to create managegraph instance for temp 
@@ -70,13 +71,15 @@ sequenceDiagram
     summarize_repository.py->>manageGraph: call to create managegraph instance for repo_summary 
     manageGraph->>graphstore: creates namespace  for repo_summary, if it does not exist
     summarize_repository.py->>summarize_repository.py: create nabu config to load to temp  
-    summarize_repository.py->>nabu:  execute with modified config file 
-    nabu->>graphstore: read from configured s3, write quads to temp namespace
+    summarize_repository.py->>nabu:  execute nabu with modified config file
+    nabu->>nabu:  reads configuration, files from s3, converts to quads 
+    nabu->>graphstore:  writes quads to temp namespace
     summarize_repository.py->>materialize_summary.py: call maternilize summary
-    graphstore->>materialize_summary.py: read from graph store
+    graphstore->>materialize_summary.py: query temp namespace in graph store
     materialize_summary.py->>materialize_summary.py: create summary triples
     materialize_summary.py->>repo.ttl: write out summary triples to file
     summarize_repository.py->>manageGraph: call insert repo.ttl to repo_summary namespace
+    repo.ttl->>manageGraph: read repo.ttl as binary file for uploading to blazegraph
     manageGraph->>graphstore: insert repo.ttl to repo_summary namespace
     summarize_repository.py->>manageGraph: delete temp namespace
     
