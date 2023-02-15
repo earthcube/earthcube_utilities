@@ -1,5 +1,7 @@
 import requests
-import logging
+import logging as log  #have some dgb prints, that will go to logs soon/but I find it slow to have to cat the small logs everytime
+log.basicConfig(filename='mgraph.log', encoding='utf-8', level=log.DEBUG,
+                format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 class ManageGraph: #really a manage graph namespace, bc a graph has several of them, &this represents only one
     baseurl = "http://localhost:3030" # basically fuskei
@@ -86,6 +88,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         url = f"{self.baseurl}/namespace/{self.namespace}{self.sparql}"
         headers = {"Content-Type": f"{content_type}"}
         r = requests.post(url,data=data, headers=headers)
+        log.debug(f' status:{r.status_code}') #status:404
         print(f' status:{r.status_code}') #status:404
         if r.status_code == 200:
             # '<?xml version="1.0"?><data modified="0" milliseconds="7"/>'
@@ -101,12 +104,13 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
 
     def upload_file(self, filename, content_type="text/x-nquads"):
         "to temp namespace or final one if given"
+        log.debug(f'upload_file:{filename}')
         print(f'upload_file:{filename}')
         #open file and insert data
-        with open(filename, 'rb+') as f:   
-            lines = f.read()
-            print(f'insert:{filename}')
-            self.insert(f, content_type)
+        data = open(filename, 'rb').read()
+        log.debug(f'insert:{filename}')
+        print(f'insert:{filename}')
+        self.insert(data, content_type)
 
     def upload_nq_file(self, fn=None):
         "will default to ns.nq"
@@ -135,7 +139,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
     # an instance of this is made, 
     #don't have to anymore assume: w/the namespace=repo as one of it's instatiation args
 #   def call_summarize(self):
-#       print(f'call tsum on:{self.namespace}')
+#       log.debug(f'call tsum on:{self.namespace}')
 
 #   def summarize(self, ns="summary"):
 #       self.createNamespace()
