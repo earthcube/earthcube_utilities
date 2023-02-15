@@ -96,7 +96,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         
     #might still have upload methods here
 
-    def upload_file(self, filename, namespace=None):
+    def upload_file(self, filename, namespace=None, content_type="text/x-nquads"):
         "to temp namespace or final one if given"
         print(f'upload:{filename}')
         if namespace:
@@ -104,8 +104,11 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         else:
             ns=self.namespace
         #could open file and insert data
+        with open(filename, 'rb+') as f:   
+            lines = f.read()
+        self.insert(f, content_type)
 
-    def upload_nq_file(self, ns="summary"):
+    def upload_nq_file(self, ns="summary", 'Content-Type:text/x-turtle'):
         filename=self.namespace + ".nq"
         self.upload_file(filename,ns)
 
