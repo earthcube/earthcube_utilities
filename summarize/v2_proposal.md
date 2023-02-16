@@ -43,7 +43,7 @@ this is what summary version on has implemented. The first three steps duplicate
    * (override) graphendpoint
    * (override) path to glcon
    * (override) output=filename
-   * (future) graphsummary if true, upload summary triples to summary_namespace
+   *  graphsummary if true, upload summary triples to summary_namespace
       * (opt) summary_namespace (default: {repo}summary)
    * (later) upload to s3
 * **workflow**
@@ -56,35 +56,35 @@ this is what summary version on has implemented. The first three steps duplicate
 ```mermaid
 sequenceDiagram
     participant nabu_config
-    participant summarize_repository.py
+    participant summarize_repo.py
     participant manageGraph
     participant nabu
-    participant materialize_summary.py
+    participant summarize_materializedview.py
     participant repo.ttl
     participant graphstore
 
     
-    summarize_repository.py->>nabu_config: reads sparql from nabu
-    summarize_repository.py->>manageGraph: call to create managegraph instance for temp 
-        summarize_repository.py->>manageGraph: call to create namespace for temp 
-    manageGraph->>graphstore: creates namespace  for temp
+    summarize_repo.py->>nabu_config: reads sparql from nabu
+    summarize_repo.py->>manageGraph: call to create managegraph instance for repo_temp 
+    summarize_repo.py->>manageGraph: call to create namespace for repo_temp 
+    manageGraph->>graphstore: creates namespace  for repo_temp
 
-    summarize_repository.py->>manageGraph: call to create managegraph instance for repo_summary 
-            summarize_repository.py->>manageGraph: call to create namespace for repo_summary
+    summarize_repo.py->>manageGraph: call to create managegraph instance for repo_summary 
+    summarize_repo.py->>manageGraph: call to create namespace for repo_summary
             
     manageGraph->>graphstore: creates namespace  for repo_summary, if it does not exist
-    summarize_repository.py->>summarize_repository.py: create nabu config to load to temp  
-    summarize_repository.py->>nabu:  execute nabu with modified config file
+    summarize_repo.py->>summarize_repo.py: create nabu config to load to temp  
+    summarize_repo.py->>nabu:  execute nabu with modified config file
     nabu->>nabu:  reads configuration, files from s3, converts to quads 
-    nabu->>graphstore:  writes quads to temp namespace
-    summarize_repository.py->>materialize_summary.py: call maternilize summary
-    graphstore->>materialize_summary.py: query temp namespace in graph store
-    materialize_summary.py->>materialize_summary.py: create summary triples
-    materialize_summary.py->>repo.ttl: write out summary triples to file
-    summarize_repository.py->>manageGraph: call insert repo.ttl to repo_summary namespace
-    repo.ttl->>manageGraph: read repo.ttl as binary file for uploading to blazegraph
-    manageGraph->>graphstore: insert repo.ttl to repo_summary namespace
-    summarize_repository.py->>manageGraph: delete temp namespace
+    nabu->>graphstore:  writes quads to repo_temp namespace
+    summarize_repo.py->>summarize_materializedview.py: call maternilize summary
+    graphstore->>summarize_materializedview.py: query temp namespace in graph store
+    summarize_materializedview.py->>summarize_materializedview.py: create summary triples
+    summarize_materializedview.py->>repo.ttl: write out summary triples to file
+    summarize_repo.py->>manageGraph: call insert repo.ttl to repo_summary namespace
+    summarize_repo.py->>manageGraph: pass  ttl string as byte[] for uploading to blazegraph
+    manageGraph->>graphstore: insert ttl to repo_summary namespace
+    summarize_repo.py->>manageGraph: delete repo_temp namespace
     
 ```
 

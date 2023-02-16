@@ -7,7 +7,7 @@ performance a searches for geocodes. It basically flattens the JSONLD arrays int
 
 To do this, it reads the triples that nabu generates as part of it's workflow, then 
 converts them  'summary' graph namespace.
-A more detailed overview is in [Summarize](docs/summarize.md)
+A more detailed overview is in [Summarize v2](./v2_proposal.md)
 
 ## Dependencies
 * Geocodes Stack
