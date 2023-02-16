@@ -102,20 +102,20 @@ sparql:
 *  upload to repo_summary with a python script. read file a binary, insert
 * (  python request to delete temp namespace
 
-##### summarize_materializedview.py to make graph using rdflib.
+#### summarize_materializedview.py to make graph using rdflib.
 ideas on how to improve the summary generate to make less use of print, and more use of a 
 library to generate triples/quad, etc
 
-    1. create an rdflib graph
+1. create an rdflib graph
 ```python
 from rdflib import Graph
 
 g = Graph()
 ```
 
-    2. read all graphs identifiers from temp_repo
-       1. for each graph, g
-           1. create rdf triples using rdflib, 
+2. read all graphs identifiers from temp_repo
+   1. for each graph, g
+       1. create rdf triples using rdflib, 
 
 ```python
 from rdflib import URIRef, BNode, Literal
@@ -127,10 +127,10 @@ title = Literal({title})  # passing a string
 g.add((tripleuri, n.title, title))
 ## repeat for other summary triples
 ```
-    3. add tripe to graph
-    4. every (100/1000) save graph to file.
-    5. serialize
+3. add tripe to graph
+4. every (100/1000) save graph to file.
+5. serialize
 ```python
 g.serialize(format="nquads", destination="{repo}.ttl")
 ```
-    6. write to std.out, 
+6. write to std.out, 
