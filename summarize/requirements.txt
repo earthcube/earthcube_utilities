@@ -1,12 +1,8 @@
 # could this just be ecutilities
 requests
-rdflib
-rdflib-jsonld
-networkx
-extruct
-simplejson
-sparqldataframe
-s3fs
 
-xmltodict
+sparqldataframe
+
 argparse
+pyyaml
+
