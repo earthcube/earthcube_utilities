@@ -315,9 +315,12 @@ def summarize_repo(repo, final_ns="summary"):
     summary_file=f'{repo}.ttl'
     summary_size=file_size(summary_file)
     if summary_size > 99:
-        log.info(f'upload {repo}.ttl from here/after checking? to {summary_namespace}')
-        mgs=make_graph_ns(summary_namespace)  #how are we giving this, and I think we should check over it 1st
-        mgs.upload_ttl_file(summary_file)  #uploads it, to a differetn namespace of your choice, eg 'summary'
+        log.info(f'would: upload {repo}.ttl from here/after checking? to {summary_namespace}')
+        print(f'now: upload {repo}.ttl (after checking) to, eg: {endpoint}/{summary_namespace}')
+     #Best to do this by hand, w/ ttl2blaze.sh after having looked at it/them
+     #  log.info(f'upload {repo}.ttl from here/after checking? to {summary_namespace}')
+     #  mgs=make_graph_ns(summary_namespace)  #how are we giving this, and I think we should check over it 1st
+     #  mgs.upload_ttl_file(summary_file)  #uploads it, to a differetn namespace of your choice, eg 'summary' #was getting 400
     else:
         log.warning(f'summary:{summary_file} only:{summary_size} long, so not ok to upload')
     #but should really check this before doing it
@@ -339,10 +342,11 @@ if __name__ == '__main__':
         tmp_endpoint=args.endpoint
         if tmp_endpoint:
             endpoint=tmp_endpoint
-        print(f'endpoint={endpoint}')
+        print(f'summarizing using (temp) endpoint={endpoint}')
+        log.info(f'summarizing using (temp) endpoint={endpoint}')
         if args.summary_namespace:
             summary_namespace=args.summary_namespace
-        print(f'summary_namespace={summary_namespace}')
+        log.info(f'summary_namespace={summary_namespace}')
         if(len(sys.argv)>1):
             repo = args.repo
             # repo = sys.argv[1]
@@ -361,7 +365,8 @@ if __name__ == '__main__':
        #    summaryDF2ttl(df)
        #for now skip 1st shot summarization of all repo's from main blaze namespace, eg. earthcube
        #and just:
-            summarize_repo(repo) #get potential final upload ns in later; 
+            #summarize_repo(repo) #get potential final upload ns in later; 
+            summarize_repo(repo, summary_namespace) 
             #though I'd rather be able to check file before it gets loaded to final summary namespace
         else:
             #log.info("need to give repo to run, or if:tmp_summary_port=9999 a namespace for initial bulk load")
