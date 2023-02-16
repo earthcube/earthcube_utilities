@@ -204,13 +204,16 @@ def summaryDF2ttl(df):
         #incl original subj, just in case for now
         #lat/lon not in present ui, but in earlier version
 
+endpoint='https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace' 
+
 def get_summary4repo(repo):
     "so can call interactively to look at the df"
     ##tmp_endpoint=f'http://localhost:3030/{repo}/sparql' #fnq repo
     #tmp_endpoint=f'http://localhost:{port}/{repo}/sparql' #fnq repo #fuseki
     #repo="iris_nabu" #just for 1st test
-    tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql' #1st blaze call  *
-    print(f'get_summary4repo try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
+    #tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql' #1st blaze call  *
+    tmp_endpoint=f'{endpoint}/{repo}/sparql' #1st blaze call  *
+    log.info(f'get_summary4repo try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
     log.info(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
     #try:https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/iris_nabu/sparql
     #seems to work, now make in /iris/ but have to get the iris.nq up there 1st to run the qry
@@ -222,16 +225,16 @@ def get_summary_from_namespace(args):
     "so can call interactively to look at the df"
     #if not run on local(for now:ncsa)machine: 
   # host=os.getenv('HOST') #checking against new store, for now
-  # print(f'host={host}')
+  # log.info(f'host={host}')
   # log.info(f'host={host}')
     #tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{namespace}/sparql'
     tmp_endpoint=args.endpoint
     #if host != "geocodes.ncsa.illinois.edu":
-    #    print("using external call") #but could do this locally as well
+    #    log.info("using external call") #but could do this locally as well
     #    tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/{namespace}/sparql'
     #else: #even internally can have connection problems
     #    tmp_endpoint=f'http://localhost:9999/{namespace}/sparql' 
-    print(f'get_summary_from_namespace try:{tmp_endpoint}') 
+    log.info(f'get_summary_from_namespace try:{tmp_endpoint}') 
     log.info(f'try:{tmp_endpoint}') 
     ec.dflt_endpoint = tmp_endpoint
     df=ec.get_summary("")
@@ -241,10 +244,10 @@ def get_summary_from_namespace(args):
 #def make_graph(ns, url="https://graph.geodex.org/blazegraph"): #put tmp namespaces here, for now
 def make_graph(ns, url="https://graph.geocodes.ncsa.illinois.edu/blazegraph"): 
     mg=manageGraph.ManageBlazegraph(url, ns) 
-    print(f'have graph instance:{mg}, for url:{url}')
+    log.info(f'have graph instance:{mg}, for url:{url}')
     import urllib.request
     code=urllib.request.urlopen(url).getcode()
-    print(f'w/code:{code}') #good here but getting 404 during insert
+    log.info(f'w/code:{code}') #good here but getting 404 during insert
     log.info(f'have graph instance:{mg}, for url:{url}')
     return mg
 
@@ -254,23 +257,22 @@ def make_graph_ns(ns):
     mg= make_graph(ns)
     #should check if the namespace was already there
     mg.createNamespace() #dflt=quads, can add False for triples later
-    print(f'created ins:{mg} w/namespace:{ns}')
     log.info(f'created ins:{mg} w/namespace:{ns}')
     graphs[ns]=mg
     return mg
 
 def rm_graph_ns(ns):
     mg=graphs.get(ns)
-    print(f'deleting ins:{mg} w/namespace:{ns}')
     log.info(f'deleting ins:{mg} w/namespace:{ns}')
     mg.deleteNamespace()
 
 #-
 def file_size(fn):
     size= os.path.getsize(fn)
-    print(f'size:{size}')
+    log.info(f'size:{size}')
     return size
 #-
+summary_namespace="summary2"
 
 # what I thought might be managegraph methods, now as functions here:
 #   def call_summarize(self):
@@ -296,33 +298,28 @@ def summarize_repo(repo, final_ns="summary"):
     repo_file=f'{repo}.nq'
     repo_file_size=file_size(repo_file)
     if repo_file_size < 99:
-        print(f'repo:{repo_file} only:{repo_file_size} bytes, so not ok to summarize')
         log.warning(f'repo:{repo_file} only:{repo_file_size} bytes, so not ok to summarize')
     tmp_ns="test"
     if repo:
         tmp_ns=repo
-        print(f'ns={tmp_ns}=repo={repo}')
         log.info(f'ns={tmp_ns}=repo={repo}')
     else:
-        print(f'WARNING ns={tmp_ns}') #log after I finish debugging this
         log.warning(f'WARNING ns={tmp_ns}') #log after I finish debugging this
     mg= make_graph_ns(tmp_ns)
-    print(f'mg.upload_nq_file(){repo}')
+    log.info(f'mg.upload_nq_file(){repo}')
     mg.upload_nq_file() #will need to get ns=repo.nq up to ns so can be summarized in next step
     #the insert should error if it didn't get in there
     call_summarize(repo) #creates repo.ttl
     #could check to see file is there/ok
- #  mg.deleteNamespace()  #could keep around during debugging just to check ;makes it, but isn't getting filled yet
+    mg.deleteNamespace()  #could keep around during debugging just to check ;makes it, but isn't getting filled yet
     summary_file=f'{repo}.ttl'
-    #summary_lines=file_lines(summary_file)
     summary_size=file_size(summary_file)
     if summary_size > 99:
-        mg.upload_ttl_file()  #uploads it
+        log.info(f'upload {repo}.ttl from here/after checking? to {summary_namespace}')
+        mgs=make_graph_ns(summary_namespace)  #how are we giving this, and I think we should check over it 1st
+        mgs.upload_ttl_file(summary_file)  #uploads it, to a differetn namespace of your choice, eg 'summary'
     else:
-        print(f'summary:{summary_file} only:{summary_size} bytes, so not ok to upload')
         log.warning(f'summary:{summary_file} only:{summary_size} long, so not ok to upload')
-    print(f'would upload {repo}.ttl from here/after checking')
-    log.info(f'would upload {repo}.ttl from here/after checking')
     #but should really check this before doing it
 
 if __name__ == '__main__':
@@ -333,10 +330,19 @@ if __name__ == '__main__':
     parser.add_argument("repo",  help='repository name')
     parser.add_argument('--endpoint', dest='endpoint',
                         help='use blazegraph endpoint, fully defined, as data source; eg https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql')
+    parser.add_argument('--summary_namespace', dest='summary_namespace',
+                        help='the namespace on the endpoint that the final summary will be uploaded to')
     if(len(sys.argv)==1):
         print("you need to enter the name of a repo to summarize")
     else:
         args = parser.parse_args() #would fail here, if no arg w/o printing help
+        tmp_endpoint=args.endpoint
+        if tmp_endpoint:
+            endpoint=tmp_endpoint
+        print(f'endpoint={endpoint}')
+        if args.summary_namespace:
+            summary_namespace=args.summary_namespace
+        print(f'summary_namespace={summary_namespace}')
         if(len(sys.argv)>1):
             repo = args.repo
             # repo = sys.argv[1]
@@ -344,13 +350,13 @@ if __name__ == '__main__':
             #print(f'try:{tmp_endpoint}') #if >repo.ttl, till prints, will have to rm this line &next2:
             #ec.dflt_endpoint = tmp_endpoint
             #df=ec.get_summary("")
-            print(f'port={port},arg1={repo}')
+            log.info(f'port={port},arg1={repo}')
        #    if  args.endpoint : #when: os.getenv('tmp_summary_port') #if 9999 will use blaze
-       #        print("bulk 1st load from blaze")
+       #        log.info("bulk 1st load from blaze")
        #        df=get_summary_from_namespace( args)
        #    else:
-       #        #print("per repo through fuseki")
-       #        print("per repo through blaze-namespace")
+       #        #log.info("per repo through fuseki")
+       #        log.info("per repo through blaze-namespace")
        #        df=get_summary4repo(repo)
        #    summaryDF2ttl(df)
        #for now skip 1st shot summarization of all repo's from main blaze namespace, eg. earthcube
@@ -358,5 +364,5 @@ if __name__ == '__main__':
             summarize_repo(repo) #get potential final upload ns in later; 
             #though I'd rather be able to check file before it gets loaded to final summary namespace
         else:
-            #print("need to give repo to run, or if:tmp_summary_port=9999 a namespace for initial bulk load")
+            #log.info("need to give repo to run, or if:tmp_summary_port=9999 a namespace for initial bulk load")
             parser.print_help()
