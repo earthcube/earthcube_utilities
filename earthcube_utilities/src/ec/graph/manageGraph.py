@@ -85,11 +85,14 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
     def insert(self, data, content_type="text/x-nquads"):
         # rdf datatypes: https://github.com/blazegraph/database/wiki/REST_API#rdf-data
         # insert: https://github.com/blazegraph/database/wiki/REST_API#insert
-        url = f"{self.baseurl}/namespace/{self.namespace}{self.sparql}"
+       #url = f"{self.baseurl}/namespace/{self.namespace}{self.sparql}"
+       #could call insure final slash
+        url = f"{self.baseurl}/namespace/{self.namespace}/{self.sparql}"
+        log.info(f'insert to {url} ')
         headers = {"Content-Type": f"{content_type}"}
         r = requests.post(url,data=data, headers=headers)
         log.debug(f' status:{r.status_code}') #status:404
-        print(f' status:{r.status_code}') #status:404
+        log.info(f' status:{r.status_code}') #status:404
         if r.status_code == 200:
             # '<?xml version="1.0"?><data modified="0" milliseconds="7"/>'
             if 'data modified="0"'  in r.text:
@@ -105,11 +108,11 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
     def upload_file(self, filename, content_type="text/x-nquads"):
         "to temp namespace or final one if given"
         log.debug(f'upload_file:{filename}')
-        print(f'upload_file:{filename}')
+        log.info(f'upload_file:{filename}')
         #open file and insert data
         data = open(filename, 'rb').read()
         log.debug(f'insert:{filename}')
-        print(f'insert:{filename}')
+        log.info(f'insert:{filename}')
         self.insert(data, content_type)
 
     def upload_nq_file(self, fn=None):
