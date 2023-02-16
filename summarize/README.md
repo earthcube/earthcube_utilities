@@ -34,6 +34,29 @@ once gleaner has been run it should have a gleaner/summoned path full of repos y
 > where repo is the name of a repo directory in that crawl's bucket and nabufile is the path to the nabu configuration file
 > this assumes that glcon is at ~/indexing/glcon. If it is not, then pass --glcon with path to glcon
 
+??? note "Help"
+    Warning, may not be all implemented.
+    ```shell
+    
+    src/summarize_repo.py --help
+    usage: summarize_repo.py [-h] [--graphendpoint GRAPHENDPOINT] [--glcon GLCON] [--graphsummary GRAPHSUMMARY] [--summary_namespace SUMMARY_NAMESPACE] repo nabufile
+    
+    positional arguments:
+      repo                  repository name
+      nabufile              nabu configuration file
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      --graphendpoint GRAPHENDPOINT
+                            override nabu endpoint
+      --glcon GLCON         override path to glcon
+      --graphsummary GRAPHSUMMARY
+                            upload triples to graphsummary
+      --summary_namespace SUMMARY_NAMESPACE
+                            summary_namespace
+
+    ```
+
 In the console you should see nabu run. 
 
 !!! note 
