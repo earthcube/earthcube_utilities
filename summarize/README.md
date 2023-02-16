@@ -83,8 +83,18 @@ files will be generated. All files are ok to delete.
 * `gleaner.db`  artifact from glcon
 
 
-got to  the sparql endpoint in the nabu file, and 
+## Check the data load
+Go to  the sparql endpoint in the nabu file, use the "{repo}_summary" 
+eg `https://graph.earthcube.org/blazegraph/`
+
+If anything was loaded
 ```sparql
 SELECT * { ?s ?p ?o } LIMIT 1
+```
+
+and how many actual 'Datasets' were loaded:
+```sparql
+SELECT (count(?g ) as ?count) 
+WHERE     {     GRAPH ?g {?s a <https://schema.org/Dataset>}}
 ```
 
