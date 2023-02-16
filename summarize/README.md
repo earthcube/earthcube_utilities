@@ -126,8 +126,7 @@ geocodes: /org/LD> wc earthchem.*
 ```
 
 
-load via dashboard, or I'll have a ttl2blaze.sh 
+load repo.ttl via blazegraph dashboard, or ttl2blaze.sh 
 
-which can be called via [nabu2v.py](https://github.com/earthcube/ec/blob/master/summary/nabu2v.md) to fill both namespace in a sync'd manner, vs nabu alone
 
 
