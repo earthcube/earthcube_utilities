@@ -8,7 +8,7 @@ R2S[repo_to_summary.sh]  -- calls --> G[1: fix_runX.sh];
 G -- calls --> gr[1:get_repo.py]
 G -- calls --> r2n[2:run2nq.py];
 r2n -- produces --> nq(repo.nq);
-R2S -- calls -->  F2[tsum.py] -- loads2tmp_blaze --> nq;
+R2S -- calls -->  F2[materialize_summary.py] -- loads2tmp_blaze --> nq;
 F2 -- produces --> RT(2: repo.ttl) -- ttl2blaze.sh --> B[blazegraph];
 ```
 
