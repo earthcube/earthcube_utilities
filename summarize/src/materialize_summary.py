@@ -11,7 +11,7 @@ context = "@prefix : <https://schema.org/> ." #https for now
  #dv wants to skip local throw away fuseki in memory instance, and create namespace on blaze endpoint summarize
   #from it, then delete it, then upload back to the final summary namespace
 import logging as log  #have some dgb prints, that will go to logs soon/but I find it slow to have to cat the small logs everytime
-log.basicConfig(filename='tsum.log', encoding='utf-8', level=log.DEBUG,
+log.basicConfig(filename='m_summary.log', encoding='utf-8', level=log.DEBUG,
                 format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 #get_summary4repo still uses port for fuseki, will (be)switching to blaze soon
@@ -129,7 +129,6 @@ def summaryDF2ttl(df):
             elif there:
                 #log.debug(f'already:{there},so would break loop')
                 continue #from loop
-            #rt=row['resourceType']
             rt_=row['resourceType']
             rt=rt_.replace("https://schema.org/","")
             if dbg:
@@ -272,7 +271,7 @@ def file_size(fn):
     log.info(f'size:{size}')
     return size
 #-
-summary_namespace="summary2"
+summary_namespace="summary2" #example/default, but will be uploaded w/ttl2blaze.sh after checking final repo.ttl files
 
 # what I thought might be managegraph methods, now as functions here:
 #   def call_summarize(self):
