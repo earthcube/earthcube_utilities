@@ -21,8 +21,8 @@ class BrazgraphTestCase(unittest.TestCase):
             #self.assertEqual(True, create)  # add assertion here
            # file = 'resources/test_triples/milled/0d8f2661071bdf56c91569ddfa0a5b8dea1a526d.rdf'
             file = '../../../resources/test_triples/milled/0d8f2661071bdf56c91569ddfa0a5b8dea1a526d.rdf'
-            with open(file) as f:
-                lines = f.readlines()
+            with open(file, 'rb+') as f:
+                lines = f.read()
             inserted = bg.insert(lines,"text/plain")
             self.assertEqual(True, inserted)
         except:

@@ -7,7 +7,7 @@ class ManageGraph: #really a manage graph namespace, bc a graph has several of t
     baseurl = "http://localhost:3030" # basically fuskei
     namespace = "temp_summary"
     path = "namespace"
-    sparql = "sparql"
+    sparql = "/sparql" # blazegraph uses sparql after namespace, but let's not assume this
 
     def __init__(self, graphurl, namespace):
         self.baseurl = graphurl
@@ -66,9 +66,11 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         headers = {"Content-Type": "text/plain"}
         r = requests.post(url,data=template, headers=headers)
         if r.status_code==201:
-            return True
+            return "Created"
+        elif  r.status_code==409:
+            return "Exists"
         else:
-            return False
+            raise Exception("Create Failed.")
 
 
     def deleteNamespace(self):
@@ -77,10 +79,10 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         headers = {"Content-Type": "text/plain"}
         r = requests.delete(url, headers=headers)
         if r.status_code == 200:
-            return True
+            return "Deleted"
         else:
-            return False
-        pass
+            raise Exception("Delete Failed.")
+
 
     def insert(self, data, content_type="text/x-nquads"):
         # rdf datatypes: https://github.com/blazegraph/database/wiki/REST_API#rdf-data
@@ -123,8 +125,6 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
             filename=self.namespace + ".nq"
         self.upload_file(filename)
 
-    #in end will make_graph_ns("summary") to upload repo.ttl to
-     #but will never delete it, just keep using it; so will have to be able to reaquire it, w/o making it
     def upload_ttl_file(self, fn=None):
         "will default to ns.ttl"
         if fn: #will want to upload ns=repo.ttl to ns=summary in the end
@@ -133,20 +133,3 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
             filename=self.namespace + ".ttl"
         self.upload_file(filename, 'Content-Type:text/x-turtle')
 
-#tsum.py does this, it also has make_graph_ns and rm_graph_ns
- #can find the instance by the 'ns' arg given, but can't do that btw calls
-  #so ok if iterate over all the repos, but if shut down tsum, 
-   #it will need to be able to make an instace for a ns, w/o creating it
-   #which I think it does, as tsum's make_graph should do that, w/o the create yet
-#will instantiange a graph/namespace instance in summarize code to do the logic below
-    # an instance of this is made, 
-    #don't have to anymore assume: w/the namespace=repo as one of it's instatiation args
-#   def call_summarize(self):
-#       log.debug(f'call tsum on:{self.namespace}')
-
-#   def summarize(self, ns="summary"):
-#       self.createNamespace()
-#       self.upload_nq_file()
-#       self.call_summarize() #creates repo.ttl
-#       self.deleteNamespace()
-#       self.upload_ttl_file(ns)  #uploads it
