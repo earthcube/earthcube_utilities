@@ -13,7 +13,7 @@ for i in $files ; do
       echo Next: $i
       # rapper -e -c -i turtle $i 
       #curl -X POST -H 'Content-Type:text/x-turtle' --data-binary @$i $2
-      curl -X POST -H 'Content-Type:text/x-turtle' --data-binary @$i $1
+      curl -X POST -H 'Content-Type:application/x-turtle' --data-binary @$i $1
       echo "-------------done--------------"
 done
 
