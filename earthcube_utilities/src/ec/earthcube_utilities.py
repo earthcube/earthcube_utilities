@@ -18,6 +18,9 @@ import sys
 import json
 
 #more loging
+import logging as log  #have some dgb prints, that will go to logs soon/but I find it slow to have to cat the small logs everytime 
+log.basicConfig(filename='ecu.log', encoding='utf-8', level=log.DEBUG,
+                format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 #def install_recipy():
 #    cs='pip install recipy'
 #    os.system(cs)
@@ -26,135 +29,29 @@ import json
 
 #from qry.py
 
-def get_txtfile(fn):
-    with open(fn, "r") as f:
-        return f.read()
+#https://github.com/MBcode/dc/blob/main/dcm.py ----
+#=starting a version of dc.py   
+#that has mb.py and these 2 other files taken out, where it recomposes them
+#in this staging ground, I'll call it: dcm.py, For: DeCoder-Module version
+#-
+#in a way, this is an example of how any file might just include what is necessary
+# the summarize files, that use the last 2 imports, could then import mb
+# as they do in this collection of files, and they should work the same way
+#-
+#as more a clean-room way of doing it, it could just start with
+#import mb
+from mb import *  #do this too, if you want this to approach be a replacement for: earthcube_utillities, that I can put in a new branch
+#presently the files below have some fncs from the one above
+  #was called qry.py in summarize
+#import query 
+#import rdf2nq 
+#could try this, to avoid longer prefix, but will probably just import the parts you want and call directly
+from query import * 
+from rdf2nq import *
+#so now to remove them, from those files, and make refs to mb ;done
+#once again, this might just be an example, but could let you load all the utils
+#-----
 
-def get_jsfile2dict(fn):
-    s=get_txtfile(fn)
-    return json.loads(s)
-
-def put_txtfile(fn,s,wa="w"):
-    #with open(fn, "w") as f:
-    with open(fn, wa) as f:
-        return f.write(s)
-
-def add2log(s):
-    fs=f'[{s}]\n'
-    put_txtfile("log",fs,"a")
-
-def os_system(cs):
-    os.system(cs)
-    add2log(cs)
-
-def os_system_(cs):
-    "system call w/return value"
-    s=os.popen(cs).read()
-    add2log(cs)
-    return s
-
-#start adding more utils, can use to: fn=read_file.path_leaf(url) then: !head fn
-def path_leaf(path):
-    import ntpath
-    head, tail = ntpath.split(path)
-    return tail or ntpath.basename(head)
-
-def file_ext(fn):
-    st=os.path.splitext(fn)
-    add2log(f'fe:st={st}')
-    return st[-1]
-
-def file_base(fn):
-    st=os.path.splitext(fn)
-    add2log(f'fb:st={st}')
-    return st[0]
-
-def file_leaf_base(path):
-    pl=path_leaf(path)
-    return file_base(pl)
-
-#could think a file w/'.'s in it's name, had an .ext
- #so improve if possible; hopefully not by having a list of exts
-  #but maybe that the ext is say 6char max,..
-#only messed up filename when don't send in w/.ext and has dots, but ok w/.ext
-
-def has_ext(fn):
-    return (fn != file_base(fn))
-
-def wget(fn):
-    #cs= f'wget -a log {fn}' 
-    cs= f'wget --tries=2 -a log {fn}' 
-    os_system(cs)
-
-def pre_rm(url):
-    fnb=path_leaf(url)
-    cs=f'rm {fnb}'
-    os_system(cs)
-    return fnb
-
-def get_ec(url="http://mbobak-ofc.ncsa.illinois.edu/ext/ec/nb/ec.py"):
-    pre_rm(url)
-    wget(url)
-    return "import ec"
-
-    #often want to get newest ec.py if debugging
-    # but don't need to get qry-txt each time, but if fails will use latest download anyway
-
-def get_ec_txt(url):
-    fnb= pre_rm(url)
-    wget(url)
-    return get_txtfile(fnb)
-
-def get_webservice_txt(url="https://raw.githubusercontent.com/earthcube/facetsearch/master/client/src/sparql_blaze/sparql_gettools_webservice.txt"):
-    return get_ec_txt(url)
-
-def get_download_txt(url="https://raw.githubusercontent.com/earthcube/facetsearch/master/client/src/sparql_blaze/sparql_gettools_download.txt"):
-    return get_ec_txt(url)
-
-def get_notebook_txt(url="https://raw.githubusercontent.com/MBcode/ec/master/NoteBook/sparql_gettools_notebook.txt"):
-    return get_ec_txt(url)
-
-def get_query_txt(url="https://raw.githubusercontent.com/MBcode/ec/master/NoteBook/sparql-query.txt"):
-    return get_ec_txt(url)
-
-def add_ext(fn,ft):
-    if ft==None or ft=='' or ft=='.' or len(ft)<2:
-        return None
-    fn1=path_leaf(fn) #just the file, not it's path
-    fext=file_ext(fn1) #&just it's .ext
-    r=fn1
-    if fext==None or fext=='':
-        fnt=fn1 + ft
-        #cs= f'mv {fn1} {fnt}' 
-        cs= f'sleep 2;mv {fn1} {fnt}' 
-        os_system(cs)
-        r=fnt
-    return r
-
-def wget_ft(fn,ft):
-    wget(fn)
-    fnl=fn
-    if ft!='.' and ft!='' and ft!=None and len(ft)>2:
-        fnl=add_ext(fn,ft) #try sleep right before the mv
-    #does it block/do we have2wait?, eg. time.sleep(sec)
-    #fnl=path_leaf(fn) #just the file, not it's path
-    if os.path.isfile(fnl):
-        fs=os.path.getsize(fnl) #assuming it downloads w/that name
-    else:
-        fs=None
-    #if fs>999 and fs<999999999: #try upper limit later
-    #if fs>699:
-    #    cs=f'unzip {fnl}'
-    #    os.system(cs)
-    #unzip even if small broken file
-    if ft=='.zip': #should check if zip
-        cs=f'unzip {fnl}'
-        os_system(cs)
-        fnb=file_base(fnl)
-#       if os.path.isdir(fnb):
-#           cs=f'ln -s . content' #so can put . before what you paste
-#           os_system(cs)
-    return fs
 
 rdflib_inited=None
 def init_rdflib():
