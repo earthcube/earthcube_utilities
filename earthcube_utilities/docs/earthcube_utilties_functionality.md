@@ -38,4 +38,4 @@ To get data for testing, I suggest using pycharm, you can [dump a dataframe usin
 **Caveat: name with a .csv extension**.... and trim testing data it down to a row or two.  
 
 ### Earthcube Utilities Functionality Docments:
-* List functionality documents here. 
+* [Put them in the wiki](https://github.com/earthcube/earthcube_utilities/wiki) 
