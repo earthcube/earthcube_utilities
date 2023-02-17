@@ -71,18 +71,21 @@ def summarizeRepo(args):
         # write to s3  in future
         with open(f"{repo}.ttl", 'w') as f:
              f.write(summaryttl)
-        inserted = sumnsgraph.insert(bytes(summaryttl, 'utf-8'),content_type="application/x-turtle" )
-
-        if inserted:
-            logging.info(f"Inserted into graph store{sumnsgraph.namespace}" )
-            return 0
+        if args.graphsummary:
+            inserted = sumnsgraph.insert(bytes(summaryttl, 'utf-8'),content_type="application/x-turtle" )
+            if inserted:
+                logging.info(f"Inserted into graph store{sumnsgraph.namespace}" )
+            else:
+                logging.error(f"Repo {repo} not inserted into {sumnsgraph.namespace}")
+                return 1
     except Exception as ex:
         logging.error(f"error {ex}")
         return 1
     finally:
+        # need to figure out is this is run after return, I think it is.
         logging.debug(f"Deleting Temp namespace {tempnsgraph.namespace}")
         deleted = tempnsgraph.deleteNamespace()
-    return 0
+
 
 if __name__ == '__main__':
 
@@ -97,7 +100,7 @@ if __name__ == '__main__':
     parser.add_argument('--glcon', dest='glcon',
                         help='override path to glcon', default="~/indexing/glcon")
     parser.add_argument('--graphsummary', dest='graphsummary',
-                        help='upload triples to graphsummary')
+                        help='upload triples to graphsummary', default=True)
     parser.add_argument('--summary_namespace', dest='summary_namespace',
                         help='summary_namespace')
     args = parser.parse_args()

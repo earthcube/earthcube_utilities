@@ -21,7 +21,7 @@ A more detailed overview workflow is in [Summarize v2](./v2_proposal.md)
 * Geocodes Stack
 * glcon
 * python > 3.3
-* the nabu configuration file that was used to load the data
+* the nabu configuration file that was used to load the data to the graphstore
 
 ## INSTALL
 
@@ -34,13 +34,17 @@ A more detailed overview workflow is in [Summarize v2](./v2_proposal.md)
 
 ## Steps: 
  
-1. if you have not, change to the summarize directory: `cd  earthcube_utilities/summarize`
-2. Insure that a `glcon gleaner batch --cfgName` crawl has already been done, 
-and you have the location of it's bucket once gleaner has been run it should have a
- gleaner/summoned path full of repos you can summarize
-5. run> `src/summarize_repo.py repo nabufile`
-> where repo is the name of a repo directory in that crawl's bucket and nabufile is the path to the nabu configuration file
-> this assumes that glcon is at ~/indexing/glcon. If it is not, then pass --glcon with path to glcon
+1. if you have not, changed to the summarize directory: `cd  earthcube_utilities/summarize`
+2. Insure that a `glcon gleaner batch --cfgName` crawl and loading to the graphstore using has already been done,
+nabu has already been done.  
+This uses the nabu configuration to load a graph with just the repository data you have the location of it's bucket once gleaner has been run it should have a
+For the  summarize tool.
+3. run> `src/summarize_repo.py repo nabufile`
+> where repo is the name of a repo directory in that configuraiton file
+> 
+> nabufile is the path to the nabu configuration file
+> 
+> default location for glcon is at ~/indexing/glcon. If it is not, then pass --glcon with path to glcon
 
 ??? note "Help"
     Warning, may not be all implemented.
@@ -71,7 +75,7 @@ In the console you should see nabu run.
 ## Example
 
 ```shell
-geocodes: src/summarize_repo.py iris ../resources/testing/nabu --glcon
+geocodes: src/summarize_repo.py iris ../resources/testing/nabu 
 
 version:  v3.0.8-ec
 Using nabu config file: nabu_iris
