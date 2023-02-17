@@ -38,7 +38,7 @@ once gleaner has been run it should have a gleaner/milled path full of repos you
 
 It will call `fix_runX.sh repo`'` to get all the rdf and convert it to quads
 
-then it will call `summarize_repo.sh repo`'` to put it in fuseki so it can be queried and summarized
+then it will call `src/materialize_summary.py repo`'` to put it in blazegraph so it can be queried and summarized
 
 producing a file {repo}.ttl that can be loaded into the blazegraph summary namespace of your choice
 
