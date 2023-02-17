@@ -4,5 +4,5 @@
 #takes repo.nq loads to fuseki /repo namespace, and runs: 'tsum.py repo' to make a repo.ttl file
 #./summarize_repo.sh $1
 #./tsum.py $1
-./materialize_summary.py $1
+./src/materialize_summary.py $1
 #later could have a ttl2blaze.sh to put that in the store
