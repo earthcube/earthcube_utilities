@@ -73,11 +73,18 @@ def os_system(cs):
     os.system(cs)
     #add2log(cs)
 
-def wget(fn):
+def wget_(fn):
     #cs= f'wget -a log {fn}'  #--quiet
     cs= f'wget --tries=2 -a log {fn}'
     os_system(cs)
     return path_leaf(fn) #new
+
+def wget(url):
+    import requests
+    fn=path_leaf(url)
+    response = requests.get(url)
+    open(fn, "wb").write(response.content)
+    return fn
 
 def list2txtfile(fn,l,wa="w"):
     with open(fn, "a") as f:
@@ -98,7 +105,8 @@ def wget_oss_repo(repo=None,path="gleaner/milled",s3address=ncsa_minio):
         fl=path_leaf(f)
         from os.path import exists #can check if cached file there
         if not exists(fl):
-            print(f'will wget:{f}')
+            #print(f'will wget:{f}')
+            print(f'will request:{f}')
             wget(f)
         else:
             print(f'have:{fl} already')
