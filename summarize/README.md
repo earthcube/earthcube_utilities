@@ -11,9 +11,7 @@ A more detailed overview is in [Summarize](docs/summarize.md)
 
 ## Dependencies
 
- fuskei
-
- some ec library
+ pre installed s3(eg. minio) and endpoint(eg. blazegraph)
 
 ## INSTALL
 
