@@ -1,10 +1,10 @@
 # could this just be ecutilities
 # it started as ecutilities, but got too many link warnings
-#requests
 #rdflib-jsonld
 #xmltodict
 #networkx
 #extruct
+requests
 rdflib
 simplejson
 sparqldataframe
