@@ -23,11 +23,24 @@ def os_system_(cs):
     #add2log(cs)
     return s
 
+def is_int(v):
+    return type(v) is int
+
 def is_str(v):
     return type(v) is str
 
 def is_list(v):
     return type(v) is list
+
+def first(l):
+    "get the first in an iterable"
+    from collections.abc import Iterable
+    if isinstance(l,list):
+        return l[0]
+    elif isinstance(l,Iterable):
+        return list(l)[0]
+    else:
+        return l
 
 # start adding more utils, can use to: fn=read_file.path_leaf(url) then: !head fn
 def path_leaf(path):
@@ -67,7 +80,31 @@ def kill_fuseki():
         os_system("sleep 5")
     #os_system("killall fuseki-server")
 
+def repo_nq_size(repo):
+    "lines in repo.nq"
+    cs= f'wc -l {repo}.nq'
+    num_lines=os_system_(cs)
+    if is_str(num_lines):
+        num_lines= int(first(num_lines.split(" ")))
+    #print(num_lines)
+    #print(type(num_lines))
+    if is_int(num_lines):
+        return num_lines
+    else:
+        return None
+
+def repo_nq_sleep(repo):
+    "extra sleep for larger repos"
+    lines=repo_nq_size(repo)
+    if lines:
+        sec=max(0,lines/15000)
+        cs=f'sleep {sec}'
+        print(cs)
+        os_system_(cs) 
+        print("sleep done")
+
 def run_fuseki(repo):
+    "kill old fuseki and restart w/repo.nq"
     kill_fuseki() #vs a new port
     print(f'will start fuseki-server, for:{repo}') #no nohup as it's temporary
     if port==3030:
@@ -75,6 +112,7 @@ def run_fuseki(repo):
     else:
         print(f'running with port={port}')
         os_system(f'fuseki-server --port {port} --file {repo}.nq /{repo} &')
+    repo_nq_sleep(repo) #extra sleep if the file is large
 
 
 if __name__ == '__main__':
@@ -82,7 +120,8 @@ if __name__ == '__main__':
     if(len(sys.argv)>1):
         repo_ = sys.argv[1] #start of if repo was the end of a path
         repo=path_leaf(repo_) #but for now expect repo.nq around so it can make the repo.ttl summary
-        ftsp=os.getenv('fuseki_tmp_summary_port')
+        #ftsp=os.getenv('fuseki_tmp_summary_port')
+        ftsp=os.getenv('tmp_summary_port')
         if ftsp:
             print(f'changing port from {port} to {ftsp}')
             port=ftsp

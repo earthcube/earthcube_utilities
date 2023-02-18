@@ -1,0 +1,15 @@
+_:bccv7uc45s8c9ug84ofag <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> .
+_:bccv7uc45s8c9ug84ofag <https://schema.org/name> "IRIS Data Products" .
+<https://ds.iris.edu/ds/products/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataCatalog> .
+<https://ds.iris.edu/ds/products/> <https://schema.org/url> "https://ds.iris.edu/ds/products/" .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/alternateName> "EnvelopeFunctions" .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/author> _:bccv7uc45s8c9ug84ofag .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/dateCreated> "2013-08-26T20:05:21.703" .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/dateModified> "2017-09-25T20:14:19.059" .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/description> "A collection of continuous envelope functions to search for tectonic tremor and for data quality analysis. Envelope functions are computed automatically by the Earth and Space Sciences Department of the University of Washington utilizing selected portions of the IRIS DMC waveform archive and are distributed by the IRIS DMC.\r\n" .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/image> "https://ds.iris.edu/media/product/envelopefunctions/images/envelope_functions.png" .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/includedInDataCatalog> <https://ds.iris.edu/ds/products/> .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/keywords> "seismic,Envelope Functions,seismology,geophysics" .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/name> "Continuous envelope functions" .
+<https://ds.iris.edu/ds/products/envelopefunctions/> <https://schema.org/url> "https://ds.iris.edu/ds/products/envelopefunctions/" .
