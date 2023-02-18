@@ -2,6 +2,11 @@
 #M Bobak, need to get gleaner output for a repo
 # for now have to pull all files to turn to quads here ;till issue126 
 import os
+import argparse
+import logging as log   #can switch print's to log.info's but Readme expects it to the stdout
+log.basicConfig(filename='get_repo.log', encoding='utf-8', level=log.DEBUG,
+                format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
 ##import ec
 #import earthcube_utilities as ec  #make sure this is availabe
 ##import ../earthcube_utilities as ec  #assuming it is one level above
@@ -20,7 +25,7 @@ def is_str(v):
 
 def is_http(u):
     if not is_str(u):
-        print("might need to set LD_cache") #have this where predicate called
+        log.warning("might need to set LD_cache") #have this where predicate called
         return None
     #might also check that the str has no spaces in it,&warn/die if it does
     return u.startswith("http")
@@ -68,11 +73,24 @@ def os_system(cs):
     os.system(cs)
     #add2log(cs)
 
-def wget(fn):
+def wget_(fn):
     #cs= f'wget -a log {fn}'  #--quiet
     cs= f'wget --tries=2 -a log {fn}'
     os_system(cs)
     return path_leaf(fn) #new
+
+def wget(url):
+    import requests
+    fn=path_leaf(url)
+    response = requests.get(url)
+    open(fn, "wb").write(response.content)
+    return fn
+
+def list2txtfile(fn,l,wa="w"):
+    with open(fn, "a") as f:
+        for elt in l:
+            f.write(f'{elt}\n')
+    return len(l)
 
 #def wget_oss_repo(repo=None,path="gleaner/milled",bucket=ncsa_minio):
 def wget_oss_repo(repo=None,path="gleaner/milled",s3address=ncsa_minio):
@@ -87,7 +105,8 @@ def wget_oss_repo(repo=None,path="gleaner/milled",s3address=ncsa_minio):
         fl=path_leaf(f)
         from os.path import exists #can check if cached file there
         if not exists(fl):
-            print(f'will wget:{f}')
+            #print(f'will wget:{f}')
+            print(f'will request:{f}')
             wget(f)
         else:
             print(f'have:{fl} already')
@@ -128,21 +147,34 @@ def url_w_end_slash(url):
 #later can import click, have 2nd arg be named eg.-bucket, and incl a -help
 if __name__ == '__main__':
     import sys
+    parser = argparse.ArgumentParser()
+    parser.add_argument("repo",  help='repository name')
+    parser.add_argument("--s3address",  help='s3address where gleaner/milled is')
     print(f'argv={sys.argv}')
+    if(len(sys.argv)==1):
+        print("you need to enter the name of a repo to summarize")
+    else:
+        args = parser.parse_args() #would fail here, if no arg w/o printing help
+        cli_s3=args.s3address
+        s3=os.getenv("ECU_S3ADDRESS") 
+        if cli_s3:  
+            s3=cli_s3
+            print(f'--s3address [{cli_s3}]  overrides ECU_S3ADDRESS [{s3}]')
+
     default_s3address= "https://oss.geocodes.ncsa.illinois.edu/"
     #s3=os.getenv("S3ADDRESS") 
-    s3=os.getenv("ECU_S3ADDRESS") 
     #if ec.is_str(s3):
     if is_str(s3):
         #if not ec.is_http(s3):
         if not is_http(s3):
             s3="https://" + url_w_end_slash(s3)
         #print(f'set default_bucket to S3ADDRESS={s3}')
-        print(f'set default_s3address to ECU_S3ADDRESS={s3}')
+        #print(f'set default_s3address to ECU_S3ADDRESS={s3}')
+        print(f'set default_s3address to {s3}')
         default_s3address=s3
-    if(len(sys.argv)>2):
-        default_s3address = url_w_end_slash(sys.argv[2])
-        print(f'reset default_s3address to 2nd cli arg:{default_s3address}')
+  # if(len(sys.argv)>2): #using argparse for this now
+  #     default_s3address = url_w_end_slash(sys.argv[2])
+  #     print(f'reset default_s3address to 2nd cli arg:{default_s3address}')
     if(len(sys.argv)>1):
         repo = sys.argv[1]
         print(f'will run over:{repo}')

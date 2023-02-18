@@ -11,9 +11,7 @@ A more detailed overview is in [Summarize](docs/summarize.md)
 
 ## Dependencies
 
- fuskei
-
- some ec library
+ pre installed s3(eg. minio) and endpoint(eg. blazegraph)
 
 ## INSTALL
 
@@ -40,7 +38,7 @@ once gleaner has been run it should have a gleaner/milled path full of repos you
 
 It will call `fix_runX.sh repo`'` to get all the rdf and convert it to quads
 
-then it will call `summarize_repo.sh repo`'` to put it in fuseki so it can be queried and summarized
+then it will call `src/materialize_summary.py repo`'` to put it in blazegraph so it can be queried and summarized
 
 producing a file {repo}.ttl that can be loaded into the blazegraph summary namespace of your choice
 
@@ -56,16 +54,16 @@ will get files for earthchem in a dir named after it
 will create the earthchem dir
 cd to: cwd=/var/www/html/LD/earthchem to get the repo=earthchem to downloads files into
 
-will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/00b0ad684052b7674832f1dff8e537dbcffcbb84.rdf
-will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/00e34d1f624300099a0f72b3a33444ee4e970019.rdf
-will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/01272511a24c726c45cf9f6d2804543b081a685a.rdf
-will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/017e6dd8b16d4e102f0f3d85c3d7deedc0b23fea.rdf
+will request:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/00b0ad684052b7674832f1dff8e537dbcffcbb84.rdf
+will request:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/00e34d1f624300099a0f72b3a33444ee4e970019.rdf
+will request:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/01272511a24c726c45cf9f6d2804543b081a685a.rdf
+will request:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/017e6dd8b16d4e102f0f3d85c3d7deedc0b23fea.rdf
  
 ... [snip]
 
-will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/fec94d837fe1c0c2f255e0ffd49a1e704c72bd16.rdf
-will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/fee66304ce6dc4b36bb02294262f04033b3e6e17.rdf
-will wget:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/ff277f4a4042a542fd443c8bde936cfe8a6a4de3.rdf
+will request:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/fec94d837fe1c0c2f255e0ffd49a1e704c72bd16.rdf
+will request:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/fee66304ce6dc4b36bb02294262f04033b3e6e17.rdf
+will request:https://oss.geocodes.ncsa.illinois.edu/gleaner/milled/earthchem/ff277f4a4042a542fd443c8bde936cfe8a6a4de3.rdf
 
 will run over:earthchem
 
@@ -126,8 +124,7 @@ geocodes: /org/LD> wc earthchem.*
 ```
 
 
-load via dashboard, or I'll have a ttl2blaze.sh 
+load repo.ttl via blazegraph dashboard, or ttl2blaze.sh 
 
-which can be called via [nabu2v.py](https://github.com/earthcube/ec/blob/master/summary/nabu2v.md) to fill both namespace in a sync'd manner, vs nabu alone
 
 
