@@ -22,13 +22,13 @@ tests help demonstrate functionality.
   * functionality, basically, what are the 'modules'
   * Document, what methods that you expect users to call to get access to the functionality of the modules.
   * What are the base modules that need to be implemented first.
-* **Implementation** Implement functionality in modular chunks.
-  * Pick a 'feature'/functionality,
-  * Write  tests, and code.  
-  * Revise documentation, or just incorporate documentation into the code, and generate automatically
+* **Implementation**  **_After_** planning document is **complete**, and **discussed**  Implement functionality using clean coding techniqes (aka do not copy code blindly) in modular chunks.
+  * Pick a high level 'feature' and implement the functionality. 
+  * Write  tests, and code.  Implement common functions in a common/shared module, as needed.
+  * Revise documentation, and incorporate method descriptions as pydoc strings into the code
 
-Know that by utilizing  unit tests, you  demonstrate how some of the functionality is utilized, and
-reduce cruft in the actual code.
+Know that by utilizing  unit tests **in** unit testing classes, you  demonstrate how some of the functionality is utilized, and
+reduce cruft in the actual code, because those 'test methods' are not in the actual module.
 
 You can test **pandas dataframes** by reading in data dumped for pandas dataframes.
 
