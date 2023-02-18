@@ -90,6 +90,7 @@ def get_summary_query_txt(url="http://mbobak.ncsa.illinois.edu/ec/nb/sparql_blaz
  GROUP BY ?g ?pubname ?placenames ?kw ?datep ?disurl ?score ?name ?description  ?resourceType
          ORDER BY DESC(?score)"""
 
+#replace this and other on server w/raw git url, before they are used here
 def get_subj2urn_txt(url="http://mbobak.ncsa.illinois.edu/ec/nb/sparql_subj2urn.txt"):
     #return get_ec_txt(url)
     return """prefix sschema: <https://schema.org/>
@@ -108,7 +109,8 @@ def get_graph_txt(url="http://mbobak.ncsa.illinois.edu/ec/nb/get_graph.txt"):
     #consider ret CONSTRUCT from a direct match vs filter
     #I'm ok w/filter given the changing URNs taking a subset should still return something
 
-def get_summary_txt(url="http://mbobak.ncsa.illinois.edu/ec/nb/get_summary.txt"):
+#def get_summary_txt(url="http://mbobak.ncsa.illinois.edu/ec/nb/get_summary.txt"):
+def get_summary_txt(url="https://raw.githubusercontent.com/earthcube/ec/master/summary/get_summary.txt"):
     "this is to make a summary, not to do a qry on the summary"
     return get_ec_txt(url)
 

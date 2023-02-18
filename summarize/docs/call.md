@@ -6,11 +6,10 @@
 flowchart TD;
 R2S[repo_to_summary.sh]  -- calls --> G[1: fix_runX.sh];
 G -- calls --> gr[1:get_repo.py]
-G -- calls --> r2n[2:run2nq.py] -- loads --> rdf2[rdf2nq.py];
-R2S -- calls --> SR[2: summarize_repo.sh];
-SR -- calls --> F1[1: fnq.py];
-SR -- calls --> F2[2: tsum.py] -- produces --> RT(repo.ttl) -- ttl2blaze.sh --> B[blazegraph];
-r2n -- produces --> nq(repo.nq) -- into_fuseki --> F1;
+G -- calls --> r2n[2:run2nq.py];
+r2n -- produces --> nq(repo.nq);
+R2S -- calls -->  F2[2:materialize_summary.py] -- loads2tmp_blaze --> nq;
+F2 -- produces --> RT(2: repo.ttl) -- ttl2blaze.sh --> B[blazegraph];
 ```
 
 #### there is a simplification of this, that would skip a server and just query a file, [here](https://github.com/MBcode/dc/blob/main/call-summary.md)
