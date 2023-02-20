@@ -34,4 +34,4 @@ TR -- import --> R2[rdf2nq];
 
 ### There is more that I'm working on the grouping [now](https://mbobak.ncsa.illinois.edu/ec/utils/?C=M;O=D)
 #### to include some high level descriptions of possible groupings/(of)functionality
-#### and there is the original third sectioned off for the old testing, that parts of can integrated w/the new logging..
+#### and there is the original third sectioned off for the [old](https://github.com/earthcube/ec/blob/master/ect.py) testing, that parts of can integrated w/the new logging..
