@@ -511,74 +511,8 @@ def read_file(fnp, ext=None):  #download url and ext/filetype
 
  #probably drop the [ls-l] part&just have ppl use fileBrowser, even though some CLI would still be good
 #not just 404, getting small file back also worth logging
-#----
-def qs2graph(q,sqs):
-    return sqs.replace('${q}',q)
-def urn2graph(urn,sqs):
-    #return sqs.replace('<${g}>',urn)
-    return sqs.replace('<${g}>',f'"{urn}"')
-#def sti(sqs, matchVar, replaceValue): #assume only1(replacement)right now,in the SPARQL-Qry(file)String(txt)
-#    "sparql template instantiation, 2qry2df"
-#    return sqs.replace(matchVar,replaceValue)
-def v2iqt(var,sqs):  #does the above fncs
-    if '<${g}>' in sqs: #var=urn
-        #return sqs.replace('<${g}>',var)
-        #return sqs.replace('<${g}>',f'"{var}"')
-        return sqs.replace('<${g}>',f'<{var}>')
-    if '${q}' in sqs:   #var=q
-        return sqs.replace('${q}',var)
-
-def iqt2df(iqt,endpoint="https://graph.geodex.org/blazegraph/namespace/nabu/sparql"):
-    "instantiated-query-template/txt to df"
-    if not iqt:
-        return "need isntantiated query text"
-    import sparqldataframe, simplejson
-    if sparql_inited==None:
-        si= init_sparql()  #still need to init
-        #qs= iqt #or si  #need q to instantiate
-    add2log(iqt)
-    df = sparqldataframe.query(endpoint, iqt)
-    return df
-
-def v4qry(var,qt):
-    "var + query-type 2 df"
-    sqs = eval("get_" + qt + "_txt()")
-    iqt = v2iqt(var,sqs)
-    return iqt2df(iqt)
-
-def search_query(q): #same as txt_query below
-    return v4qry(q,"query")
-
-def search_download(urn):
-    return v4qry(urn,"download")
-
-def search_webservice(urn):
-    return v4qry(urn,"webservice")
-
-def search_notebook(urn):
-    return v4qry(urn,"notebook")
-
-#=========append fnc from filtereSPARQLdataframe.ipynb
-#def sq2df(qry_str):
-#def txt_query(qry_str): #consider sending in qs=None =dflt lookup as now, or use what sent in
-def txt_query(qry_str,sqs=None): #a generalized version would take pairs/eg. <${g}> URN ;via eq urn2graph
-    "sparql to df"
-    if sparql_inited==None:
-        #qs=init_sparql()  #does: get_query_txt &libs
-        si= init_sparql()  #still need to init
-        #qs= sqs or init_sparql()  
-        qs= sqs or si
-    else:
-        #qs=get_txtfile("sparql-query.txt")
-        qs= sqs or get_txtfile("sparql-query.txt")
-    import sparqldataframe, simplejson
-    endpoint = "https://graph.geodex.org/blazegraph/namespace/nabu/sparql"
-    add2log(qry_str)
-    q=qs.replace('${q}',qry_str)
-    add2log(q)
-    #q=qs.replace('norway',qry_str) #just in case that is still around
-    #q=qs
-    #print(f'q:{q}')
-    df = sparqldataframe.query(endpoint, q)
-    #df.describe()
-    return df
+#----this that was below is in query
+##reminder, this was just an old version of the file
+##the utils file above was updated more, as it is what is loaded from: httpimport.github_repo
+##this is the begging of a packaged version of most of that, w/better organization
+##I only left some of what was not already in the 1st sub-modules that became needed for summarization
