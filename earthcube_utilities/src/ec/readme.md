@@ -31,3 +31,5 @@ TR -- import --> R2[rdf2nq];
 #### **rdf2nq.py** takes one form of rdf triples, and adds the filename of the file as the last column in its nquads output
 ##### if it is .ntriples, then you just add a column
 ##### if it is another format like jsonld, then it runs jena's riot RDF I/O technology (RIOT) on it, right now
+
+#there is more that I'm working on the grouping [now](https://mbobak.ncsa.illinois.edu/ec/utils/?C=M;O=D)
