@@ -32,4 +32,6 @@ TR -- import --> R2[rdf2nq];
 ##### if it is .ntriples, then you just add a column
 ##### if it is another format like jsonld, then it runs jena's riot RDF I/O technology (RIOT) on it, right now
 
-#there is more that I'm working on the grouping [now](https://mbobak.ncsa.illinois.edu/ec/utils/?C=M;O=D)
+### There is more that I'm working on the grouping [now](https://mbobak.ncsa.illinois.edu/ec/utils/?C=M;O=D)
+#### to include some high level descriptions of possible groupings/(of)functionality
+#### and there is the original third sectioned off for the old testing, that parts of can integrated w/the new logging..
