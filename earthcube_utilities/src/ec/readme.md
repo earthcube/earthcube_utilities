@@ -12,3 +12,22 @@ TR -- import --> MB[min-base];
 TR -- import --> query[SPARQL queries from git];
 TR -- import --> R2[rdf2nq];
 ``` 
+
+### **earthcube_utilities** breakdown
+
+
+#### the file itself can keep some of the notebook specific code or that can go into a notebook/data_download sub modules
+
+
+#### __mb.py__ mini-base small util functions that sometimes end up getting copied into the other places they are needed now
+
+
+#### **query.py** is can do all the SPARQL queries the UI can do
+##### it is setup to add one get_{qry_name}\_txt  function to get the txt of the query, usually from raw git
+##### then a function: {qry_name} that calls one fuction with {qry_name} as the arg, and maybe a variable
+###### it will get the txt from the 1st function, and replace the var w/in the template txt, run the query and return a DF
+
+
+#### **rdf2nq.py** takes one form of rdf triples, and adds the filename of the file as the last column in its nquads output
+##### if it is .ntriples, then you just add a column
+##### if it is another format like jsonld, then it runs jena's riot RDF I/O technology (RIOT) on it, right now
