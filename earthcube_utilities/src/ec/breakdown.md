@@ -1,4 +1,4 @@
-### earthcube_utliites
+### earthcube_utliites [wiki](https://github.com/earthcube/earthcube_utilities/wiki)
 
 #### originally used for notebooks only, but getting more reuse in the rest of the workflow
 
