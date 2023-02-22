@@ -153,6 +153,11 @@ pathToCrate = s3PathToRocrate(roCrateQueryParameter)
 rocrate = s3getFile(s3,pathToCrate)
 print(roCrateRender(rocrate))
 ```
-### Could be loading:
-##### related-data using sklearn [here](https://github.com/MBcode/ec/blob/master/qry/rec.py)
 
+
+## Misc notes:
+could be integrated with the new [gleaner-logging](https://github.com/search?q=org%3Agleanerio+logging&type=code).worklfow.
+
+### <ins>Could</ins> be <ins>load</ins>ing:
+##### <ins>related-data</ins> using sklearn [here](https://github.com/MBcode/ec/blob/master/qry/rec.py)
+##### <ins>RO-CRATE metadata creation</ins>, that dv asked for
