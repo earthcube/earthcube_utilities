@@ -13,9 +13,10 @@ U -- loads --> TR[the rest]
 TR -- import --> MB[min-base:690];
 TR -- import --> query[SPARQL queries from git:175];
 TR -- import --> R2[rdf2nq:146];
-U -- could_loads --> TR2[more];
+U -- could_load --> TR2[more];
 TR2 ----> RD[related datasets:145];
 TR2 ----> RC[RO-CRATE creation:107];
+TR2 -- leaving --> o[other:718]
 ``` 
 
 ### <ins>**earthcube_utilities** breakdown</ins>
