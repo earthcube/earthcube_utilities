@@ -23,6 +23,7 @@ TR2 ----> RC[RO-CRATE creation];
 
 
 #### <ins>__mb.py__ mini-base small util functions</ins> that sometimes end up getting copied into the other places they are needed now
+##### some of this could be replaced by libs like: [pydash](https://github.com/dgilland/pydash)
 
 
 #### <ins>**query.py** is can do all the SPARQL queries the UI can do<ins>
@@ -34,6 +35,7 @@ TR2 ----> RC[RO-CRATE creation];
 #### <ins>**rdf2nq.py** takes one form of rdf triples, and adds the filename of the file as the last column in its nquads<ins> output
 ##### if it is .ntriples, then you just add a column
 ##### if it is another format like jsonld, then it runs jena's riot RDF I/O technology (RIOT) on it, right now
+##### Some related could probably be handled by [kglab](https://derwen.ai/docs/kgl/ex4_0/) now
 
 ### There is more that I'm working on the grouping [now](https://mbobak.ncsa.illinois.edu/ec/utils/?C=M;O=D)
 #### to include some high level descriptions of possible groupings/(of)functionality
