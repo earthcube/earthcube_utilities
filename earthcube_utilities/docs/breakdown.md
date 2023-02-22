@@ -1,9 +1,7 @@
 # earthcube_utliites [wiki](https://github.com/earthcube/earthcube_utilities/wiki)
 
 Originally used for notebooks only, but getting more reuse in the rest of the workflow
- `this has caused a natural breakdown of submodules, that can be used as needed`
-
-(??? what does caused mean?)
+ this lead to a natural breakdown of submodules, driven by need, in the processing pipeline
 
 
 ```mermaid
