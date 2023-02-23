@@ -9,8 +9,13 @@
     * [Validating Sitemaps](./validation_sitemap.md)
     * [Validating JSONLD](./validation_jsonld.md)
     * [Validating Graph Loading](./validation_graph.md)
+    * [Check Distribution Links](./validate_distribution_links.md)
   * [Implementation Testing](./validation_test_data.md)
-  * [Repository Reporting](./repository_reporting.md)
+  * [Repository Reporting](./repository_reporting.md)]
+  * [RoCrate, aka collection](./ro_crate.md)
+  * [JSONLD Utils](./sos_jsonld_utils.md)
+  * Notebooks
+    * [Visualization](./viz.md)
 
 
 ## Goal 

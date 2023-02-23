@@ -10,7 +10,9 @@ def s3client(): # public bucket
 def s3getFile(s3client, pathToCrate):
 def s3PathToRoctate(roCrateQueryParameter):
 def roCrateRender(rocrate):
-
+def roCrateGetCollection(rocrate)
+def roCrateGetObjectFromJsonLdStore(s3clinet, collectionItem)
+def roCrateGetObject(graphstore, collectionItem)
 ```
 
 ```python

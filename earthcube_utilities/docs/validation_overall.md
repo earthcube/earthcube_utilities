@@ -75,6 +75,7 @@ Do we want to classify the s3 functionality, and be able to use self?
 #### Methods
 ```python
 def repoCountJson(s3client, repo, base='summoned'): # courtsey function fo s3CountFilesInRepo
+def possibleMissingJsonLoad(s3client, sitemap, repo):
 def jsonldFormatGuess(file):  #is is expaded, flattend, compact
 def validateJson( file):
 def validatedContext( file):
@@ -91,7 +92,7 @@ class manageGraph():
   def countGraphs(self, repo=None): # if not give entire count, otherwise fancy search for urn:repo
   def getItem(self, urn):
   def getItemsStats(self, urn): # return line count, and other information.
-    
+  def compareGraph2s3Jsonstore(self, s3config, repo):  # nabu prune has example
 
 ```
 
