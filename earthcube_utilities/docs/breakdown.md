@@ -19,7 +19,10 @@ TR2 ----> RC[RO-CRATE creation:107];
 TR2 -- leaving --> o[other:718]
 ``` 
 
-_What does this graphic tell a potiential user about the **Functionality** of the  library_ 
+This is more how the functionality has been broken down, to help with the ec_utils plan, a more simple [view](https://github.com/earthcube/earthcube_utilities/blob/dcm/earthcube_utilities/docs/sm.md) can be further devloped to 
+better show a potiential user about the **Functionality** of the  libraries modules
+
+
 
 ## _**earthcube_utilities** breakdown_
 
