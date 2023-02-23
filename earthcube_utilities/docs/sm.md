@@ -11,8 +11,8 @@ U -- loads --> TR[the rest]
 TR -- import --> MB[min-base];
 TR -- import --> query[SPARQL queries from git];
 TR -- import --> R2[rdf2nq];
-U -- could_loads --> TR2[more];
-TR2 ----> RD[related data];
+U -- could_load --> TR2[more];
+TR2 ----> RD[related-datasets];
 TR2 ----> RC[RO-CRATE creation];
 ``` 
 
