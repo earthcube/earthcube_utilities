@@ -1,5 +1,18 @@
 # Functionality of the Earthcube Utilities
 
+## Earthcube Utilities Functionality Docments:
+* [Functionality Breakdown ](./breakdown.md)
+  * [Mini-base](./mini-base.md)
+  * [Query Graphstore](./ec_query.md)
+  * [RDF to Quads](/.rdf2triples.md)
+  * [Validation](./validation_overall.md)
+    * [Validating Sitemaps](./validation_sitemap.md)
+    * [Validating JSONLD](./validation_jsonld.md)
+    * [Validating Graph Loading](./validation_graph.md)
+  * [Implementation Testing](./validation_test_data.md)
+  * [Repository Reporting](./repository_reporting.md)
+
+
 ## Goal 
 We want earthcube_utilities to be a pypi package... 
 
@@ -7,7 +20,8 @@ The present codebase needs to reimplemented, and **documented** so that it can b
 
 The present earthcube_utilities.py  [in the top level directory](https://github.com/earthcube/earthcube_utilities/blob/main/earthcube_utilities.py)
 is large (3700 lines of code) and contains a lot of dead code that makes it difficult to 
-comprehend. It needs to be redone. 
+comprehend. It needs to be **redone**. 
+
 Note, this directory contains an older version, and so it can be deleted when developement of 
 the revised code begins.
 
@@ -37,5 +51,3 @@ For _dataframe_ testing, you  load data from a csv using load pandas.read_csv...
 To get data for testing, I suggest using pycharm, you can [dump a dataframe using the export](https://www.jetbrains.com/help/pycharm/matplotlib-support.html#data) when viewing in debuging...
 **Caveat: name with a .csv extension**.... and trim testing data it down to a row or two.  
 
-### Earthcube Utilities Functionality Docments:
-* List functionality documents here. 
