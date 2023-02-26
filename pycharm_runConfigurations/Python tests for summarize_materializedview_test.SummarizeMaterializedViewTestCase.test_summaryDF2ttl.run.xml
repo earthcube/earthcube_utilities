@@ -19,7 +19,7 @@
         <ENTRY IS_ENABLED="true" PARSER="runconfig" />
       </ENTRIES>
     </EXTENSION>
-    <option name="_new_additionalArguments" value="&quot;&quot;" />
+    <option name="_new_additionalArguments" value="&quot; --approvaltests-use-reporter\u003d\u0027PythonNativeReporter\u0027 &quot;" />
     <option name="_new_target" value="&quot;summarize_materializedview_test.SummarizeMaterializedViewTestCase.test_summaryDF2ttl&quot;" />
     <option name="_new_targetType" value="&quot;PYTHON&quot;" />
     <method v="2" />
