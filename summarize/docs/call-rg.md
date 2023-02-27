@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart TD;
-R2S[repo_to_summary.sh]  -- calls --> G[1: get_runX.sh];
+R2S[repo_to_summary.sh]  -- calls --> G[1: get_repo_release_graph.py];
 G -- produces --> nq(repo.nq);
 R2S -- calls -->  F2[2:materialize_summary.py] -- loads2tmp_blaze --> nq;
 F2 -- produces --> RT(2: repo.ttl) -- ttl2blaze.sh --> B[blazegraph];
