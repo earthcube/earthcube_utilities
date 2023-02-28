@@ -58,7 +58,7 @@ import papermill as pm
 from os import path
 import tempfile
 
-from flask import Flask, redirect, session, jsonify
+from flask import Flask, redirect, session, jsonify, make_response
 from flask import request
 from flask import g, url_for, render_template
 from flask_ipban import IpBan
@@ -622,22 +622,30 @@ def get_graph(g,format="jsonld"):
     # the return form EC is a sparqldataframe
     #r= ec.get_graph(g)
     r=get_mock_graph(g)
-    print(r)
+    #print(r)
+
     if format =="json":
-        return r.to_json()
+        resp = make_response(r.to_json(), 200)
+        resp.headers['Content-Type'] = 'application/json'
+        return resp
     elif format =="jsonld":
         return  "Format not yet implemented: json-ld" , 400
     elif format=="csv":
-        return r.to_csv(encoding='utf-8',lineterminator='\n',index=False,quoting=csv.QUOTE_NONNUMERIC)
+        resp = make_response(r.to_csv(encoding='utf-8',lineterminator='\n',index=False,quoting=csv.QUOTE_NONNUMERIC), 200)
+        resp.headers['Content-Type'] = 'text/csv'
+        return resp
     elif format=="tsv":
-        return r.to_csv( sep='\t', encoding='utf-8',lineterminator='\n',index=False,quoting=csv.QUOTE_NONNUMERIC)
+        resp = make_response(r.to_csv( sep='\t', encoding='utf-8',lineterminator='\n',index=False,quoting=csv.QUOTE_NONNUMERIC),
+                         200)
+        resp.headers['Content-Type'] = 'text/tab-separated-values'
+        return resp
     else:
         return  "Uknonwn format:"+format , 400
 
 ## placeholder for a working ec.get_graph(g)
 # returns a dataframe that is from a summary record.
 def get_mock_graph(g):
-    file = '../resources/testing/summarydf_short.csv'
+    file = './resources/summarydf_short.csv'
     # with open(file, 'r') as f:
     #     testdf = f.read()
     testdf = pandas.read_csv(file)
