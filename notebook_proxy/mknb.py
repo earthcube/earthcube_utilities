@@ -36,9 +36,11 @@ GITHUB_OAUTHCLIENTID = GIHUB Client ID
 # import urllib.parse #mostly want safe filenames v url's right now, but enough overlap worth using
 
 # =original gist code: ;now only testing, rm-soon
+import csv
 import json
 import pathlib
 
+import pandas
 from authlib.oauth2.rfc6749 import OAuth2Token
 
 
@@ -599,6 +601,47 @@ def gists():
    # gists = resp.json()
     return jsonify({'gists': gists})
 
+# in mknb2, https://github.com/earthcube/ec/blame/master/NoteBook/mknb2.py
+# there are several formats:
+#  * get_graph (json)
+# * /get_graph_jld/ (jsonld)
+# * /get_graph_tsv/ (tsv)
+# * /get_graph_csv/ (csv)
+#  * get_graph_csv_g/ (csv) with more error checking that get_graph_csv
+
+## CLEAN CODE NEEDED:
+# we will need to import the completed ec_utilities, and the manage graph.
+# query the graphstore using that code
+# RDF to jsonld will need to be cleaned up. abbreviated.
+
+@app.route('/get_graph/<g>/<format>')
+def get_graph(g,format="jsonld"):
+    #format = request.args.get('format', type=str)
+    # g = request.args.get('g',  type = str)
+    # print(f'g={g}')
+    # the return form EC is a sparqldataframe
+    #r= ec.get_graph(g)
+    r=get_mock_graph(g)
+    print(r)
+    if format =="json":
+        return r.to_json()
+    elif format =="jsonld":
+        return  "Format not yet implemented: json-ld" , 400
+    elif format=="csv":
+        return r.to_csv(encoding='utf-8',lineterminator='\n',index=False,quoting=csv.QUOTE_NONNUMERIC)
+    elif format=="tsv":
+        return r.to_csv( sep='\t', encoding='utf-8',lineterminator='\n',index=False,quoting=csv.QUOTE_NONNUMERIC)
+    else:
+        return  "Uknonwn format:"+format , 400
+
+## placeholder for a working ec.get_graph(g)
+# returns a dataframe that is from a summary record.
+def get_mock_graph(g):
+    file = '../resources/testing/summarydf_short.csv'
+    # with open(file, 'r') as f:
+    #     testdf = f.read()
+    testdf = pandas.read_csv(file)
+    return testdf
 
 if __name__ == '__main__':
     if (len(sys.argv) > 1):

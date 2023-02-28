@@ -1,0 +1,2 @@
+,subj,g,resourceType,name,description,pubname,placenames,kw,datep
+1,https://ds.iris.edu/ds/products/momenttensor/,urn:gleaner:iris:15f9651976fd31ccc2600d334d09fda7fae4b26e,https://schema.org/Dataset,Centroid Moment Tensors,Global Centroid-Moment-Tensors from the GCMT project at Lamont-Doherty Earth Observatory are available through SPUD within minutes after their publication. Initial quick-CMT solutions are shown and are later updated to GCMT solutions when updates arrive.,No Publisher,No spatialCoverage,"seismology,geophysics,MomentTensor,seismic",No datePublished
