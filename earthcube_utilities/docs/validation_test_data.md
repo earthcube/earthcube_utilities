@@ -14,6 +14,14 @@ Coding
 Logic, after files are approved, they should not change, so testing can be automated.
 using approvals tests approach
 
+## NOTE
+I am going to suggest that this be done in the GeocodesMetadata reop, rather than earthcube utilities
+closer to the metadata is a good thing.
+
+Also, that would mean that a small portion of the EC utilities is packaged and documented.
+* graph (graph directory from  to  ec_utils)
+* s3 just use the minio client or boto... 
+
 ### Test 1: basic loading
 * pre-setup
   * create a config file, sans secrets. store.
@@ -45,7 +53,7 @@ This might be just added as a test with an additional load
   * test  code creates a temp bucket 
   * test  code create a temp graph  (summary does this)
   * Test code executes glcon command to run gleaner, and nabu using the 
-  * test code loads to nabu a second time
+  * test code loads to nabu a SECOND time
 * testing
   * Approvals Nabu
     * Did the count of triples increase from the original load. 
