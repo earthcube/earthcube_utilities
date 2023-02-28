@@ -1,9 +1,0 @@
-The whole thing can be run by setting ECU_S3ADDRESS to the s3 server
- within the program it appends 'gleaner/milled' and the repo, to get final bucket path to get rdf from
-and running> repo2summary.sh repo
-this will get rdf and make a repo.nq file (because runX path's is broken), 
-and create repo.ttl summary, that will be used for the 1st line search
-
-In the next PR/step I have something to upload it easily, but for now
-you can use the blazegraph dashboard, 
-to put in the ttl in summary& nq in earthcube namespaces of your choice
