@@ -1,0 +1,10 @@
+SELECT distinct ?g
+WHERE     {
+  GRAPH ?g {
+      ?s ?p ?o .
+     bind( REGEX( str(?g), "((\w+):(\w+)){3}" ) ) as ?repo
+   }
+}
+
+#((\w+):(\w+))$
+#(?2)(:(\w+))
