@@ -1,0 +1,5 @@
+SELECT (count(*) as ?tripelcount)
+WHERE     {
+     GRAPH ?g {?s ?p ?o .}
+    FILTER( CONTAINS(str(?g), "${repo}") )
+}
