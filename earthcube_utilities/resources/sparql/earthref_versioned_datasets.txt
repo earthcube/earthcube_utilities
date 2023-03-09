@@ -1,0 +1,15 @@
+prefix schema: <http://schema.org/>
+prefix sschema: <https://schema.org/>
+SELECT distinct ?subj ?sameAs ?version ?url ?g where {
+   graph ?g {
+        ?subj schema:identifier|sschema:identifier ?url .
+        ?subj schema:version|sschema:version ?version .
+        ?subj schema:sameAs|sschema:sameAs ?sameAs .
+        ?subj schema:sdPublisher|sschema:sdPublisher "EarthRef.org".
+    }
+        ?subj2 schema:sameAs|sschema:sameAs ?sameAs .
+        ?subj2 schema:version|sschema:version ?version2 .
+
+    FILTER (?version < ?version2).
+    }
+    GROUP BY ?sameAs ?version  ?subj  ?url ?g

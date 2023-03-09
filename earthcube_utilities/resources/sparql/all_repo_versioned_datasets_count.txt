@@ -1,0 +1,11 @@
+prefix schema: <https://schema.org/>
+SELECT  ?repo (count(distinct ?s) as ?versionscount)
+WHERE {
+  GRAPH ?g {
+
+       ?s schema:version ?version .
+
+       } bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):?(?:\\w+)?:" ,"" ), ":\\w+$" , "")   as ?repo ) .
+}
+GROUP By ?repo
+ORDER By DESC(?versionscount)

@@ -1,0 +1,11 @@
+# needs work... keywords can be an array.
+prefix schema: <https://schema.org/>
+SELECT  ?keyword (count(distinct ?s) as ?scount) ?repo
+WHERE {
+ GRAPH ?g {
+           ?s schema:keywords ?keyword .
+           bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):?(?:\\w+)?:" ,"" ), ":\\w+$" , "")   as ?repo ) .
+           }
+      }
+GROUP By ?keyword ?repo
+ORDER By DESC(?scount)
