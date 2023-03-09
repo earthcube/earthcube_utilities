@@ -35,10 +35,10 @@ class bucketDatastore():
     def listJsonld(self,bucket, repo):
         pass
     def countJsonld(self,bucket, repo):
-        count = len(list(self.listRepo(repo)))
+        count = len(list(self.listJsonld(bucket,repo)))
     def getJsonLD(self, repo, urn):
         pass
-    def getJsonLDMetadata(self,  repo, urn):
+    def getJsonLDMetadata(self, bucket, repo, urn):
         pass
 
     '''Cleans the name of slashes... might need more in the future.'''
@@ -50,10 +50,10 @@ class bucketDatastore():
     Reporting will have to pull the original and put back to the datastore
     '''
 
-    def putReportFile(self, bucket, repo):
+    def putReportFile(self, bucket, repo, filename):
         pass
 
-    def getReportFile(self, bucket, repo):
+    def getReportFile(self, bucket, repo, filename):
         pass
 
 
