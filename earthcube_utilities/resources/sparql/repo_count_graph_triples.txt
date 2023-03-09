@@ -1,0 +1,6 @@
+SELECT  ?g (count(?s) as ?count)
+WHERE     {
+     GRAPH ?g {?s ?p ?o .}
+    FILTER( CONTAINS(str(?g), "${repo}") )
+}
+GROUP BY ?g

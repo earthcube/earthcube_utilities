@@ -1,0 +1,9 @@
+# needs work... keywords can be an array.
+prefix schema: <https://schema.org/>
+SELECT  ?keyword (count(distinct ?s) as ?scount)
+WHERE {
+    GRAPH ?g {?s schema:keywords ?keyword . }
+     FILTER( CONTAINS(str(?g), "${repo}") )
+}
+GROUP By ?keyword
+ORDER By DESC(?scount)

@@ -1,11 +1,11 @@
 import unittest
 
-import manageGraph
+import manageGraph as mg
 
 
 class BrazgraphTestCase(unittest.TestCase):
     def test_createAndDelete(self):
-        bg =  manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", "test")
+        bg =  mg.ManageBlazegraph("https://graph.geodex.org/blazegraph", "test")
         create = bg.createNamespace()
         self.assertIn(create, ["Created","Exists"])  # add assertion here
         destroy = bg.deleteNamespace()
@@ -15,7 +15,7 @@ class BrazgraphTestCase(unittest.TestCase):
     # but that can wait
     def test_insert_milled(self):
         # this is to test the files uploaded from milled
-        bg =  manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", "test")
+        bg =  mg.ManageBlazegraph("https://graph.geodex.org/blazegraph", "test")
         create = bg.createNamespace()
         try:
             #self.assertEqual(True, create)  # add assertion here
@@ -32,7 +32,7 @@ class BrazgraphTestCase(unittest.TestCase):
 
     def test_insert_nq(self):
         # this is to test the files uploaded from milled
-        bg =  manageGraph.ManageBlazegraph("https://graph.geodex.org/blazegraph", "test")
+        bg =  mg.ManageBlazegraph("https://graph.geodex.org/blazegraph", "test")
         create = bg.createNamespace()
         try:
             #self.assertEqual(True, create)  # add assertion here
