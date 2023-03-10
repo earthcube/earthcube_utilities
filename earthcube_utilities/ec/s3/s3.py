@@ -1,3 +1,5 @@
+from io import BytesIO
+
 import minio
 
 """
@@ -7,11 +9,11 @@ different method
 class bucketDatastore():
     endpoint = "http://localhost:9000" # basically minio
     options = {}
-    paths = {"reports":"reports/{repo}",
-             "summon": "summoned/{repo}",
-             "milled":"milled/{repo}",
-             "graph":"graph/{repo}",
-             "archive":"archive/{repo}"
+    paths = {"reports":"reports",
+             "summon": "summoned",
+             "milled":"milled",
+             "graph":"graph",
+             "archive":"archive"
     }
 
     def __init__(self, s3endpoint, options):
@@ -35,10 +37,10 @@ class bucketDatastore():
     def listJsonld(self,bucket, repo):
         pass
     def countJsonld(self,bucket, repo):
-        count = len(list(self.listRepo(repo)))
+        count = len(list(self.listJsonld(bucket,repo)))
     def getJsonLD(self, repo, urn):
         pass
-    def getJsonLDMetadata(self,  repo, urn):
+    def getJsonLDMetadata(self, bucket, repo, urn):
         pass
 
     '''Cleans the name of slashes... might need more in the future.'''
@@ -50,10 +52,10 @@ class bucketDatastore():
     Reporting will have to pull the original and put back to the datastore
     '''
 
-    def putReportFile(self, bucket, repo):
+    def putReportFile(self, bucket, repo, filename):
         pass
 
-    def getReportFile(self, bucket, repo):
+    def getReportFile(self, bucket, repo, filename):
         pass
 
 
@@ -72,3 +74,13 @@ class MinioDatastore(bucketDatastore):
         resp = self.s3client.get_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
         return resp.data
 
+    def putReportFile(self, bucket, repo, filename, json_str):
+        path = f"/{self.paths['reports']}/{repo}/{filename}"
+        f = BytesIO()
+        length = f.write(bytes(json_str, 'utf-8'))
+        f.seek(0)
+        resp = self.s3client.put_object(bucket, path, f,length=length)
+        return resp.bucket_name, resp.object_name
+
+    def getReportFile(self, bucket, repo, filename):
+        pass

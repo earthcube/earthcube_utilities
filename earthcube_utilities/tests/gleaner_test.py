@@ -2,26 +2,26 @@ import os
 import unittest
 import logging
 
-import gleaner
+import gleanerio
 
 class MyTestCase(unittest.TestCase):
     def test_endpointUpdate(self):
-        endpoint = gleaner.endpointUpdateNamespace("https://example.com/blazegraph/namespace/earhtcube/sparql")
+        endpoint = gleanerio.endpointUpdateNamespace("https://example.com/blazegraph/namespace/earhtcube/sparql")
         self.assertEqual( "https://example.com/blazegraph/namespace/temp/sparql",endpoint)  # add assertion here
-        endpoint =gleaner.endpointUpdateNamespace("https://example.com/blazegraph/namespace/earhtcube/sparql", namepsace="temp_summary")
+        endpoint =gleanerio.endpointUpdateNamespace("https://example.com/blazegraph/namespace/earhtcube/sparql", namepsace="temp_summary")
         self.assertEqual("https://example.com/blazegraph/namespace/temp_summary/sparql", endpoint)
 
     def test_nabuCfg(self):
         with open('../resources/testing/nabu', 'r') as f:
-            endpoint, cfg = gleaner.getNabu(f)
+            endpoint, cfg = gleanerio.getNabu(f)
         self.assertEqual("https://graph.geodex.org/blazegraph/namespace/earthcube/sparql", endpoint)
 
     def test_reviseNabuCfg(self):
         with open('../resources/testing/nabu', 'r') as f:
-            endpoint, cfg = gleaner.getNabu(f)
-            endpoint = gleaner.endpointUpdateNamespace(
+            endpoint, cfg = gleanerio.getNabu(f)
+            endpoint = gleanerio.endpointUpdateNamespace(
                 "https://example.com/blazegraph/namespace/earhtcube/sparql")
-            cfgnew = gleaner.reviseNabuConf(cfg, endpoint)
+            cfgnew = gleanerio.reviseNabuConf(cfg, endpoint)
 
         self.assertEqual("https://example.com/blazegraph/namespace/temp/sparql", cfgnew['sparql']['endpoint'])
 
@@ -30,7 +30,7 @@ class MyTestCase(unittest.TestCase):
          path =  os.getcwd()
          logging.info("executatble path", path)
          f= '../../resources/configs/geocodetest/gleaner'
-         s3endpoint, bucket, cfg = gleaner.getGleaner(f)
+         s3endpoint, bucket, cfg = gleanerio.getGleaner(f)
          json = '''{
 "@context": 
     { "@vocab":"http://schema.org/",
@@ -48,7 +48,7 @@ class MyTestCase(unittest.TestCase):
 }
 '''
          # yeah, I know the fixed path is bad... but
-         result = gleaner.runIdentifier( json,glncfg=f, glcon="/Users/valentin/development/dev_earthcube/gleanerio/gleaner/cmd/glcon/glcon_darwin")
+         result = gleanerio.runIdentifier( json,glncfg=f, glcon="/Users/valentin/development/dev_earthcube/gleanerio/gleaner/cmd/glcon/glcon_darwin")
          self.assertIsNotNone(result)
          result = result.decode("utf-8")
          self.assertFalse("ERROR"  in result )

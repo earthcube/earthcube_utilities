@@ -1,6 +1,6 @@
 import unittest
 
-import manageGraph as mg
+import graph.manageGraph as mg
 
 
 class BrazgraphTestCase(unittest.TestCase):
@@ -20,7 +20,7 @@ class BrazgraphTestCase(unittest.TestCase):
         try:
             #self.assertEqual(True, create)  # add assertion here
            # file = 'resources/test_triples/milled/0d8f2661071bdf56c91569ddfa0a5b8dea1a526d.rdf'
-            file = '../../../resources/test_triples/milled/0d8f2661071bdf56c91569ddfa0a5b8dea1a526d.rdf'
+            file = '../resources/test_triples/milled/0d8f2661071bdf56c91569ddfa0a5b8dea1a526d.rdf'
             with open(file, 'rb+') as f:
                 lines = f.read()
             inserted = bg.insert(lines,"text/plain")
@@ -37,7 +37,7 @@ class BrazgraphTestCase(unittest.TestCase):
         try:
             #self.assertEqual(True, create)  # add assertion here
            # file = 'resources/test_triples/milled/0d8f2661071bdf56c91569ddfa0a5b8dea1a526d.rdf'
-            file = '../../../resources/test_triples/nq/iris.txt'
+            file = '../resources/test_triples/nq/iris.txt'
             with open(file, 'rb+') as f:
                 lines = f.read()
             inserted = bg.insert(lines)
