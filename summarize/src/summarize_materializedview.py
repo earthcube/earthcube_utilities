@@ -21,6 +21,10 @@ def summaryDF2ttl(df, repo):
     def is_str(v):
         return type(v) is str
     g = Graph()
+    ## ##########
+    # Not officially a standard schema format.
+    # we might want to use our own namespace in the future
+    ###########
     g.bind("ecsummary", "https://schema.org/")
     ecsummary = Namespace("https://schema.org/")
 
@@ -161,3 +165,7 @@ def summaryDF2ttl(df, repo):
 
         #### end for ####
     return f.getvalue() , g
+# g is an RDF graph that can be dumped using
+# output_string = g.serialize(format='longturtle')
+# output_string = g.serialize(format="json-ld")
+# or other formats

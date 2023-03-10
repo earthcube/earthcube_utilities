@@ -76,6 +76,6 @@ def compact_jld_str(jld_str):
 
 def get_rdf2jld_str(urn, endpoint):
     "get jsonld from endpoint"
-    g= get_rdf(urn, endpoint)
+    g= get_rdfgraph(urn, endpoint)
     jld_str = g.serialize(format="json-ld")
     return compact_jld_str(jld_str)
