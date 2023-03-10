@@ -22,7 +22,7 @@ class SummarizeMaterializedViewTestCase(unittest.TestCase):
         # mv summarize/src/approved_files/SummarizeMaterializedViewTestCase.test_summaryDF2ttl.recieved.txt summarize/src/approved_files/SummarizeMaterializedViewTestCase.test_summaryDF2ttl.approved.txt
         # rerun test
         nt = g.serialize(format='longturtle')
-        verify(results)
+        verify(nt)
 
 if __name__ == '__main__':
     unittest.main()
