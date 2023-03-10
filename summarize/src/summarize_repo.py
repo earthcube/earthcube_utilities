@@ -67,7 +67,8 @@ def summarizeRepo(args):
         newNabucfg = reviseNabuConf(cfg,tempendpoint )
         runNabu(newNabucfg,repo, args.glcon )
         summarydf = get_summary4repo(tempendpoint)
-        summaryttl = summaryDF2ttl(summarydf,repo)
+        nt,g = summaryDF2ttl(summarydf,repo) # let's try the new generator
+        summaryttl = g.serialize(format='longturtle')
         # write to s3  in future
         with open(f"{repo}.ttl", 'w') as f:
              f.write(summaryttl)
