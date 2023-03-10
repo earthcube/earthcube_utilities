@@ -1,0 +1,3 @@
+prefix sschema: <https://schema.org/>
+            SELECT distinct    ?g WHERE {
+            graph ?g { <${g}> a schema:Dataset }}

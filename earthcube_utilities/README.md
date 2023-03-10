@@ -1,15 +1,12 @@
-# earthcube_utilities
- For minipulating (meta)data in NoteBook/s from [GeoCODES](https://www.earthcube.org/geocodes) [search](https://geocodes.earthcube.org/)
+# earthcube_utliites
 
-[From](https://mbcode.github.io/ec/): https://github.com/MBcode/ec &/or [gitlab](https://gitlab.com/MBcode/ec); which includes versions of the server-side code
-Incl: the crawl & assert of data-repository metadata for search &for the NoteBooks:
+The planned functionality will be found in the docs folder,
+[Earthcube Utilities Functionality](./docs/earthcube_utilties_functionality.md)
 
-[Future documentation](./docs/index.md)
 
+## Proposed use
 ### Earthcube Utilties:
 https://test.pypi.org/project/earthcube-utilities/
 (presently test.pypi)
 
 python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube-utilities
-
-The notebooks (presenly on master_dataformats) contain example usage.
