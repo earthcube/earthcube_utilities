@@ -1,5 +1,4 @@
 import pandas
-import rdflib_jsonld
 from rdflib import URIRef, BNode, Literal, Graph
 
 import graph.sparqlquery
