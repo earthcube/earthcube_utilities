@@ -1,5 +1,6 @@
 import unittest
-import sparqlquery
+import graph
+from graph import sparqlquery
 
 
 class Graph_SparqlDataframe_TestCase(unittest.TestCase):
@@ -11,7 +12,7 @@ class Graph_SparqlDataframe_TestCase(unittest.TestCase):
         cls.gbad = "urn:gleaner:summoned:random:uuid"
 
     def test_getFile(self):
-        f = sparqlquery.getFileFromResources("sparql/select_one.txt")
+        f = sparqlquery.getFileFromResources("select_one")
         self.assertEqual(f, "SELECT * { ?s ?p ?o } LIMIT 1")  # add assertion here
 
     def test_getGraph(self ):
@@ -25,9 +26,13 @@ class Graph_SparqlDataframe_TestCase(unittest.TestCase):
         self.assertTrue(result.size == 0)
 
     def test_queryWithSparqlRepo(self ):
-        result = sparqlquery.queryWithSparql("repo_count_datasets", {"repo": self.repo}, self.endpoint)
+        result = sparqlquery.queryWithSparql("repo_count_datasets", self.endpoint, parameters= {"repo": self.repo})
         self.assertIsNotNone(result)
         self.assertTrue(result.size > 0)
 
+    def test_queryWithSparqlNoParameters(self ):
+        result = sparqlquery.queryWithSparql("select_one", self.endpoint)
+        self.assertIsNotNone(result)
+        self.assertTrue(result.size > 0)
 if __name__ == '__main__':
     unittest.main()
