@@ -1,0 +1,115 @@
+,s,p,o,g
+0,t1692150,https://schema.org/url,http://geology.okstate.edu/,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+1,t1692150,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+2,t1692151,https://schema.org/name,"University of California, Davis, KeckCAVES",urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+3,t1692151,https://schema.org/url,http://keckcaves.org/,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+4,t1692151,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+5,t1692152,https://schema.org/name,"University of California, Los Angeles",urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+6,t1692152,https://schema.org/url,http://epss.ucla.edu/graduate/geology/,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+7,t1692152,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+8,t1692153,https://schema.org/name,"University of California, Santa Cruz",urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+9,t1692153,https://schema.org/url,http://eps.ucsc.edu/,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+10,t1692153,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+11,t1692154,https://schema.org/name,Western Washington Univesity,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+12,t1692154,https://schema.org/url,https://cse.wwu.edu/geology,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+13,t1692154,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+14,https://doi.org/10.5069/G95T3HFX,https://schema.org/additionalType,datacite:Identifier,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+15,https://doi.org/10.5069/G95T3HFX,https://schema.org/additionalType,geolink:Identifier,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+16,https://doi.org/10.5069/G95T3HFX,https://schema.org/propertyID,datacite:doi,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+17,https://doi.org/10.5069/G95T3HFX,https://schema.org/url,https://doi.org/10.5069/G95T3HFX,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+18,https://doi.org/10.5069/G95T3HFX,https://schema.org/value,10.5069/G95T3HFX,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+19,https://doi.org/10.5069/G95T3HFX,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/PropertyValue,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+20,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/additionalType,geolink:Dataset,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+21,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/additionalType,vivo:Dataset,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+22,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/alternateName,POLETA,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+23,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/citation,"Poleta Folds, southern Deep Springs Valley, California. Distributed by OpenTopography. https://doi.org/10.5069/G95T3HFX . Accessed: 2022-10-05",urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+24,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/contributor,t1692135,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+25,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/contributor,t1692136,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+26,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/dateCreated,2015-05-21 16:38:09.270314,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+27,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/description,"These data cover a popular area for field geologic mapping courses called the Poleta Folds. The area is at the southern end of Deep Springs Valley, southeast of Bishop, CA. The purpose of collecting the data was to provide a good topographic base map for students to learn to map complex geologic structures.",urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+28,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/encodingFormat,application/octet-stream;type=ASPRS-LAS,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+29,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/fileFormat,Point Cloud Data,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+30,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/funder,t1692147,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+31,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/funder,t1692148,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+32,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/funder,t1692149,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+33,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/funder,t1692150,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+34,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/funder,t1692151,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+35,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/funder,t1692152,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+36,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/funder,t1692153,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+37,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/funder,t1692154,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+38,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/identifier,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+39,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/includedInDataCatalog,t1692137,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+40,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/isAccessibleForFree,true,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+41,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/keywords,"folds, faults, structures, Cambrian, basin and range, lidar",urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+42,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/license,Not-Provided,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+43,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/locationCreated,,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+44,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/name,"Poleta Folds, southern Deep Springs Valley, California",urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+45,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/propertyID,opentopoID,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+46,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/publisher,t1692138,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+47,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/sameAs,https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.052015.32611.1,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+48,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/spatialCoverage,t1692139,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+49,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/temporalCoverage,2014-02-01/2014-02-01,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+50,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/url,https://doi.org/10.5069/G95T3HFX,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+51,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/usageinfo,https://opentopography.org/usageterms,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+52,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/value,OTLAS.052015.32611.1,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+53,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/variableMeasured,t1692143,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+54,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/variableMeasured,t1692144,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+55,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/variableMeasured,t1692145,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+56,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/variableMeasured,t1692146,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+57,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,https://schema.org/version,1.0,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+58,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Dataset,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+59,https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/PropertyValue,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+60,t1692135,https://schema.org/name,University of Alaska Fairbanks- Dr. Chris Larsen,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+61,t1692135,https://schema.org/url,http://fairweather.alaska.edu/chris/index.html,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+62,t1692135,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+63,t1692136,https://schema.org/name,White Mountain Research Center,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+64,t1692136,https://schema.org/url,https://www.wmrc.edu/,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+65,t1692136,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+66,t1692137,https://schema.org/identifier,https://doi.org/10.5069/G95T3HFX,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+67,t1692137,https://schema.org/name,"Poleta Folds, southern Deep Springs Valley, California",urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+68,t1692137,https://schema.org/url,https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.052015.32611.1,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+69,t1692137,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/DataCatalog,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+70,t1692138,https://schema.org/additionalType,geolink:Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+71,t1692138,https://schema.org/award,"National Science Foundation under Award Numbers EAR-1948997, 1948994 & 1948857",urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+72,t1692138,https://schema.org/email,info@opentopography.org,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+73,t1692138,https://schema.org/legalName,OpenTopography,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+74,t1692138,https://schema.org/logo,http://www.opentopography.org/sites/opentopography.org/files/ot_transp_logo.png,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+75,t1692138,https://schema.org/name,OpenTopography,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+76,t1692138,https://schema.org/url,https://opentopography.org,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+77,t1692138,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+78,t1692139,https://schema.org/additionalProperty,t1692140,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+79,t1692139,https://schema.org/additionalProperty,t1692141,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+80,t1692139,https://schema.org/geo,t1692142,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+81,t1692139,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Place,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+82,t1692140,https://schema.org/additionalType,CoordinatesSystem,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+83,t1692140,https://schema.org/name,Horizontal Coordinates,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+84,t1692140,https://schema.org/value,UTM Zone 11N WGS 1984 [EPSG: 32611],urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+85,t1692140,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/PropertyValue,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+86,t1692141,https://schema.org/additionalType,CoordinatesSystem,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+87,t1692141,https://schema.org/name,Vertical Coordinates,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+88,t1692141,https://schema.org/value,Ellipsoid,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+89,t1692141,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/PropertyValue,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+90,t1692142,https://schema.org/box,"37.0012019441369,-118.138459854726 37.3255695246386,-118.068826759762",urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+91,t1692142,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/GeoShape,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+92,t1692143,https://schema.org/name,Area,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+93,t1692143,https://schema.org/value,47 km2,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+94,t1692143,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/PropertyValue,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+95,t1692144,https://schema.org/name,Unit,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+96,t1692144,https://schema.org/value,meter,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+97,t1692144,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/PropertyValue,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+98,t1692145,https://schema.org/name,LidarReturns,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+99,t1692145,https://schema.org/value,41604637 points,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+100,t1692145,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/PropertyValue,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+101,t1692146,https://schema.org/name,PointDensity,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+102,t1692146,https://schema.org/value,0.89 points/m2,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+103,t1692146,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/PropertyValue,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+104,t1692147,https://schema.org/name,Central Washington University,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+105,t1692147,https://schema.org/url,http://www.geology.cwu.edu/,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+106,t1692147,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+107,t1692148,https://schema.org/name,California Institute of Technology,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+108,t1692148,https://schema.org/url,https://www.caltech.edu/,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+109,t1692148,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+110,t1692149,https://schema.org/name,Sacramento State University,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+111,t1692149,https://schema.org/url,https://www.csus.edu/geology/,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+112,t1692149,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,https://schema.org/Organization,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146
+113,t1692150,https://schema.org/name,Oregon State University,urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146

@@ -41,7 +41,7 @@ def getFileFromResources(filename):
     #         print(exc)
 
 def getAGraph(  g, endpoint):
-    query = getFileFromResources('sparql_files/get_triples_for_a_graph')
+    query = getFileFromResources('get_triples_for_a_graph')
     q_template = Template(query)
     thsGraphQuery = q_template.substitute(g=g)
     g_df = sparqldataframe.query(endpoint, thsGraphQuery)
