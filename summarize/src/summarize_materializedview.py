@@ -1,5 +1,6 @@
 import logging
 from io import StringIO
+from string import Template
 
 import pandas
 import sparqldataframe
@@ -8,11 +9,33 @@ import json
 
 context = "@prefix : <https://schema.org/> ."
 
+'''original fetch all from temporary namespace'''
 def get_summary4repo(endpoint):
     file = '../resources/sparql/summary_query.txt'
     with open(file, 'r') as f:
         lines = f.read()
     df = sparqldataframe.query(endpoint,lines)
+    return df
+
+''' fetch all from graph namespace'''
+def get_summary4graph(endpoint):
+    file = '../resources/sparql/all_summary_query.sparql'
+    with open(file, 'r') as f:
+        lines = f.read()
+    df = sparqldataframe.query(endpoint,lines)
+    return df
+
+''' fetch subset  from graph namespace'''
+def get_summary4repoSubset(endpoint, repo):
+    file = '../resources/sparql/repo_summary_query.sparql'
+    with open(file, 'r') as f:
+        lines = f.read()
+    #query = getFileFromResources(f"{template_name}")
+    #q_template = Template(query)
+    q_template = Template(lines)
+    thsGraphQuery = q_template.substitute(repo=repo)
+
+    df = sparqldataframe.query(endpoint,thsGraphQuery)
     return df
 
 def summaryDF2ttl(df, repo):
@@ -35,7 +58,7 @@ def summaryDF2ttl(df, repo):
     for index, row in df.iterrows():
         logging.debug(f'dbg:{row}')
         gu=df["g"][index]
-
+        graph_subject = URIRef(gu)
         #skip the small %of dups, that even new get_summary.txt * has
         if not urns.get(gu):
             urns[gu]=1
@@ -103,60 +126,60 @@ def summaryDF2ttl(df, repo):
 # RDF.TYPE
         if rt == "tool":
             f.write(f'        a :SoftwareApplication ;\n')
-            g.add((URIRef(s),RDF.type, Literal("SoftwareApplication")) )
+            g.add((graph_subject,RDF.type, Literal("SoftwareApplication")) )
         else:
             f.write(f'        a :Dataset ;\n')
-            g.add((URIRef(s), RDF.type, Literal("Dataset")))
+            g.add((graph_subject, RDF.type, Literal("Dataset")))
 # ecsummary.name
         f.write(f'        :name {name} ;\n')
         if (pandas.isnull( row.get('name'))):
-            g.add((URIRef(s), ecsummary.name, Literal("")))
+            g.add((graph_subject, ecsummary.name, Literal("")))
         else:
-            g.add( (URIRef(s), ecsummary.name, Literal( row.get('name') ) ) )
+            g.add( (graph_subject, ecsummary.name, Literal( row.get('name') ) ) )
 
 # ecsummary.description
         f.write(f'        :description ""{sdes}"" ;\n')
-        g.add((URIRef(s), ecsummary.description, Literal(description)))
+        g.add((graph_subject, ecsummary.description, Literal(description)))
 
 # ecsummary.keywords
         f.write(f'        :keywords {kw} ;\n')
-        g.add((URIRef(s), ecsummary.keywords, Literal(kw_)))
+        g.add((graph_subject, ecsummary.keywords, Literal(kw_)))
 # ecsummary.publisher
         f.write(f'        :publisher "{pubname}" ;\n')
-        g.add((URIRef(s), ecsummary.publisher, Literal(pubname)))
+        g.add((graph_subject, ecsummary.publisher, Literal(pubname)))
 # ecsummary.place
         f.write(f'        :place "{placename}" ;\n')
-        g.add((URIRef(s), ecsummary.place, Literal(placename)))
+        g.add((graph_subject, ecsummary.place, Literal(placename)))
 # ecsummary date
         if datep:
             f.write(f'        :date "{datep}" ;\n') #might be: "No datePublished" ;should change in qry, for dv's lack of checking
-            g.add((URIRef(s), ecsummary.date, Literal(datep)))
+            g.add((graph_subject, ecsummary.date, Literal(datep)))
 # ecsummary subjectOf
         f.write(f'        :subjectOf <{s}> .\n')
-        g.add((URIRef(s), ecsummary.subjectOf, URIRef(s)))
+        g.add((graph_subject, ecsummary.subjectOf, URIRef(s)))
 
 # ecsummary.distribution
         du= row.get('url') # check now/not yet
         if is_str(du):
             f.write(f'        :distribution <{du}> .\n')
-            g.add((URIRef(s), ecsummary.distribution, URIRef(s)))
+            g.add((graph_subject, ecsummary.distribution, URIRef(s)))
 # spatial
 
 # ecsummary.latitude
         mlat= row.get('maxlat') # check now/not yet
         if is_str(mlat):
             f.write(f'        :latitude {mlat} .\n')
-            g.add((URIRef(s), ecsummary.latitude, Literal(mlat)))
+            g.add((graph_subject, ecsummary.latitude, Literal(mlat)))
         mlon= row.get('maxlon') # check now/not yet
         if is_str(mlon):
             f.write(f'        :longitude {mlon} .\n')
-            g.add((URIRef(s), ecsummary.longitude, Literal(mlon)))
+            g.add((graph_subject, ecsummary.longitude, Literal(mlon)))
 
 # ecsummary.encodingFormat
         encodingFormat= row.get('encodingFormat') # check now/not yet
         if is_str(encodingFormat):
             f.write(f'        :encodingFormat {encodingFormat} .\n')
-            g.add((URIRef(s), ecsummary.encodingFormat, Literal(encodingFormat)))
+            g.add((graph_subject, ecsummary.encodingFormat, Literal(encodingFormat)))
         #see abt defaults from qry or here, think dv needs date as NA or blank/check
         #old:
         #got a bad:         :subjectOf <metadata-doi:10.17882/42182> .
