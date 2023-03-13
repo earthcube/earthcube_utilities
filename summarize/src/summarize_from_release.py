@@ -63,7 +63,8 @@ def summarizeReleaseOnly(args):
     with open(file, 'r') as f:
         lines = f.read()
     sumresults = g.query(lines)
-
+## this returns no rows.
+    # WE CAN USE BLAZEGRAPH, so no use going direct
 
 
     try:  # temp has been created
