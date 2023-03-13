@@ -1,10 +1,14 @@
 import pandas
-from rdflib import URIRef, BNode, Literal, Graph
+from rdflib import URIRef, BNode, Literal, Graph, Dataset
+from rdfpandas.graph import to_dataframe
 
 import graph.sparqlquery
 from pyld import jsonld
 import json
 
+#############
+## util functions
+##########
 def is_http(u):
     if not isinstance(u, str) :
         print("might need to set LD_cache") #have this where predicate called
@@ -43,6 +47,7 @@ def createRDFNode(nodeValue):
     #else:
     #    return url
 
+
 def df2rdfgraph(df):
     "print out df as .nt file"
 
@@ -60,11 +65,26 @@ def df2rdfgraph(df):
         #need to finish up w/dumping to a file
     return  g
 
+### ########
+# fetch/retrieval
+######
+
 def get_rdfgraph(urn, endpoint): #get graph
     df=graph.sparqlquery.getAGraph(urn, endpoint)
     dfo=df2rdfgraph(df)
     return dfo
 
+def load_release(releaseurl):
+    g= Dataset()
+    g.parse(releaseurl, format='nquads')
+    return g
+#  using https://github.com/cadmiumkitty/rdfpandas
+    #g = Graph()
+#    g.parse(releaseurl, format='nt')
+#    df = to_dataframe(g)
+
+###
+# formating
 def compact_jld_str(jld_str):
 # this context will need to be expanded.
     context = { "@vocab": "https://schema.org/"}
