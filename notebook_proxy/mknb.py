@@ -612,7 +612,11 @@ def gists():
 ## CLEAN CODE NEEDED:
 # we will need to import the completed ec_utilities, and the manage graph.
 # query the graphstore using that code
-# RDF to jsonld will need to be cleaned up. abbreviated.
+# RDF to jsonld is in earthcube_utilities/ec/sos_json/rdf.py
+## def get_rdf2jld(urn, endpoint, form="jsonld", schemaType="Dataset"):
+## use form="frame"
+## swear: this will break because there are types other than Dataset that might be returned.
+# so use form="compact"
 
 @app.route('/get_graph/<g>/<format>')
 def get_graph(g,format="jsonld"):
