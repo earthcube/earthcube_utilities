@@ -52,22 +52,12 @@ def summarizeGraphOnly(args):
 
     endpoint= args.graphendpoint
     graphendpoint = mg.graphFromEndpoint(endpoint)
-    #tempnsgraph = mg(graphendpoint, f'{repo}_temp')
-    try:  # temp has been created
-        # created = tempnsgraph.createNamespace()
-        # if ( created=='Failed'):
-        #     logging.fatal("coould not create namespace")
+
+    try:
+
         sumnsgraph = mg(graphendpoint, summary)
-        # created = sumnsgraph.createNamespace()
-        # if ( created=='Failed'):
-        #     logging.fatal("coould not create summary namespace")
-        # endpoints for file
-        # tempendpoint =endpointUpdateNamespace(endpoint,f"{repo}_temp")
 
         summaryendpoint =endpointUpdateNamespace(endpoint,summary)
-
-        # newNabucfg = reviseNabuConf(cfg,tempendpoint )
-        # runNabu(newNabucfg,repo, args.glcon )
 
         if repo is not None:
             summarydf = get_summary4repoSubset(endpoint, repo)
@@ -100,10 +90,7 @@ def summarizeGraphOnly(args):
     except Exception as ex:
         logging.error(f"error {ex}")
         return 1
-    # finally:
-    #     # need to figure out is this is run after return, I think it is.
-    #     logging.debug(f"Deleting Temp namespace {tempnsgraph.namespace}")
-    #     deleted = tempnsgraph.deleteNamespace()
+
 
 
 if __name__ == '__main__':
