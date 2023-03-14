@@ -1,9 +1,14 @@
+from string import Template
+
 import pandas
 from rdflib import URIRef, BNode, Literal, Graph
 
-import graph.sparqlquery
+import graph
 from pyld import jsonld
 import json
+
+# this context will need to be expanded.
+jsonld_context = context = { "@vocab": "https://schema.org/"}
 
 def is_http(u):
     if not isinstance(u, str) :
@@ -60,18 +65,60 @@ def df2rdfgraph(df):
         #need to finish up w/dumping to a file
     return  g
 
-def get_rdfgraph(urn, endpoint): #get graph
+
+def get_rdfgraph(urn, endpoint ): #get graph
     df=graph.sparqlquery.getAGraph(urn, endpoint)
-    dfo=df2rdfgraph(df)
-    return dfo
+    g=df2rdfgraph(df)
+    return g
+
+# returns a framd JSON
+# form= framed|compact
+def get_rdf2jld(urn, endpoint, form="jsonld", schemaType="Dataset"):
+    "get jsonld from endpoint"
+    g = get_rdfgraph(urn, endpoint)
+    # auto_compact=False might change
+    jld_str = g.serialize(format="json-ld")
+
+    return formatted_jsonld(jld_str)
 
 def compact_jld_str(jld_str):
-# this context will need to be expanded.
-    context = { "@vocab": "https://schema.org/"}
     doc = json.loads(jld_str)
-    compacted = jsonld.compact(doc, context)
+    compacted = jsonld.compact(doc, jsonld_context)
     r = json.dumps(compacted, indent=2)
     return r
+
+def formatted_jsonld(jld_str, form="jsonld", schemaType="Dataset"):
+    if (form == 'jsonld'):
+        return jld_str
+
+    if (form == "compact"):
+        doc = json.loads(jld_str)
+        compacted = jsonld.compact(doc, jsonld_context)
+        r = json.dumps(compacted, indent=2)
+        return r
+
+    if (form == "frame"):
+        frame = (' {\n'
+                 '              "@context": {\n'
+                 '                "@vocab": "https://schema.org/",\n'
+                 '                    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",\n'
+                 '                    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",\n'
+                 '                    "schema": "https://schema.org/",\n'
+                 '                    "xsd": "http://www.w3.org/2001/XMLSchema#"\n'
+                 '              },\n'
+                 '              "@type": "schema:${schemaType}"\n'
+                 '  }\n '
+                 )
+    f_template = Template(frame)
+    thsGraphQuery = f_template.substitute(schemaType=schemaType)
+
+    frame_doc = json.loads(thsGraphQuery)
+    doc = json.loads(jld_str)
+
+    framed = jsonld.frame(doc, frame_doc)
+
+    r = json.dumps(framed, indent=2)
+    return compact_jld_str(jld_str)
 
 def get_rdf2jld_str(urn, endpoint):
     "get jsonld from endpoint"
