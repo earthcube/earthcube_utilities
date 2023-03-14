@@ -8,7 +8,7 @@ import shutil
 
 import os
 from graph.manageGraph import ManageBlazegraph as mg
-from summarize_materializedview import summaryDF2ttl, get_summary4repo
+from summarize_materializedview import summaryDF2ttl, get_summary4graph,get_summary4repoSubset
 
 def endpointUpdateNamespace( fullendpoint, namepsace='temp'):
     paths = fullendpoint.split('/')
@@ -43,49 +43,54 @@ def runNabu(cfg, repo,glcon="~/indexing/glcon"):
     else:
         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
 
-def summarizeRepo(args):
+def summarizeGraphOnly(args):
     repo = args.repo
     if args.summary_namespace:
         summary = args.summary_namespace
     else:
         summary = f"{repo}_summary"
-    nabucfg = args.nabufile
-    endpoint, cfg = getNabu(nabucfg)
+
+    endpoint= args.graphendpoint
     graphendpoint = mg.graphFromEndpoint(endpoint)
-    tempnsgraph = mg(graphendpoint, f'{repo}_temp')
-    try:  # temp has been created
-        created = tempnsgraph.createNamespace()
-        if ( created=='Failed'):
-            logging.fatal("coould not create namespace")
+
+    try:
+
         sumnsgraph = mg(graphendpoint, summary)
-        created = sumnsgraph.createNamespace()
-        if ( created=='Failed'):
-            logging.fatal("coould not create summary namespace")
-        # endpoints for file
-        tempendpoint =endpointUpdateNamespace(endpoint,f"{repo}_temp")
+
         summaryendpoint =endpointUpdateNamespace(endpoint,summary)
-        newNabucfg = reviseNabuConf(cfg,tempendpoint )
-        runNabu(newNabucfg,repo, args.glcon )
-        summarydf = get_summary4repo(tempendpoint)
+
+        if repo is not None:
+            summarydf = get_summary4repoSubset(endpoint, repo)
+        else:
+            # this really needs to be paged ;)
+            summarydf = get_summary4graph(endpoint)
+            repo = ""
+
         nt,g = summaryDF2ttl(summarydf,repo) # let's try the new generator
+
         summaryttl = g.serialize(format='longturtle')
         # write to s3  in future
-        with open(f"{repo}.ttl", 'w') as f:
-             f.write(summaryttl)
+        # with open(os.path.join("output",f"{repo}.ttl"), 'w') as f:
+        #      f.write(summaryttl)
         if args.graphsummary:
             inserted = sumnsgraph.insert(bytes(summaryttl, 'utf-8'),content_type="application/x-turtle" )
             if inserted:
                 logging.info(f"Inserted into graph store{sumnsgraph.namespace}" )
             else:
-                logging.error(f"Repo {repo} not inserted into {sumnsgraph.namespace}")
+                logging.error(f" dumping file {repo}.ttl  Repo {repo} not inserted into {sumnsgraph.namespace}")
+
+                with open(os.path.join("output",f"{repo}.ttl"), 'w') as f:
+                     f.write(summaryttl)
                 return 1
+        else:
+            logging.info(f" dumping file {repo}.ttl  graphsummary: {args.graphsummary} ")
+
+            with open(os.path.join("output", f"{repo}.ttl"), 'w') as f:
+                f.write(summaryttl)
     except Exception as ex:
         logging.error(f"error {ex}")
         return 1
-    finally:
-        # need to figure out is this is run after return, I think it is.
-        logging.debug(f"Deleting Temp namespace {tempnsgraph.namespace}")
-        deleted = tempnsgraph.deleteNamespace()
+
 
 
 if __name__ == '__main__':
@@ -93,18 +98,19 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("repo",  help='repository name')
-    parser.add_argument('nabufile',type=argparse.FileType('r'),
-                        help='nabu configuration file')
+    parser.add_argument("--repo", dest='repo', help='repo name used in the  urn')
+
     parser.add_argument('--graphendpoint', dest='graphendpoint',
-                        help='override nabu endpoint')
-    parser.add_argument('--glcon', dest='glcon',
-                        help='override path to glcon', default="~/indexing/glcon")
+                        help='graph endpoint with namespace',
+                        default="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"
+                        , required=True)
+
     parser.add_argument('--graphsummary', dest='graphsummary',
                         help='upload triples to graphsummary', default=True)
     parser.add_argument('--summary_namespace', dest='summary_namespace',
-                        help='summary_namespace')
+                        help='summary_namespace defaults to {repo_summary}',
+                        )
     args = parser.parse_args()
 
-    exitcode= summarizeRepo(args)
+    exitcode= summarizeGraphOnly(args)
     exit(exitcode)

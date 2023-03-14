@@ -1,0 +1,8 @@
+# template substitute ${g}
+SELECT ?s ?p ?o ?g
+WHERE     {
+GRAPH <${g}> {?s ?p ?o .
+bind("${g}" as ?g)
+}
+
+}

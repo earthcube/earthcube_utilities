@@ -1,3 +1,7 @@
+/summarize/src/gleaner.db
+/summarize/src/logs/*
+gleaner.db
+
 ### JupyterNotebooks template
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
@@ -325,4 +329,5 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
 

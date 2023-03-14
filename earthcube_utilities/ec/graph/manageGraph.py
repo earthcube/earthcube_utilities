@@ -3,6 +3,10 @@ import logging as log  #have some dgb prints, that will go to logs soon/but I fi
 log.basicConfig(filename='mgraph.log', encoding='utf-8', level=log.DEBUG,
                 format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
+"""
+Goal of manage graph is to allow for the creation deletion of namespaces, and the insertion of data
+This is not a class to handle querying.
+"""
 class ManageGraph: #really a manage graph namespace, bc a graph has several of them, &this represents only one
     baseurl = "http://localhost:3030" # basically fuskei
     namespace = "temp_summary"
@@ -19,6 +23,11 @@ class ManageGraph: #really a manage graph namespace, bc a graph has several of t
     def deleteNamespace(self):
         pass
 
+"""
+Goal of manage graph is to allow for the creation deletion of namespaces, and the insertion of data
+for a BLAZEGRAPH INSTANCE
+This is not a class to handle querying.
+"""
 class ManageBlazegraph(ManageGraph):
 
     createTemplateQuad ="""com.bigdata.namespace.fffff.spo.com.bigdata.btree.BTree.branchingFactor=1024

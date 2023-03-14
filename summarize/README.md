@@ -32,7 +32,23 @@ A more detailed overview workflow is in [Summarize v2](./v2_proposal.md)
     * `pip3 install requirements.txt`
 * Run steps below
 
-## Steps: 
+## Two Approaches
+* Summarize existing graph stores. AKA: data is loaded into a graph
+* summarize as part of workflow, aka build summary when repo is loaded
+
+### summarize a loaded repository
+1. if you have not, changed to the summarize directory: `cd  earthcube_utilities/summarize`
+2. Insure that a `glcon gleaner batch --cfgName` crawl and loading to the graphstore using has already been done,
+nabu has already been done.  
+
+repo is optional. San repo will summarize all information
+```shell
+geocodes: src/summarize_from_graph_namespace.py --repo iris --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
+
+```
+
+
+###  summarize running glconSteps: 
  
 1. if you have not, changed to the summarize directory: `cd  earthcube_utilities/summarize`
 2. Insure that a `glcon gleaner batch --cfgName` crawl and loading to the graphstore using has already been done,
