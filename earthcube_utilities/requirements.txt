@@ -7,4 +7,7 @@ sparqldataframe==0.1.0
 minio
 pyld
 approvaltests
-
+rocrate
+rocrateValidator
+hashlib
+uuid

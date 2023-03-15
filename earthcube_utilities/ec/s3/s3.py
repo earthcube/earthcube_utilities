@@ -13,7 +13,8 @@ class bucketDatastore():
              "summon": "summoned",
              "milled":"milled",
              "graph":"graph",
-             "archive":"archive"
+             "archive":"archive",
+             "collections":"collections"
     }
 
     def __init__(self, s3endpoint, options):
@@ -58,6 +59,8 @@ class bucketDatastore():
     def getReportFile(self, bucket, repo, filename):
         pass
 
+    def getRoCrateFile(self, bucket, user, filename):
+        pass
 
 """
 Basic abstraction, in case someone want to store files in a 
@@ -84,3 +87,9 @@ class MinioDatastore(bucketDatastore):
 
     def getReportFile(self, bucket, repo, filename):
         pass
+
+    def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
+        path = f"/{self.paths['collections']}/{user}/{filename}"
+        resp = self.s3client.get_object(bucket, path)
+        crate = resp.data
+        return crate
