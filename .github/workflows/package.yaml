@@ -77,5 +77,5 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.TEST_PYPI_UTILITIES }}
-          repository_url: https://test.pypi.org/legacy/
-          packages_dir: earthcube_utilities/dist
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: earthcube_utilities/dist
