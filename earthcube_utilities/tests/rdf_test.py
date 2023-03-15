@@ -4,7 +4,8 @@ import unittest
 import pytest
 from approvaltests import verify
 
-from sos_json.rdf import df2rdfgraph,get_rdfgraph, compact_jld_str, formatted_jsonld, load_release
+from sos_json.rdf import df2rdfgraph,get_rdfgraph, load_release
+from sos_json.sos import compact_jld_str, formatted_jsonld
 import pandas
 
 class RDFTestCase(unittest.TestCase):
