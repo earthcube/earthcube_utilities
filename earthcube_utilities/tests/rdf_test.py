@@ -4,7 +4,7 @@ import unittest
 import pytest
 from approvaltests import verify
 
-from jsonrdf.rdf import df2rdfgraph,get_rdfgraph, compact_jld_str, load_release
+from sos_json.rdf import df2rdfgraph,get_rdfgraph, compact_jld_str, formatted_jsonld
 import pandas
 
 class RDFTestCase(unittest.TestCase):
@@ -46,6 +46,28 @@ class RDFTestCase(unittest.TestCase):
         self.assertIsNotNone(jsonld)
         cmpt = compact_jld_str(jsonld)
         verify(f"length of jsonld is: {len(cmpt)}")
+
+    def test_formatted_compact_Jsonld(self):
+        file = '../resources/0024e35144d902d8b413ffd400ede6a27efe2146_triples.csv'
+        # with open(file, 'r') as f:
+        #     testdf = f.read()
+        testdf = pandas.read_csv(file)
+        g = df2rdfgraph(testdf)
+        jsonld = g.serialize(format="json-ld")
+        self.assertIsNotNone(jsonld)
+        cmpt = formatted_jsonld(jsonld, form="compact")
+        verify(f"length of jsonld is: {len(cmpt)}")
+
+    def test_formatted_framedJsonld(self):
+        file = '../resources/0024e35144d902d8b413ffd400ede6a27efe2146_triples.csv'
+        # with open(file, 'r') as f:
+        #     testdf = f.read()
+        testdf = pandas.read_csv(file)
+        g = df2rdfgraph(testdf)
+        jsonld = g.serialize(format="json-ld")
+        self.assertIsNotNone(jsonld)
+        framed = formatted_jsonld(jsonld, form="frame")
+        verify(f"length of jsonld is: {len(framed)}")
 
 if __name__ == '__main__':
     unittest.main()
