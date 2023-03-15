@@ -4,7 +4,7 @@ from rdflib import URIRef, BNode, Literal, Graph, Dataset
 import graph
 
 # this context will need to be expanded.
-from sos_json.sos import compact_jld_str, formatted_jsonld
+from sos_json.utils import compact_jld_str, formatted_jsonld
 
 jsonld_context = context = { "@vocab": "https://schema.org/"}
 
