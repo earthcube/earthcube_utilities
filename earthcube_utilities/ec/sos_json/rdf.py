@@ -1,7 +1,7 @@
 from string import Template
 
 import pandas
-from rdflib import URIRef, BNode, Literal, Graph
+from rdflib import URIRef, BNode, Literal, Graph, Dataset
 
 import graph
 from pyld import jsonld
@@ -70,6 +70,17 @@ def get_rdfgraph(urn, endpoint ): #get graph
     df=graph.sparqlquery.getAGraph(urn, endpoint)
     g=df2rdfgraph(df)
     return g
+
+
+def load_release(releaseurl):
+    g= Dataset()
+    g.parse(releaseurl, format='nquads')
+    return g
+#  using https://github.com/cadmiumkitty/rdfpandas
+    #g = Graph()
+#    g.parse(releaseurl, format='nt')
+#    df = to_dataframe(g)
+
 
 # returns a framd JSON
 # form= framed|compact
