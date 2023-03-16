@@ -8,6 +8,8 @@ from sos_json.rdf import df2rdfgraph,get_rdfgraph, compact_jld_str, formatted_js
 import pandas
 
 
+
+
 class RDFTestCase(unittest.TestCase):
 
     ## this test hits and endpoint, so it needs a

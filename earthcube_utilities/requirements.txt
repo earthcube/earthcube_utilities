@@ -11,3 +11,4 @@ rocrate
 rocrateValidator
 hashlib
 uuid
+logconfig

@@ -1,13 +1,13 @@
+import json
 from string import Template
 
 import pandas
+from pyld import jsonld
 from rdflib import URIRef, BNode, Literal, Graph
 
-import graph
-from pyld import jsonld
-import json
-
 # this context will need to be expanded.
+from ec.graph.sparql_query import getAGraph
+
 jsonld_context = context = { "@vocab": "https://schema.org/"}
 
 def is_http(u):
@@ -67,7 +67,7 @@ def df2rdfgraph(df):
 
 
 def get_rdfgraph(urn, endpoint ): #get graph
-    df=graph.sparqlquery.getAGraph(urn, endpoint)
+    df=getAGraph(urn, endpoint)
     g=df2rdfgraph(df)
     return g
 

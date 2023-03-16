@@ -144,9 +144,9 @@ class sosRocrate(ROCrate):
 
 
 
-    def addSosDistribution(self,crate, dataset, distribution_to_add=None, distType=DATASET_DATADOWNLOAD):
-        aurl = dataset.get('url')
-        name = dataset.get('name')
+    def addSosDistribution(self, crate, dataset_jsonld, distribution_to_add=None, distType=DATASET_DATADOWNLOAD):
+        aurl = dataset_jsonld.get('url')
+        name = dataset_jsonld.get('name')
         if distribution_to_add is None:
             #kw = {"fetch_remote": fetch_remote, "validate_url": validate_url}
             kw = {"name": name}
@@ -156,6 +156,10 @@ class sosRocrate(ROCrate):
         elif distType == DATASET_DATASET:
             pass
 
+    def addSosServicesAsEntity(self,crate, url=None, name=None):
+        kw = {"name": name}
+        self.add_file(source=url, properties=kw)
+        pass
 
     def addSosURL(self,crate, url=None, name=None):
         kw = {"name": name}

@@ -1,3 +1,46 @@
+[project]
+name = "earthcube_utilities"
+version = "0.1.7"
+
+description = "A package of utilities for NSF Earthcube Geocodes Project"
+readme =  "README.md"
+
+authors = [
+    {name = "Mike Bobak", email = "mbobak@illinois.edu"},
+    {name= "David Valentine", email="dwvalentine@ucsd.edu"}
+]
+maintainers = [
+    {name = "Mike Bobak", email = "mbobak@illinois.edu"},
+    {name= "David Valentine", email="dwvalentine@ucsd.edu"}
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Users",
+    "Topic :: Software Development :: Workflow Tools",
+
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+[project.urls]  # Optional
+"Homepage" = "https://www.earthcube.org/"
+"Bug Tracker" = "https://github.com/earthcube/earthcube_utilities/issues"
+"Geocodes Documentation" = "https://earthcube.github.io/geocodes_documentation/"
+"Source" = "https://github.com/earthcube/earthcube_utilities"
+
+[project.scripts]
+hello-world = "ec:generate_repo_stats"
+
+[tool.setuptools]
+# If there are data files included in your packages that need to be
+# installed, specify them here.
+[tool.setuptools.packages.find]
+where = ["src"]
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.sparql"]
+#package-data = { "ec"=["graph/resources/sparql/*.sparql"]}
+
 [build-system]
 requires = [
     "setuptools>=42",
