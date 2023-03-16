@@ -6,7 +6,7 @@ from pyld import jsonld
 from rdflib import URIRef, BNode, Literal, Graph
 
 # this context will need to be expanded.
-from sos_json.utils import compact_jld_str, formatted_jsonld
+from .utils import compact_jld_str, formatted_jsonld
 
 from ec.graph.sparql_query import getAGraph
 
