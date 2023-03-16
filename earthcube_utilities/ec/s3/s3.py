@@ -12,7 +12,7 @@ class bucketDatastore():
     paths = {"reports":"reports",
              "summon": "summoned",
              "milled":"milled",
-             "graph":"graph",
+             "graph":"graphs",
              "archive":"archive"
     }
 
@@ -82,8 +82,8 @@ class MinioDatastore(bucketDatastore):
         self.s3client  =minio.Minio(s3endpoint) # this will neeed to be fixed with authentication
 
     def listPath(self, bucket, path):
-        resp = self.s3client.list_objects(bucket, path)
-        return resp.data
+        objects = self.s3client.list_objects(bucket, prefix=path)
+        return  list(objects)
 
     def getFileFromStore(self, s3ObjectInfo):
         resp = self.s3client.get_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
@@ -107,4 +107,8 @@ class MinioDatastore(bucketDatastore):
         return resp.data
 
     def getRelaseUrls(self, bucket):
-        pass
+        path = f"{self.paths['graph']}/latest/"
+        objs = self.listPath(bucket, path)
+        urls = list(map(lambda a: a.object_name, objs))
+
+        return urls
