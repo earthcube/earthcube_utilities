@@ -16,8 +16,9 @@ maintainers = [
 
 classifiers = [
     "Development Status :: 3 - Alpha",
-    "Intended Audience :: Users",
-    "Topic :: Software Development :: Workflow Tools",
+    "Intended Audience :: Science/Research",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering",
 
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
