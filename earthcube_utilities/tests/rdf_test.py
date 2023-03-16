@@ -4,8 +4,12 @@ import unittest
 import pytest
 from approvaltests import verify
 
-from sos_json.rdf import df2rdfgraph,get_rdfgraph, compact_jld_str, formatted_jsonld
+from ec.sos_json.rdf import df2rdfgraph,get_rdfgraph, load_release
+from ec.sos_json.utils import compact_jld_str, formatted_jsonld
 import pandas
+
+
+
 
 class RDFTestCase(unittest.TestCase):
 
@@ -20,6 +24,12 @@ class RDFTestCase(unittest.TestCase):
 
         verify(f"length of graph is: {len(g)} triples")
 
+    def test_load_release(self):
+        relasefile = "../resources/summonediris_2023-03-13-11-02-47_release.nq"
+        #relasefile = "https://oss.geocodes-dev.earthcube.org/gleaner-wf/graphs/latest/summonediris_2023-03-13-11-02-47_release.nq"
+        df = load_release(relasefile)
+        self.assertIsNotNone(df)
+        self.assertTrue(len(df) > 0)
 
     def test_dfnt(self):
         file = '../resources/0024e35144d902d8b413ffd400ede6a27efe2146_triples.csv'
