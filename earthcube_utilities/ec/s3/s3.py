@@ -110,5 +110,5 @@ class MinioDatastore(bucketDatastore):
         path = f"{self.paths['graph']}/latest/"
         objs = self.listPath(bucket, path)
         urls = list(map(lambda a: a.object_name, objs))
-
+# need to remove the path with a underscore routine
         return urls
