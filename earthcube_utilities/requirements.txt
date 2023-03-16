@@ -9,6 +9,5 @@ pyld
 approvaltests
 rocrate
 rocrateValidator
-hashlib
 uuid
 logconfig
