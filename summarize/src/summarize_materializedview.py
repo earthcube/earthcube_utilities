@@ -9,6 +9,7 @@ import json
 
 context = "@prefix : <https://schema.org/> ."
 
+### BLAZEGRAPH
 '''original fetch all from temporary namespace'''
 def get_summary4repo(endpoint):
     file = '../resources/sparql/summary_query.txt'
@@ -38,6 +39,9 @@ def get_summary4repoSubset(endpoint, repo):
     df = sparqldataframe.query(endpoint,thsGraphQuery)
     return df
 
+###
+# from dataframe
+####
 def summaryDF2ttl(df, repo):
     "summarize sparql qry (or main quad store)s ret DataFrame, as triples in ttl format w/g as the new subj"
     urns = {}
@@ -192,3 +196,5 @@ def summaryDF2ttl(df, repo):
 # output_string = g.serialize(format='longturtle')
 # output_string = g.serialize(format="json-ld")
 # or other formats
+
+

@@ -24,7 +24,7 @@ class bucketDatastore():
     def listPath(self, bucket, path):
         pass
     def countPath(self, bucket, path):
-        count = len(list(self.listRepo(bucket,path)))
+        count = len(list(self.listPath(bucket,path)))
 
 
     def getFileFromStore(self, s3ObjectInfo):
@@ -36,17 +36,22 @@ class bucketDatastore():
 
     """ Method for gleaner store"""
     def listJsonld(self,bucket, repo):
-        pass
+        path = f"{self.paths['summon']}/{repo}"
+        return self.listPath(bucket, path)
+
     def countJsonld(self,bucket, repo):
         count = len(list(self.listJsonld(bucket,repo)))
-    def getJsonLD(self, repo, urn):
+    def getJsonLD(self, bucket, repo, urn):
+        # see if obj exists at paths['summon']/repo/urn
+        # if so return file
         pass
+
     def getJsonLDMetadata(self, bucket, repo, urn):
         pass
 
     '''Cleans the name of slashes... might need more in the future.'''
     def getCleanObjectName(s3ObjectName):
-        return s3ObjectName.replace('/','_')
+        return s3ObjectName.replace('/','__')
 
     ### methods for reporting
     '''
@@ -59,6 +64,12 @@ class bucketDatastore():
     def getReportFile(self, bucket, repo, filename):
         pass
 
+    def getLatestRelaseUrl(self, bucket, repo):
+
+        pass
+
+    def getLatestRelaseUrls(self, bucket):
+        pass
     def getRoCrateFile(self, bucket, user, filename):
         pass
 
@@ -73,6 +84,10 @@ class MinioDatastore(bucketDatastore):
         self.options = options
         self.s3client  =minio.Minio(s3endpoint) # this will neeed to be fixed with authentication
 
+    def listPath(self, bucket, path):
+        resp = self.s3client.list_objects(bucket, path)
+        return resp.data
+
     def getFileFromStore(self, s3ObjectInfo):
         resp = self.s3client.get_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
         return resp.data
@@ -86,6 +101,15 @@ class MinioDatastore(bucketDatastore):
         return resp.bucket_name, resp.object_name
 
     def getReportFile(self, bucket, repo, filename):
+        pass
+
+    def getLatestRelaseUrl(self, bucket, repo):
+        path = f"{self.paths['graph']}/summonded{repo}_latest_release.nq"
+        s3ObjectInfo = {"bucket_name":bucket,"object_name": path}
+        resp = self.s3client.get_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
+        return resp.data
+
+    def getRelaseUrls(self, bucket):
         pass
 
     def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
