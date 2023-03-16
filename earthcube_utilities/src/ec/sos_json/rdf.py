@@ -3,14 +3,14 @@ import json
 from string import Template
 
 from pyld import jsonld
-from rdflib import URIRef, BNode, Literal, Graph
+from rdflib import URIRef, BNode, Literal, Graph, Dataset
 
 # this context will need to be expanded.
 from .utils import compact_jld_str, formatted_jsonld
 
 from ec.graph.sparql_query import getAGraph
 
-jsonld_context = context = { "@vocab": "https://schema.org/"}
+
 
 def is_http(u):
     if not isinstance(u, str) :

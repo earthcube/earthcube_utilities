@@ -3,7 +3,7 @@ from string import Template
 
 from pyld import jsonld
 
-from sos_json.rdf import jsonld_context
+jsonld_context = context = { "@vocab": "https://schema.org/"}
 
 
 def compact_jld_str(jld_str):
