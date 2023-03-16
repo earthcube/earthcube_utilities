@@ -4,7 +4,7 @@ import logging
 import os
 import sys
 
-from graph import queryWithSparql
+from ec.graph.sparql_query import queryWithSparql
 
 from s3 import s3
 
