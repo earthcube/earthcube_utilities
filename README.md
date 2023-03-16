@@ -1,4 +1,4 @@
-# Python Utility classed for Earthcube
+# Python Utility classes for Earthcube
 
 ## earthcube_utilities
 
@@ -36,4 +36,6 @@ https://test.pypi.org/project/earthcube-utility-summarize/
 
 ## Notes:
 [From](https://mbcode.github.io/ec/): https://github.com/MBcode/ec &/or [gitlab](https://gitlab.com/MBcode/ec); which includes versions of the server-side code
-### also an (upcoming) infrastructure enhancement [update](https://mbcode.github.io/ec/)
+
+
+also an (upcoming) infrastructure enhancement [update](https://mbcode.github.io/ec/)
