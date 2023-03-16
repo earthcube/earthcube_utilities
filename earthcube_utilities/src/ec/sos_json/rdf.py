@@ -1,12 +1,16 @@
 import pandas
+import json
+from string import Template
+
+from pyld import jsonld
 from rdflib import URIRef, BNode, Literal, Graph, Dataset
 
-import graph
-
 # this context will need to be expanded.
-from sos_json.utils import compact_jld_str, formatted_jsonld
+from .utils import compact_jld_str, formatted_jsonld
 
-jsonld_context = context = { "@vocab": "https://schema.org/"}
+from ec.graph.sparql_query import getAGraph
+
+
 
 def is_http(u):
     if not isinstance(u, str) :
@@ -65,7 +69,7 @@ def df2rdfgraph(df):
 
 
 def get_rdfgraph(urn, endpoint ): #get graph
-    df=graph.sparqlquery.getAGraph(urn, endpoint)
+    df=getAGraph(urn, endpoint)
     g=df2rdfgraph(df)
     return g
 

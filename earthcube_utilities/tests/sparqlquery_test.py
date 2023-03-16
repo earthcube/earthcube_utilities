@@ -1,6 +1,8 @@
 import unittest
-import graph
-from graph import sparqlquery
+
+# pycharm does not like the top level package name... but this is what makes it work
+# from ec.graph.sparql_query import getFileFromResources,getAGraph, queryWithSparql
+from ec.graph.sparql_query import getFileFromResources,getAGraph, queryWithSparql
 
 
 class Graph_SparqlDataframe_TestCase(unittest.TestCase):
@@ -12,26 +14,26 @@ class Graph_SparqlDataframe_TestCase(unittest.TestCase):
         cls.gbad = "urn:gleaner:summoned:random:uuid"
 
     def test_getFile(self):
-        f = sparqlquery.getFileFromResources("select_one")
+        f = getFileFromResources("select_one")
         self.assertEqual(f, "SELECT * { ?s ?p ?o } LIMIT 1")  # add assertion here
 
     def test_getGraph(self ):
-        result = sparqlquery.getAGraph(self.g, self.endpoint)
+        result = getAGraph(self.g, self.endpoint)
         self.assertIsNotNone(result)
         self.assertTrue(result.size > 0)
 
     def test_getGraphBadURI(self ):
-        result = sparqlquery.getAGraph(self.gbad, self.endpoint)
+        result = getAGraph(self.gbad, self.endpoint)
         self.assertIsNotNone(result)
         self.assertTrue(result.size == 0)
 
     def test_queryWithSparqlRepo(self ):
-        result = sparqlquery.queryWithSparql("repo_count_datasets", self.endpoint, parameters= {"repo": self.repo})
+        result = queryWithSparql("repo_count_datasets", self.endpoint, parameters= {"repo": self.repo})
         self.assertIsNotNone(result)
         self.assertTrue(result.size > 0)
 
     def test_queryWithSparqlNoParameters(self ):
-        result = sparqlquery.queryWithSparql("select_one", self.endpoint)
+        result = queryWithSparql("select_one", self.endpoint)
         self.assertIsNotNone(result)
         self.assertTrue(result.size > 0)
 if __name__ == '__main__':

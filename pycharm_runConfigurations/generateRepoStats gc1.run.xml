@@ -22,7 +22,7 @@
         <ENTRY IS_ENABLED="true" PARSER="runconfig" />
       </ENTRIES>
     </EXTENSION>
-    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/earthcube_utilities/scripts/generateRepoStats.py" />
+    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/earthcube_utilities/src/ec/generate_repo_stats.py" />
     <option name="PARAMETERS" value="--graphendpoint &quot;https://graph.geocodes-1.earthcube.org/blazegraph/namespace/df_testing/&quot; --s3 oss.geocodes-1.earthcube.org/ --s3bucket gleaner" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
