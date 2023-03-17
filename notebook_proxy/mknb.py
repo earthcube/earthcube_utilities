@@ -11,7 +11,11 @@ REQUIRED ENV
 * GIST_USERNAME - Github Username for applicaiton token
 GITHUB_OAUTHSECRET = GITHUB APP Secret
 GITHUB_OAUTHCLIENTID = GIHUB Client ID
+OPTIONAL ENV
+GRAPH_ENDPOINT= graph endpoint for convering graph to jsonld, default: "https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/"
 """
+
+
 # dwv 2021-10-08 added env varaibles, and error checks when missing.
 #       worked to used embedded papermill to issues with parameter passing
 #       pass parameter for templates
@@ -36,18 +40,12 @@ GITHUB_OAUTHCLIENTID = GIHUB Client ID
 # import urllib.parse #mostly want safe filenames v url's right now, but enough overlap worth using
 
 # =original gist code: ;now only testing, rm-soon
+import csv
 import json
 import pathlib
 
+import pandas
 from authlib.oauth2.rfc6749 import OAuth2Token
-
-
-def tpg(fn="https/darchive.mblwhoilibrary.org_bitstream_1912_26532_1_dataset-752737_bergen-mesohux-2017-dissolved-nutrients__v1.tsv.ipynb"):  # test
-    r = post_gist(fn)
-    print(r)
-
-
-# ==will replace this w/tgy.py code, that includes finding a fn in the gitsts, vs remaking it
 
 import os
 import sys
@@ -56,7 +54,7 @@ import papermill as pm
 from os import path
 import tempfile
 
-from flask import Flask, redirect, session, jsonify
+from flask import Flask, redirect, session, jsonify, make_response
 from flask import request
 from flask import g, url_for, render_template
 from flask_ipban import IpBan
@@ -77,6 +75,9 @@ import gistyc
 # should we just hash the name... would be simpler, because we want to pass multiple files to a notebook for a run.
 # (x) be able to pass a different template, or pull from a repo/url.
 ## (implemented temp file) can papermill to memory file reads, or be embedded to do such things?
+from graph.sparql_query import getAGraph
+from sos_json.rdf import get_graph2jsonld, get_rdfgraph
+from sos_json.utils import formatted_jsonld
 
 
 def first_str(s):
@@ -89,6 +90,7 @@ AUTH_TOKEN = os.getenv('GIST_TOKEN')
 AUTH_USER = os.getenv('GIST_USERNAME')
 GITHUB_OAUTHSECRET = os.getenv('GITHUB_SECRET')
 GITHUB_OAUTHCLIENTID = os.getenv('GITHUB_CLIENTID')
+GRAPH_ENDPOINT= os.getenv('GRAPH_ENDPOINT') or "https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/"
 
 # useEC=None #"yes"
 # if useEC:
@@ -599,6 +601,77 @@ def gists():
    # gists = resp.json()
     return jsonify({'gists': gists})
 
+# in mknb2, https://github.com/earthcube/ec/blame/master/NoteBook/mknb2.py
+# there are several formats:
+#  * get_graph (json)
+# * /get_graph_jld/ (jsonld)
+# * /get_graph_tsv/ (tsv)
+# * /get_graph_csv/ (csv)
+#  * get_graph_csv_g/ (csv) with more error checking that get_graph_csv
+
+## CLEAN CODE:
+# import routines from ec_utilities
+# query the graphstore using that code
+# RDF to jsonld is in earthcube_utilities/ec/sos_json/rdf.py
+## def get_rdf2jld(urn, endpoint, form="jsonld", schemaType="Dataset"):
+## use form="compact"
+## swear: this will break because there are types other than Dataset that might be returned.
+# so use form="compact"
+
+@app.route('/get_graph/<g>/<format>')
+def get_graph(g,format="jsonld"):
+    #format = request.args.get('format', type=str)
+    # g = request.args.get('g',  type = str)
+    # print(f'g={g}')
+    # the return form EC is a sparqldataframe
+    #r= ec.get_graph(g)
+    #r=get_mock_graph(g)
+    #print(r)
+    if format =="json": # return type application/json
+        r = get_graph2jsonld(g, GRAPH_ENDPOINT)
+        compact = formatted_jsonld(r,form='compact')
+        resp = make_response(compact, 200)
+        resp.headers['Content-Type'] = 'application/json'
+        return resp
+    elif format == "compact":
+            r = get_graph2jsonld(g, GRAPH_ENDPOINT)
+            compact = formatted_jsonld(r, form='compact')
+            resp = make_response(compact, 200)
+            resp.headers['Content-Type'] = 'application/ld+json'
+            return resp
+    elif format == "frame":
+            r = get_graph2jsonld(g, GRAPH_ENDPOINT)
+            frame = formatted_jsonld(r, form='frame')
+            resp = make_response(frame, 200)
+            resp.headers['Content-Type'] = 'application/ld+json'
+            return resp
+    elif format =="jsonld":
+        r = get_graph2jsonld(g, GRAPH_ENDPOINT)
+        resp = make_response(r, 200)
+        resp.headers['Content-Type'] = 'application/ld+json'
+        return resp
+    elif format=="csv":
+        r = getAGraph(g, GRAPH_ENDPOINT)
+        resp = make_response(r.to_csv(encoding='utf-8',lineterminator='\n',index=False,quoting=csv.QUOTE_NONNUMERIC), 200)
+        resp.headers['Content-Type'] = 'text/csv'
+        return resp
+    elif format=="tsv":
+        r = getAGraph(g, GRAPH_ENDPOINT)
+        resp = make_response(r.to_csv( sep='\t', encoding='utf-8',lineterminator='\n',index=False,quoting=csv.QUOTE_NONNUMERIC),
+                         200)
+        resp.headers['Content-Type'] = 'text/tab-separated-values'
+        return resp
+    else:
+        return  "Uknonwn format:"+format , 400
+
+## placeholder for a working ec.get_graph(g)
+# returns a dataframe that is from a summary record.
+def get_mock_graph(g):
+    file = './resources/summarydf_short.csv'
+    # with open(file, 'r') as f:
+    #     testdf = f.read()
+    testdf = pandas.read_csv(file)
+    return testdf
 
 if __name__ == '__main__':
     if (len(sys.argv) > 1):

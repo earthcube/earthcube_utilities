@@ -13,17 +13,11 @@ def compact_jld_str(jld_str):
     return r
 
 
-def formatted_jsonld(jld_str, form="jsonld", schemaType="Dataset"):
+def formatted_jsonld(jld_str, form="compact", schemaType="Dataset"):
     if (form == 'jsonld'):
         return jld_str
 
-    if (form == "compact"):
-        doc = json.loads(jld_str)
-        compacted = jsonld.compact(doc, jsonld_context)
-        r = json.dumps(compacted, indent=2)
-        return r
-
-    if (form == "frame"):
+    elif (form == "frame"):
         frame = (' {\n'
                  '              "@context": {\n'
                  '                "@vocab": "https://schema.org/",\n'
@@ -35,13 +29,18 @@ def formatted_jsonld(jld_str, form="jsonld", schemaType="Dataset"):
                  '              "@type": "schema:${schemaType}"\n'
                  '  }\n '
                  )
-    f_template = Template(frame)
-    thsGraphQuery = f_template.substitute(schemaType=schemaType)
+        f_template = Template(frame)
+        thsGraphQuery = f_template.substitute(schemaType=schemaType)
 
-    frame_doc = json.loads(thsGraphQuery)
-    doc = json.loads(jld_str)
+        frame_doc = json.loads(thsGraphQuery)
+        doc = json.loads(jld_str)
 
-    framed = jsonld.frame(doc, frame_doc)
+        framed = jsonld.frame(doc, frame_doc)
 
-    r = json.dumps(framed, indent=2)
-    return compact_jld_str(jld_str)
+        r = json.dumps(framed, indent=2)
+        return r
+    else: # compact
+        doc = json.loads(jld_str)
+        compacted = jsonld.compact(doc, jsonld_context)
+        r = json.dumps(compacted, indent=2)
+        return r
