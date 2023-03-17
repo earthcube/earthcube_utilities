@@ -73,20 +73,16 @@ def get_rdfgraph(urn, endpoint ): #get graph
     g=df2rdfgraph(df)
     return g
 
+def graph2jsonld(g, form="jsonld", schemaType="Dataset"):
+    "get jsonld from endpoint"
+    # auto_compact=False might change
+    jld_str = g.serialize(format="json-ld")
 
-def load_release(releaseurl):
-    g= Dataset()
-    g.parse(releaseurl, format='nquads')
-    return g
-#  using https://github.com/cadmiumkitty/rdfpandas
-    #g = Graph()
-#    g.parse(releaseurl, format='nt')
-#    df = to_dataframe(g)
-
+    return formatted_jsonld(jld_str)
 
 # returns a framd JSON
 # form= framed|compact
-def get_rdf2jld(urn, endpoint, form="jsonld", schemaType="Dataset"):
+def get_graph2jsonld(urn, endpoint, form="jsonld", schemaType="Dataset"):
     "get jsonld from endpoint"
     g = get_rdfgraph(urn, endpoint)
     # auto_compact=False might change
@@ -100,3 +96,13 @@ def get_rdf2jld_str(urn, endpoint):
     g= get_rdfgraph(urn, endpoint)
     jld_str = g.serialize(format="json-ld")
     return compact_jld_str(jld_str)
+
+####
+def load_release(releaseurl):
+    g= Dataset()
+    g.parse(releaseurl, format='nquads')
+    return g
+#  using https://github.com/cadmiumkitty/rdfpandas
+    #g = Graph()
+#    g.parse(releaseurl, format='nt')
+#    df = to_dataframe(g)

@@ -1,6 +1,6 @@
 [project]
 name = "earthcube_utilities"
-version = "0.1.7"
+version = "0.1.8"
 
 description = "A package of utilities for NSF Earthcube Geocodes Project"
 readme =  "README.md"
