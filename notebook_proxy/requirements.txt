@@ -1,3 +1,4 @@
+--extra-index-url https://test.pypi.org/
 authlib==1.2.0
 Flask==2.2.3
 flask_ipban==1.1.5
@@ -6,6 +7,5 @@ Markdown==3.4.1
 papermill==2.4.0
 requests_toolbelt==0.10.1
 Werkzeug==2.2.3
-earthcube_utilities
 pandas
-
+earthcube-utilities
