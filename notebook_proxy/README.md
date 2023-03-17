@@ -37,6 +37,11 @@ becomes:
 
 ### install ec utiltites in development mode
 ```python
+python -m pip install -e ec ../earthcube_utilities
+
+```
+
+```python
 python -m pip install -e bar @ git+https://github.com/earthcube/earthcube_utilities.git
 ```
 

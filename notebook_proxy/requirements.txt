@@ -6,5 +6,6 @@ Markdown==3.4.1
 papermill==2.4.0
 requests_toolbelt==0.10.1
 Werkzeug==2.2.3
+earthcube_utilities
 pandas
 

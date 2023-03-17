@@ -11,7 +11,11 @@ REQUIRED ENV
 * GIST_USERNAME - Github Username for applicaiton token
 GITHUB_OAUTHSECRET = GITHUB APP Secret
 GITHUB_OAUTHCLIENTID = GIHUB Client ID
+OPTIONAL ENV
+GRAPH_ENDPOINT= graph endpoint for convering graph to jsonld, default: "https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/"
 """
+
+
 # dwv 2021-10-08 added env varaibles, and error checks when missing.
 #       worked to used embedded papermill to issues with parameter passing
 #       pass parameter for templates
@@ -43,14 +47,6 @@ import pathlib
 import pandas
 from authlib.oauth2.rfc6749 import OAuth2Token
 
-
-def tpg(fn="https/darchive.mblwhoilibrary.org_bitstream_1912_26532_1_dataset-752737_bergen-mesohux-2017-dissolved-nutrients__v1.tsv.ipynb"):  # test
-    r = post_gist(fn)
-    print(r)
-
-
-# ==will replace this w/tgy.py code, that includes finding a fn in the gitsts, vs remaking it
-
 import os
 import sys
 import urllib.parse
@@ -79,6 +75,9 @@ import gistyc
 # should we just hash the name... would be simpler, because we want to pass multiple files to a notebook for a run.
 # (x) be able to pass a different template, or pull from a repo/url.
 ## (implemented temp file) can papermill to memory file reads, or be embedded to do such things?
+from graph.sparql_query import getAGraph
+from sos_json.rdf import get_graph2jsonld, get_rdfgraph
+from sos_json.utils import formatted_jsonld
 
 
 def first_str(s):
@@ -91,6 +90,7 @@ AUTH_TOKEN = os.getenv('GIST_TOKEN')
 AUTH_USER = os.getenv('GIST_USERNAME')
 GITHUB_OAUTHSECRET = os.getenv('GITHUB_SECRET')
 GITHUB_OAUTHCLIENTID = os.getenv('GITHUB_CLIENTID')
+GRAPH_ENDPOINT= os.getenv('GRAPH_ENDPOINT') or "https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/"
 
 # useEC=None #"yes"
 # if useEC:
@@ -614,7 +614,7 @@ def gists():
 # query the graphstore using that code
 # RDF to jsonld is in earthcube_utilities/ec/sos_json/rdf.py
 ## def get_rdf2jld(urn, endpoint, form="jsonld", schemaType="Dataset"):
-## use form="frame"
+## use form="compact"
 ## swear: this will break because there are types other than Dataset that might be returned.
 # so use form="compact"
 
@@ -625,20 +625,32 @@ def get_graph(g,format="jsonld"):
     # print(f'g={g}')
     # the return form EC is a sparqldataframe
     #r= ec.get_graph(g)
-    r=get_mock_graph(g)
+    #r=get_mock_graph(g)
     #print(r)
-
-    if format =="json":
-        resp = make_response(r.to_json(), 200)
-        resp.headers['Content-Type'] = 'application/json'
+    if format =="json" or format =="compact":
+        r = get_graph2jsonld(g, GRAPH_ENDPOINT)
+        compact = formatted_jsonld(r,form='compact')
+        resp = make_response(compact, 200)
+        resp.headers['Content-Type'] = 'application/ld+json'
         return resp
+    elif format == "frame":
+            r = get_graph2jsonld(g, GRAPH_ENDPOINT)
+            frame = formatted_jsonld(r, form='frame')
+            resp = make_response(frame, 200)
+            resp.headers['Content-Type'] = 'application/ld+json'
+            return resp
     elif format =="jsonld":
-        return  "Format not yet implemented: json-ld" , 400
+        r = get_graph2jsonld(g, GRAPH_ENDPOINT)
+        resp = make_response(r, 200)
+        resp.headers['Content-Type'] = 'application/ld+json'
+        return resp
     elif format=="csv":
+        r = getAGraph(g, GRAPH_ENDPOINT)
         resp = make_response(r.to_csv(encoding='utf-8',lineterminator='\n',index=False,quoting=csv.QUOTE_NONNUMERIC), 200)
         resp.headers['Content-Type'] = 'text/csv'
         return resp
     elif format=="tsv":
+        r = getAGraph(g, GRAPH_ENDPOINT)
         resp = make_response(r.to_csv( sep='\t', encoding='utf-8',lineterminator='\n',index=False,quoting=csv.QUOTE_NONNUMERIC),
                          200)
         resp.headers['Content-Type'] = 'text/tab-separated-values'
