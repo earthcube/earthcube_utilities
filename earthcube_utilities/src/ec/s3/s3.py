@@ -26,7 +26,7 @@ class bucketDatastore():
     def countPath(self, bucket, path):
         count = len(list(self.listPath(bucket,path)))
 
-
+# who knows, we might implement on disk, or in a database. This just separates the data from the annotated metadata
     def getFileFromStore(self, s3ObjectInfo):
         pass
     def getFileMetadataFromStore(self, s3ObjectInfo):
@@ -41,13 +41,19 @@ class bucketDatastore():
 
     def countJsonld(self,bucket, repo):
         count = len(list(self.listJsonld(bucket,repo)))
+
     def getJsonLD(self, bucket, repo, urn):
-        # see if obj exists at paths['summon']/repo/urn
-        # if so return file
-        pass
+        path = f"{self.paths['summon']}/{repo}/{urn}.jsonld"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        resp = self.getFileFromStore(s3ObjectInfo)
+        return resp
 
     def getJsonLDMetadata(self, bucket, repo, urn):
-        pass
+        path = f"{self.paths['summon']}/{repo}/{urn}.jsonld"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        resp = self.getFileMetadataFromStore(s3ObjectInfo)
+
+        return resp
 
     '''Cleans the name of slashes... might need more in the future.'''
     def getCleanObjectName(s3ObjectName):
@@ -90,6 +96,11 @@ class MinioDatastore(bucketDatastore):
 
     def getFileFromStore(self, s3ObjectInfo):
         resp = self.s3client.get_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
+        return resp.data
+
+    def getFileMetadataFromStore(self, s3ObjectInfo):
+        resp = self.s3client.get_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
+        # this needs to return the metadata
         return resp.data
 
     def putReportFile(self, bucket, repo, filename, json_str):
