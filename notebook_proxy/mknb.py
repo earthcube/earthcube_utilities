@@ -609,8 +609,8 @@ def gists():
 # * /get_graph_csv/ (csv)
 #  * get_graph_csv_g/ (csv) with more error checking that get_graph_csv
 
-## CLEAN CODE NEEDED:
-# we will need to import the completed ec_utilities, and the manage graph.
+## CLEAN CODE:
+# import routines from ec_utilities
 # query the graphstore using that code
 # RDF to jsonld is in earthcube_utilities/ec/sos_json/rdf.py
 ## def get_rdf2jld(urn, endpoint, form="jsonld", schemaType="Dataset"):
@@ -627,12 +627,18 @@ def get_graph(g,format="jsonld"):
     #r= ec.get_graph(g)
     #r=get_mock_graph(g)
     #print(r)
-    if format =="json" or format =="compact":
+    if format =="json": # return type application/json
         r = get_graph2jsonld(g, GRAPH_ENDPOINT)
         compact = formatted_jsonld(r,form='compact')
         resp = make_response(compact, 200)
-        resp.headers['Content-Type'] = 'application/ld+json'
+        resp.headers['Content-Type'] = 'application/json'
         return resp
+    elif format == "compact":
+            r = get_graph2jsonld(g, GRAPH_ENDPOINT)
+            compact = formatted_jsonld(r, form='compact')
+            resp = make_response(compact, 200)
+            resp.headers['Content-Type'] = 'application/ld+json'
+            return resp
     elif format == "frame":
             r = get_graph2jsonld(g, GRAPH_ENDPOINT)
             frame = formatted_jsonld(r, form='frame')
