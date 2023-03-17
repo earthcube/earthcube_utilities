@@ -1,4 +1,12 @@
 ### Earthcube Query
+
+earthcube_utilities/src/ec/graph/sparql_query.py
+
+queries found at:
+earthcube_utilities/src/ec/graph/sparql_files
+
+====
+#### original spec
 <ins>**query.py** </ins> is can do all the SPARQL queries the UI can do.
 
 Query returns a pandas dataframe using the sparqldataframe library. A set of queries based

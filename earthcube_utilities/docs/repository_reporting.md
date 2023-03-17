@@ -1,5 +1,11 @@
 # Reporting to repositories
 
+This can happen with queries that can be run. 
+
+earthcube_utilities/src/ec/graph/sparql_files
+
+ ```queryWithSparql( template_name, endpoint,parameters={}):```
+
 # Research
 https://github.com/gleanerio/notebooks/tree/master/notebooks/validation
 
