@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="generateRepoStats gc1" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="generateRepoStats glearer-wf" type="PythonConfigurationType" factoryName="Python">
     <module name="earthcube_utilities" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
@@ -7,7 +7,7 @@
       <env name="PYTHONUNBUFFERED" value="1" />
     </envs>
     <option name="SDK_HOME" value="" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/earthcube_utilities/scripts" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/earthcube_utilities/" />
     <option name="IS_MODULE_SDK" value="true" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -23,7 +23,7 @@
       </ENTRIES>
     </EXTENSION>
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/earthcube_utilities/src/ec/generate_repo_stats.py" />
-    <option name="PARAMETERS" value="--graphendpoint &quot;https://graph.geocodes-1.earthcube.org/blazegraph/namespace/df_testing/&quot; --s3 oss.geocodes-1.earthcube.org/ --s3bucket gleaner" />
+    <option name="PARAMETERS" value="--s3 oss.geocodes-dev.earthcube.org --s3bucket gleaner-wf --graphendpoint &quot;https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/&quot;" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />

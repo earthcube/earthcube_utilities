@@ -1,13 +1,16 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="generateRepoStats gc1" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="mknb" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
     <module name="earthcube_utilities" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
       <env name="PYTHONUNBUFFERED" value="1" />
+      <env name="AUTH_MODE" value="service" />
+      <env name="GITHUB_CLIENTID" value="secret" />
+      <env name="GITHUB_SECRET" value="dddd" />
     </envs>
     <option name="SDK_HOME" value="" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/earthcube_utilities/scripts" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/notebook_proxy" />
     <option name="IS_MODULE_SDK" value="true" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -22,8 +25,8 @@
         <ENTRY IS_ENABLED="true" PARSER="runconfig" />
       </ENTRIES>
     </EXTENSION>
-    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/earthcube_utilities/src/ec/generate_repo_stats.py" />
-    <option name="PARAMETERS" value="--graphendpoint &quot;https://graph.geocodes-1.earthcube.org/blazegraph/namespace/df_testing/&quot; --s3 oss.geocodes-1.earthcube.org/ --s3bucket gleaner" />
+    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/notebook_proxy/mknb.py" />
+    <option name="PARAMETERS" value="" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />

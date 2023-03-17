@@ -12,8 +12,9 @@ class bucketDatastore():
     paths = {"reports":"reports",
              "summon": "summoned",
              "milled":"milled",
-             "graph":"graphs",
-             "archive":"archive"
+             "graph":"graph",
+             "archive":"archive",
+             "collections":"collections"
     }
 
     def __init__(self, s3endpoint, options):
@@ -69,6 +70,8 @@ class bucketDatastore():
 
     def getLatestRelaseUrls(self, bucket):
         pass
+    def getRoCrateFile(self, bucket, user, filename):
+        pass
 
 """
 Basic abstraction, in case someone want to store files in a 
@@ -82,8 +85,8 @@ class MinioDatastore(bucketDatastore):
         self.s3client  =minio.Minio(s3endpoint) # this will neeed to be fixed with authentication
 
     def listPath(self, bucket, path):
-        objects = self.s3client.list_objects(bucket, prefix=path)
-        return  list(objects)
+        resp = self.s3client.list_objects(bucket, path)
+        return resp.data
 
     def getFileFromStore(self, s3ObjectInfo):
         resp = self.s3client.get_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
@@ -107,8 +110,10 @@ class MinioDatastore(bucketDatastore):
         return resp.data
 
     def getRelaseUrls(self, bucket):
-        path = f"{self.paths['graph']}/latest/"
-        objs = self.listPath(bucket, path)
-        urls = list(map(lambda a: a.object_name, objs))
-# need to remove the path with a underscore routine
-        return urls
+        pass
+
+    def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
+        path = f"/{self.paths['collections']}/{user}/{filename}"
+        resp = self.s3client.get_object(bucket, path)
+        crate = resp.data
+        return crate

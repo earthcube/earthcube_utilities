@@ -34,6 +34,23 @@ becomes:
 
 
 ## Development:
+
+### install ec utiltites in development mode
+```python
+python -m pip install -e ec ../earthcube_utilities
+
+```
+
+```python
+python -m pip install -e bar @ git+https://github.com/earthcube/earthcube_utilities.git
+```
+
+```python
+python -m pip install -e ec /path/to/earthcube_utilities
+
+```
+
+### start
 In order to use oauth, you need to setup a github app, and set the following environment variables
 
 GITHUB_OAUTHSECRET = GITHUB APP Secret
