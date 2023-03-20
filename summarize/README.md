@@ -15,7 +15,8 @@ To do this, it reads the quads that nabu generates as part of it's workflow, the
 converts them into flattend triples in  'summary' graph namespace.
 A more detailed overview workflow is in [Summarize v2](./v2_proposal.md)
 
-(need to add more on flattening.)
+More details are in the [documentation diretory](docs/), 
+or at the [geocodes documentation site](https://earthcube.github.io/geocodes_documentation/)
 
 ## Dependencies
 * Geocodes Stack
@@ -47,106 +48,4 @@ geocodes: src/summarize_from_graph_namespace.py --repo iris --graphendpoint {end
 
 ```
 
-
-###  summarize running glconSteps: 
- 
-1. if you have not, changed to the summarize directory: `cd  earthcube_utilities/summarize`
-2. Insure that a `glcon gleaner batch --cfgName` crawl and loading to the graphstore using has already been done,
-nabu has already been done.  
-This uses the nabu configuration to load a graph with just the repository data you have the location of it's bucket once gleaner has been run it should have a
-For the  summarize tool.
-3. run> `src/summarize_repo.py repo nabufile`
-> where repo is the name of a repo directory in that configuraiton file
-> 
-> nabufile is the path to the nabu configuration file
-> 
-> default location for glcon is at ~/indexing/glcon. If it is not, then pass --glcon with path to glcon
-
-??? note "Help"
-    Warning, may not be all implemented.
-    ```shell
-    
-    src/summarize_repo.py --help
-    usage: summarize_repo.py [-h] [--graphendpoint GRAPHENDPOINT] [--glcon GLCON] [--graphsummary GRAPHSUMMARY] [--summary_namespace SUMMARY_NAMESPACE] repo nabufile
-    
-    positional arguments:
-      repo                  repository name
-      nabufile              nabu configuration file
-    
-    optional arguments:
-      -h, --help            show this help message and exit
-      --graphendpoint GRAPHENDPOINT
-                            override nabu endpoint
-      --glcon GLCON         override path to glcon
-      --graphsummary GRAPHSUMMARY
-                            upload triples to graphsummary
-      --summary_namespace SUMMARY_NAMESPACE
-                            summary_namespace
-
-    ```
-
-??? note "Help"
-    Warning, may not be all implemented.
-    ```shell
-    
-    src/summarize_repo.py --help
-    usage: summarize_repo.py [-h] [--graphendpoint GRAPHENDPOINT] [--glcon GLCON] [--graphsummary GRAPHSUMMARY] [--summary_namespace SUMMARY_NAMESPACE] repo nabufile
-    
-    positional arguments:
-      repo                  repository name
-      nabufile              nabu configuration file
-    
-    optional arguments:
-      -h, --help            show this help message and exit
-      --graphendpoint GRAPHENDPOINT
-                            override nabu endpoint
-      --glcon GLCON         override path to glcon
-      --graphsummary GRAPHSUMMARY
-                            upload triples to graphsummary
-      --summary_namespace SUMMARY_NAMESPACE
-                            summary_namespace
-
-    ```
-
-In the console you should see nabu run. 
-
-
-## Example
-
-```shell
-geocodes: src/summarize_repo.py iris ../resources/testing/nabu 
-
-version:  v3.0.8-ec
-Using nabu config file: nabu_iris
-nabu prefix called
- 100% |██████████████████████████████████████████████| (49/49, 4 it/s)
-
-Process finished with exit code 0
-
-```
-!!! note 
-    need to update logging so that some output is generated.
-
-files will be generated. All files are ok to delete.
-
-* `{repo}.ttl` - the turtle file of the repository used to load the data to summary
-* `nanu_{repo}` the config that was used to load the summary namespace
-* `logs/gleaner-date.log`  
-* `gleaner.db`  artifact from glcon
-
-
-## Check the data load
-Go to  the sparql endpoint in the nabu file, use the "{repo}_summary" 
-eg `https://graph.earthcube.org/blazegraph/`
-
-If anything was loaded
-```sparql
-SELECT * { ?s ?p ?o } LIMIT 1
-```
-
-and how many actual 'Datasets' were loaded:
-```sparql
-SELECT (count(?g ) as ?count) 
-WHERE     {     GRAPH ?g {?s a <https://schema.org/Dataset>}}
-```
 

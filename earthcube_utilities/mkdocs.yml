@@ -12,5 +12,4 @@ plugins:
         paths: [src ]
 nav:
     - Earthcube Utilities: index.md
-    - Code Reference:
-        - Earthcube Utilites: earthcube_utilities.md
+    - Code Reference: earthcube_utilities.md
