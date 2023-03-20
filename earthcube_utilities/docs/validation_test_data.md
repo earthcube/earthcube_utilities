@@ -1,11 +1,23 @@
 # Validate using test data
 
+**Test Level 1 and level 2, WORKING**
+This is incorporated in the
+https://github.com/earthcube/GeoCODES-Metadata
 
-This need to be [Approval testing](https://approvaltests.com/), 
+
+They utilize [Approval testing](https://approvaltests.com/), 
 if a result differs, then alert and ask if this is ok.
 If there is no change, then test passes.
 
-To do this we need some approval tests.
+If a **test fails** look in integration_testing/approved_files
+for a file with a .received.txt extenstion
+look at it, rename it to approved if it looks good.
+
+Since the JSON testing is only line counts for now, you may need to debug to see
+the output.
+
+
+
 
 ## Approval Tests:
 Coding

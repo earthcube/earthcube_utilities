@@ -1,4 +1,10 @@
 ### RDF to triples
+
+**working:**
+earthcube_utilities/earthcube_utilities/src/ec/sos_json/rdf.py
+
+---
+## original spec
 At present, gleaner generates triples, and nabu loads them into the graph as quads.
 The summary code needs to know the expected `graph` so this module creates quads from gleaner/milled
 Basically, <ins>**rdf2nq.py** takes one form of rdf triples, 
