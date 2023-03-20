@@ -29,6 +29,8 @@ for a BLAZEGRAPH INSTANCE
 This is not a class to handle querying.
 """
 class ManageBlazegraph(ManageGraph):
+    """ Manages a blazegraph instance for a single namespace
+    implements needed portions of the blazegraph rest API"""
 
     createTemplateQuad ="""com.bigdata.namespace.fffff.spo.com.bigdata.btree.BTree.branchingFactor=1024
 com.bigdata.rdf.store.AbstractTripleStore.textIndex=true
@@ -59,6 +61,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
     #init w/namespace
 
     def createNamespace(self, quads=True):
+        """ Creates a new namespace"""
         # POST / bigdata / namespace
         # ...
         # Content - Type
@@ -83,6 +86,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
 
 
     def deleteNamespace(self):
+        """ deletes a blazegraph namespace"""
         # DELETE /bigdata/namespace/NAMESPACE
         url = f"{self.baseurl}/namespace/{self.namespace}"
         headers = {"Content-Type": "text/plain"}
@@ -94,6 +98,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
 
 
     def insert(self, data, content_type="text/x-nquads"):
+        """inserts data into a blazegraph namespace"""
         # rdf datatypes: https://github.com/blazegraph/database/wiki/REST_API#rdf-data
         # insert: https://github.com/blazegraph/database/wiki/REST_API#insert
        #url = f"{self.baseurl}/namespace/{self.namespace}{self.sparql}"

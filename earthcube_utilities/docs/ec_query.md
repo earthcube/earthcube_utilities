@@ -1,4 +1,10 @@
 ### Earthcube Query
+
+Implemented in ec/graph
+
+ manageGraph/ManageBlazegraph
+
+
 <ins>**query.py** </ins> is can do all the SPARQL queries the UI can do.
 
 Query returns a pandas dataframe using the sparqldataframe library. A set of queries based

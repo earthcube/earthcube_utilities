@@ -1,0 +1,16 @@
+# mkdocs.yml
+site_name: Earthcube Utilities -- Summarize
+theme:
+  name: "material"
+
+plugins:
+- search
+- mkdocstrings:
+    handlers:
+      python:
+        paths: [src ]
+nav:
+    - Summarize: README.md
+    - Code Reference:
+        - Earthcube Utilites: earthcube_utilities.md
+        - Summarize: summarize_code.md
