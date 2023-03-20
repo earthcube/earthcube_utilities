@@ -15,6 +15,7 @@ OPTIONAL ENV
 GRAPH_ENDPOINT= graph endpoint for convering graph to jsonld, default: "https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/"
 """
 
+# dwv 2023-03-16 Added NB route to get jsondl from a graph. Cleaned up cruft.
 
 # dwv 2021-10-08 added env varaibles, and error checks when missing.
 #       worked to used embedded papermill to issues with parameter passing
@@ -180,14 +181,7 @@ def post_gist(fn, collection=None):
         token = session.get('token')
         g_api = gist_api(token)
         g = g_api.create_gist(file_name=fn)
-        # token = session.get('token')
-        # j=json.dumps(fields )
-        # g = oauth.github.post('gists', token=token, data=j, )
-        # if (g.status_code == 201):
-        #     createdGist = g.json()
-        #     cu = colab_url(createdGist['id'], notebookFilename)
-        #     hcu = htm_url(cu)
-        #     return hcu
+
         cu = colab_url(g['id'], notebookFilename)
         hcu = htm_url(cu)
         return hcu
@@ -241,25 +235,6 @@ def htm_url(url):
 def htm_url_(url):  # old1before fwd to colab-NB-url
     return f'<html><a href={url}>notebook to view your data</a></html>'
 
-
-def print_nb_gists(g):  # was used before writing find_gist
-    for gn in range(len(g)):
-        fn = gist_fn(g[gn])
-        ft = file_ext(fn)
-        if (ft == '.ipynb'):
-            print("Gist URL : %s" % (g[gn]['url']))
-            # print("GIST ID: %s"%(g[gn]['id']))
-            gist_id = (g[gn]['id'])
-            print(f'GIST_ID:{gist_id}')
-            print(f'fn: {fn}')
-            cu = colab_url(gist_id, fn)
-            print(f'url: {cu}')
-        else:
-            print(f'it was of type:{ft}')
-
-
-# print_nb_gists(g)
-# ffn = 'darchive.mblwhoilibrary.org_bitstream_1912_23805_1_dataset-753388_hhq-chlorophyll__v1.tsv.ipynb'
 
 # be able to find a fn w/in the list: g
 # def find_gist(ffn):
@@ -346,59 +321,9 @@ def pm_nb(collection, template=None, filename="temp.ipynb"):
         print(f'except:{err}')  # might have to catch this exception
         raise err
     print(f'pm:{e}')  # might have to catch this exception
-    # if path.exists(fn):
-    #     print(f'reuse:{fn}')
-    # else: #could use the template.ipynb w/o cached data, if the 1st try w/'mybinder-read-pre-gist.ipynb' fails
-    #     e = None
-    #     try:
-    #         e = pm.execute_notebook( #  not env sure we need to have e. https://github.com/nteract/papermill
-    #            template_file, # 'templates/template.ipynb', #path/to/input.ipynb',
-    #            fn,  #'path/to/output.ipynb',
-    #            parameters = dict(url=dwn_url, ext=ext, urn=urn, prepare_only=True, log_output=True)
-    #         )
-    #     except Exception as err:
-    #         print(f'except:{err}') #might have to catch this exception
-    #     print(f'pm:{e}') #might have to catch this exception
-    # return base_url + fn
+
     return post_gist(filename, collection)  # htm w/link to colab of the gist
 
-    # above had problems(on1machine), so have cli backup in case:
-
-
-def pm_nb3(dwn_url, ext=None, urn=None):
-    dwnurl = dwn_url.replace('/', '')
-    fn = dwnurl2fn(dwnurl)
-    if path.exists(fn):
-        print(f'reuse:{fn}')
-    else:
-        if ext:
-            # #sext=ext.replace(" ","_").replace("(","_").replace(")","_")
-            # #sext=ext.replace(" ","_").replace("(","_").replace(")","_").replace(";","_") #make this safer
-            # #sext=ext.replace(" ","_").replace("(","_").replace(")","_").replace(";"," ") #make this safer
-            # #sext=ext.replace(" ","_").replace("(","_").replace(")","_").replace(";"," ").replace("\n",' ')
-            # sext=ext.replace(" ","_").replace("(","_").replace(")","_").replace(";","_").replace("\n",' ')
-            # sext1=first_str(sext)
-            # sext1 = urllib.parse.quote_plus(ext)
-            # print(f'ext:{sext},1:{sext1}')
-            # ext_arg=f' -p ext {sext1} '
-            sext1 = ext.strip()
-            print(f'ext:{ext},1:{sext1}')
-            ext_arg = f' -p ext "{sext1}" '
-        else:
-            ext_arg = ""
-        if urn:
-            urn_arg = f' -p urn "{urn}" '
-        else:
-            urn_arg = ""
-        # cs=f'papermill --prepare-only template.ipynb {fn} -p contenturl {dwnurl} {ext_arg} {urn_arg}'
-        cs = f'papermill --prepare-only src/notebook_proxy/templates/template.ipynb {fn} -p url {dwnurl} {ext_arg} {urn_arg}'
-        print(cs)
-        os.system(cs)
-    return post_gist(fn)
-
-
-# def pm2(dwnurl, fn):
-# def pm_nb2(dwn_url, ext=None):
 
 def mknb(collection, template=None):
     "url2 pm2gist/colab nb"
@@ -474,9 +399,6 @@ if (AUTH_MODE == 'service'):
     github = oauth.create_client('github')
 
 
-# else:
-#    github = oauth.create_client('github')
-
 @app.route('/login')
 def login():
     session['next'] = request.args.get('next') or '/'
@@ -528,8 +450,7 @@ def mk_nb():
     # dwv setup userauth
     token = session.get('token')
     g_api = gist_api(token)
-    # gist_api = gistyc.GISTyc(auth_token=access_token)
-    # gist_api = gistyc.GISTyc(auth_token=token)
+
     # "make a NoteBook"
     dwnurl_str = request.args.get('url', type=str)
     print(f'url={dwnurl_str}')
@@ -541,7 +462,7 @@ def mk_nb():
     print(f'template={template}')
     collection_parameter = {}
     collection_parameter["datasets"] = [{"urn": urn, "ext": ext, "downloadurl": dwnurl_str}]
-    # r= mknb(dwnurl_str,ext,urn, template)
+
     r = mknb(collection_parameter, template)
     return r
 
@@ -553,8 +474,7 @@ def mk_Q():
     print(f'q={q}')
     template = request.args.get('template', default='sparql.ipynb', type=str)
     print(f'template={template}')
-    #r= mkQ(q) #just pagemill directly
-    #r= pm_q3(q)
+
     collection_parameter = {}
     collection_parameter["query"] = {"q": q,}
     fn = "q_" + q + ".ipynb"
@@ -620,13 +540,9 @@ def gists():
 
 @app.route('/get_graph/<g>/<format>')
 def get_graph(g,format="jsonld"):
-    #format = request.args.get('format', type=str)
-    # g = request.args.get('g',  type = str)
-    # print(f'g={g}')
-    # the return form EC is a sparqldataframe
-    #r= ec.get_graph(g)
+    # intially this was mocked.
     #r=get_mock_graph(g)
-    #print(r)
+
     if format =="json": # return type application/json
         r = get_graph2jsonld(g, GRAPH_ENDPOINT)
         compact = formatted_jsonld(r,form='compact')

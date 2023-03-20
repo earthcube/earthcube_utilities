@@ -6,7 +6,7 @@ import sys
 
 from ec.graph.sparql_query import queryWithSparql
 
-from s3 import s3
+from datastore import s3
 
 logging.basicConfig(format='%(levelname)s : %(message)s', level=os.environ.get("LOGLEVEL", "INFO"), stream=sys.stdout)
 log = logging.getLogger()

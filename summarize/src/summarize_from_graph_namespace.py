@@ -44,6 +44,11 @@ def runNabu(cfg, repo,glcon="~/indexing/glcon"):
         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
 
 def summarizeGraphOnly(args):
+    """ Summarize directly from a namespace, upload to provided summarize namespace
+    * query for repository graphs using defined repo parameter,
+    * build summary triples
+    * loading to a summarize namespace
+    """
     repo = args.repo
     if args.summary_namespace:
         summary = args.summary_namespace
