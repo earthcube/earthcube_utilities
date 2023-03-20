@@ -85,6 +85,29 @@ For the  summarize tool.
 
     ```
 
+??? note "Help"
+    Warning, may not be all implemented.
+    ```shell
+    
+    src/summarize_repo.py --help
+    usage: summarize_repo.py [-h] [--graphendpoint GRAPHENDPOINT] [--glcon GLCON] [--graphsummary GRAPHSUMMARY] [--summary_namespace SUMMARY_NAMESPACE] repo nabufile
+    
+    positional arguments:
+      repo                  repository name
+      nabufile              nabu configuration file
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      --graphendpoint GRAPHENDPOINT
+                            override nabu endpoint
+      --glcon GLCON         override path to glcon
+      --graphsummary GRAPHSUMMARY
+                            upload triples to graphsummary
+      --summary_namespace SUMMARY_NAMESPACE
+                            summary_namespace
+
+    ```
+
 In the console you should see nabu run. 
 
 

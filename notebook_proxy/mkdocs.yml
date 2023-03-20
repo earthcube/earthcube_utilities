@@ -1,0 +1,13 @@
+# mkdocs.yml
+site_name: Earthcube Utilities - Notebook Proxy
+theme:
+  name: "material"
+
+plugins:
+- search
+- mkdocstrings:
+    handlers:
+      python:
+        paths: [earthcube_utilities/src, summarize/src ]
+nav:
+    - Notebook Proxy: README.md
