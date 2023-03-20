@@ -1,6 +1,7 @@
 from io import BytesIO
 
 import minio
+from pydash.collections import find
 
 """
 Basic abstraction, in case someone want to store files in a 
@@ -12,7 +13,7 @@ class bucketDatastore():
     paths = {"reports":"reports",
              "summon": "summoned",
              "milled":"milled",
-             "graph":"graph",
+             "graph":"graphs",
              "archive":"archive",
              "collections":"collections"
     }
@@ -64,7 +65,7 @@ class bucketDatastore():
     Reporting will have to pull the original and put back to the datastore
     '''
 
-    def putReportFile(self, bucket, repo, filename):
+    def putReportFile(self, bucket, repo, filename, json_str):
         pass
 
     def getReportFile(self, bucket, repo, filename):
@@ -75,8 +76,12 @@ class bucketDatastore():
         pass
 
     def getLatestRelaseUrls(self, bucket):
+
         pass
-    def getRoCrateFile(self, bucket, user, filename):
+
+    def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
+        pass
+    def putRoCrateFile(self, filename, bucket="gleaner", user="public"):
         pass
 
 """
@@ -90,9 +95,12 @@ class MinioDatastore(bucketDatastore):
         self.options = options
         self.s3client  =minio.Minio(s3endpoint) # this will neeed to be fixed with authentication
 
+
     def listPath(self, bucket, path):
         resp = self.s3client.list_objects(bucket, path)
-        return resp.data
+        # the returned list includes the path
+        resp = filter(lambda f: f.object_name != path, resp)
+        return resp
 
     def getFileFromStore(self, s3ObjectInfo):
         resp = self.s3client.get_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
@@ -112,19 +120,30 @@ class MinioDatastore(bucketDatastore):
         return resp.bucket_name, resp.object_name
 
     def getReportFile(self, bucket, repo, filename):
-        pass
+        path = f"{self.paths['reports']}/{repo}/{filename}"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        resp = self.getFileFromStore(s3ObjectInfo)
+        return resp
 
-    def getLatestRelaseUrl(self, bucket, repo):
-        path = f"{self.paths['graph']}/summonded{repo}_latest_release.nq"
+    def getLatestRelaseFile(self, bucket, repo):
+        path = f"{self.paths['graph']}/latest/summonded{repo}_latest_release.nq"
         s3ObjectInfo = {"bucket_name":bucket,"object_name": path}
-        resp = self.s3client.get_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
-        return resp.data
+        resp = self.getFileFromStore(s3ObjectInfo)
+        return resp
 
-    def getRelaseUrls(self, bucket):
-        pass
+    def getRelasePaths(self, bucket):
+        path = f"{self.paths['graph']}/latest/"
+        files = self.listPath(bucket, path)
+        paths = list(map(lambda f:  f.object_name, files))
+        return paths
 
     def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
         path = f"/{self.paths['collections']}/{user}/{filename}"
-        resp = self.s3client.get_object(bucket, path)
-        crate = resp.data
+        crate = self.s3client.get_object(bucket, path)
+        return crate
+
+    def putRoCrateFile(self, filename, bucket="gleaner", user="public"):
+        path = f"/{self.paths['collections']}/{user}/{filename}"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        crate = self.getFileFromStore(s3ObjectInfo)
         return crate

@@ -14,7 +14,7 @@ from rocrate.model.file import File
 from rocrate.model.file_or_dir import FileOrDir
 
 from rocrateValidator import validate
-from s3.s3 import MinioDatastore
+from datastore.s3 import MinioDatastore
 
 # issue https://github.com/earthcube/GeoCODES-Metadata/issues/5
 # logic that might be utilizle

@@ -11,3 +11,4 @@ rocrate
 rocrateValidator
 uuid
 logconfig
+pydash
