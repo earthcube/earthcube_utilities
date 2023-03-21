@@ -20,19 +20,16 @@ the output.
 
 
 ## Approval Tests:
-Coding
-* need to have an s3 client to pull the data from minio.
-
 Logic, after files are approved, they should not change, so testing can be automated.
 using approvals tests approach
 
 ## NOTE
-I am going to suggest that this be done in the GeocodesMetadata reop, rather than earthcube utilities
+This is in the GeocodesMetadata reop, rather than earthcube utilities
 closer to the metadata is a good thing.
 
 Also, that would mean that a small portion of the EC utilities is packaged and documented.
 * graph (graph directory from  to  ec_utils)
-* s3 just use the minio client or boto... 
+* datastore 
 
 ### Test 1: basic loading
 * pre-setup
@@ -52,7 +49,7 @@ Also, that would mean that a small portion of the EC utilities is packaged and d
   * Approvals Graph
     * for each file {bucket}/milled/{repo}
        * is file non-zero length
-       * Approval. Does is look like the loaded triples match the JSONLD
+       * Approval. Does this look like the loaded triples match the JSONLD
   * Approvals Nabu
     * does the count of triples equal the last time run
     * for each urn (aka file in bucket) 

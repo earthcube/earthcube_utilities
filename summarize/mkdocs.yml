@@ -10,7 +10,5 @@ plugins:
       python:
         paths: [src ]
 nav:
-    - Summarize: README.md
-    - Code Reference:
-        - Earthcube Utilites: earthcube_utilities.md
-        - Summarize: summarize_code.md
+    - Summarize: index.md
+    - Summarize Code Doc: summarize_code.md

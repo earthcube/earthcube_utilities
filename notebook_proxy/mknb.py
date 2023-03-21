@@ -542,6 +542,7 @@ def gists():
 def get_graph(g,format="jsonld"):
     # intially this was mocked.
     #r=get_mock_graph(g)
+    # and maybe we should find way to use just this  so we can say if g=urn:mock return the mock result for teaching
 
     if format =="json": # return type application/json
         r = get_graph2jsonld(g, GRAPH_ENDPOINT)
