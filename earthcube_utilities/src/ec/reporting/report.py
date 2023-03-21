@@ -23,3 +23,10 @@ class Repository():
 
     def GetReport(self,bucket, repo):
         pass
+
+def compareSummoned2Milled(bucket, repo):
+    """ return list of missing urls"""
+    pass
+
+def compareSummoned2Graph(bucket, repo):
+    pass
