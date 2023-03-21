@@ -41,12 +41,20 @@ def graphTypes4Repo(repo, graphendpoint):
     #queryWithSparql("repo_count_types", graphendpoint)
     pass
 
-def graphTypes4RepoReport(repo, datastore):
+def getGraphTypes4RepoReport(repo, datastore):
     pass
-
+def putGraphTypes4RepoReport(repo, datastore):
+    pass
+def updateGraphTypes4RepoReport(repo, datastore):
+    pass
 def graphKeywordsRepo(repo, graphendpoint):
     #queryWithSparql("repo_count_keywords", graphendpoint)
     pass
 
 def graphKeywords4RepoReport(repo, datastore):
+    pass
+
+def putGraphKeywords4RepoReport(repo, datastore):
+    pass
+def updateGraphKeywords4RepoReport(repo, datastore):
     pass
