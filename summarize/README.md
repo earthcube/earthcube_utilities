@@ -37,15 +37,65 @@ or at the [geocodes documentation site](https://earthcube.github.io/geocodes_doc
 * Summarize existing graph stores. AKA: data is loaded into a graph
 * summarize as part of workflow, aka build summary when repo is loaded
 
-### summarize a loaded repository
-1. if you have not, changed to the summarize directory: `cd  earthcube_utilities/summarize`
-2. Insure that a `glcon gleaner batch --cfgName` crawl and loading to the graphstore using has already been done,
-nabu has already been done.  
+### Summarize an existing graph stores. 
+This can  summarize an entire graph store, or just process a msubset, eg, a recently update repo.
+* The information is in an existing blazegraph instance 
+    * ` glcon nabu prefix --cfgName {configdir} ` 
+* There exists a  summary namespace in a blazegraph instance
 
-repo is optional. San repo will summarize all information
+```text
+usage: summarize_from_graph_namespace.py [-h] [--repo REPO] --graphendpoint GRAPHENDPOINT [--graphsummary GRAPHSUMMARY] [--summary_namespace SUMMARY_NAMESPACE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --repo REPO           repo name used in the urn
+  --graphendpoint GRAPHENDPOINT
+                        graph endpoint with namespace
+  --graphsummary GRAPHSUMMARY
+                        upload triples to graphsummary
+  --summary_namespace SUMMARY_NAMESPACE
+                        summary_namespace defaults to {repo_summary}
+
+```
+#### run summarize_from_graph_namespace
+1. if you have not, changed to the summarize directory: `cd  earthcube_utilities/summarize`
+2. run
+
 ```shell
-./src/summarize_from_graph_namespace.py --repo iris --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
+./src/summarize_from_graph_namespace.py --repo {repo} --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
+
+```
+repo is optional. Without the  `--repo` the code will summarize all information
+
+### Summarize a part of qualifying a repostiory for loading into geocodes
+As part of the qualifying of a repository for loading we want to load the data into separate instances
+This codebase will read a gleaner configuraiton, push the summoned information to a repository, and create a
+summary repository
+
+```text
+usage: summarize_repo.py [-h] [--graphendpoint GRAPHENDPOINT] [--glcon GLCON] [--graphsummary GRAPHSUMMARY] [--keeptemp GRAPHTEMP]
+                         [--summary_namespace SUMMARY_NAMESPACE]
+                         repo nabufile
+
+positional arguments:
+  repo                  repository name
+  nabufile              nabu configuration file
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --graphendpoint GRAPHENDPOINT
+                        override nabu endpoint
+  --glcon GLCON         override path to glcon
+  --graphsummary GRAPHSUMMARY
+                        upload triples to graphsummary
+  --keeptemp GRAPHTEMP  do not delete the temp namespace. a namespace {repo}_temp will be created
+  --summary_namespace SUMMARY_NAMESPACE
+                        summary_namespace defaults to {repo}_temp_summary
 
 ```
 
+#### run summarize_frepo
+```shell
+./src/summarize_repo.py {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
 
+```

@@ -54,7 +54,7 @@ def summarizeRepo(args):
     if args.summary_namespace:
         summary = args.summary_namespace
     else:
-        summary = f"{repo}_summary"
+        summary = f"{repo}__temp_summary"
     nabucfg = args.nabufile
     endpoint, cfg = getNabu(nabucfg)
     graphendpoint = mg.graphFromEndpoint(endpoint)
@@ -90,8 +90,9 @@ def summarizeRepo(args):
         return 1
     finally:
         # need to figure out is this is run after return, I think it is.
-        logging.debug(f"Deleting Temp namespace {tempnsgraph.namespace}")
-        deleted = tempnsgraph.deleteNamespace()
+        if not args.keeptemp :
+            logging.debug(f"Deleting Temp namespace {tempnsgraph.namespace}")
+            deleted = tempnsgraph.deleteNamespace()
 
 
 if __name__ == '__main__':
@@ -108,8 +109,10 @@ if __name__ == '__main__':
                         help='override path to glcon', default="~/indexing/glcon")
     parser.add_argument('--graphsummary', dest='graphsummary',
                         help='upload triples to graphsummary', default=True)
+    parser.add_argument('--keeptemp', dest='graphtemp',
+                        help='do not delete the temp namespace. a namespace {repo}_temp will be created', default=True)
     parser.add_argument('--summary_namespace', dest='summary_namespace',
-                        help='summary_namespace')
+                        help='summary_namespace defaults to {repo}_temp_summary')
     args = parser.parse_args()
 
     exitcode= summarizeRepo(args)

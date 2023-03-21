@@ -56,6 +56,12 @@ jobs:
 
 
  #     - run: cd docs/ && mkdocs gh-deploy --force --clean --verbose
+
+### note ######################
+      # might copy the top level readme.md from a package to docs/index.html
+      # so that mkdocs can utilize the information
+      # or see if https://github.com/mondeja/mkdocs-include-markdown-plugin works the mkdocs-multirepo-plugin
+### ######################
     # just utilities for now.
       - run:  cd earthcube_utilities &&  mkdocs gh-deploy --force --clean --verbose
  #     - run:  cd summarize &&  mkdocs gh-deploy --force --clean --verbose --site-dir summarize
