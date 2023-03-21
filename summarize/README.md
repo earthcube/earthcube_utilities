@@ -44,7 +44,7 @@ nabu has already been done.
 
 repo is optional. San repo will summarize all information
 ```shell
-geocodes: src/summarize_from_graph_namespace.py --repo iris --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
+./src/summarize_from_graph_namespace.py --repo iris --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
 
 ```
 
