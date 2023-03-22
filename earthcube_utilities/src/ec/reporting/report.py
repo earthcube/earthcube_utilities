@@ -136,7 +136,7 @@ def generateGraphReportsRepo(repo, graphendpoint, reportTypes=reportTypes):
                                  },
                                  reportTypes["repo"])
     reports = list(reports)
-    return json.dumps({"version": 0, "reports": reports })
+    return json.dumps({"version": 0, "reports": reports }, indent=4)
 
 def generateAGraphReportsRepo(repo, code, graphendpoint):
     #queryWithSparql("repo_count_types", graphendpoint)
