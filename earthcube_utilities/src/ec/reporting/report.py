@@ -58,7 +58,7 @@ Probably run the all repo report monthly, or after a large data load
 Run the repo report have a repo is reloaded.
 
 FUTURE:
-Use repo reports as data for a tool that can evaluate the failures
+Use issues from repo reports as data for a tool that can evaluate the failures
 
 """
 
