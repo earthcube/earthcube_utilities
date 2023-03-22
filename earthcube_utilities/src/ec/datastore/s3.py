@@ -4,9 +4,11 @@ import minio
 import pydash
 from pydash.collections import find
 
-def urnFroms3Path(path):
+def shaFroms3Path(path):
     split = path.split()
     return split[len(split)-1]
+
+
 """
 Basic abstraction, in case someone want to store files in a 
 different method
@@ -14,6 +16,7 @@ different method
 class bucketDatastore():
     endpoint = "http://localhost:9000" # basically minio
     options = {}
+    default_bucket="gleaner"
     paths = {"reports":"reports",
              "summon": "summoned",
              "milled":"milled",
@@ -22,9 +25,10 @@ class bucketDatastore():
              "collections":"collections"
     }
 
-    def __init__(self, s3endpoint, options):
+    def __init__(self, s3endpoint, options, default_bucket="gleaner"):
         self.endpoint = s3endpoint
         self.options = options
+        self.default_bucket = default_bucket
 
     def listPath(self, bucket, path, include_user_meta=False):
         pass
@@ -49,8 +53,8 @@ class bucketDatastore():
     def countJsonld(self,bucket, repo):
         count = len(list(self.listJsonld(bucket,repo)))
 
-    def getJsonLD(self, bucket, repo, urn):
-        path = f"{self.paths['summon']}/{repo}/{urn}.jsonld"
+    def getJsonLD(self, bucket, repo, sha):
+        path = f"{self.paths['summon']}/{repo}/{sha}.jsonld"
         s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
@@ -60,18 +64,18 @@ class bucketDatastore():
         objs = map(lambda f: self.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
         # for ob in objs:
         #     print(ob)
-        o_list = list(map(lambda f: {"urn": urnFroms3Path(f.object_name), "url": f.metadata["X-Amz-Meta-Url"]}, objs))
+        o_list = list(map(lambda f: {"sha": shaFroms3Path(f.object_name), "url": f.metadata["X-Amz-Meta-Url"]}, objs))
         return o_list
 
-    def getJsonLDMetadata(self, bucket, repo, urn):
-        path = f"{self.paths['summon']}/{repo}/{urn}.jsonld"
+    def getJsonLDMetadata(self, bucket, repo, sha):
+        path = f"{self.paths['summon']}/{repo}/{sha}.jsonld"
         s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
         tags = self.getFileMetadataFromStore(s3ObjectInfo)
 
         return tags
 
-    def getOringalUrl(self, bucket, repo, urn):
-        md = self.getJsonLDMetadata(bucket, repo, urn)
+    def getOringalUrl(self, bucket, repo, sha):
+        md = self.getJsonLDMetadata(bucket, repo, sha)
         return md['Url']
 
     '''Cleans the name of slashes... might need more in the future.'''
@@ -89,7 +93,7 @@ class bucketDatastore():
     Reporting will have to pull the original and put back to the datastore
     '''
 
-    def putReportFile(self, bucket, repo, filename, json_str):
+    def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
         pass
 
     def getReportFile(self, bucket, repo, filename):
@@ -114,9 +118,10 @@ different method
 """
 class MinioDatastore(bucketDatastore):
 
-    def __init__(self, s3endpoint, options):
+    def __init__(self, s3endpoint, options,default_bucket="gleaner"):
         self.endpoint = s3endpoint
         self.options = options
+        self.default_bucket= default_bucket
         self.s3client  =minio.Minio(s3endpoint) # this will neeed to be fixed with authentication
 
 
@@ -138,8 +143,8 @@ class MinioDatastore(bucketDatastore):
         # this needs to return the metadata
         return user_meta
 
-    def putReportFile(self, bucket, repo, filename, json_str):
-        path = f"{self.paths['reports']}/{repo}/{filename}"
+    def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
+        path = f"{self.paths['reports']}/{repo}/{date}/{filename}"
         f = BytesIO()
         length = f.write(bytes(json_str, 'utf-8'))
         f.seek(0)

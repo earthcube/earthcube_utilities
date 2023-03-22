@@ -1,0 +1,5 @@
+SELECT ?repo (count(distinct ?g) as ?graphcount)
+WHERE     {
+     GRAPH ?g {?s ?p ?o .}
+    FILTER( STRSTARTS(str(?g), "urn:gleaner:summoned:${repo}") )
+}

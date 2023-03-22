@@ -1,0 +1,12 @@
+prefix schema: <https://schema.org/>
+SELECT  ?variableName (count(distinct ?s) as ?scount)
+WHERE {
+  {
+
+       ?s schema:variableMeasured ?variableMeasured .
+    ?variableMeasured schema:name ?variableName
+
+       } FILTER( STRSTARTS(str(?g), "urn:gleaner:summoned:${repo}"))
+}
+GROUP By ?variableName
+ORDER By DESC(?scount)

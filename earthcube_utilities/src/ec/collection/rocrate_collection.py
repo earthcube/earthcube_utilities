@@ -103,7 +103,7 @@ def RoCrateToGraph(crate, endpoint=None):
 ## and do some courtesy conversion.
 ### really thiw will need to be done on the javascript side, but
 ## prototype it here
-def createIdentifier(proposedid):
+def _createIdentifier(proposedid):
     if proposedid is not None and isinstance(proposedid, str):
 
         m = hashlib.md5(proposedid.encode(encoding='UTF-8', errors='strict')).hexdigest()
@@ -127,7 +127,7 @@ class sosRocrate(ROCrate):
     def addSosCreator(self, crate, username):
         properties = {"name": username}
 
-        creator = Person(crate,identifier=createIdentifier(username), properties=properties)
+        creator = Person(crate, identifier=_createIdentifier(username), properties=properties)
         self.creator=creator
 
     # we are  of the crate, it should be a sos_person
@@ -136,7 +136,7 @@ class sosRocrate(ROCrate):
         properties = {"name": name}
         if identifier is None:
             identifier = name
-        creator = Person(crate ,identifier=createIdentifier(identifier), properties=properties)
+        creator = Person(crate, identifier=_createIdentifier(identifier), properties=properties)
         self.publisher = creator
 
         # pption 1 it's a file
