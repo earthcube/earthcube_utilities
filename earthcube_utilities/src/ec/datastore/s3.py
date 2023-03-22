@@ -4,7 +4,7 @@ import minio
 import pydash
 from pydash.collections import find
 
-def urnFroms3Path(path):
+def shaFroms3Path(path):
     split = path.split()
     return split[len(split)-1]
 
@@ -53,8 +53,8 @@ class bucketDatastore():
     def countJsonld(self,bucket, repo):
         count = len(list(self.listJsonld(bucket,repo)))
 
-    def getJsonLD(self, bucket, repo, urn):
-        path = f"{self.paths['summon']}/{repo}/{urn}.jsonld"
+    def getJsonLD(self, bucket, repo, sha):
+        path = f"{self.paths['summon']}/{repo}/{sha}.jsonld"
         s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
@@ -64,18 +64,18 @@ class bucketDatastore():
         objs = map(lambda f: self.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
         # for ob in objs:
         #     print(ob)
-        o_list = list(map(lambda f: {"urn": urnFroms3Path(f.object_name), "url": f.metadata["X-Amz-Meta-Url"]}, objs))
+        o_list = list(map(lambda f: {"sha": shaFroms3Path(f.object_name), "url": f.metadata["X-Amz-Meta-Url"]}, objs))
         return o_list
 
-    def getJsonLDMetadata(self, bucket, repo, urn):
-        path = f"{self.paths['summon']}/{repo}/{urn}.jsonld"
+    def getJsonLDMetadata(self, bucket, repo, sha):
+        path = f"{self.paths['summon']}/{repo}/{sha}.jsonld"
         s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
         tags = self.getFileMetadataFromStore(s3ObjectInfo)
 
         return tags
 
-    def getOringalUrl(self, bucket, repo, urn):
-        md = self.getJsonLDMetadata(bucket, repo, urn)
+    def getOringalUrl(self, bucket, repo, sha):
+        md = self.getJsonLDMetadata(bucket, repo, sha)
         return md['Url']
 
     '''Cleans the name of slashes... might need more in the future.'''

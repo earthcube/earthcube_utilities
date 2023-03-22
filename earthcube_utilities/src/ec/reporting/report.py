@@ -21,16 +21,29 @@ Reports
 * PROCESSING REPORT: sitemap count, summoned count, milled count, if approriate.
 **  general report with the basics. counts, good, bad, etc.
 *** sitemap count
-*** summoned count
-*** graph count 
-*** count of  was summoned but did not make it into the graph
+*** summoned count ec.datastore.s3.countJsonld
+*** milled count ec.datastore.s3.countMilled
+*** graph count repo_count_graphs.sparql ec.graph.sparql_query.queryWithSparql("repo_count_graphs", graphendpoint, parameters={"repo": repo})
+*** when processing details is working, then add counts of  was summoned but did not make it into the graph
 
 * PROCESSING REPORT DETAILS:
 ** thought... how to handle what got lost... need to know, or perhaps files with lists of what got lost along the way
-*** SITEMAP
-**** list of bad urls
-**** list of urls for items that had no JSONLD. Grab list of metadater-Url from Datastore, compare to sitemap url list
-*** PROCESSING
+*** SITEMAP Detials and issues
+**** (sitemap_badurls.csv)list of bad urls
+**** (sitemap_summon_issues.csv) list of urls for items that had no JSONLD. 
+*****  Grab list of metadater-Url from Datastore, ec.datastore.s3.listSummonedUrls
+*****  compare to sitemap url list
+*****  remove bad urls.. if it cannot be retrieved, we don't need to chase it down
+*** PROCESSING Detials and issues
+**** what made and did not make it. Parameters
+**** summoned ids: ec.datastore.s3.listJsonld
+# will need to do a list(map(lambda , collection) to get a list of urls.
+o_list = list(map(lambda f: urnFroms3Path(f.object_name), objs))
+**** milled ids: ec.datastore.s3.listMilledRdf
+**** graph ids:  ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, parameters={"repo": repo})
+
+***** suggest compare using pydash, or use pandas...
+then look up the urls' using: ec.datastore.s3.getJsonLDMetadata
 
 * GRAPHSTORE REPORTS: 
 This runs a list of sparql queries
