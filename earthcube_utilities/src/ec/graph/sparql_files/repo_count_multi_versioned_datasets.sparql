@@ -1,0 +1,13 @@
+## double dollar signes are to escape to a single dollar sign when using string template
+prefix schema: <https://schema.org/>
+SELECT  ?g (count(distinct ?s) as ?versionscount)
+WHERE {
+  GRAPH ?g {
+
+       ?s schema:version ?version .
+
+       }  FILTER( STRSTARTS(str(?g), "urn:gleaner:summoned:${repo}")) .
+}
+GROUP By ?g
+HAVING(count(distinct ?s) >1 )
+ORDER By DESC(?versionscount)

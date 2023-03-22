@@ -8,4 +8,5 @@ WHERE {
        }
 }
 GROUP By ?version
+HAVING(count(distinct ?s) >1)
 ORDER By DESC(?scount)

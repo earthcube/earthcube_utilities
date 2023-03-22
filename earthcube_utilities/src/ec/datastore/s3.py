@@ -16,6 +16,7 @@ different method
 class bucketDatastore():
     endpoint = "http://localhost:9000" # basically minio
     options = {}
+    default_bucket="gleaner"
     paths = {"reports":"reports",
              "summon": "summoned",
              "milled":"milled",
@@ -24,9 +25,10 @@ class bucketDatastore():
              "collections":"collections"
     }
 
-    def __init__(self, s3endpoint, options):
+    def __init__(self, s3endpoint, options, default_bucket="gleaner"):
         self.endpoint = s3endpoint
         self.options = options
+        self.default_bucket = default_bucket
 
     def listPath(self, bucket, path, include_user_meta=False):
         pass
@@ -91,7 +93,7 @@ class bucketDatastore():
     Reporting will have to pull the original and put back to the datastore
     '''
 
-    def putReportFile(self, bucket, repo, filename, json_str):
+    def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
         pass
 
     def getReportFile(self, bucket, repo, filename):
@@ -116,9 +118,10 @@ different method
 """
 class MinioDatastore(bucketDatastore):
 
-    def __init__(self, s3endpoint, options):
+    def __init__(self, s3endpoint, options,default_bucket="gleaner"):
         self.endpoint = s3endpoint
         self.options = options
+        self.default_bucket= default_bucket
         self.s3client  =minio.Minio(s3endpoint) # this will neeed to be fixed with authentication
 
 
@@ -140,8 +143,8 @@ class MinioDatastore(bucketDatastore):
         # this needs to return the metadata
         return user_meta
 
-    def putReportFile(self, bucket, repo, filename, json_str):
-        path = f"{self.paths['reports']}/{repo}/{filename}"
+    def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
+        path = f"{self.paths['reports']}/{repo}/{date}/{filename}"
         f = BytesIO()
         length = f.write(bytes(json_str, 'utf-8'))
         f.seek(0)
