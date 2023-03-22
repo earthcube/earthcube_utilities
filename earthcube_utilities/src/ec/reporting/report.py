@@ -6,27 +6,45 @@ from ec.datastore.s3 import MinioDatastore, bucketDatastore
 ## this is overly complex it can be done simply.
 ## rethink later
 
-class History():
-    item = ''
-    count=0
+"""
+reports
+
+simplifiying the thinking.
+These go into a reports store in the datastore
+
+we can calculate in multiple ways
+eg for items that were not summomed due to no jsonld, calculate from s3 compare to sitemap, and pull for gleaner logs 
+
+Let's start with ones we can do easily.
+
+Reports
+* PROCESSING REPORT: sitemap count, summoned count, milled count, if approriate.
+**  general report with the basics. counts, good, bad, etc.
+*** sitemap count
+*** summoned count
+*** graph count 
+*** count of  was summoned but did not make it into the graph
+
+* PROCESSING REPORT DETAILS:
+** thought... how to handle what got lost... need to know, or perhaps files with lists of what got lost along the way
+*** SITEMAP
+**** list of bad urls
+**** list of urls for items that had no JSONLD. Grab list of metadater-Url from Datastore, compare to sitemap url list
+*** PROCESSING
+
+* GRAPHSTORE REPORTS: 
+This runs a list of sparql queries
+** What is in the overall graph, 
+** Data Loading reports by  Repo 
 
 
-class ReportRepository():
-    name = ''
-    # TimeSeriesCount( sitemap, jsonld, graphcount, datasetcount, totaltriplecount )
+Probably run the all repo report monthly, or after a large data load
+Run the repo report have a repo is reloaded.
 
-    # for each one of graphtype and keyword will be an array of timeseries.
-    dates=[] # just use one date in the array.
-    summoncount =[]
-    graphcount =[]
+FUTURE:
+Use repo reports as a qa tool.
 
-    graphtypescount = [] # of history
-    keywordscount = [] # of history
-
-    def get_last_date(self):
-        pass
-    def get_report(self,bucket, repo):
-        pass
+"""
 
 
 def compareSummoned2Milled(bucket, repo, datastore):
@@ -42,6 +60,19 @@ def compareSummoned2Graph(bucket, repo, datastore, graphendpoint):
     # compare using s3, listJsonld(bucket, repo) to queryWithSparql("repo_select_graphs", graphendpoint)
     pass
 
+
+def putProcessingReports4Repo(repo, date,  json_str, datastore: bucketDatastore, reportname='processing.json',):
+    """put reports about the processing into reports store
+    this should be items like the sitemap count, summoned counts, and 'milled' counts if apprporate"""
+    # store twice. latest and date
+    bucket_name, object_name= bucketDatastore.putReportFile(datastore.default_bucket, repo, reportname, json_str, date=date)
+    # might return a url...
+    return bucket_name, object_name
+
+##################################
+#  REPORT GENERATION USING SPARQL QUERIES
+#   this uses defined spaql queries to return counts for reports
+###################################
 reportTypes ={
     "all": [{"code":"triple_count", "name": "all_count_triples"},
             {"code":"graph_count_by_repo", "name": "all_repo_count_graphs"},

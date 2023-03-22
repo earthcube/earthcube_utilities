@@ -94,7 +94,7 @@ def runGleaner(cfg, repo,glcon="~/indexing/glcon"):
 
 ## this takes a string with the jsonld, and
 def runIdentifier( jsonld_str,glncfg="../resources/configs/geocodedemo/gleaner", glcon="~/indexing/glcon"):
-    isvalid, err = validateJSON(jsonld_str)
+    isvalid, err = _validateJSON(jsonld_str)
     if not isvalid:
          raise Exception( f"invalid json:  {err}" )
     if shutil.which(glcon) is not None:
@@ -120,7 +120,7 @@ def runIdentifier( jsonld_str,glncfg="../resources/configs/geocodedemo/gleaner",
         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
 
 ## needs to be in utils
-def validateJSON(jsonData):
+def _validateJSON(jsonData):
     try:
         json.loads(jsonData)
     except ValueError as err:

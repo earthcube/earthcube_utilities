@@ -24,7 +24,7 @@ or to pass in a graph
 """
 
 def queryWithSparql( template_name, endpoint,parameters={}):
-    query = getFileFromResources(f"{template_name}")
+    query = _getFileFromResources(f"{template_name}")
     q_template = Template(query)
     thsGraphQuery = q_template.substitute(parameters)
     q_df = sparqldataframe.query(endpoint, thsGraphQuery)
@@ -32,7 +32,7 @@ def queryWithSparql( template_name, endpoint,parameters={}):
 
 ## this will need to be done to package specifications.
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
-def getFileFromResources(filename):
+def _getFileFromResources(filename):
     resourcename = f"{filename}.sparql"
     resource = pkg_resources.read_text(sparqlfiles, resourcename)
     return resource
@@ -43,7 +43,7 @@ def getFileFromResources(filename):
     #         print(exc)
 
 def getAGraph(  g, endpoint):
-    query = getFileFromResources('get_triples_for_a_graph')
+    query = _getFileFromResources('get_triples_for_a_graph')
     q_template = Template(query)
     thsGraphQuery = q_template.substitute(g=g)
     g_df = sparqldataframe.query(endpoint, thsGraphQuery)
