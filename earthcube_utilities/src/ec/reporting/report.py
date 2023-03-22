@@ -78,6 +78,15 @@ def generateGraphReportsRepo(repo, graphendpoint):
                                  reportTypes["repo"])
     return {"version": 0, "reports": json.dumps(reports) }
 
+def generateAGraphReportsRepo(repo, code, graphendpoint):
+    #queryWithSparql("repo_count_types", graphendpoint)
+    parameters = {"repo": repo}
+    if repo== "all":
+        return  queryWithSparql(reportTypes["all"][code], graphendpoint, parameters=parameters)
+
+    else:
+        return queryWithSparql(reportTypes["repo"][code], graphendpoint, parameters=parameters)
+
 def getGraphReportsLatestRepoReports(repo,  datastore: bucketDatastore):
     """get the latest for a dashboard"""
     date="latest"
