@@ -59,14 +59,17 @@ Use repo reports as a qa tool.
 
 """
 
+def compareSitemap2Summoned(valid_sitemap_urls, bucket, repo, datastore: bucketDatastore):
+    #Grab list of metadater-Url from Datastore, ec.datastore.s3.listSummonedUrls
+    pass
 
-def compareSummoned2Milled(bucket, repo, datastore):
+def compareSummoned2Milled(bucket, repo, datastore: bucketDatastore):
     """ return list of missing urns/urls
     Generating milled will be good to catch such errors"""
     # compare using s3, listJsonld(bucket, repo) to  listMilledRdf(bucket, repo)
     pass
 
-def compareSummoned2Graph(bucket, repo, datastore, graphendpoint):
+def compareSummoned2Graph(bucket, repo, datastore: bucketDatastore, graphendpoint):
     """ return list of missing .
     we do not alway generate a milled.
     """
