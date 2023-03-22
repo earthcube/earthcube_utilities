@@ -7,6 +7,8 @@ from pydash.collections import find
 def urnFroms3Path(path):
     split = path.split()
     return split[len(split)-1]
+
+
 """
 Basic abstraction, in case someone want to store files in a 
 different method
