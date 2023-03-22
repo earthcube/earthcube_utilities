@@ -18,7 +18,7 @@ eg for items that were not summomed due to no jsonld, calculate from s3 compare 
 Let's start with ones we can do easily.
 
 Reports
-* PROCESSING REPORT: sitemap count, summoned count, milled count, if approriate.
+* PROCESSING REPORT: (processing.json) 
 **  general report with the basics. counts, good, bad, etc.
 *** sitemap count
 *** summoned count ec.datastore.s3.countJsonld
@@ -35,10 +35,10 @@ Reports
 *****  compare to sitemap url list
 *****  remove bad urls.. if it cannot be retrieved, we don't need to chase it down
 *** PROCESSING Detials and issues
-**** what made and did not make it. Parameters
+**** (summon_graph_missing.csv; summon_milled_missing.csv;) what made and did not make it. Parameters
 **** summoned ids: ec.datastore.s3.listJsonld
 # will need to do a list(map(lambda , collection) to get a list of urls.
-o_list = list(map(lambda f: urnFroms3Path(f.object_name), objs))
+o_list = list(map(lambda f: ec.datastore.s3.urnFroms3Path(f.object_name), objs))
 **** milled ids: ec.datastore.s3.listMilledRdf
 **** graph ids:  ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, parameters={"repo": repo})
 
