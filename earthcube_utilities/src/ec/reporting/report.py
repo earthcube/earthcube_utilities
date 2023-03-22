@@ -1,19 +1,22 @@
 import json
+import logging
+
+import pandas
+import pydash
 
 from ec.graph.sparql_query import queryWithSparql
 
 from ec.datastore.s3 import MinioDatastore, bucketDatastore
-## this is overly complex it can be done simply.
-## rethink later
+
 
 """
 reports
 
-simplifiying the thinking.
+simplifying the thinking.
 These go into a reports store in the datastore
 
 we can calculate in multiple ways
-eg for items that were not summomed due to no jsonld, calculate from s3 compare to sitemap, and pull for gleaner logs 
+eg for items that were not summoned due to no jsonld, calculate from s3 compare to sitemap, and pull for gleaner logs 
 
 Let's start with ones we can do easily.
 
@@ -28,12 +31,12 @@ Reports
 
 * PROCESSING REPORT DETAILS:
 ** thought... how to handle what got lost... need to know, or perhaps files with lists of what got lost along the way
-*** SITEMAP Detials and issues
+*** SITEMAP Details and issues
 **** (sitemap_badurls.csv)list of bad urls
 **** (sitemap_summon_issues.csv) list of urls for items that had no JSONLD. 
 *****  Grab list of metadater-Url from Datastore, ec.datastore.s3.listSummonedUrls
 *****  compare to sitemap url list
-*****  remove bad urls.. if it cannot be retrieved, we don't need to chase it down
+*****  remove bad urls. if it cannot be retrieved, we don't need to chase it down
 *** PROCESSING Detials and issues
 **** (summon_graph_missing.csv; summon_milled_missing.csv;) what made and did not make it. Parameters
 **** summoned ids: ec.datastore.s3.listJsonld
@@ -45,7 +48,7 @@ o_list = list(map(lambda f: ec.datastore.s3.urnFroms3Path(f.object_name), objs))
 ***** suggest compare using pydash, or use pandas...
 then look up the urls' using: ec.datastore.s3.getJsonLDMetadata
 
-* GRAPHSTORE REPORTS: 
+* GRAPHSTORE REPORTS: sparql.json
 This runs a list of sparql queries
 ** What is in the overall graph, 
 ** Data Loading reports by  Repo 
@@ -55,7 +58,7 @@ Probably run the all repo report monthly, or after a large data load
 Run the repo report have a repo is reloaded.
 
 FUTURE:
-Use repo reports as a qa tool.
+Use repo reports as data for a tool that can evaluate the failures
 
 """
 
@@ -89,50 +92,64 @@ def putProcessingReports4Repo(repo, date,  json_str, datastore: bucketDatastore,
 #  REPORT GENERATION USING SPARQL QUERIES
 #   this uses defined spaql queries to return counts for reports
 ###################################
-reportTypes ={
-    "all": [{"code":"triple_count", "name": "all_count_triples"},
-            {"code":"graph_count_by_repo", "name": "all_repo_count_graphs"},
-{"code":"kw_count", "name": "all_count_keywords"},
-{"code":"kw_count_by_repo", "name": "all_repo_count_keywords"},
-{"code":"dataset_count", "name": "all_count_datasets"},
-            {"code":"dataset_count_by_repo", "name": "all_repo_count_keywords"},
-{"code":"types_count", "name": "all_count_types."},
-            {"code":"variablename_count", "name": "all_count_variablename"},
+reportTypes = {
+    "all": [
+        {"code": "triple_count", "name": "all_count_triples"},
+            {"code": "graph_count_by_repo", "name": "all_repo_count_graphs"},
+            {"code": "kw_count", "name": "all_count_keywords"},
+            {"code": "kw_count_by_repo", "name": "all_repo_count_keywords"},
+            {"code": "dataset_count", "name": "all_count_datasets"},
+            {"code": "dataset_count_by_repo", "name": "all_repo_count_keywords"},
+            {"code": "types_count", "name": "all_count_types"},
+            {"code": "variablename_count", "name": "all_count_variablename"},
             {"code": "mutilple_version_count", "name": "all_count_multiple_versioned_datasets"}
-            ],
-    "repo":[
-        {"code":"kw_count", "name": "repo_count_keywords"},
-{"code":"dataset_count", "name": "repo_count_datasets"},
-{"code":"triples_count_by_graph", "name": "repo_count_graph_triples"},
-{"code":"triples_count", "name": "repo_count_triples"},
-{"code":"types_count", "name": "repo_count_types"},
-{"code":"version_count", "name": "repo_count_multi_versioned_datasets"},
-{"code":"variablename_count", "name": "repo_count_variablename"},
+     ],
+    "repo": [
+        {"code": "kw_count", "name": "repo_count_keywords"},
+        {"code": "dataset_count", "name": "repo_count_datasets"},
+        {"code": "triple_count_by_graph", "name": "repo_count_graph_triples"},
+        {"code": "triple_count", "name": "repo_count_triples"},
+        {"code": "type_count", "name": "repo_count_types"},
+        {"code": "version_count", "name": "repo_count_multi_versioned_datasets"},
+        {"code": "variablename_count", "name": "repo_count_variablename"},
     ]
 }
+
+def _get_report_type(repo, code):
+    if repo == "all":
+        report = pydash.find(reportTypes["all"], lambda r: r["code"] == code)
+    else:
+        report =pydash.find(reportTypes["repo"], lambda r:  r["code"] == code)
+    return report["name"]
+
 ##  for the 'object reports, we should have a set.these could probably be make a set of methos with (ObjectType[triples,keywords, types, authors, etc], repo, endpoint/datastore)
-def generateGraphReportsRepo(repo, graphendpoint):
+def generateGraphReportsRepo(repo, graphendpoint, reportTypes=reportTypes):
     #queryWithSparql("repo_count_types", graphendpoint)
     parameters = {"repo": repo}
     if repo== "all":
-        reports = map (lambda r:   {"report": r.code,
-                                 "data": queryWithSparql(r.name, graphendpoint, parameters=parameters)
+        reports = map (lambda r:   {"report": r["code"],
+                                 "data": generateAGraphReportsRepo("all", r["code"],graphendpoint).to_dict('records')
                                  }    ,reportTypes["all"])
     else:
-        reports = map(lambda r: {"report": r.code,
-                                 "data": queryWithSparql(r.name, graphendpoint, parameters=parameters)
+        reports = map(lambda r: {"report": r["code"],
+                                 "data": generateAGraphReportsRepo("repo", r["code"], graphendpoint).to_dict('records')
                                  },
                                  reportTypes["repo"])
-    return {"version": 0, "reports": json.dumps(reports) }
+    reports = list(reports)
+    return json.dumps({"version": 0, "reports": reports })
 
 def generateAGraphReportsRepo(repo, code, graphendpoint):
     #queryWithSparql("repo_count_types", graphendpoint)
     parameters = {"repo": repo}
-    if repo== "all":
-        return  queryWithSparql(reportTypes["all"][code], graphendpoint, parameters=parameters)
+    try:
+        if repo== "all":
+            return  queryWithSparql(_get_report_type("all", code), graphendpoint, parameters=parameters)
 
-    else:
-        return queryWithSparql(reportTypes["repo"][code], graphendpoint, parameters=parameters)
+        else:
+            return queryWithSparql(_get_report_type("repo", code), graphendpoint, parameters=parameters)
+    except Exception as ex:
+        logging.error(f"query with sparql failed: report:{code}  repo:{repo}   {ex}")
+        return pandas.DataFrame()
 
 def getGraphReportsLatestRepoReports(repo,  datastore: bucketDatastore):
     """get the latest for a dashboard"""
@@ -145,10 +162,11 @@ def listGraphReportDates4Repo(repo,  datastore: bucketDatastore):
     path = f"{datastore.paths['reports']}/{repo}/"
     filelist = datastore.listPath(path)
     return filelist
-def putGraphReports4RepoReport(repo, date,  json_str, datastore: bucketDatastore, reportname='sparql.json',):
+
+def putGraphReports4RepoReport(repo, json_str, datastore: bucketDatastore, date='latest', reportname='sparql.json'):
     """put the latest for a dashboard. report.GetLastDate to store"""
     # store twice. latest and date
-    bucket_name, object_name= bucketDatastore.putReportFile(datastore.default_bucket, repo, reportname, json_str, date=date)
+    bucket_name, object_name= datastore.putReportFile(datastore.default_bucket, repo, reportname, json_str, date=date)
     # might return a url...
     return bucket_name, object_name
 
