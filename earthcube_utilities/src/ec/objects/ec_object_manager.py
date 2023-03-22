@@ -22,7 +22,7 @@ class ec_object_manager():
     # form = somthing easy to add to a pandas dataframe?
     def getFromStore(self, urn, source='graph', form='rdflib'):
 
-        if  source is 'datastore':
+        if  source == 'datastore':
             logging.debug('datastore')
             self.json_obj = self._getFromDatastore(urn)
         else:
@@ -30,7 +30,7 @@ class ec_object_manager():
             self.graph_obj = self._getFromGraphstore(urn)
 #####
 
-        if  form is  'jsonld':
+        if  form ==  'jsonld':
             logging.debug('jsonld')
             if self.json_obj is not None:
                 return self.json_obj
@@ -44,7 +44,7 @@ class ec_object_manager():
                 g.parse(data=rdf_str)
                 return g
 
-        elif source is 'rdflib':
+        elif source == 'rdflib':
             logging.debug('rdflib')
             if self.graph_obj is not None:
                 return self.graph_obj
