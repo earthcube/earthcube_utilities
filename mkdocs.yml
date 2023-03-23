@@ -2,6 +2,21 @@
 site_name: Earthcube Utilities
 theme:
   name: "material"
+  features:
+#    - content.code.copy
+    - navigation.sections
+markdown_extensions:
+  - toc:
+      permalink: 
+  - attr_list
+  - def_list
+  - tables
+  - pymdownx.highlight:
+      use_pygments: false
+  - admonition
+  - pymdownx.snippets
+  - pymdownx.details
+  - pymdownx.superfences
 
 plugins:
 - search
@@ -9,6 +24,13 @@ plugins:
     handlers:
       python:
         paths: [earthcube_utilities/src, summarize/src ]
+- mermaid2
+- literate-nav
+#https://pypi.org/project/mkdocs-jupyter/
+- mkdocs-jupyter
+- callouts
+
+
 nav:
     - Summarize: summarize/
     - Notebook Proxy: notebook_proxy/README.md
