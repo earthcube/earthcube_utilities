@@ -25,7 +25,7 @@ plugins:
       python:
         paths: [earthcube_utilities/src, summarize/src ]
 - mermaid2
-- literate-nav
+#- literate-nav
 #https://pypi.org/project/mkdocs-jupyter/
 - mkdocs-jupyter
 - callouts
