@@ -65,4 +65,4 @@ jobs:
     # just utilities for now.
       - run:  cd earthcube_utilities &&  mkdocs gh-deploy --force --clean --verbose --site-dir ec_utils
       - run:  cd summarize &&  mkdocs gh-deploy --verbose --site-dir summarize
-      - run:  cd notebook_proxy &&  mkdocs gh-deploy  --verbose --site-dir notebook_proxy
+ #     - run:  cd notebook_proxy &&  mkdocs gh-deploy  --verbose --site-dir notebook_proxy
