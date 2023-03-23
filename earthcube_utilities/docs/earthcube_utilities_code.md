@@ -3,7 +3,7 @@
 !!! note
 this does not work with multirepo plug, so will need ot be linked 
 
-::: ec.graph.manageGraph
+
 ::: ec.graph.sparql_query
 ::: ec.datastore.s3
 ::: ec.sos_json.rdf
@@ -11,3 +11,4 @@ this does not work with multirepo plug, so will need ot be linked
 ::: ec.gleanerio.gleaner
 ::: ec.collection.rocrate_collection
 ::: ec.generate_repo_stats
+::: ec.graph.manageGraph

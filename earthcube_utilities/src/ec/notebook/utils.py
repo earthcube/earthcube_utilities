@@ -1,6 +1,7 @@
 import sys
 import json
 def inCollab():
+    """ Is this notebook being run in Goolge Collab"""
     return  'google.colab' in sys.modules
 
 def get_txtfile(fn):

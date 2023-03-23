@@ -14,5 +14,5 @@ nav:
     - Notebook Proxy: notebook_proxy/README.md
     - Earthcube Utilities: earthcube_utilities/index.md
     - Code Reference:
-        - Earthcube Utilites: earthcube_utilities/earthcube_utilities.md
-        - Summarize: summarize/summarize.md
+        - Earthcube Utilites: earthcube_utilities/earthcube_utilities_code.md
+        - Summarize: summarize/summarize_code.md

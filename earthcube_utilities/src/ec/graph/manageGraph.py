@@ -8,19 +8,25 @@ Goal of manage graph is to allow for the creation deletion of namespaces, and th
 This is not a class to handle querying.
 """
 class ManageGraph: #really a manage graph namespace, bc a graph has several of them, &this represents only one
+    """ Abstract class for managing a Graph Store
+     instance for a single namespace
+    """
     baseurl = "http://localhost:3030" # basically fuskei
     namespace = "temp_summary"
     path = "namespace"
     sparql = "/sparql" # blazegraph uses sparql after namespace, but let's not assume this
 
     def __init__(self, graphurl, namespace):
+        """initialize a class for a namespace"""
         self.baseurl = graphurl
         self.namespace = namespace
 
     def createNamespace(self, quads=True):
+        """ create a new namespace"""
         pass
 
     def deleteNamespace(self):
+        """delete a namespace"""
         pass
 
 """

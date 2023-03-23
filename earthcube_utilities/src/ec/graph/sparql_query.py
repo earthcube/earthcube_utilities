@@ -24,6 +24,13 @@ or to pass in a graph
 """
 
 def queryWithSparql( template_name, endpoint,parameters={}):
+    """ Query a SPARQL endpoint, and return a Pandas Dataframe
+
+    Parameters:
+       template_name: name of templates in the ec.graph.sparql_files directory
+       endpoint: SPARQL endpoint url
+       parameters: object with the names to fill in template eg {"repo": "reponame"}
+    """
     query = _getFileFromResources(f"{template_name}")
     q_template = Template(query)
     thsGraphQuery = q_template.substitute(parameters)
@@ -33,6 +40,7 @@ def queryWithSparql( template_name, endpoint,parameters={}):
 ## this will need to be done to package specifications.
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
 def _getFileFromResources(filename):
+    """ retrieves sparql file from the sparql_files folder when in a package"""
     resourcename = f"{filename}.sparql"
     resource = pkg_resources.read_text(sparqlfiles, resourcename)
     return resource
@@ -43,6 +51,7 @@ def _getFileFromResources(filename):
     #         print(exc)
 
 def getAGraph(  g, endpoint):
+    """Query a SPARQL endpoint and return a Pandas Dataframe for a geocodes object"""
     query = _getFileFromResources('get_triples_for_a_graph')
     q_template = Template(query)
     thsGraphQuery = q_template.substitute(g=g)

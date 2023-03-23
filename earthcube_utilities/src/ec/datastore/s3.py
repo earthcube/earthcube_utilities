@@ -117,8 +117,14 @@ Basic abstraction, in case someone want to store files in a
 different method
 """
 class MinioDatastore(bucketDatastore):
-
+    """ Instance of a minio datastore with utility methods to retreive information"""
     def __init__(self, s3endpoint, options,default_bucket="gleaner"):
+        """ Initilize with
+        Parameters:
+            s3endpoint: endpoint. If this is aws, include the region. eg s3.us-west-2.amazon....
+            options: creditials, other parameters to pass to client
+            default_bucket: 'gleaner'
+            """
         self.endpoint = s3endpoint
         self.options = options
         self.default_bucket= default_bucket
@@ -126,6 +132,7 @@ class MinioDatastore(bucketDatastore):
 
 
     def listPath(self, bucket, path, include_user_meta=False):
+        """ returns the filelist for a path with the starting path removed from the list"""
         resp = self.s3client.list_objects(bucket, path, include_user_meta=include_user_meta)
         # the returned list includes the path
         #o_list = list(resp)
@@ -133,10 +140,20 @@ class MinioDatastore(bucketDatastore):
         return o_list
 
     def getFileFromStore(self, s3ObjectInfo):
+        """ get an s3 file from teh store
+        Parameters:
+          s3ObjectInfo: {"bucket_name":obj.bucket_name, "object_name":obj.object_name }
+
+        """
         resp = self.s3client.get_object(s3ObjectInfo["bucket_name"], s3ObjectInfo["object_name"])
         return resp.data
 
     def getFileMetadataFromStore(self, s3ObjectInfo):
+        """ get metadata s3 file from teh store
+               Parameters:
+                 s3ObjectInfo: {"bucket_name":obj.bucket_name, "object_name":obj.object_name }
+
+               """
         s3obj = self.s3client.stat_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
         for o in s3obj:
             user_meta = pydash.collections.filter_(o,lambda m: m.startswith("X-Amz-Meta") )
