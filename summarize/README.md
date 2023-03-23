@@ -8,15 +8,46 @@ In order to work around this, we create a materilized view view. Materialization
 which basically brings all values into a single object so that retreival of what would be normalized
 information is flattened.  The JSONLD strings/objects/arrays single object to improve search and retrieval performance. 
 
-**Summarize tool** creates this 'materilized view' of a repositories JSONLD as triple to improve
+**Summarize tools** create a 'materialized" view of a repositories JSONLD as triple to improve
 performance a searches for geocodes. 
 
-To do this, it reads the quads that nabu generates as part of it's workflow, then 
+To do this, it reads the named graphs (aka quads) that nabu generates as part of its workflow, then 
 converts them into flattend triples in  'summary' graph namespace.
-A more detailed overview workflow is in [Summarize v2](./v2_proposal.md)
 
-More details are in the [documentation diretory](docs/), 
-or at the [geocodes documentation site](https://earthcube.github.io/geocodes_documentation/)
+```mermaid
+sequenceDiagram
+    participant nabu_config
+    participant summarize_repo.py
+    participant manageGraph
+    participant nabu
+    participant summarize_materializedview.py
+    participant repo.ttl
+    participant graphstore
+
+    
+    summarize_repo.py->>nabu_config: reads sparql from nabu
+    summarize_repo.py->>manageGraph: call to create managegraph instance for repo_temp 
+    summarize_repo.py->>manageGraph: call to create namespace for repo_temp 
+    manageGraph->>graphstore: creates namespace  for repo_temp
+
+    summarize_repo.py->>manageGraph: call to create managegraph instance for repo_summary 
+    summarize_repo.py->>manageGraph: call to create namespace for repo_summary
+            
+    manageGraph->>graphstore: creates namespace  for repo_summary, if it does not exist
+    summarize_repo.py->>summarize_repo.py: create nabu config to load to temp  
+    summarize_repo.py->>nabu:  execute nabu with modified config file
+    nabu->>nabu:  reads configuration, files from s3, converts to quads 
+    nabu->>graphstore:  writes quads to repo_temp namespace
+    summarize_repo.py->>summarize_materializedview.py: call maternilize summary
+    graphstore->>summarize_materializedview.py: query temp namespace in graph store
+    summarize_materializedview.py->>summarize_materializedview.py: create summary triples
+    summarize_materializedview.py->>repo.ttl: write out summary triples to file
+    summarize_repo.py->>manageGraph: call insert repo.ttl to repo_summary namespace
+    summarize_repo.py->>manageGraph: pass  ttl string as byte[] for uploading to blazegraph
+    manageGraph->>graphstore: insert ttl to repo_summary namespace
+    summarize_repo.py->>manageGraph: delete repo_temp namespace
+    
+```
 
 ## Dependencies
 * Geocodes Stack
@@ -33,9 +64,13 @@ or at the [geocodes documentation site](https://earthcube.github.io/geocodes_doc
     * `pip3 install requirements.txt`
 * Run steps below
 
-## Two Approaches
-* Summarize existing graph stores. AKA: data is loaded into a graph
-* summarize as part of workflow, aka build summary when repo is loaded
+##  Approaches
+* Summarize existing graph stores. AKA: data is loaded into a graph. The can and should be subsetted using  a repository name.
+* Summarize as part of workflow, aka build summary when repo is loaded. 
+  This is useful for onboarding a new repository
+   it loaded from s3 to a grpah using `glcon nabu` into a temporary repository, 
+  queries, then pushes results to a summary namespace
+* Build summary for a 'release' graph (coded, but untested/undocumented)
 
 ### Summarize an existing graph stores. 
 This can  summarize an entire graph store, or just process a msubset, eg, a recently update repo.
@@ -94,7 +129,7 @@ optional arguments:
 
 ```
 
-#### run summarize_frepo
+#### run summarize_repo
 ```shell
 ./src/summarize_repo.py {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
 

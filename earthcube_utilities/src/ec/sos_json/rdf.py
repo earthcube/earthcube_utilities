@@ -74,7 +74,12 @@ def get_rdfgraph(urn, endpoint ): #get graph
     return g
 
 def graph2jsonld(g, form="jsonld", schemaType="Dataset"):
-    "get jsonld from endpoint"
+    """get jsonld from endpoint
+
+    Parameters:
+        g: ?g from sparql query. URN of the graph eg. urn:gleaner.io:earthcube:geocodes_demo_datasets:257108e0760f96ef7a480e1d357bcf8720cd11e4
+        form: jsonld  future. other forms
+    """
     # auto_compact=False might change
     jld_str = g.serialize(format="json-ld")
 

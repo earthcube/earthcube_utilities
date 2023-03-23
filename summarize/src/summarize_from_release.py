@@ -46,6 +46,18 @@ def runNabu(cfg, repo,glcon="~/indexing/glcon"):
         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
 
 def summarizeReleaseOnly(args):
+    """ Summarize a from a gleaner 'release' set of n-quads file
+
+    Description:
+        * read nabu config,
+
+        * uploading to a graph namespace
+
+        * building summarize triples
+
+        * loading to a summarize namespace
+
+    """
     repo = args.repo
     if args.summary_namespace:
         summary = args.summary_namespace
@@ -121,7 +133,11 @@ def summarizeReleaseOnly(args):
 
 
 if __name__ == '__main__':
+    """ Summarize a from a gleaner 'release' set of n-quads file
 
+    Description:
+       untested
+    """
     # these need to be better
     # url
     # OR

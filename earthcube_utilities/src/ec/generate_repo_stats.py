@@ -12,6 +12,7 @@ logging.basicConfig(format='%(levelname)s : %(message)s', level=os.environ.get("
 log = logging.getLogger()
 
 def basicCounts(args):
+    """query an endpoint, store results as a json file in an s3 store"""
     log.info(f"Querying {args.graphendpoint} for dataset counts  ")
     counts = queryWithSparql( "all_repo_count_datasets",  args.graphendpoint)
 
