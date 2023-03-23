@@ -66,9 +66,9 @@ jobs:
 
 
 # COPY DOCS
-      - run: cp -r summarize/docs  docs/summarize
+      - run: cd summarize/docs; cp -r .  ../docs/summarize/
       -  run: cp -r summarize/README.md  docs/summarize/index.md
-      - run: cp -r earthcube_utilities/docs  docs/earthcube_utilities
+      - run: cd searthcube_utilities/docs; cp -r .  docs/earthcube_utilities/
       -  run: cp -r earthcube_utilities/README.md  docs/earthcube_utilities/README.md
       -  run: cp -r notebook_proxy/README.md  docs/notebook_proxy/README.md
  # BUILD DOCS
