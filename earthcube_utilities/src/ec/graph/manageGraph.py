@@ -3,6 +3,10 @@ import logging as log  #have some dgb prints, that will go to logs soon/but I fi
 log.basicConfig(filename='mgraph.log', encoding='utf-8', level=log.DEBUG,
                 format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
+"""
+Goal of manage graph is to allow for the creation deletion of namespaces, and the insertion of data
+This is not a class to handle querying.
+"""
 class ManageGraph: #really a manage graph namespace, bc a graph has several of them, &this represents only one
     baseurl = "http://localhost:3030" # basically fuskei
     namespace = "temp_summary"
@@ -19,7 +23,14 @@ class ManageGraph: #really a manage graph namespace, bc a graph has several of t
     def deleteNamespace(self):
         pass
 
+"""
+Goal of manage graph is to allow for the creation deletion of namespaces, and the insertion of data
+for a BLAZEGRAPH INSTANCE
+This is not a class to handle querying.
+"""
 class ManageBlazegraph(ManageGraph):
+    """ Manages a blazegraph instance for a single namespace
+    implements needed portions of the blazegraph rest API"""
 
     createTemplateQuad ="""com.bigdata.namespace.fffff.spo.com.bigdata.btree.BTree.branchingFactor=1024
 com.bigdata.rdf.store.AbstractTripleStore.textIndex=true
@@ -50,6 +61,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
     #init w/namespace
 
     def createNamespace(self, quads=True):
+        """ Creates a new namespace"""
         # POST / bigdata / namespace
         # ...
         # Content - Type
@@ -74,6 +86,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
 
 
     def deleteNamespace(self):
+        """ deletes a blazegraph namespace"""
         # DELETE /bigdata/namespace/NAMESPACE
         url = f"{self.baseurl}/namespace/{self.namespace}"
         headers = {"Content-Type": "text/plain"}
@@ -85,6 +98,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
 
 
     def insert(self, data, content_type="text/x-nquads"):
+        """inserts data into a blazegraph namespace"""
         # rdf datatypes: https://github.com/blazegraph/database/wiki/REST_API#rdf-data
         # insert: https://github.com/blazegraph/database/wiki/REST_API#insert
        #url = f"{self.baseurl}/namespace/{self.namespace}{self.sparql}"

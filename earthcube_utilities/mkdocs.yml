@@ -1,0 +1,15 @@
+# mkdocs.yml
+site_name: Earthcube Utilities
+theme:
+  name: "material"
+
+plugins:
+- search
+- mkdocstrings:
+    handlers:
+      python:
+#        paths: [earthcube_utilities/src, summarize/src ]
+        paths: [src ]
+nav:
+    - Earthcube Utilities: index.md
+    - Code Reference: earthcube_utilities.md

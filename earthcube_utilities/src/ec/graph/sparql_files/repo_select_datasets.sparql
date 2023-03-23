@@ -1,0 +1,6 @@
+SELECT ?g
+WHERE     {
+GRAPH ?g {?s a <https://schema.org/Dataset>}
+ #FILTER( CONTAINS(str(?g), "${repo}") )
+ FILTER( STRSTARTS(str(?g), "urn:gleaner:summoned:${repo}"))
+}

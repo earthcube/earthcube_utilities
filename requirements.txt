@@ -1,9 +1,2 @@
-rdflib
-networkx
-matplotlib
-pandas
-requests
-gistyc
-papermill
-flask
-flask_ipban
+mkdocstrings-python
+mkdocs-material

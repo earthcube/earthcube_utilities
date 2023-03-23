@@ -1,11 +1,5 @@
-# could this just be ecutilities
-# it started as ecutilities, but got too many link warnings
-#rdflib-jsonld
-#xmltodict
-#networkx
-#extruct
-requests
-rdflib
-simplejson
-sparqldataframe
-s3fs
+pandas==1.5.3
+PyYAML==6.0
+requests==2.28.2
+sparqldataframe==0.1.0
+rdfpandas

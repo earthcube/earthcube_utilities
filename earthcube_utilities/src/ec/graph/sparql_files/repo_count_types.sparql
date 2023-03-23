@@ -1,0 +1,13 @@
+prefix schema: <https://schema.org/>
+SELECT  ?type  (count(distinct ?s ) as ?scount)
+WHERE {
+GRAPH ?g  {
+
+       ?s a ?type .
+
+       }
+       FILTER( STRSTARTS(str(?g), "urn:gleaner:summoned:${repo}"))
+}
+
+GROUP By ?type
+ORDER By DESC(?scount)

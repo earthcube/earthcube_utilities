@@ -8,10 +8,13 @@ In production, a container is utilized. This is created by a github workflow, (c
 
 ## Calling the Notebook Proxy
 
+### Index
  http://localhost:3031/ should return the index.html
 
+### is it alive
  http://localhost:3031/alive/ will let you know it's working.
 
+### generate a notebook
 http://localhost:3031/mknb/
 This proxy creates a notebook in Google Collab from a template. The parameters extracted from the Scicence on Schema JSON-LD files, and sent to the proxy
 /mknb
@@ -32,8 +35,43 @@ becomes:
 
 `ext=http://linked.earth/ontology/core/1.2.0/index-en.html<hash>Dataset`
 
+### generate jsonld from  a graphstore
+A call like http://localhost:3031/get_graph/urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146/json
+
+several forms can be returned
+
+http://localhost:3031/get_graph/{URN}/jsonld
+
+http://localhost:3031/get_graph/{URN}/framed
+
+http://localhost:3031/get_graph/{URN}/compact
+
+http://localhost:3031/get_graph/{URN}/csv
+
+http://localhost:3031/get_graph/{URN}/tsv
+
+
+
+
 
 ## Development:
+
+### install ec utiltites in development mode
+```python
+python -m pip install -e ec ../earthcube_utilities
+
+```
+
+```python
+python -m pip install -e bar @ git+https://github.com/earthcube/earthcube_utilities.git
+```
+
+```python
+python -m pip install -e ec /path/to/earthcube_utilities
+
+```
+
+### start
 In order to use oauth, you need to setup a github app, and set the following environment variables
 
 GITHUB_OAUTHSECRET = GITHUB APP Secret

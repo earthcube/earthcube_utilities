@@ -1,15 +1,50 @@
-# earthcube_utilities
- For minipulating (meta)data in NoteBook/s from [GeoCODES](https://www.earthcube.org/geocodes) [search](https://geocodes.earthcube.org/)
+# Earthcube Utilities
 
-[From](https://mbcode.github.io/ec/): https://github.com/MBcode/ec &/or [gitlab](https://gitlab.com/MBcode/ec); which includes versions of the server-side code
-Incl: the crawl & assert of data-repository metadata for search &for the NoteBooks:
+The planned functionality will be found in the docs folder,
+[Earthcube Utilities Functionality](./docs/earthcube_utilties_functionality.md)
 
-[Future documentation](./docs/index.md)
 
-### Earthcube Utilties:
+## Proposed use
+### Earthcube Utilities:
 https://test.pypi.org/project/earthcube-utilities/
 (presently test.pypi)
 
-python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube-utilities
+### manual install
+`python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube-utilities`
 
-The notebooks (presenly on master_dataformats) contain example usage.
+### requirements.txt
+add to your requirements.txt
+```python
+--extra-index-url https://test.pypi.org/simple/
+earthcube-utilities
+```
+
+## developers
+
+### scripts
+In theory, if pip installed, theree is one script at present,
+`generate_repo_stats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
+
+from [console scripts](https://setuptools.pypa.io/en/latest/userguide/entry_point.html#console-scripts)
+
+### local development mode
+```shell
+cd earthcube_utiltiies
+python -m pip install -e .
+```
+
+## building a test package
+
+### test packaging
+to see if a package builds
+`python3 -m pip install build`
+
+in _build/lib_ you can see what files are included in package
+
+### build a wheel
+to see what is added to a package, 
+
+`python -m build --wheel`
+
+_dist_ directory will contain the package. this is actually a zip file so unzip to see 
+what got included
