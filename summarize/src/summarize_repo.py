@@ -45,10 +45,16 @@ def runNabu(cfg, repo,glcon="~/indexing/glcon"):
 
 def summarizeRepo(args):
     """ Summarize a repository using a temporary graph namespace
-    * read nabu config,
-    * uploading to a graph namespace
-    * building summarize triples
-    * loading to a summarize namespace
+
+    Description:
+        * read nabu config,
+
+        * uploading to a graph namespace
+
+        * building summarize triples
+
+        * loading to a summarize namespace
+
     """
     repo = args.repo
     if args.summary_namespace:
