@@ -70,7 +70,7 @@ jobs:
       -  run: cp -r summarize/README.md  docs/summarize/index.md
       - run: cp -r earthcube_utilities/docs  docs/earthcube_utilities
       -  run: cp -r earthcube_utilities/README.md  docs/earthcube_utilities/README.md
-      -  run: cp -r notebook_proxy/README.md  notebook_proxy/README.md
+      -  run: cp -r notebook_proxy/README.md  docs/notebook_proxy/README.md
  # BUILD DOCS
       - run:  mkdocs gh-deploy  --dirty --verbose
 
