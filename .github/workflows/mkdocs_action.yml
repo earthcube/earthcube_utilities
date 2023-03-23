@@ -63,7 +63,18 @@ jobs:
       # so that mkdocs can utilize the information
       # or see if https://github.com/mondeja/mkdocs-include-markdown-plugin works the mkdocs-multirepo-plugin
 ### ######################
-    # just utilities for now.
-      - run:  cd earthcube_utilities &&  mkdocs gh-deploy --force --clean --verbose --site-dir ec_utils -d ec_utils
-      - run:  cd summarize &&  mkdocs gh-deploy  --dirty --verbose --site-dir summarize -d summarize
+
+
+# COPY DOCS
+      - run: cp -r summarize/docs  docs/summarize
+      -  run: cp -r summarize/README.md  docs/summarize/index.md
+      - run: cp -r earthcube_utilities/docs  docs/earthcube_utilities
+      -  run: cp -r earthcube_utilities/README.md  docs/earthcube_utilities/README.md
+      -  run: cp -r notebook_proxy/README.md  notebook_proxy/README.md
+ # BUILD DOCS
+      - run:  mkdocs gh-deploy  --dirty --verbose
+
+        # old one
+#      - run:  cd earthcube_utilities &&  mkdocs gh-deploy --force --clean --verbose
+ #     - run:  cd summarize &&  mkdocs gh-deploy  --dirty --verbose
  #     - run:  cd notebook_proxy &&  mkdocs gh-deploy  --verbose --site-dir notebook_proxy

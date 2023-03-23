@@ -10,9 +10,9 @@ plugins:
       python:
         paths: [earthcube_utilities/src, summarize/src ]
 nav:
-    - Summarize: ./summarize/README.md
-    - Notebook Proxy: ./notebook_proxy/README.md
-    - Earthcube Utilities: ./earthcube_utilities/docs/index.md
+    - Summarize: summarize/
+    - Notebook Proxy: notebook_proxy/README.md
+    - Earthcube Utilities: earthcube_utilities/index.md
     - Code Reference:
-        - Earthcube Utilites: earthcube_utilities.md
-        - Summarize: summarize.md
+        - Earthcube Utilites: earthcube_utilities/earthcube_utilities.md
+        - Summarize: summarize/summarize.md
