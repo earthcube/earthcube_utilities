@@ -1,25 +1,18 @@
 # Earthcube Utilities
 
-The planned functionality will be found in the docs folder,
-[Earthcube Utilities Functionality](./docs/earthcube_utilties_functionality.md)
 
 
 ## Proposed use
 ### Earthcube Utilities:
-https://test.pypi.org/project/earthcube-utilities/
-(presently test.pypi)
+https://pypi.org/project/earthcube-utilities/
 
-### manual install
-`python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube-utilities`
 
-### requirements.txt
-add to your requirements.txt
-```python
---extra-index-url https://test.pypi.org/simple/
-earthcube-utilities
-```
+### Manual Install
+`python3 -m pip install  earthcube-utilities`
 
-## developers
+
+
+## Developers
 
 ### scripts
 In theory, if pip installed, theree is one script at present,
@@ -36,7 +29,7 @@ python -m pip install -e .
 ## building a test package
 
 ### test packaging
-to see if a package builds
+Locally,  see if a package builds
 `python3 -m pip install build`
 
 in _build/lib_ you can see what files are included in package
@@ -46,5 +39,9 @@ to see what is added to a package,
 
 `python -m build --wheel`
 
-_dist_ directory will contain the package. this is actually a zip file so unzip to see 
+_dist_ directory will contain the package. This is actually a zip file so unzip to see 
 what got included
+
+## Planning:
+The planned functionality will be found in the docs folder,
+[Earthcube Utilities Functionality](./docs/earthcube_utilties_functionality.md)
