@@ -20,7 +20,11 @@ class ManageGraph: #really a manage graph namespace, bc a graph has several of t
         """initialize a class for a namespace"""
         self.baseurl = graphurl
         self.namespace = namespace
-
+    def graphFromEndpoint(endpoint):
+        paths = endpoint.split('/')
+        paths = paths[0:len(paths) -3]
+        newurl = '/'.join(paths)
+        return newurl
     def createNamespace(self, quads=True):
         """ create a new namespace"""
         pass
