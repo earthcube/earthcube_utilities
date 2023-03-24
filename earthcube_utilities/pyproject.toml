@@ -1,7 +1,7 @@
 [project]
 name = "earthcube_utilities"
 version = "0.1.9"
-
+dynamic = ["dependencies"]
 description = "A package of utilities for NSF Earthcube Geocodes Project"
 readme =  "README.md"
 
@@ -31,7 +31,7 @@ classifiers = [
 "Source" = "https://github.com/earthcube/earthcube_utilities"
 
 [project.scripts]
-hello-world = "ec:generate_repo_stats"
+generate_repo_stats = "ec:generate_repo_stats"
 
 [tool.setuptools]
 # If there are data files included in your packages that need to be
@@ -41,7 +41,8 @@ where = ["src"]
 [tool.setuptools.package-data]
 "*" = ["*.txt", "*.sparql"]
 #package-data = { "ec"=["graph/resources/sparql/*.sparql"]}
-
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
 [build-system]
 requires = [
     "setuptools>=42",
