@@ -35,9 +35,9 @@ classifiers = [
 "Source" = "https://github.com/earthcube/earthcube_utilities"
 
 [project.scripts]
-summarize_from_repo = "summarize_repo:summarizeRepo"
-summarize_from_graph = "summarize_from_graph_namespace:summarizeGraphOnly"
-summarize_from_release = "summarize_from_release:summarizeReleaseOnly"
+summarize_from_repo = "ec_summarize.summarize_repo:summarizeRepo"
+summarize_from_graph = "ec_summarize.summarize_from_graph_namespace:summarizeGraphOnly"
+summarize_from_release = "ec_summarize.summarize_from_release:summarizeReleaseOnly"
 
 [tool.setuptools]
 # If there are data files included in your packages that need to be

@@ -23,7 +23,27 @@ from [console scripts](https://setuptools.pypa.io/en/latest/userguide/entry_poin
 ### local development mode
 ```shell
 cd earthcube_utiltiies
-python -m pip install -e .
+pip3 install -e .
+```
+## Developement
+
+create a virutal env and activate
+
+`source {envname}/bin/activate`
+
+
+use editable install
+
+```shell
+cd earthcube_utiltiies
+pip3 install -e .
+```
+
+If you edit the pyproject.toml and want to test an added script, 
+```shell
+cd summarize
+pip3 uninstall -e earthcube_utiltiies
+pip3 install -e .
 ```
 
 ## building a test package

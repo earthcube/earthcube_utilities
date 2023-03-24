@@ -175,3 +175,25 @@ option 2:
 summarize_from_repo {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
 
 ```
+
+
+## Developement
+
+create a virutal env
+
+`source {envname}/bin/activate`
+
+
+use editable install
+
+```shell
+cd summarize
+pip3 install -e .
+```
+
+If you edit the pyproject.toml and want to test an added script, 
+```shell
+cd summarize
+pip3 uninstall -e earthcube-summarize
+pip3 install -e .
+```
