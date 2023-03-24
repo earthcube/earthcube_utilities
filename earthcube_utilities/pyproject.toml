@@ -33,7 +33,7 @@ classifiers = [
 # if the name of the module is the same as the name of the script, then you get
 #    'module' object is not callable
 [project.scripts]
-generaterepostats = "ec:generate_repo_stats:start"
+generaterepostats = "ec.generate_repo_stats:start"
 
 [tool.setuptools]
 # If there are data files included in your packages that need to be
