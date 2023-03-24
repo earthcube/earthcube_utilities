@@ -7,37 +7,46 @@ import sparqldataframe
 from rdflib import URIRef, BNode, Literal, Graph,Namespace, RDF
 import json
 
+from  ec.graph.sparql_query import queryWithSparql
+
 context = "@prefix : <https://schema.org/> ."
 
 ### BLAZEGRAPH
 '''original fetch all from temporary namespace'''
 def get_summary4repo(endpoint):
-    file = '../resources/sparql/summary_query.txt'
-    with open(file, 'r') as f:
-        lines = f.read()
-    df = sparqldataframe.query(endpoint,lines)
+    df = queryWithSparql("all_summary_query", endpoint)
     return df
+    # file = '../resources/sparql/summary_query.txt'
+    # with open(file, 'r') as f:
+    #     lines = f.read()
+    # df = sparqldataframe.query(endpoint,lines)
+    # return df
 
 ''' fetch all from graph namespace'''
 def get_summary4graph(endpoint):
-    file = '../resources/sparql/all_summary_query.sparql'
-    with open(file, 'r') as f:
-        lines = f.read()
-    df = sparqldataframe.query(endpoint,lines)
+    df= queryWithSparql("all_summary_query",endpoint)
     return df
+    # file = '../resources/sparql/all_summary_query.sparql'
+    # with open(file, 'r') as f:
+    #     lines = f.read()
+    # df = sparqldataframe.query(endpoint,lines)
+    # return df
 
 ''' fetch subset  from graph namespace'''
 def get_summary4repoSubset(endpoint, repo):
-    file = '../resources/sparql/repo_summary_query.sparql'
-    with open(file, 'r') as f:
-        lines = f.read()
-    #query = getFileFromResources(f"{template_name}")
-    #q_template = Template(query)
-    q_template = Template(lines)
-    thsGraphQuery = q_template.substitute(repo=repo)
 
-    df = sparqldataframe.query(endpoint,thsGraphQuery)
+    df = queryWithSparql("repo_summary_query",endpoint, parameters={"repo":repo})
     return df
+    # file = '../resources/sparql/repo_summary_query.sparql'
+    # with open(file, 'r') as f:
+    #     lines = f.read()
+    # #query = getFileFromResources(f"{template_name}")
+    # #q_template = Template(query)
+    # q_template = Template(lines)
+    # thsGraphQuery = q_template.substitute(repo=repo)
+    #
+    # df = sparqldataframe.query(endpoint,thsGraphQuery)
+    # return df
 
 ###
 # from dataframe

@@ -1,0 +1,57 @@
+[project]
+name = "earthcube_summarize"
+version = "0.1.8"
+dynamic = ["dependencies"]
+description = """
+This set of scripts 'materializes' a summarized view of a Science on Schema graph for
+ the geocodes project. A package of utilities for NSF Earthcube Geocodes Project
+ """
+readme =  "README.md"
+
+authors = [
+    {name = "Mike Bobak", email = "mbobak@illinois.edu"},
+    {name= "David Valentine", email="dwvalentine@ucsd.edu"}
+]
+maintainers = [
+    {name = "Mike Bobak", email = "mbobak@illinois.edu"},
+    {name= "David Valentine", email="dwvalentine@ucsd.edu"}
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering",
+
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+[project.urls]  # Optional
+"Homepage" = "https://www.earthcube.org/"
+"Bug Tracker" = "https://github.com/earthcube/earthcube_utilities/issues"
+"Geocodes Documentation" = "https://earthcube.github.io/geocodes_documentation/"
+"Earthcube Utilities Documentation" = "https://earthcube.github.io/earthcube_utilities/"
+"Source" = "https://github.com/earthcube/earthcube_utilities"
+
+[project.scripts]
+summarize_from_repo = "summarize_repo:summarizeRepo"
+summarize_from_graph = "summarize_from_graph_namespace:summarizeGraphOnly"
+summarize_from_release = "summarize_from_release:summarizeReleaseOnly"
+
+[tool.setuptools]
+# If there are data files included in your packages that need to be
+# installed, specify them here.
+[tool.setuptools.packages.find]
+where = ["src"]
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.sparql"]
+#package-data = { "ec"=["graph/resources/sparql/*.sparql"]}
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"

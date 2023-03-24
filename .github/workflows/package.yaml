@@ -11,40 +11,40 @@ on:
     types: [published]
 
 jobs:
-#  deploy_summarize:
-#    runs-on: ubuntu-latest
-#    defaults:
-#      run:
-#        working-directory: summarize
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Set up Python
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: '3.x'
-#      - name: Install dependencies
-#        run: |
-#          python -m pip install --upgrade pip
-#      - name: Install pypa/build
-#        run: >-
-#          python -m
-#          pip install
-#          build
-#          --user
-#      - name: Build a binary wheel and a source tarball
-#        run: >-
-#          python -m
-#          build
-#          --sdist
-#          --wheel
-#          --outdir dist/
-#      - name: Publish package
-#        uses: pypa/gh-action-pypi-publish@release/v1
-#        with:
-#          user: __token__
-#          password: ${{ secrets.TEST_PYPI_SUMMARIZE }}
-#          repository_url: https://test.pypi.org/legacy/
-#          packages_dir: summarize/dist
+  deploy_summarize:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: summarize
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+      - name: Install pypa/build
+        run: >-
+          python -m
+          pip install
+          build
+          --user
+      - name: Build a binary wheel and a source tarball
+        run: >-
+          python -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.TEST_PYPI_SUMMARIZE }}
+          repository_url: https://test.pypi.org/legacy/
+          packages_dir: summarize/dist
   deploy_utilities:
     runs-on: ubuntu-latest
     defaults:

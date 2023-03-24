@@ -21,10 +21,19 @@ def getNabu( cfgfile):
             print(exc)
     endpoint = cfg['sparql']['endpoint']
     return endpoint, cfg
+def getNabuFromFile( cfgfile_obj):
+    """ when reading args where a file is returned, use this one"""
+    cfg = yaml.safe_load(cfgfile_obj)
+    endpoint = cfg['sparql']['endpoint']
+    #     endpoint = cfg['sparql']['endpoint']
+    return endpoint, cfg
 
-def reviseNabuConf(cfg, endpoint, bucket):
+def reviseNabuConfGraph(cfg, endpoint):
     newcfg = copy.deepcopy(cfg)
     newcfg['sparql']['endpoint'] = endpoint
+    return newcfg
+def reviseNabuConfS3(cfg,  bucket):
+    newcfg = copy.deepcopy(cfg)
     newcfg['s3']['bucket'] = bucket
     return newcfg
 
@@ -62,7 +71,12 @@ def getGleaner( cfgfile):
     bucket = cfg['minio']['bucket']
     s3endpoint = cfg['minio']['address']
     return s3endpoint,  bucket, cfg
-
+def getGleanerFromFile( cfgfile_obj):
+    """ when reading args where a file is returned, use this one"""
+    cfg = yaml.safe_load(cfgfile_obj)
+    bucket = cfg['minio']['bucket']
+    s3endpoint = cfg['minio']['address']
+    return s3endpoint,  bucket, cfg
 def reviseGleanerConf(cfg, bucket):
     newcfg = copy.deepcopy(cfg)
     newcfg['minio']['bucket'] = bucket
