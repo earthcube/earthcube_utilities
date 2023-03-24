@@ -1,6 +1,6 @@
 [project]
 name = "earthcube_utilities"
-version = "0.1.9_dev3"
+version = "0.1.9_dev4"
 dynamic = ["dependencies"]
 description = "A package of utilities for NSF Earthcube Geocodes Project"
 readme =  "README.md"
@@ -33,7 +33,7 @@ classifiers = [
 # if the name of the module is the same as the name of the script, then you get
 #    'module' object is not callable
 [project.scripts]
-generaterepostats = "ec:generate_repo_stats"
+generaterepostats = "ec:generate_repo_stats:start"
 
 [tool.setuptools]
 # If there are data files included in your packages that need to be
