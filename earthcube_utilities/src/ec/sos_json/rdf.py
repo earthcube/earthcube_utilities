@@ -12,14 +12,14 @@ from ec.graph.sparql_query import getAGraph
 
 
 
-def is_http(u):
+def is_http(u: str) -> bool:
     if not isinstance(u, str) :
         print("might need to set LD_cache") #have this where predicate called
         return None
     #might also check that the str has no spaces in it,&warn/die if it does
     return u.startswith("http")
 
-def createRDFNode(nodeValue):
+def createRDFNode(nodeValue: str) -> Literal | BNode | URIRef:
     "fix_url and quote otherwise"
     if not isinstance(nodeValue,str):
         if  (nodeValue is None) or  (pandas.isnull(nodeValue)):
@@ -50,7 +50,7 @@ def createRDFNode(nodeValue):
     #else:
     #    return url
 
-def df2rdfgraph(df):
+def df2rdfgraph(df: pandas.DataFrame):
     "print out df as .nt file"
 
     g = Graph()
@@ -68,12 +68,12 @@ def df2rdfgraph(df):
     return  g
 
 
-def get_rdfgraph(urn, endpoint ): #get graph
+def get_rdfgraph(urn: str, endpoint: str ) -> Graph: #get graph
     df=getAGraph(urn, endpoint)
     g=df2rdfgraph(df)
     return g
 
-def graph2jsonld(g, form="jsonld", schemaType="Dataset"):
+def graph2jsonld(g, form="jsonld", schemaType="Dataset") -> str:
     """get jsonld from endpoint
 
     Parameters:
@@ -87,7 +87,7 @@ def graph2jsonld(g, form="jsonld", schemaType="Dataset"):
 
 # returns a framd JSON
 # form= framed|compact
-def get_graph2jsonld(urn, endpoint, form="jsonld", schemaType="Dataset"):
+def get_graph2jsonld(urn: str, endpoint:str, form="jsonld", schemaType="Dataset") -> str:
     "get jsonld from endpoint"
     g = get_rdfgraph(urn, endpoint)
     # auto_compact=False might change
@@ -96,14 +96,14 @@ def get_graph2jsonld(urn, endpoint, form="jsonld", schemaType="Dataset"):
     return formatted_jsonld(jld_str)
 
 
-def get_rdf2jld_str(urn, endpoint):
+def get_rdf2jld_str(urn: str, endpoint:str) -> str:
     "get jsonld from endpoint"
     g= get_rdfgraph(urn, endpoint)
     jld_str = g.serialize(format="json-ld")
     return compact_jld_str(jld_str)
 
 ####
-def load_release(releaseurl):
+def load_release(releaseurl:str) -> pandas.DataFrame:
     g= Dataset()
     g.parse(releaseurl, format='nquads')
     return g

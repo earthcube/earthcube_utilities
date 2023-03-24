@@ -6,14 +6,14 @@ from pyld import jsonld
 jsonld_context = context = { "@vocab": "https://schema.org/"}
 
 
-def compact_jld_str(jld_str):
+def compact_jld_str(jld_str: str) -> str:
     doc = json.loads(jld_str)
     compacted = jsonld.compact(doc, jsonld_context)
     r = json.dumps(compacted, indent=2)
     return r
 
 
-def formatted_jsonld(jld_str, form="compact", schemaType="Dataset"):
+def formatted_jsonld(jld_str: str, form="compact", schemaType="Dataset") -> str:
     if (form == 'jsonld'):
         return jld_str
 
