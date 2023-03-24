@@ -1,63 +1,79 @@
 #!/usr/bin/env python3
 
 import argparse
-import copy
+
 import logging
-import yaml
-import shutil
+
 
 
 import os
-from graph.manageGraph import ManageBlazegraph as mg
-from summarize_materializedview import summaryDF2ttl, get_summary4graph,get_summary4repoSubset
+from ec.graph.manageGraph import ManageBlazegraph as mg
+from ec.summarize.summarize_materializedview import summaryDF2ttl, get_summary4graph,get_summary4repoSubset
+from ec.gleanerio.gleaner import endpointUpdateNamespace,getNabu, reviseNabuConfGraph, runNabu
 from rdflib import Dataset
 
-def endpointUpdateNamespace( fullendpoint, namepsace='temp'):
-    paths = fullendpoint.split('/')
-    paths[len(paths)-2] = namepsace
-    newurl= '/'.join(paths)
-    return newurl
+# def endpointUpdateNamespace( fullendpoint, namepsace='temp'):
+#     paths = fullendpoint.split('/')
+#     paths[len(paths)-2] = namepsace
+#     newurl= '/'.join(paths)
+#     return newurl
+#
+# def getNabu( cfgfile):
+#     cfg = yaml.safe_load(cfgfile)
+#     endpoint = cfg['sparql']['endpoint']
+#     return endpoint, cfg
+#
+# def reviseNabuConf(cfg, endpoint):
+#     newcfg = copy.deepcopy(cfg)
+#     newcfg['sparql']['endpoint'] = endpoint
+#     return newcfg
+#
+# def runNabu(cfg, repo,glcon="~/indexing/glcon"):
+#     if shutil.which(glcon) is not None:
+#         filename = f"nabu_{repo}" # avoid possible naming conflicts
+#         with open(filename, 'w') as f:
+#             yaml.dump(cfg, f)
+#         executeNabu = f"{glcon} nabu prefix --cfg {filename} --prefix summoned/{repo}"
+#         try:
+#             result = os.system(executeNabu)
+#             if result != 0:
+#                 raise Exception(f"running glcon failed {result}")
+#         except Exception as ex:
+#             raise Exception(f"running glcon failed {ex}")
+#         # delete config file here
+#         return True
+#     else:
+#         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
 
-def getNabu( cfgfile):
-    cfg = yaml.safe_load(cfgfile)
-    endpoint = cfg['sparql']['endpoint']
-    return endpoint, cfg
+def summarizeReleaseOnly():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--url", dest='url', help='url of file',
+                        default="https://oss.geocodes-dev.earthcube.org/gleaner-wf/graphs/latest/summonediris_2023-03-13-11-02-47_release.nq"
 
-def reviseNabuConf(cfg, endpoint):
-    newcfg = copy.deepcopy(cfg)
-    newcfg['sparql']['endpoint'] = endpoint
-    return newcfg
+                        )
 
-def runNabu(cfg, repo,glcon="~/indexing/glcon"):
-    if shutil.which(glcon) is not None:
-        filename = f"nabu_{repo}" # avoid possible naming conflicts
-        with open(filename, 'w') as f:
-            yaml.dump(cfg, f)
-        executeNabu = f"{glcon} nabu prefix --cfg {filename} --prefix summoned/{repo}"
-        try:
-            result = os.system(executeNabu)
-            if result != 0:
-                raise Exception(f"running glcon failed {result}")
-        except Exception as ex:
-            raise Exception(f"running glcon failed {ex}")
-        # delete config file here
-        return True
-    else:
-        raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
+    parser.add_argument("--repo", dest='repo', help='repo name used in the  urn')
 
-def summarizeReleaseOnly(args):
-    """ Summarize a from a gleaner 'release' set of n-quads file
+    parser.add_argument('--s3base', dest='s3base',
+                        help='basurl of',
+                        default="https://oss.geocodes-dev.earthcube.org/"
+                        )
+    parser.add_argument('--s3bucket', dest='s3bucket',
+                        help='basurl of',
+                        default="gleaner-wf"
 
-    Description:
-        * read nabu config,
+                        )
+    parser.add_argument('--graphendpoint', dest='graphendpoint',
+                        help='graph endpoint with namespace',
+                        default="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"
+                        )
+    parser.add_argument('--graphsummary', dest='graphsummary',
+                        help='upload triples to graphsummary', default=True)
+    parser.add_argument('--summary_namespace', dest='summary_namespace',
+                        help='summary_namespace defaults to {repo_summary}',
+                        )
+    args = parser.parse_args()
 
-        * uploading to a graph namespace
-
-        * building summarize triples
-
-        * loading to a summarize namespace
-
-    """
     repo = args.repo
     if args.summary_namespace:
         summary = args.summary_namespace
@@ -125,6 +141,7 @@ def summarizeReleaseOnly(args):
                 f.write(summaryttl)
     except Exception as ex:
         logging.error(f"error {ex}")
+        print(f"Error: {ex}")
         return 1
     # finally:
     #     # need to figure out is this is run after return, I think it is.
@@ -145,34 +162,7 @@ if __name__ == '__main__':
     #   if not repo, read all nq files in graphs/latest
     #
     # graph endpoint,
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--url", dest='url', help='url of file',
-    default = "https://oss.geocodes-dev.earthcube.org/gleaner-wf/graphs/latest/summonediris_2023-03-13-11-02-47_release.nq"
 
-    )
 
-    parser.add_argument("--repo", dest='repo', help='repo name used in the  urn')
-
-    parser.add_argument('--s3base', dest='s3base',
-                        help='basurl of',
-                        default="https://oss.geocodes-dev.earthcube.org/"
-
-                        )
-    parser.add_argument('--s3bucket', dest='s3bucket',
-                        help='basurl of',
-                        default="gleaner-wf"
-
-                        )
-    parser.add_argument('--graphendpoint', dest='graphendpoint',
-                        help='graph endpoint with namespace',
-                        default="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"
-                        )
-    parser.add_argument('--graphsummary', dest='graphsummary',
-                        help='upload triples to graphsummary', default=True)
-    parser.add_argument('--summary_namespace', dest='summary_namespace',
-                        help='summary_namespace defaults to {repo_summary}',
-                        )
-    args = parser.parse_args()
-
-    exitcode= summarizeReleaseOnly(args)
+    exitcode= summarizeReleaseOnly()
     exit(exitcode)

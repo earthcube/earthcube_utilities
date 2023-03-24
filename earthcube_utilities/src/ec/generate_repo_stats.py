@@ -1,3 +1,4 @@
+#!  python3
 import argparse
 from io import StringIO, BytesIO
 import logging
@@ -6,7 +7,7 @@ import sys
 
 from ec.graph.sparql_query import queryWithSparql
 
-from datastore import s3
+from ec.datastore import s3
 
 logging.basicConfig(format='%(levelname)s : %(message)s', level=os.environ.get("LOGLEVEL", "INFO"), stream=sys.stdout)
 log = logging.getLogger()
@@ -22,9 +23,7 @@ def basicCounts(args):
     #data = f.getvalue()
     bucketname, objectname = s3Minio.putReportFile(args.s3bucket,"all","dataset_count.json",json)
     return 0
-
-if __name__ == '__main__':
-
+def start():
     parser = argparse.ArgumentParser()
     parser.add_argument('--graphendpoint', dest='graphendpoint',
                         help='graph endpoint' ,default="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/")
@@ -35,3 +34,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     exitcode = basicCounts(args)
+
+if __name__ == '__main__':
+    start()

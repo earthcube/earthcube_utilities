@@ -1,8 +1,11 @@
 [project]
-name = "earthcube_utilities"
-version = "0.1.11"
+name = "earthcube_summarize"
+version = "0.1.8"
 dynamic = ["dependencies"]
-description = "A package of utilities for NSF Earthcube Geocodes Project"
+description = """
+This set of scripts 'materializes' a summarized view of a Science on Schema graph for
+ the geocodes project. A package of utilities for NSF Earthcube Geocodes Project
+ """
 readme =  "README.md"
 
 authors = [
@@ -28,12 +31,13 @@ classifiers = [
 "Homepage" = "https://www.earthcube.org/"
 "Bug Tracker" = "https://github.com/earthcube/earthcube_utilities/issues"
 "Geocodes Documentation" = "https://earthcube.github.io/geocodes_documentation/"
+"Earthcube Utilities Documentation" = "https://earthcube.github.io/earthcube_utilities/"
 "Source" = "https://github.com/earthcube/earthcube_utilities"
 
-# if the name of the module is the same as the name of the script, then you get
-#    'module' object is not callable
 [project.scripts]
-generaterepostats = "ec.generate_repo_stats:start"
+summarize_from_repo = "summarize_repo:summarizeRepo"
+summarize_from_graph = "summarize_from_graph_namespace:summarizeGraphOnly"
+summarize_from_release = "summarize_from_release:summarizeReleaseOnly"
 
 [tool.setuptools]
 # If there are data files included in your packages that need to be

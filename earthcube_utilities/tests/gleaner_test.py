@@ -4,7 +4,7 @@ import logging
 
 # pycharm does not like the top level package name... but this is what makes it work
 # import ec.gleanerio.gleaner
-from  ec.gleanerio.gleaner import endpointUpdateNamespace,getNabu,reviseNabuConf,runIdentifier , getGleaner
+from  ec.gleanerio.gleaner import endpointUpdateNamespace,getNabuFromFile,reviseNabuConfGraph,runIdentifier , getGleaner
 
 class MyTestCase(unittest.TestCase):
     def test_endpointUpdate(self):
@@ -15,15 +15,15 @@ class MyTestCase(unittest.TestCase):
 
     def test_nabuCfg(self):
         with open('../resources/testing/nabu', 'r') as f:
-            endpoint, cfg = getNabu(f)
+            endpoint, cfg = getNabuFromFile(f)
         self.assertEqual("https://graph.geodex.org/blazegraph/namespace/earthcube/sparql", endpoint)
 
     def test_reviseNabuCfg(self):
         with open('../resources/testing/nabu', 'r') as f:
-            endpoint, cfg = getNabu(f)
+            endpoint, cfg = getNabuFromFile(f)
             endpoint = endpointUpdateNamespace(
                 "https://example.com/blazegraph/namespace/earhtcube/sparql")
-            cfgnew = reviseNabuConf(cfg, endpoint)
+            cfgnew = reviseNabuConfGraph(cfg, endpoint)
 
         self.assertEqual("https://example.com/blazegraph/namespace/temp/sparql", cfgnew['sparql']['endpoint'])
 
