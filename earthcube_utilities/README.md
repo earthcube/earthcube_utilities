@@ -16,7 +16,7 @@ https://pypi.org/project/earthcube-utilities/
 
 ### scripts
 In theory, if pip installed, theree is one script at present,
-`generate_repo_stats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
+`generaterepostats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
 
 from [console scripts](https://setuptools.pypa.io/en/latest/userguide/entry_point.html#console-scripts)
 
