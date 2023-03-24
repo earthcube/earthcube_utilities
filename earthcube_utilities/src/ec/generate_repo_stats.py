@@ -1,3 +1,4 @@
+#!  python3
 import argparse
 from io import StringIO, BytesIO
 import logging
@@ -22,9 +23,7 @@ def basicCounts(args):
     #data = f.getvalue()
     bucketname, objectname = s3Minio.putReportFile(args.s3bucket,"all","dataset_count.json",json)
     return 0
-
-if __name__ == '__main__':
-
+def generate_repo_stats():
     parser = argparse.ArgumentParser()
     parser.add_argument('--graphendpoint', dest='graphendpoint',
                         help='graph endpoint' ,default="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/")
@@ -35,3 +34,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     exitcode = basicCounts(args)
+
+if __name__ == '__main__':
+    generate_repo_stats()
