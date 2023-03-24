@@ -115,7 +115,7 @@ reportTypes = {
     ]
 }
 
-def _get_report_type(repo, code):
+def _get_report_type(repo, code) -> str:
     if repo == "all":
         report = pydash.find(reportTypes["all"], lambda r: r["code"] == code)
     else:
@@ -123,7 +123,7 @@ def _get_report_type(repo, code):
     return report["name"]
 
 ##  for the 'object reports, we should have a set.these could probably be make a set of methos with (ObjectType[triples,keywords, types, authors, etc], repo, endpoint/datastore)
-def generateGraphReportsRepo(repo, graphendpoint, reportTypes=reportTypes):
+def generateGraphReportsRepo(repo, graphendpoint, reportTypes=reportTypes) -> str:
     #queryWithSparql("repo_count_types", graphendpoint)
     parameters = {"repo": repo}
     if repo== "all":
@@ -138,7 +138,7 @@ def generateGraphReportsRepo(repo, graphendpoint, reportTypes=reportTypes):
     reports = list(reports)
     return json.dumps({"version": 0, "reports": reports }, indent=4)
 
-def generateAGraphReportsRepo(repo, code, graphendpoint):
+def generateAGraphReportsRepo(repo, code, graphendpoint) -> pandas.DataFrame:
     #queryWithSparql("repo_count_types", graphendpoint)
     parameters = {"repo": repo}
     try:
