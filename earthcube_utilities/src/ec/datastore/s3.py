@@ -50,8 +50,9 @@ class bucketDatastore():
         path = f"{self.paths['summon']}/{repo}/"
         return self.listPath(bucket, path,include_user_meta=include_user_meta)
 
-    def countJsonld(self,bucket, repo):
+    def countJsonld(self,bucket, repo) -> int:
         count = len(list(self.listJsonld(bucket,repo)))
+        return count
 
     def getJsonLD(self, bucket, repo, sha):
         path = f"{self.paths['summon']}/{repo}/{sha}.jsonld"
@@ -74,20 +75,21 @@ class bucketDatastore():
 
         return tags
 
-    def getOringalUrl(self, bucket, repo, sha):
+    def getOringalUrl(self, bucket, repo, sha) -> str:
         md = self.getJsonLDMetadata(bucket, repo, sha)
         return md['Url']
 
     '''Cleans the name of slashes... might need more in the future.'''
-    def getCleanObjectName(s3ObjectName):
+    def getCleanObjectName(s3ObjectName) -> str:
         return s3ObjectName.replace('/','__')
 
     def listMilledRdf(self,bucket, repo,urnonly=False):
         path = f"{self.paths['milled']}/{repo}/"
         return self.listPath(bucket, path)
 
-    def countMilledRdf(self,bucket, repo):
+    def countMilledRdf(self,bucket, repo) -> inst:
         count = len(list(self.listMilledRdf(bucket,repo)))
+        return count
     ### methods for reporting
     '''
     Reporting will have to pull the original and put back to the datastore
