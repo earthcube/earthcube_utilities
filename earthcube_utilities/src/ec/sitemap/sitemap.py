@@ -1,10 +1,12 @@
 import logging
+from io import StringIO
 
 import advertools as adv
 
 import requests, sys, os
 import yaml
-
+from tqdm import tqdm
+tqdm.pandas()
 def _urlExists(sitemapurl):
     try:
         r = requests.get(sitemapurl)
@@ -48,9 +50,17 @@ class Sitemap():
         # add valid to dataframe
         df = self.sitemap_df
       #  df["url_response"],df["content_type"]= df.apply(lambda row:
-        df["url_response","content_type"]= df.apply(lambda row:
+        df["url_response","content_type"]= df.progress_apply(lambda row:
                                _urlResponse(row.get('loc')),
                                axis=1)
+
+    def get_url_report(self):
+        out= StringIO()
+        self.sitemap_df.to_csv(out, index=False,
+                columns=['loc','lastmod',('url_response', 'content_type')]
+              #                 columns=['loc','lastmod',"url_response/content_type"]
+                               )
+        return out.getvalue()
 
 class SitemapForSource(Sitemap):
     source= None

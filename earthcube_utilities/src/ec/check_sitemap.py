@@ -8,9 +8,7 @@ def sitemap_checker(args):
     if  not args.nocheck :
         sitemap.check_urls()
 
-    out = StringIO()
-    sitemap.sitemap_df.to_csv(out)
-    return out.getvalue()
+    return sitemap.get_url_report()
 
 def start():
     parser = argparse.ArgumentParser()
