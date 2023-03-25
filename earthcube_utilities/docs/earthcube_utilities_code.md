@@ -54,3 +54,7 @@ this does not work with multirepo plug, so will need ot be linked
 ### ec.objects.utils
 ::: ec.objects.utils
 ---
+
+### ec.sitemaps
+::: ec.sitemaps
+---

@@ -1,6 +1,6 @@
 import unittest
 
-from datastore.s3 import MinioDatastore
+from ec.datastore.s3 import MinioDatastore
 from pydash.collections import find
 
 class S3TestCase(unittest.TestCase):
