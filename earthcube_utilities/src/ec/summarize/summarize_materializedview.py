@@ -13,7 +13,7 @@ context = "@prefix : <https://schema.org/> ."
 
 ### BLAZEGRAPH
 '''original fetch all from temporary namespace'''
-def get_summary4repo(endpoint):
+def get_summary4repo(endpoint: str) -> pandas.DataFrame:
     df = queryWithSparql("all_summary_query", endpoint)
     return df
     # file = '../resources/sparql/summary_query.txt'
@@ -23,7 +23,7 @@ def get_summary4repo(endpoint):
     # return df
 
 ''' fetch all from graph namespace'''
-def get_summary4graph(endpoint):
+def get_summary4graph(endpoint : str) -> pandas.DataFrame:
     df= queryWithSparql("all_summary_query",endpoint)
     return df
     # file = '../resources/sparql/all_summary_query.sparql'
@@ -33,7 +33,7 @@ def get_summary4graph(endpoint):
     # return df
 
 ''' fetch subset  from graph namespace'''
-def get_summary4repoSubset(endpoint, repo):
+def get_summary4repoSubset(endpoint: str, repo : str) -> pandas.DataFrame:
 
     df = queryWithSparql("repo_summary_query",endpoint, parameters={"repo":repo})
     return df
@@ -51,7 +51,7 @@ def get_summary4repoSubset(endpoint, repo):
 ###
 # from dataframe
 ####
-def summaryDF2ttl(df, repo):
+def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[dict, str]:
     "summarize sparql qry (or main quad store)s ret DataFrame, as triples in ttl format w/g as the new subj"
     urns = {}
     def is_str(v):

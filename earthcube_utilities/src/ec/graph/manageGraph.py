@@ -16,11 +16,11 @@ class ManageGraph: #really a manage graph namespace, bc a graph has several of t
     path = "namespace"
     sparql = "/sparql" # blazegraph uses sparql after namespace, but let's not assume this
 
-    def __init__(self, graphurl, namespace):
+    def __init__(self, graphurl: str, namespace :str) :
         """initialize a class for a namespace"""
         self.baseurl = graphurl
         self.namespace = namespace
-    def graphFromEndpoint(endpoint):
+    def graphFromEndpoint(endpoint: str) -> str:
         paths = endpoint.split('/')
         paths = paths[0:len(paths) -3]
         newurl = '/'.join(paths)

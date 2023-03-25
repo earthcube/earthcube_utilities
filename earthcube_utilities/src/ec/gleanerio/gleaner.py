@@ -1,19 +1,21 @@
 import copy
+import io
 import json
 import os
 import shutil
 import subprocess
+from typing import Tuple
 
 import yaml
 
 
-def endpointUpdateNamespace( fullendpoint, namepsace='temp'):
+def endpointUpdateNamespace( fullendpoint: str, namepsace='temp') -> str:
     paths = fullendpoint.split('/')
     paths[len(paths)-2] = namepsace
     newurl= '/'.join(paths)
     return newurl
 
-def getNabu( cfgfile):
+def getNabu( cfgfile: str) -> Tuple[str, object]:
     with open(cfgfile, "r") as stream:
         try:
             cfg =(yaml.safe_load(stream))
@@ -21,18 +23,28 @@ def getNabu( cfgfile):
             print(exc)
     endpoint = cfg['sparql']['endpoint']
     return endpoint, cfg
-def getNabuFromFile( cfgfile_obj):
+
+
+def getNabuFromFile( cfgfile_obj) -> Tuple[str, object]:
+    """ read a file from argparse
+    when reading args where a file is returned, use this one
+
+
+    Parameters:
+        cfgfile_obj: an argparse.FileType, maybe an io.FileIo
+"""
+
     """ when reading args where a file is returned, use this one"""
     cfg = yaml.safe_load(cfgfile_obj)
     endpoint = cfg['sparql']['endpoint']
     #     endpoint = cfg['sparql']['endpoint']
     return endpoint, cfg
 
-def reviseNabuConfGraph(cfg, endpoint):
+def reviseNabuConfGraph(cfg, endpoint) -> object:
     newcfg = copy.deepcopy(cfg)
     newcfg['sparql']['endpoint'] = endpoint
     return newcfg
-def reviseNabuConfS3(cfg,  bucket):
+def reviseNabuConfS3(cfg,  bucket) -> object:
     newcfg = copy.deepcopy(cfg)
     newcfg['s3']['bucket'] = bucket
     return newcfg
@@ -72,12 +84,19 @@ def getGleaner( cfgfile):
     s3endpoint = cfg['minio']['address']
     return s3endpoint,  bucket, cfg
 def getGleanerFromFile( cfgfile_obj):
-    """ when reading args where a file is returned, use this one"""
+    """ read a file from argparse
+    when reading args where a file is returned, use this one
+
+
+    Parameters:
+        cfgfile_obj: an argparse.FileType, maybe an io.FileIo
+    """
     cfg = yaml.safe_load(cfgfile_obj)
     bucket = cfg['minio']['bucket']
     s3endpoint = cfg['minio']['address']
     return s3endpoint,  bucket, cfg
-def reviseGleanerConf(cfg, bucket):
+
+def reviseGleanerConf(cfg: str, bucket:str) -> object:
     newcfg = copy.deepcopy(cfg)
     newcfg['minio']['bucket'] = bucket
     return newcfg

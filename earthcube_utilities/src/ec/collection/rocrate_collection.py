@@ -80,7 +80,7 @@ from datastore.s3 import MinioDatastore
 
 
 # this tool will read information from an s3 bucket, or a local zip crate
-def readDecaoderRoCrate(crate, bucket="gleaner", s3endpoint=None):
+def readDecaoderRoCrate(crate, bucket="gleaner", s3endpoint=None) -> ROCrate:
     if (s3endpoint is not None):
         client = MinioDatastore(s3endpoint)
         data = client.getRoCrateFile(crate, bucket=bucket)

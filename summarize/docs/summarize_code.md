@@ -1,6 +1,6 @@
 # Code documentation.
 this does not work with multirepo plug, so will need ot be linked 
 
-::: summarize_repo
-::: summarize_from_graph_namespace
-::: summarize_from_release
+::: ec_summarize.summarize_repo
+::: ec_summarize.summarize_from_graph_namespace
+::: ec_summarize.summarize_from_release

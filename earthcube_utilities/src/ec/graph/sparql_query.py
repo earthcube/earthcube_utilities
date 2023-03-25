@@ -3,6 +3,7 @@ This basically wraps sparqldataframe,
 and contains a way to get resources that are the sparql queries,
 and few helpers to basic queries
 """
+import pandas
 import sparqldataframe
 from string import Template
 try:
@@ -23,7 +24,7 @@ or to pass in a graph
 {"g": self.repo}
 """
 
-def queryWithSparql( template_name, endpoint,parameters={}):
+def queryWithSparql( template_name : str, endpoint : str,parameters:object={}) -> pandas.DataFrame:
     """ Query a SPARQL endpoint, and return a Pandas Dataframe
 
     Parameters:
@@ -39,7 +40,7 @@ def queryWithSparql( template_name, endpoint,parameters={}):
 
 ## this will need to be done to package specifications.
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
-def _getFileFromResources(filename):
+def _getFileFromResources(filename) -> str:
     """ retrieves sparql file from the sparql_files folder when in a package"""
     resourcename = f"{filename}.sparql"
     resource = pkg_resources.read_text(sparqlfiles, resourcename)
@@ -50,7 +51,7 @@ def _getFileFromResources(filename):
     #     except Exception as exc:
     #         print(exc)
 
-def getAGraph(  g, endpoint):
+def getAGraph(  g, endpoint: str) -> pandas.DataFrame:
     """Query a SPARQL endpoint and return a Pandas Dataframe for a geocodes object"""
     query = _getFileFromResources('get_triples_for_a_graph')
     q_template = Template(query)
