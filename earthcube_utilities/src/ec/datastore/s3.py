@@ -87,7 +87,7 @@ class bucketDatastore():
         path = f"{self.paths['milled']}/{repo}/"
         return self.listPath(bucket, path)
 
-    def countMilledRdf(self,bucket, repo) -> inst:
+    def countMilledRdf(self,bucket, repo) -> int:
         count = len(list(self.listMilledRdf(bucket,repo)))
         return count
     ### methods for reporting
