@@ -21,12 +21,12 @@ def _urlResponse(item_loc: str):
     try:
         r = requests.head(item_loc)
         if r.status_code != 200:
-            return r.status_code, None
+            return [r.status_code, None]
         else:
             content_type = r.headers.get("Content-Type")
-            return r.status_code, content_type
+            return [r.status_code, content_type]
     except:
-        return 400, None
+        return [400, None]
 class Sitemap():
     sitemapurl = None
     sitemap_df = None
@@ -49,15 +49,20 @@ class Sitemap():
     def check_urls(self):
         # add valid to dataframe
         df = self.sitemap_df
-      #  df["url_response"],df["content_type"]= df.apply(lambda row:
-        df["url_response","content_type"]= df.progress_apply(lambda row:
+
+        # df[["url_response","content_type"]]= df.progress_apply(lambda row:
+        #                        _urlResponse(row.get('loc')),
+        #                        axis=1)
+        df["url_response"]=None
+        df["content_type"]=None
+        df["url_response"],df["content_type"]=  zip(*df.progress_apply(lambda row:
                                _urlResponse(row.get('loc')),
-                               axis=1)
+                               axis=1))
 
     def get_url_report(self):
         out= StringIO()
         self.sitemap_df.to_csv(out, index=False,
-                columns=['loc','lastmod',('url_response', 'content_type')]
+                columns=['loc','lastmod','url_response', 'content_type']
               #                 columns=['loc','lastmod',"url_response/content_type"]
                                )
         return out.getvalue()
