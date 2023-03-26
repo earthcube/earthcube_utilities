@@ -2,11 +2,13 @@ import logging
 from io import StringIO
 
 import advertools as adv
+from pandarallel import pandarallel
+
 
 import requests, sys, os
 import yaml
 from tqdm import tqdm
-tqdm.pandas()
+
 def _urlExists(sitemapurl):
     try:
         r = requests.get(sitemapurl)
@@ -31,8 +33,9 @@ class Sitemap():
     sitemapurl = None
     sitemap_df = None
     errors=[]
-    def __init__(self, sitemapurl, repoName=""):
+    def __init__(self, sitemapurl, repoName="", no_progress_bar=False):
         self.sitemapurl = sitemapurl
+        self.no_progress_bar = no_progress_bar
         if _urlExists(sitemapurl):
             self.sitemap_df = adv.sitemap_to_df(sitemapurl)
         else:
@@ -55,9 +58,11 @@ class Sitemap():
         #                        axis=1)
         df["url_response"]=None
         df["content_type"]=None
-        df["url_response"],df["content_type"]=  zip(*df.progress_apply(lambda row:
-                               _urlResponse(row.get('loc')),
-                               axis=1))
+
+        pandarallel.initialize(progress_bar=self.no_progress_bar)
+        df["url_response"],df["content_type"]=  zip(*df.parallel_apply(lambda row:
+                           _urlResponse(row.get('loc')),
+                           axis=1))
 
     def get_url_report(self):
         out= StringIO()

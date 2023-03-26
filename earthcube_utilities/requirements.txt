@@ -14,3 +14,4 @@ logconfig
 jsonschema
 pydash
 advertools
+pandarallel
