@@ -96,6 +96,33 @@ def getGleanerFromFile( cfgfile_obj):
     s3endpoint = cfg['minio']['address']
     return s3endpoint,  bucket, cfg
 
+def getSourcesFromGleaner(cfgfile, sourcename=None):
+    s3endpoint,  bucket, cfg = getGleaner(cfgfile)
+    sources = cfg['sources']
+    if sourcename is None:
+        return sources
+    else:
+        matched = list(filter(lambda source: source.name == sourcename, sources))
+        if len(matched) == 1:
+            return matched[0]
+        else:
+            return None
+
+
+def getSitemapSourcesFromGleaner(cfgfile, sourcename=None):
+    s3endpoint,  bucket, cfg = getGleaner(cfgfile)
+    sources = cfg['sources']
+    sources =list(filter(lambda source: source.sourcetype == "sitemap", sources))
+    if sourcename is None:
+        return sources
+    else:
+        matched = list(filter(lambda source: source.name == sourcename, sources))
+        if len(matched) == 1:
+            return matched[0]
+        else:
+            return None
+
+
 def reviseGleanerConf(cfg: str, bucket:str) -> object:
     newcfg = copy.deepcopy(cfg)
     newcfg['minio']['bucket'] = bucket

@@ -34,6 +34,7 @@ classifiers = [
 #    'module' object is not callable
 [project.scripts]
 generaterepostats = "ec.generate_repo_stats:start"
+check_sitemap = "ec.check_sitemap:start"
 
 [tool.setuptools]
 # If there are data files included in your packages that need to be
