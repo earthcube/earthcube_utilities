@@ -56,5 +56,5 @@ this does not work with multirepo plug, so will need ot be linked
 ---
 
 ### ec.sitemaps
-::: ec.sitemaps
+::: ec.sitemap.ec.sitemap
 ---
