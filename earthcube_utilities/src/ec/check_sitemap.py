@@ -13,7 +13,7 @@ def sitemap_checker(args):
 def start():
     parser = argparse.ArgumentParser()
     parser.add_argument("sitemapurl", help='sitemapurl')
-    parser.add_argument("--output", type=argparse.FileType('rw'), help='output file')
+    parser.add_argument("--output", type=argparse.FileType('w'), help='output file')
     parser.add_argument("--no-url-check", dest="nocheck" ,help='output file', default=False)
     args = parser.parse_args()
 
