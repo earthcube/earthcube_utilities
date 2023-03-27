@@ -1,3 +1,4 @@
+import csv
 import logging
 from io import StringIO
 
@@ -94,7 +95,7 @@ class Sitemap():
         if not self._checkedUrls:
             self.check_urls()
         out= StringIO()
-        self.sitemap_df.to_csv(out, index=False,
+        self.sitemap_df.to_csv(out, index=False, quoting=csv.QUOTE_ALL,
                 columns=['loc','lastmod','url_response', 'content_type']
               #                 columns=['loc','lastmod',"url_response/content_type"]
                                )
