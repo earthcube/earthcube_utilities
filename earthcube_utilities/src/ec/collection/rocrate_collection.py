@@ -14,7 +14,7 @@ from rocrate.model.file import File
 from rocrate.model.file_or_dir import FileOrDir
 
 from rocrateValidator import validate
-from datastore.s3 import MinioDatastore
+from ec.datastore.s3 import MinioDatastore
 
 # issue https://github.com/earthcube/GeoCODES-Metadata/issues/5
 # logic that might be utilizle
@@ -80,7 +80,7 @@ from datastore.s3 import MinioDatastore
 
 
 # this tool will read information from an s3 bucket, or a local zip crate
-def readDecaoderRoCrate(crate, bucket="gleaner", s3endpoint=None) -> ROCrate:
+def readDecoderRoCrate(crate, bucket="gleaner", s3endpoint=None) -> ROCrate:
     if (s3endpoint is not None):
         client = MinioDatastore(s3endpoint)
         data = client.getRoCrateFile(crate, bucket=bucket)
@@ -112,13 +112,23 @@ def _createIdentifier(proposedid):
         m = uuid.uuid4().hex
     return f"uuid:{m}"
 
-DATASET_DATADOWNLOAD = '@DataDownload'  # distribution
-DATASET_DATASET = '@Dataset'  # Dataset
-DATASET_WEBENTITY = '@File'  # url, aka web link
+DATASET__DATA_DOWNLOAD = '@DataDownload'  # distribution
+DATASET__DATASET = '@Dataset'  # Dataset
+DATASET__WEB_ENTITY = '@File'  # url, aka web link
+# DATASET__WEB_SERVICE = '@SERVICE'   #how do we do a service?
 
 ## we do not want to override the methods, we want to add methods
-class sosRocrate(ROCrate):
+# crates are a bit of a pain because they use disk layout, rather than just metadata file
 
+class SosRocrate(ROCrate):
+    """ Science on Schema(SOS) ROCrate Object.
+    ROCrate plus methods to easily add SOS information to an ROCrate
+
+    USE:
+     [Consuming an RO-Crate](https://github.com/ResearchObject/ro-crate-py#consuming-an-ro-crate):
+    use SosCrate instead of RoCrate
+
+    """
     def nameCrate(self, aName):
         self.nameCrate(aName)
 
@@ -144,16 +154,16 @@ class sosRocrate(ROCrate):
 
 
 
-    def addSosDistribution(self, crate, dataset_jsonld, distribution_to_add=None, distType=DATASET_DATADOWNLOAD):
+    def addSosDistribution(self, crate, dataset_jsonld, distribution_to_add=None, distType=DATASET__DATA_DOWNLOAD):
         aurl = dataset_jsonld.get('url')
         name = dataset_jsonld.get('name')
         if distribution_to_add is None:
             #kw = {"fetch_remote": fetch_remote, "validate_url": validate_url}
             kw = {"name": name}
             self.add_file(aurl, properties=kw)
-        elif distType == DATASET_DATADOWNLOAD :
+        elif distType == DATASET__DATA_DOWNLOAD :
             pass
-        elif distType == DATASET_DATASET:
+        elif distType == DATASET__DATASET:
             pass
 
     def addSosServicesAsEntity(self,crate, url=None, name=None):
@@ -167,5 +177,5 @@ class sosRocrate(ROCrate):
         #self.add_file(url, identifier=CreateIdentifier(url), properties=kw)
 
 
-def addContact(self, sos_contact):
-        pass
+    def addSosContact(self, sos_contact):
+            pass

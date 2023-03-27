@@ -21,7 +21,7 @@ class RoCreateTestCase(unittest.TestCase):
         file = "../resources/0024e35144d902d8b413ffd400ede6a27efe2146.jsonld"
         with open(file) as f:
             jsonld = f.read()
-        crate = collection.rocate_collection.sosRocrate()
+        crate = collection.rocate_collection.SosRocrate()
         crate.name = "test"
         crate.addSosCreator(crate, "aUser")
         crate.addSosPublisher(crate,name="publsher")
