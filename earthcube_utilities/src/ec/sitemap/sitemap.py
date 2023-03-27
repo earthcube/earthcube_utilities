@@ -5,7 +5,7 @@ import advertools as adv
 import pandas
 from numpy import ndarray
 from pandarallel import pandarallel
-
+from pandas import DataFrame
 
 import requests, sys, os
 import yaml
@@ -49,7 +49,7 @@ class Sitemap():
         self.no_progress_bar = no_progress_bar
         if _urlExists(sitemapurl):
             self.sitemap_df = adv.sitemap_to_df(sitemapurl)
-            self._validSitemap = False
+            self._validSitemap = True
         else:
             self.errors.append(f"sitemap url invalid: {sitemapurl}")
             # the other option is to return None.
@@ -60,15 +60,15 @@ class Sitemap():
 
     def errors(self):
         return self.errors
-    def uniqueItems(self)-> ExtensionArray | ndarray:
+    def uniqueItems(self):
         """list of unqiue sitemaps records"""
         return self.sitemap_df.sitemap.unique()
 
-    def uniqueUrls(self) -> ExtensionArray | ndarray:
+    def uniqueUrls(self) :
         """Returns a pandas series of the URLS'"""
         return self.sitemap_df["loc"].unique()
 
-    def check_urls(self) -> pandas.Dataframe:
+    def check_urls(self) -> DataFrame:
         """This will run head on the list of url's in the pandas dataframe.
         It will append columns ("url_response","content_type") to the sitemap_df
         """
