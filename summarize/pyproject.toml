@@ -1,6 +1,6 @@
 [project]
 name = "earthcube_summarize"
-version = "0.1.11"
+version = "0.1.12"
 dynamic = ["dependencies"]
 description = """
 This set of scripts 'materializes' a summarized view of a Science on Schema graph for
