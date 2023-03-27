@@ -7,6 +7,9 @@ import uuid as uuid
 from rocrate.rocrate import ROCrate
 from rocrate.model.person import Person
 from rocrate.model.softwareapplication import SoftwareApplication
+from rocrate.model.contextentity import ContextEntity
+from rocrate.model.data_entity import DataEntity
+from rocrate.model.computationalworkflow import ComputationalWorkflow
 
 from rocrate.model.dataset import Dataset
 from rocrate.model.metadata import Metadata
@@ -17,7 +20,7 @@ from rocrateValidator import validate
 from ec.datastore.s3 import MinioDatastore
 
 # issue https://github.com/earthcube/GeoCODES-Metadata/issues/5
-# logic that might be utilizle
+# logic that might be utilize
 # https://github.com/MBcode/ec/blob/8255d7c1312faca721000535b85cd1e22470a73e/ec.py#L2472
 
 ##### THOUGHTS #####
