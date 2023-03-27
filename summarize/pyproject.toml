@@ -31,7 +31,7 @@ classifiers = [
 "Homepage" = "https://www.earthcube.org/"
 "Bug Tracker" = "https://github.com/earthcube/earthcube_utilities/issues"
 "Geocodes Documentation" = "https://earthcube.github.io/geocodes_documentation/"
-"Earthcube Utilities Documentation" = "https://earthcube.github.io/earthcube_utilities/"
+"EC Utilities Documentation" = "https://earthcube.github.io/earthcube_utilities/"
 "Source" = "https://github.com/earthcube/earthcube_utilities"
 
 [project.scripts]
