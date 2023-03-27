@@ -129,7 +129,7 @@ class SosRocrate(ROCrate):
 
     USE:
      [Consuming an RO-Crate](https://github.com/ResearchObject/ro-crate-py#consuming-an-ro-crate):
-    use SosCrate instead of RoCrate
+    use SosRocrate instead of RoCrate
 
     """
     def nameCrate(self, aName):
