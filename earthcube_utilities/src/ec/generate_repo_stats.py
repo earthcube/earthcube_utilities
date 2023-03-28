@@ -8,9 +8,9 @@ import sys
 from ec.graph.sparql_query import queryWithSparql
 
 from ec.datastore import s3
+from ec.logger import config_app
 
-logging.basicConfig(format='%(levelname)s : %(message)s', level=os.environ.get("LOGLEVEL", "INFO"), stream=sys.stdout)
-log = logging.getLogger()
+log = config_app()
 
 def basicCounts(args):
     """query an endpoint, store results as a json file in an s3 store"""
