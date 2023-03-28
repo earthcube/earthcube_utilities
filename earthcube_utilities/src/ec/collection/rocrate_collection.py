@@ -19,6 +19,12 @@ from rocrate.model.file_or_dir import FileOrDir
 from rocrateValidator import validate
 from ec.datastore.s3 import MinioDatastore
 
+## Fair Signposting
+# https://pypi.org/project/signposting/
+# https://signposting.org/FAIR/
+# https://fair-impact.eu/enabling-fair-signposting-and-ro-crate-contentmetadata-discovery-and-consumption
+#######
+
 # issue https://github.com/earthcube/GeoCODES-Metadata/issues/5
 # logic that might be utilize
 # https://github.com/MBcode/ec/blob/8255d7c1312faca721000535b85cd1e22470a73e/ec.py#L2472
@@ -40,7 +46,8 @@ from ec.datastore.s3 import MinioDatastore
 # then tell the tool where the files are, and execute the tool
 #  how frigging hard can that workflow be to understand.
 #  linking tool to the datasets to the tool will be the fun part
-#
+
+
 
 #####
 # add distribution... up here to prevent some linting errors
