@@ -196,7 +196,7 @@ class MinioDatastore(bucketDatastore):
         return user_meta
 
     def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
-        path = f"{self.paths['reports']}/{repo}/{date}/{filename}"
+        path = f"{self.paths['report']}/{repo}/{date}/{filename}"
         f = BytesIO()
         length = f.write(bytes(json_str, 'utf-8'))
         f.seek(0)
@@ -204,7 +204,7 @@ class MinioDatastore(bucketDatastore):
         return resp.bucket_name, resp.object_name
 
     def getReportFile(self, bucket, repo, filename):
-        path = f"{self.paths['reports']}/{repo}/{filename}"
+        path = f"{self.paths['report']}/{repo}/{filename}"
         s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
@@ -222,7 +222,7 @@ class MinioDatastore(bucketDatastore):
         return paths
 
     def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
-        path = f"/{self.paths['collections']}/{user}/{filename}"
+        path = f"/{self.paths['collection']}/{user}/{filename}"
         crate = self.s3client.get_object(bucket, path)
         return crate
 

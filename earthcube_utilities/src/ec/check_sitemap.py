@@ -2,8 +2,13 @@ from io import StringIO
 
 from ec.sitemap.sitemap import Sitemap
 import argparse
-from distutils.util import strtobool
+
+from ec.logger import config_app
+
+log = config_app()
+
 def sitemap_checker(args):
+    log.debug(" Sitemap")
     sitemap = Sitemap(args.sitemapurl, no_progress_bar=args.no_progress)
     if  not args.nocheck :
         sitemap.check_urls()
@@ -20,9 +25,11 @@ def start():
 
     result = sitemap_checker(args)
     if args.output:
+        log.info(" Sitemap written to file"  )
         args.output.write(result)
     else:
         print(result)
+
 if __name__ == '__main__':
 
     result = start()
