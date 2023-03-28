@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from os import path
 
-import collection.rocate_collection
+from ec.collection.rocrate_collection  import SosRocrate,readDecoderRoCrate
 
 
 class RoCreateTestCase(unittest.TestCase):
@@ -14,14 +14,16 @@ class RoCreateTestCase(unittest.TestCase):
         tempcreate = path.join(tempfile.gettempdir(),"read_crate.crate")
 
         zip_source = shutil.make_archive( tempcreate, "zip", crate_dir)
-        crate = collection.rocate_collection.readSosRoCrates3(zip_source)
+        crate = readDecoderRoCrate(zip_source)
         for e in crate.get_entities():
             print(e.id, e.type)
+
+
     def test_createCreate(self):
         file = "../resources/0024e35144d902d8b413ffd400ede6a27efe2146.jsonld"
         with open(file) as f:
             jsonld = f.read()
-        crate = collection.rocate_collection.SosRocrate()
+        crate = SosRocrate()
         crate.name = "test"
         crate.addSosCreator(crate, "aUser")
         crate.addSosPublisher(crate,name="publsher")
