@@ -9,7 +9,10 @@ import json
 
 from  ec.graph.sparql_query import queryWithSparql
 
-context = "@prefix : <https://schema.org/> ."
+HTTPS_SCHEMA_ORG = "https://schema.org/"
+HTTP_SCHEMA_ORG = "http://schema.org/"
+BASE_SHCEMA_ORG = HTTPS_SCHEMA_ORG
+context = f"@prefix : <{BASE_SHCEMA_ORG}> ."
 
 ### BLAZEGRAPH
 '''original fetch all from temporary namespace'''
@@ -51,7 +54,7 @@ def get_summary4repoSubset(endpoint: str, repo : str) -> pandas.DataFrame:
 ###
 # from dataframe
 ####
-def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[dict, str]:
+def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ str|bytes, Graph]:
     "summarize sparql qry (or main quad store)s ret DataFrame, as triples in ttl format w/g as the new subj"
     urns = {}
     def is_str(v):
@@ -61,13 +64,10 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[dict, str]:
     # Not officially a standard schema format.
     # we might want to use our own namespace in the future
     ###########
-    g.bind("ecsummary", "https://schema.org/")
-    ecsummary = Namespace("https://schema.org/")
+    g.bind("ecsummary", BASE_SHCEMA_ORG)
+    ecsummary = Namespace(BASE_SHCEMA_ORG)
 
-    #use StringIO() so we don't have to write a file
-    # this will go away with RDF Graph generation
-    f = StringIO()
-    f.write(f'{context}\n')
+
     for index, row in df.iterrows():
         logging.debug(f'dbg:{row}')
         gu=df["g"][index]
@@ -125,6 +125,12 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[dict, str]:
         datep=row['datep']
         if datep == "No datePublished":
             datep=None
+        # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
+        # UI Date Select failed, because it expects an actual date
+        #   Empty values might be handled in the UI...,
+        #   or the repository valiation reporting
+
+
         placename=row['placenames']
 
 
@@ -134,64 +140,55 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[dict, str]:
         # for RDF graph, using sub, verp object
         ###############
         s=row['subj']
-        f.write(" \n")
-        f.write(f'<{gu}>\n')
 # RDF.TYPE
         if rt == "tool":
-            f.write(f'        a :SoftwareApplication ;\n')
             g.add((graph_subject,RDF.type, Literal("SoftwareApplication")) )
         else:
-            f.write(f'        a :Dataset ;\n')
             g.add((graph_subject, RDF.type, Literal("Dataset")))
 # ecsummary.name
-        f.write(f'        :name {name} ;\n')
         if (pandas.isnull( row.get('name'))):
             g.add((graph_subject, ecsummary.name, Literal("")))
         else:
             g.add( (graph_subject, ecsummary.name, Literal( row.get('name') ) ) )
 
 # ecsummary.description
-        f.write(f'        :description ""{sdes}"" ;\n')
         g.add((graph_subject, ecsummary.description, Literal(description)))
 
 # ecsummary.keywords
-        f.write(f'        :keywords {kw} ;\n')
         g.add((graph_subject, ecsummary.keywords, Literal(kw_)))
 # ecsummary.publisher
-        f.write(f'        :publisher "{pubname}" ;\n')
+
         g.add((graph_subject, ecsummary.publisher, Literal(pubname)))
 # ecsummary.place
-        f.write(f'        :place "{placename}" ;\n')
         g.add((graph_subject, ecsummary.place, Literal(placename)))
 # ecsummary date
         if datep:
-            f.write(f'        :date "{datep}" ;\n') #might be: "No datePublished" ;should change in qry, for dv's lack of checking
+            #might be: "No datePublished" ;should change in qry, for dv's lack of checking
+            # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
+            # UI Date Select failed, because it expects an actual date
+            #   Empty values might be handled in the UI...,
+            #   or the repository valiation reporting
             g.add((graph_subject, ecsummary.date, Literal(datep)))
 # ecsummary subjectOf
-        f.write(f'        :subjectOf <{s}> .\n')
         g.add((graph_subject, ecsummary.subjectOf, URIRef(s)))
 
 # ecsummary.distribution
         du= row.get('url') # check now/not yet
         if is_str(du):
-            f.write(f'        :distribution <{du}> .\n')
             g.add((graph_subject, ecsummary.distribution, URIRef(s)))
 # spatial
 
 # ecsummary.latitude
         mlat= row.get('maxlat') # check now/not yet
         if is_str(mlat):
-            f.write(f'        :latitude {mlat} .\n')
             g.add((graph_subject, ecsummary.latitude, Literal(mlat)))
         mlon= row.get('maxlon') # check now/not yet
         if is_str(mlon):
-            f.write(f'        :longitude {mlon} .\n')
             g.add((graph_subject, ecsummary.longitude, Literal(mlon)))
 
 # ecsummary.encodingFormat
         encodingFormat= row.get('encodingFormat') # check now/not yet
         if is_str(encodingFormat):
-            f.write(f'        :encodingFormat {encodingFormat} .\n')
             g.add((graph_subject, ecsummary.encodingFormat, Literal(encodingFormat)))
         #see abt defaults from qry or here, think dv needs date as NA or blank/check
         #old:
@@ -200,7 +197,7 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[dict, str]:
         #lat/lon not in present ui, but in earlier version
 
         #### end for ####
-    return f.getvalue() , g
+    return g.serialize(format='longturtle'), g
 # g is an RDF graph that can be dumped using
 # output_string = g.serialize(format='longturtle')
 # output_string = g.serialize(format="json-ld")

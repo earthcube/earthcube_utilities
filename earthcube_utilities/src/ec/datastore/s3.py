@@ -17,12 +17,13 @@ class bucketDatastore():
     endpoint = "http://localhost:9000" # basically minio
     options = {}
     default_bucket="gleaner"
-    paths = {"reports":"reports",
+    paths = {"report":"reports",
              "summon": "summoned",
              "milled":"milled",
              "graph":"graphs",
              "archive":"archive",
-             "collections":"collections"
+             "collection":"collections",
+             "sitemap":"sitemaps"
     }
 
     def __init__(self, s3endpoint, options, default_bucket="gleaner"):
@@ -40,6 +41,12 @@ class bucketDatastore():
         pass
     def getFileMetadataFromStore(self, s3ObjectInfo):
         pass
+    def putTextFileToStore(self,data, s3ObjectInfo ):
+        f = BytesIO()
+        length = f.write(bytes(data, 'utf-8'))
+        f.seek(0)
+        resp = self.s3client.put_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name, f,length=length)
+        return resp.bucket_name, resp.object_name
 
     #### Methods for a getting information using infrastructure information
 
@@ -95,11 +102,20 @@ class bucketDatastore():
     Reporting will have to pull the original and put back to the datastore
     '''
 
+    def listReportFile(self,bucket, repo,include_user_meta=False):
+        """ urllist returns list of urn;s with urls"""
+        # include user meta not working.
+        path = f"{self.paths['report']}/{repo}/"
+        return self.listPath(bucket, path,include_user_meta=include_user_meta)
+
     def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
         pass
 
     def getReportFile(self, bucket, repo, filename):
-        pass
+        path = f"{self.paths['report']}/{repo}/filename"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        resp = self.getFileFromStore(s3ObjectInfo)
+        return resp
 
     def getLatestRelaseUrl(self, bucket, repo):
 
@@ -110,9 +126,26 @@ class bucketDatastore():
         pass
 
     def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
-        pass
-    def putRoCrateFile(self, filename, bucket="gleaner", user="public"):
-        pass
+        path = f"{self.paths['crate']}/{user}/{filename}"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        resp = self.getFileFromStore(s3ObjectInfo)
+        return resp
+
+    def putRoCrateFile(self, data: str,filename, bucket="gleaner", user="public"):
+        path = f"{self.paths['report']}/{user}/{filename}"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        return self.putTextFileToStore(data, s3ObjectInfo)
+
+    def getSitemapFile(self,bucket, repo, filename):
+        path = f"{self.paths['sitemap']}/{repo}/filename"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        resp = self.getFileFromStore(s3ObjectInfo)
+        return resp
+
+    def putSitemapFile(self,data: str, repo: str,filename: str, bucket="gleaner"):
+        path = f"{self.paths['sitemap']}/{repo}/{filename}"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        return self.putTextFileToStore(data, s3ObjectInfo)
 
 """
 Basic abstraction, in case someone want to store files in a 
@@ -163,7 +196,7 @@ class MinioDatastore(bucketDatastore):
         return user_meta
 
     def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
-        path = f"{self.paths['reports']}/{repo}/{date}/{filename}"
+        path = f"{self.paths['report']}/{repo}/{date}/{filename}"
         f = BytesIO()
         length = f.write(bytes(json_str, 'utf-8'))
         f.seek(0)
@@ -171,7 +204,7 @@ class MinioDatastore(bucketDatastore):
         return resp.bucket_name, resp.object_name
 
     def getReportFile(self, bucket, repo, filename):
-        path = f"{self.paths['reports']}/{repo}/{filename}"
+        path = f"{self.paths['report']}/{repo}/{filename}"
         s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
@@ -189,12 +222,7 @@ class MinioDatastore(bucketDatastore):
         return paths
 
     def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
-        path = f"/{self.paths['collections']}/{user}/{filename}"
+        path = f"/{self.paths['collection']}/{user}/{filename}"
         crate = self.s3client.get_object(bucket, path)
         return crate
 
-    def putRoCrateFile(self, filename, bucket="gleaner", user="public"):
-        path = f"/{self.paths['collections']}/{user}/{filename}"
-        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
-        crate = self.getFileFromStore(s3ObjectInfo)
-        return crate
