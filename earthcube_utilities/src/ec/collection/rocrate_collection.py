@@ -174,18 +174,36 @@ class SosRocrate(ROCrate):
         elif distType == DATASET__DATA_DOWNLOAD :
             pass
         elif distType == DATASET__DATASET:
-            pass
+            self.add_dataset(source=dataset_jsonld)
 
     def addSosServicesAsEntity(self,crate, url=None, name=None):
         kw = {"name": name}
         self.add_file(source=url, properties=kw)
         pass
 
-    def addSosURL(self,crate, url=None, name=None):
-        kw = {"name": name}
-        self.add_file(source=url, properties=kw)
+    def addSosURL(self, url=None, name=None):
+        properties = {"name":name}
+        self.add_file(source=url, properties=properties)
         #self.add_file(url, identifier=CreateIdentifier(url), properties=kw)
 
+# two possible ways to add the whole JSONLD.
+    # 1. File: url plus the jsonld
+    # 2. Dataset (aka directory): url to geocodes, plus jsonld
 
+    # these need to check that these are datasets ;)
+    def addSosDatasetAsFile(self, dataset_jsonld,  url):
+        properties = dataset_jsonld
+        self.add_file(source=url, properties=properties)
+### humm https://github.com/ResearchObject/ro-crate-py#adding-entities-with-an-arbitrary-type
+    def addSosDatasetAsDataset(self, dataset_jsonld, urn, distType=DATASET__DATASET):
+        self.add_dataset(dest_path=urn, properties=dataset_jsonld)
+
+
+    # this does not get added to hasParts... aka does not get Identifieed as a Dataset
+    def addSosDatasetAsCtxEntity(self, dataset_jsonld, urn, distType=DATASET__DATASET):
+        """Not useful. this does not get added to hasParts... aka does not get Identifieed as a Dataset """
+        datasetCtxEntity =ContextEntity(self, identifier=urn, properties=dataset_jsonld)
+
+        self.add(datasetCtxEntity)
     def addSosContact(self, sos_contact):
             pass

@@ -82,7 +82,7 @@
     "citation" : "Poleta Folds, southern Deep Springs Valley, California. Distributed by OpenTopography. https:\/\/doi.org\/10.5069\/G95T3HFX . Accessed: 2022-10-05",
     "keywords": "folds, faults, structures, Cambrian, basin and range, lidar",
     "identifier": {
-        "@id": "opentopoID=OTLAS.052015.32611.1",
+        "@id": "https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1",
         "@type": "PropertyValue",
         "propertyID": "opentopoID",
         "value": "OTLAS.052015.32611.1"
