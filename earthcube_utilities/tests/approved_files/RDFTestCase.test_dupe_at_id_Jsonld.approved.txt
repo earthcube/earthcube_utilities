@@ -17,22 +17,11 @@
     ],
     "alternateName": "POLETA",
     "citation": "Poleta Folds, southern Deep Springs Valley, California. Distributed by OpenTopography. https://doi.org/10.5069/G95T3HFX . Accessed: 2022-10-05",
-    "contributor": [
-        {
-            "@type": "Organization",
-            "name": "University of Alaska Fairbanks- Dr. Chris Larsen",
-            "url": {
-                "@id": "http://fairweather.alaska.edu/chris/index.html"
-            }
-        },
-        {
-            "@type": "Organization",
-            "name": "White Mountain Research Center",
-            "url": {
-                "@id": "https://www.wmrc.edu/"
-            }
-        }
-    ],
+    "contributor": {
+        "@type": "Organization",
+        "name": "White Mountain Research Center",
+        "url": "https://www.wmrc.edu/"
+    },
     "dateCreated": "2015-05-21 16:38:09.270314",
     "description": "These data cover a popular area for field geologic mapping courses called the Poleta Folds. The area is at the southern end of Deep Springs Valley, southeast of Bishop, CA. The purpose of collecting the data was to provide a good topographic base map for students to learn to map complex geologic structures.",
     "encodingFormat": "application/octet-stream;type=ASPRS-LAS",
@@ -40,59 +29,13 @@
     "funder": [
         {
             "@type": "Organization",
-            "name": "Central Washington University",
-            "url": {
-                "@id": "http://www.geology.cwu.edu/"
-            }
-        },
-        {
-            "@type": "Organization",
-            "name": "California Institute of Technology",
-            "url": {
-                "@id": "https://www.caltech.edu/"
-            }
-        },
-        {
-            "@type": "Organization",
-            "name": "Sacramento State University",
-            "url": {
-                "@id": "https://www.csus.edu/geology/"
-            }
-        },
-        {
-            "@type": "Organization",
-            "name": "Oregon State University",
-            "url": {
-                "@id": "http://geology.okstate.edu/"
-            }
-        },
-        {
-            "@type": "Organization",
-            "name": "University of California, Davis, KeckCAVES",
-            "url": {
-                "@id": "http://keckcaves.org/"
-            }
-        },
-        {
-            "@type": "Organization",
             "name": "University of California, Los Angeles",
-            "url": {
-                "@id": "http://epss.ucla.edu/graduate/geology/"
-            }
+            "url": "http://epss.ucla.edu/graduate/geology/"
         },
         {
             "@type": "Organization",
             "name": "University of California, Santa Cruz",
-            "url": {
-                "@id": "http://eps.ucsc.edu/"
-            }
-        },
-        {
-            "@type": "Organization",
-            "name": "Western Washington Univesity",
-            "url": {
-                "@id": "https://cse.wwu.edu/geology"
-            }
+            "url": "http://eps.ucsc.edu/"
         }
     ],
     "identifier": {
@@ -104,21 +47,17 @@
             "@id": "https://doi.org/10.5069/G95T3HFX",
             "@type": "PropertyValue",
             "additionalType": [
-                "datacite:Identifier",
-                "geolink:Identifier"
+                "geolink:Identifier",
+                "datacite:Identifier"
             ],
             "propertyID": "datacite:doi",
-            "url": {
-                "@id": "https://doi.org/10.5069/G95T3HFX"
-            },
+            "url": "https://doi.org/10.5069/G95T3HFX",
             "value": "10.5069/G95T3HFX"
         },
         "name": "Poleta Folds, southern Deep Springs Valley, California",
-        "url": {
-            "@id": "https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.052015.32611.1"
-        }
+        "url": "https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.052015.32611.1"
     },
-    "isAccessibleForFree": "true",
+    "isAccessibleForFree": true,
     "keywords": "folds, faults, structures, Cambrian, basin and range, lidar",
     "license": "Not-Provided",
     "locationCreated": "",
@@ -130,17 +69,11 @@
         "award": "National Science Foundation under Award Numbers EAR-1948997, 1948994 & 1948857",
         "email": "info@opentopography.org",
         "legalName": "OpenTopography",
-        "logo": {
-            "@id": "http://www.opentopography.org/sites/opentopography.org/files/ot_transp_logo.png"
-        },
+        "logo": "http://www.opentopography.org/sites/opentopography.org/files/ot_transp_logo.png",
         "name": "OpenTopography",
-        "url": {
-            "@id": "https://opentopography.org"
-        }
+        "url": "https://opentopography.org"
     },
-    "sameAs": {
-        "@id": "https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.052015.32611.1"
-    },
+    "sameAs": "https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.052015.32611.1",
     "spatialCoverage": {
         "@type": "Place",
         "additionalProperty": [
@@ -163,34 +96,13 @@
         }
     },
     "temporalCoverage": "2014-02-01/2014-02-01",
-    "url": {
-        "@id": "https://doi.org/10.5069/G95T3HFX"
-    },
-    "usageinfo": {
-        "@id": "https://opentopography.org/usageterms"
-    },
+    "url": "https://doi.org/10.5069/G95T3HFX",
+    "usageinfo": "https://opentopography.org/usageterms",
     "value": "OTLAS.052015.32611.1",
-    "variableMeasured": [
-        {
-            "@type": "PropertyValue",
-            "name": "Area",
-            "value": "47 km2"
-        },
-        {
-            "@type": "PropertyValue",
-            "name": "Unit",
-            "value": "meter"
-        },
-        {
-            "@type": "PropertyValue",
-            "name": "LidarReturns",
-            "value": "41604637 points"
-        },
-        {
-            "@type": "PropertyValue",
-            "name": "PointDensity",
-            "value": "0.89 points/m2"
-        }
-    ],
+    "variableMeasured": {
+        "@type": "PropertyValue",
+        "name": "LidarReturns",
+        "value": "41604637 points"
+    },
     "version": "1.0"
 }

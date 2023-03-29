@@ -1,0 +1,90 @@
+
+{
+    "@context": {"@vocab":"https://schema.org/"},
+    "@type": "Dataset",
+    "version": "1.0",
+    "additionalType": ["geolink:Dataset", "vivo:Dataset"],
+    "name": "Poleta Folds, southern Deep Springs Valley, California",
+    "alternateName": "POLETA",
+    "@id": "./",
+    "description": "These data cover a popular area for field geologic mapping courses called the Poleta Folds. The area is at the southern end of Deep Springs Valley, southeast of Bishop, CA. The purpose of collecting the data was to provide a good topographic base map for students to learn to map complex geologic structures.",
+    "url": "https://doi.org/10.5069/G95T3HFX",
+    "sameAs": "https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.052015.32611.1",
+    "fileFormat" : "Point Cloud Data",
+    "encodingFormat" : ["application/octet-stream;type=ASPRS-LAS"],
+    "publisher" : {
+        "@type": "Organization",
+        "additionalType": "geolink:Organization",
+        "email": "info@opentopography.org",
+        "legalName": "OpenTopography",
+        "name": "OpenTopography",
+        "url": "https://opentopography.org",
+        "award" : "National Science Foundation under Award Numbers EAR-1948997, 1948994 & 1948857",
+        "logo" : "http://www.opentopography.org/sites/opentopography.org/files/ot_transp_logo.png"
+    },
+    "funder": [{
+        "@type": "Organization",
+        "name": "University of California, Los Angeles"
+        ,"url": "http://epss.ucla.edu/graduate/geology/"
+    },{
+        "@type": "Organization",
+        "name": "University of California, Santa Cruz"
+        ,"url": "http://eps.ucsc.edu/"
+    }],
+    "contributor": [{
+        "@type": "Organization",
+        "name": "White Mountain Research Center"
+        ,"url": "https://www.wmrc.edu/"
+    }],
+
+    "variableMeasured": [{
+        "@type": "PropertyValue",
+        "name" : "LidarReturns",
+        "value" : "41604637 points"
+    }],
+    "includedInDataCatalog" : {
+        "@type": "DataCatalog",
+        "name" : "Poleta Folds, southern Deep Springs Valley, California",
+        "url": "https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.052015.32611.1",
+        "identifier": {
+            "@id": "https://doi.org/10.5069/G95T3HFX",
+            "@type": "PropertyValue",
+            "additionalType": ["geolink:Identifier", "datacite:Identifier"],
+            "propertyID": "datacite:doi",
+            "url": "https://doi.org/10.5069/G95T3HFX",
+            "value": "10.5069/G95T3HFX"
+        }
+    },
+    "temporalCoverage": "2014-02-01/2014-02-01",
+    "spatialCoverage": {
+        "@type": "Place",
+        "additionalProperty": [{
+                "@type": "PropertyValue",
+                "additionalType" : "CoordinatesSystem",
+                "name" : "Horizontal Coordinates",
+                "value" : "UTM Zone 11N WGS 1984 [EPSG: 32611]"
+        },{
+                "@type": "PropertyValue",
+                "additionalType" : "CoordinatesSystem",
+                "name" : "Vertical Coordinates",
+                "value" : "Ellipsoid"
+        }],
+        "geo": {
+            "@type": "GeoShape",
+            "box": "37.0012019441369,-118.138459854726 37.3255695246386,-118.068826759762"
+        }
+    },
+    "locationCreated" : "",
+    "dateCreated": "2015-05-21 16:38:09.270314",
+    "license" : "Not-Provided",
+    "usageinfo" : "https://opentopography.org/usageterms",
+    "isAccessibleForFree" : true,
+    "citation" : "Poleta Folds, southern Deep Springs Valley, California. Distributed by OpenTopography. https:\/\/doi.org\/10.5069\/G95T3HFX . Accessed: 2022-10-05",
+    "keywords": "folds, faults, structures, Cambrian, basin and range, lidar",
+    "identifier": {
+        "@id": "https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.052015.32611.1",
+        "@type": "PropertyValue",
+        "propertyID": "opentopoID",
+        "value": "OTLAS.052015.32611.1"
+    }
+}
