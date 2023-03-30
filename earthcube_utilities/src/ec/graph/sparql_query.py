@@ -4,6 +4,7 @@ and contains a way to get resources that are the sparql queries,
 and few helpers to basic queries
 """
 import pandas
+from  pydash import  ends_with, replace_end, sort
 import sparqldataframe
 from string import Template
 try:
@@ -32,7 +33,7 @@ def queryWithSparql( template_name : str, endpoint : str,parameters:object={}) -
        endpoint: SPARQL endpoint url
        parameters: object with the names to fill in template eg {"repo": "reponame"}
     """
-    query = _getFileFromResources(f"{template_name}")
+    query = _getSparqlFileFromResources(f"{template_name}")
     q_template = Template(query)
     thsGraphQuery = q_template.substitute(parameters)
     q_df = sparqldataframe.query(endpoint, thsGraphQuery)
@@ -40,7 +41,7 @@ def queryWithSparql( template_name : str, endpoint : str,parameters:object={}) -
 
 ## this will need to be done to package specifications.
 # https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package
-def _getFileFromResources(filename) -> str:
+def _getSparqlFileFromResources(filename) -> str:
     """ retrieves sparql file from the sparql_files folder when in a package"""
     resourcename = f"{filename}.sparql"
     resource = pkg_resources.read_text(sparqlfiles, resourcename)
@@ -50,10 +51,17 @@ def _getFileFromResources(filename) -> str:
     #         return stream.read()
     #     except Exception as exc:
     #         print(exc)
+def listSparqlFilesFromResources() -> str:
+    """ retrieves sparql file from the sparql_files folder when in a package"""
+    resource = pkg_resources.contents(sparqlfiles)
+    files = filter( lambda f: ends_with(f, ".sparql"), resource)
+    files = map(lambda f: replace_end(f,".sparql",""), files)
+    files = sort(list(files))
+    return files
 
 def getAGraph(  g, endpoint: str) -> pandas.DataFrame:
     """Query a SPARQL endpoint and return a Pandas Dataframe for a geocodes object"""
-    query = _getFileFromResources('get_triples_for_a_graph')
+    query = _getSparqlFileFromResources('get_triples_for_a_graph')
     q_template = Template(query)
     thsGraphQuery = q_template.substitute(g=g)
     g_df = sparqldataframe.query(endpoint, thsGraphQuery)
