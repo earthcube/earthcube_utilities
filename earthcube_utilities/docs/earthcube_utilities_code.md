@@ -4,8 +4,15 @@
 this does not work with multirepo plug, so will need ot be linked 
 
 ## Scripts
+### ec.check_sitemap
+::: ec.check_sitemap
+
+### ec.query_graph
+::: ec.query_graph
+
 ###  ec.generate_repo_stats
 ::: ec.generate_repo_stats
+
 
 ## Code Documentation
 
