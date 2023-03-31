@@ -1,3 +1,4 @@
+## WARNING THIS IS  A SLOW QUERY
 SELECT  ?g (count(?s) as ?count)
 WHERE     {
      GRAPH ?g {?s ?p ?o .}

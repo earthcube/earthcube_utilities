@@ -7,7 +7,25 @@ this does not work with multirepo plug, so will need ot be linked
 
 ## **Scripts**
 
- `
+## **query_graph** ()
+[Separate Document with Sparql Queries](./earthcube_utilities_graph_query_sparql.md )
+`query_graph SPARQL_FILE --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ `
+
+```
+usage: query_graph.py [-h] [--graphendpoint GRAPHENDPOINT] [--output OUTPUT]
+                      query
+
+A tool to use the queries in the earthcube utilities
+
+positional arguments:
+  query                 select_one
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --graphendpoint GRAPHENDPOINT
+                        graph endpoint
+  --output OUTPUT       output file
+```
 
 ## **check_sitemap**
 `check_sitemap SITEMAP_URL --output FILE --no-check-url 
@@ -27,62 +45,6 @@ optional arguments:
 
 ::: ec.check_sitemap
 
-## **query_graph**
-`query_graph SPARQL_FILE --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ `
-
-```
-usage: query_graph.py [-h] [--graphendpoint GRAPHENDPOINT] [--output OUTPUT]
-                      query
-
-A tool to use the queries in the earthcube utilities
-
-positional arguments:
-  query                 select_one
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --graphendpoint GRAPHENDPOINT
-                        graph endpoint
-  --output OUTPUT       output file
-
-Queries 
-all_count_datasets 
-all_count_keywords
-all_count_multiple_versioned_datasets 
-all_count_triples all_count_types
-all_count_variablename 
-all_repo_count_datasets 
-all_repo_count_graphs
-all_repo_count_keywords 
-all_repo_count_versioned_datasets
-all_repo_with_keywords 
-all_select_datasets 
-all_select_graphs 
-all_summary_query
-all_versioned_datasets_multiple_versions 
-get_triples_for_a_graph
-repo_count_datasets 
-repo_count_graph_triples 
-repo_count_graphs
-repo_count_keywords 
-repo_count_multi_versioned_datasets 
-repo_count_triples
-repo_count_types 
-repo_count_variablename 
-repo_graphs_startwith
-repo_select_datasets 
-repo_select_graphs 
-repo_summary_query 
-select_one
-```
-~~~sparql
-{%
-   include '../src/ec/graph/sparql_files/*.sparql'
-   
-%}
-~~~
-
-::: ec.query_graph
 
 ##  **generaterepostats**
 `generaterepostats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
