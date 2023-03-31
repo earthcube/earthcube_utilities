@@ -2,7 +2,7 @@
 
 
 ## **query_graph**
-`query_graph SPARQL_FILE --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ `
+`query_graph SPARQL_RESOURCE --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ `
 
 ```
 usage: query_graph.py [-h] [--graphendpoint GRAPHENDPOINT] [--output OUTPUT]
@@ -50,7 +50,7 @@ repo_summary_query
 select_one
 ```
 
-## Sparql
+## SPARQL RESOURCES
 The naming pattern is if the query starts with all_ then it applies to the overall graph store, and requires no parameters
 
 if the naming patter includes a repo or a urn then those are the parameters
