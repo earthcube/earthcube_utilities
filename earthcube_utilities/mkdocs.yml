@@ -30,6 +30,8 @@ plugins:
 #https://pypi.org/project/mkdocs-jupyter/
 - mkdocs-jupyter
 - callouts
+- include-markdown
 nav:
-    - Earthcube Utilities: index.md
-    - Code Reference: earthcube_utilities.md
+    - Earthcube Utilities: earthcube_utilites_functionality.md
+    - scripts: earthcube_utilities_scripts.md
+    - Code Reference: earthcube_utilities_code.md

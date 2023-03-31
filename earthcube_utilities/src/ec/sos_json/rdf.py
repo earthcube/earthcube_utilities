@@ -78,22 +78,29 @@ def graph2jsonld(g, form="jsonld", schemaType="Dataset") -> str:
 
     Parameters:
         g: ?g from sparql query. URN of the graph eg. urn:gleaner.io:earthcube:geocodes_demo_datasets:257108e0760f96ef7a480e1d357bcf8720cd11e4
-        form: jsonld  future. other forms
+        form: jsonld| compact, frame
+        schemaType: if form=frame then this type is passed to the frame
     """
     # auto_compact=False might change
     jld_str = g.serialize(format="json-ld")
 
-    return formatted_jsonld(jld_str)
+    return formatted_jsonld(jld_str, form=form, schemaType=schemaType)
 
 # returns a framd JSON
 # form= framed|compact
-def get_graph2jsonld(urn: str, endpoint:str, form="jsonld", schemaType="Dataset") -> str:
-    "get jsonld from endpoint"
-    g = get_rdfgraph(urn, endpoint)
-    # auto_compact=False might change
-    jld_str = g.serialize(format="json-ld")
+def get_graph2jsonld(urn: str, endpoint:str, form="compact", schemaType="Dataset") -> str:
+    """get jsonld from endpoint
 
-    return formatted_jsonld(jld_str)
+    Parameters:
+        urn: ?g from sparql query. URN of the graph eg. urn:gleaner.io:earthcube:geocodes_demo_datasets:257108e0760f96ef7a480e1d357bcf8720cd11e4
+        form: jsonld| compact, frame
+        schemaType: if form=frame then this type is passed to the frame
+        endpoint: sparql endpoint
+
+    """
+    g = get_rdfgraph(urn, endpoint)
+
+    return graph2jsonld(g, form=form, schemaType=schemaType)
 
 
 def get_rdf2jld_str(urn: str, endpoint:str) -> str:
@@ -103,7 +110,8 @@ def get_rdf2jld_str(urn: str, endpoint:str) -> str:
     return compact_jld_str(jld_str)
 
 ####
-def load_release(releaseurl:str) -> pandas.DataFrame:
+def load_release(releaseurl:str) -> Graph:
+    """retrieves a release from the url"""
     g= Dataset()
     g.parse(releaseurl, format='nquads')
     return g

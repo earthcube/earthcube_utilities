@@ -55,7 +55,7 @@ def get_summary4repoSubset(endpoint: str, repo : str) -> pandas.DataFrame:
 # from dataframe
 ####
 def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ str|bytes, Graph]:
-    "summarize sparql qry (or main quad store)s ret DataFrame, as triples in ttl format w/g as the new subj"
+    "summarize sparql query returns turtle string and rdf lib Graph"
     urns = {}
     def is_str(v):
         return type(v) is str

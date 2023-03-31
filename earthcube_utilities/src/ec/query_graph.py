@@ -24,7 +24,16 @@ def basicQuery(args):
         print (csv_result)
     return 0
 def start():
-    description="A tool to use the queeries in the earthcube utilities"
+    """
+        Run the query_graph program.
+        A tool to use the queries in the earthcube utilities.
+        Arguments:
+            args: Arguments passed from the command line.
+        Returns:
+            Result as csv file.
+
+    """
+    description="A tool to use the queries in the earthcube utilities"
     epilog = "Queries \n" + "\n".join(listSparqlFilesFromResources())
 
     parser = argparse.ArgumentParser(description=description, epilog=epilog)

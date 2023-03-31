@@ -6,6 +6,7 @@ from jsonschema.exceptions import ValidationError
 from string import Template
 
 import pkg_resources
+from pydash import ends_with, sort
 from pyld import jsonld
 import ec.sos_json.schemas as schemafiles
 
@@ -27,8 +28,13 @@ def isValidJSON(jsonData):
         return False
     return True
 
-
-def validateJson2Schema(json_data, schemaname='GeoCodes-DatasetSchema.json'):
+def listSchemaFilesFromResources() -> str:
+    """ retrieves schema file from the schemas folder when in a package"""
+    resource = pkg_resources.contents(schemafiles)
+    files = filter( lambda f: ends_with(f, ".json"), resource)
+    files = sort(list(files))
+    return files
+def validateJson2Schema(json_data: str, schemaname='GeoCodes-DatasetSchema.json') :
     """REF: https://json-schema.org/ """
     # Describe what kind of json you expect.
     execute_api_schema = _getSchemaFromResources(schemaname)
@@ -44,7 +50,7 @@ def validateJson2Schema(json_data, schemaname='GeoCodes-DatasetSchema.json'):
     return True, message
 
 
-def validateSosDataset(jsonData):
+def validateSosDataset(jsonData: str) -> bool:
     try:
         json_data = json.loads(jsonData)
     except ValueError as err:
@@ -53,7 +59,19 @@ def validateSosDataset(jsonData):
     return valid2_schema
 
 
-def validateEcrrTool(jsonData):
+def validateEcrrTool(jsonData : str) -> bool:
+    """
+       validated
+        Parameters:
+            jsonData: jsonld string returns the string
+            form: 'compact'--compact form,
+                   'frome'--framed usngin schemaType,
+                   'jsonld' - passed form
+            schemaType: type of the schema default="Dataset"
+        Returns:
+            bool.
+
+    """
     try:
         json_data = json.loads(jsonData)
     except ValueError as err:
@@ -63,6 +81,10 @@ def validateEcrrTool(jsonData):
 
 
 def compact_jld_str(jld_str: str) -> str:
+    """
+       depreciated use formatted_jsonld
+
+    """
     doc = json.loads(jld_str)
     compacted = jsonld.compact(doc, jsonld_context)
     r = json.dumps(compacted, indent=2)
@@ -70,6 +92,18 @@ def compact_jld_str(jld_str: str) -> str:
 
 
 def formatted_jsonld(jld_str: str, form="compact", schemaType="Dataset") -> str:
+    """
+       returns a formatted JSONLD string based on the input
+        Parameters:
+            jld_str: jsonld string returns the string
+            form: 'compact'--compact form,
+                   'frome'--framed usngin schemaType,
+                   'jsonld' - passed form
+            schemaType: type of the schema default="Dataset"
+        Returns:
+            string.
+
+    """
     if (form == 'jsonld'):
         return jld_str
 

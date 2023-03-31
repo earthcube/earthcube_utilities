@@ -15,8 +15,14 @@ https://pypi.org/project/earthcube-utilities/
 ## Developers
 
 ### scripts
-In theory, if pip installed, theree is one script at present,
+When installed via pip:
+
+`query_graph SPARQL_FILE --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ `
+
+`check_sitemap SITEMAP_URL --output FILE --no-check-url  `
+
 `generaterepostats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
+
 
 from [console scripts](https://setuptools.pypa.io/en/latest/userguide/entry_point.html#console-scripts)
 
