@@ -70,6 +70,7 @@ jobs:
       - run: cd summarize/docs; cp -r *  ../../docs/summarize/
       -  run: cp -r summarize/README.md  docs/summarize/index.md
       - run: cd  earthcube_utilities/docs; cp -r *  ../../docs/earthcube_utilities/
+      -  run: cd  earthcube_utilities/src/; cp -R ec/graph/spqarl_files  .../../docs/src/ec/graph/
       -  run: cp -r earthcube_utilities/README.md  docs/earthcube_utilities/index.md
       -  run: cp -r notebook_proxy/README.md  docs/notebook_proxy/README.md
  # BUILD DOCS
