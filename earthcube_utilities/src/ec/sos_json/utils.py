@@ -124,6 +124,9 @@ def formatted_jsonld(jld_str: str, form="compact", schemaType="Dataset") -> str:
 
         frame_doc = json.loads(thsGraphQuery)
         doc = json.loads(jld_str)
+ #       doc = jsonld.flatten(doc)
+        # issue where @id on Dataset and @id on Dataset.identifer were the same. If so
+        # @type = ['Dataset', 'PropertyValue'] was the conversion.
 
         framed = jsonld.frame(doc, frame_doc)
 

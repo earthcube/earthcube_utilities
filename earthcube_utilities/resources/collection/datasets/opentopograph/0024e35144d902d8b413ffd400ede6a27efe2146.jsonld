@@ -24,14 +24,42 @@
     },
     "funder": [{
         "@type": "Organization",
+        "name": "Central Washington University"
+        ,"url": "http://www.geology.cwu.edu/"
+    },{
+        "@type": "Organization",
+        "name": "California Institute of Technology"
+        ,"url": "https://www.caltech.edu/"
+    },{
+        "@type": "Organization",
+        "name": "Sacramento State University"
+        ,"url": "https://www.csus.edu/geology/"
+    },{
+        "@type": "Organization",
+        "name": "Oregon State University"
+        ,"url": "http://geology.okstate.edu/"
+    },{
+        "@type": "Organization",
+        "name": "University of California, Davis, KeckCAVES"
+        ,"url": "http://keckcaves.org/"
+    },{
+        "@type": "Organization",
         "name": "University of California, Los Angeles"
         ,"url": "http://epss.ucla.edu/graduate/geology/"
     },{
         "@type": "Organization",
         "name": "University of California, Santa Cruz"
         ,"url": "http://eps.ucsc.edu/"
+    },{
+        "@type": "Organization",
+        "name": "Western Washington Univesity"
+        ,"url": "https://cse.wwu.edu/geology"
     }],
     "contributor": [{
+        "@type": "Organization",
+        "name": "University of Alaska Fairbanks- Dr. Chris Larsen"
+        ,"url": "http://fairweather.alaska.edu/chris/index.html"
+    },{
         "@type": "Organization",
         "name": "White Mountain Research Center"
         ,"url": "https://www.wmrc.edu/"
@@ -39,8 +67,20 @@
 
     "variableMeasured": [{
         "@type": "PropertyValue",
+        "name" : "Area",
+        "value" : "47 km2"
+    },{
+        "@type": "PropertyValue",
+        "name" : "Unit",
+        "value" : "meter"
+    },{
+        "@type": "PropertyValue",
         "name" : "LidarReturns",
         "value" : "41604637 points"
+    },{
+        "@type": "PropertyValue",
+        "name" : "PointDensity",
+        "value" : "0.89 points/m2"
     }],
     "includedInDataCatalog" : {
         "@type": "DataCatalog",
@@ -82,7 +122,7 @@
     "citation" : "Poleta Folds, southern Deep Springs Valley, California. Distributed by OpenTopography. https:\/\/doi.org\/10.5069\/G95T3HFX . Accessed: 2022-10-05",
     "keywords": "folds, faults, structures, Cambrian, basin and range, lidar",
     "identifier": {
-        "@id": "opentopoID=OTLAS.052015.32611.1",
+        "@id": "https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1",
         "@type": "PropertyValue",
         "propertyID": "opentopoID",
         "value": "OTLAS.052015.32611.1"

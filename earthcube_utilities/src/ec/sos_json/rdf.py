@@ -1,3 +1,5 @@
+from typing import Union
+
 import pandas
 import json
 from string import Template
@@ -19,7 +21,7 @@ def is_http(u: str) -> bool:
     #might also check that the str has no spaces in it,&warn/die if it does
     return u.startswith("http")
 
-def createRDFNode(nodeValue: str) -> Literal | BNode | URIRef:
+def createRDFNode(nodeValue: str) -> Union[Literal, BNode ,URIRef]:
     "fix_url and quote otherwise"
     if not isinstance(nodeValue,str):
         if  (nodeValue is None) or  (pandas.isnull(nodeValue)):

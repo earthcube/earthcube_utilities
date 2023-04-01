@@ -4,9 +4,12 @@ import minio
 import pydash
 from pydash.collections import find
 
-def shaFroms3Path(path):
-    split = path.split()
-    return split[len(split)-1]
+def shaFroms3Path(path, extension=None):
+    split = path.split("/")
+    sha = split[len(split)-1]
+    if extension is not None:
+        sha = pydash.strings.replace_end(sha, extension, '')
+    return sha
 
 
 """
@@ -66,6 +69,7 @@ class bucketDatastore():
         s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
+
     def listSummonedUrls(self,bucket, repo):
         """  returns list of urns with urls"""
         jsonlds = self.listJsonld(bucket, repo, include_user_meta=True)
@@ -73,6 +77,14 @@ class bucketDatastore():
         # for ob in objs:
         #     print(ob)
         o_list = list(map(lambda f: {"sha": shaFroms3Path(f.object_name), "url": f.metadata["X-Amz-Meta-Url"]}, objs))
+        return o_list
+    def listSummonedSha(self,bucket, repo):
+        """  returns list of urns with urls"""
+        jsonlds = self.listJsonld(bucket, repo, include_user_meta=False)
+        objs = map(lambda f: shaFroms3Path( f.object_name, extension=".jsonld"), jsonlds)
+        # for ob in objs:
+        #     print(ob)
+        o_list = list(objs)
         return o_list
 
     def getJsonLDMetadata(self, bucket, repo, sha):
@@ -93,6 +105,10 @@ class bucketDatastore():
     def listMilledRdf(self,bucket, repo,urnonly=False):
         path = f"{self.paths['milled']}/{repo}/"
         return self.listPath(bucket, path)
+    def listMilledSha(self,bucket, repo,urnonly=False):
+        paths = self.listMilledRdf(bucket,repo)
+        shas = list(map(lambda p: shaFroms3Path(p.object_name, extension=".rdf"), paths))
+        return shas
 
     def countMilledRdf(self,bucket, repo) -> int:
         count = len(list(self.listMilledRdf(bucket,repo)))
@@ -196,7 +212,7 @@ class MinioDatastore(bucketDatastore):
         return user_meta
 
     def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
-        path = f"{self.paths['reports']}/{repo}/{date}/{filename}"
+        path = f"{self.paths['report']}/{repo}/{date}/{filename}"
         f = BytesIO()
         length = f.write(bytes(json_str, 'utf-8'))
         f.seek(0)
@@ -204,7 +220,7 @@ class MinioDatastore(bucketDatastore):
         return resp.bucket_name, resp.object_name
 
     def getReportFile(self, bucket, repo, filename):
-        path = f"{self.paths['reports']}/{repo}/{filename}"
+        path = f"{self.paths['report']}/{repo}/{filename}"
         s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
@@ -222,7 +238,7 @@ class MinioDatastore(bucketDatastore):
         return paths
 
     def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
-        path = f"/{self.paths['collections']}/{user}/{filename}"
+        path = f"/{self.paths['collection']}/{user}/{filename}"
         crate = self.s3client.get_object(bucket, path)
         return crate
 
