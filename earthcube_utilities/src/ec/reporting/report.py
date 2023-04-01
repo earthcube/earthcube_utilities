@@ -1,9 +1,11 @@
 import json
 import logging
+from datetime import date
 
 import pandas
 import pydash
 
+import ec.sitemap
 from ec.graph.sparql_query import queryWithSparql
 
 from ec.datastore.s3 import MinioDatastore, bucketDatastore
@@ -61,23 +63,82 @@ FUTURE:
 Use issues from repo reports as data for a tool that can evaluate the failures
 
 """
+def get_url_from_sha_list(shas: list,  bucket, repo, datastore: bucketDatastore):
+    """if a repo has issues with milling or loading to a graph, then get the summoned file"""
 
-def compareSitemap2Summoned(valid_sitemap_urls, bucket, repo, datastore: bucketDatastore):
-    #Grab list of metadater-Url from Datastore, ec.datastore.s3.listSummonedUrls
     pass
+
+def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore, graphendpoint, milled=True):
+    today = date.today().strftime("%Y-%m-%d")
+    response = {"repo":repo,"graph":graphendpoint,"sitemap":valid_sitemap_url,
+                "date": today, "bucket": bucket, "s3store": datastore.endpoint }
+    sitemap = ec.sitemap.Sitemap(valid_sitemap_url)
+    sitemap_urls = sitemap.uniqueUrls()
+    sitemap_count = pydash.collections.size(sitemap_urls)
+    summoned_list = datastore.listSummonedUrls(bucket, repo)
+    summoned_count = pydash.collections.size(summoned_list)
+    summoned_urls = list(map(lambda s: s.get("url"), summoned_list))
+    dif_sm_summon = pydash.arrays.difference(sitemap_urls, summoned_urls)
+    response["sitemap_count"] = sitemap_count
+    response["summoned_count"] = summoned_count
+    response["missing_sitemap_summon"] = dif_sm_summon
+    ##### summmon to graph
+    summoned_sha_list = datastore.listSummonedSha(bucket, repo)
+    graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, {"repo": repo})
+    graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns['g']))
+    dif_summon_graph = pydash.arrays.difference(summoned_sha_list, graph_shas)
+    response["milled_count"] = pydash.collections.size(graph_shas)
+    response["missing_summon_graph"] = dif_summon_graph
+    if milled:
+        milled_list = datastore.listMilledSha(bucket, repo)
+
+        dif_summon_milled = pydash.arrays.difference(summoned_sha_list, milled_list)
+        response["milled_count"] = pydash.collections.size(milled_list)
+        response["missing_summon_milled"] = dif_summon_milled
+    return response
+
+def compareSitemap2Summoned(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore):
+    #Grab list of metadater-Url from Datastore, ec.datastore.s3.listSummonedUrls
+    sitemap = ec.sitemap.Sitemap(valid_sitemap_url)
+    sitemap_urls = sitemap.uniqueUrls()
+    sitemap_count= pydash.collections.size(sitemap_urls)
+    summoned_list = datastore.listSummonedUrls(bucket,repo)
+    summoned_count = pydash.collections.size(summoned_list)
+    summoned_urls=list(map(lambda s: s.get("url"),summoned_list ))
+    difference = pydash.arrays.difference( sitemap_urls, summoned_urls)
+    return {
+        "sitemap_count": sitemap_count,
+        "summoned_count": summoned_count,
+            "missing": difference
+            }
+
 
 def compareSummoned2Milled(bucket, repo, datastore: bucketDatastore):
     """ return list of missing urns/urls
     Generating milled will be good to catch such errors"""
     # compare using s3, listJsonld(bucket, repo) to  listMilledRdf(bucket, repo)
-    pass
-
+    summoned_list = datastore.listSummonedSha(bucket, repo)
+    milled_list = datastore.listMilledSha(bucket, repo)
+    difference = pydash.arrays.difference(summoned_list, milled_list)
+    return {
+        "summoned_count": pydash.collections.size(summoned_list),
+        "milled_count": pydash.collections.size(milled_list),
+            "missing": difference
+            }
 def compareSummoned2Graph(bucket, repo, datastore: bucketDatastore, graphendpoint):
     """ return list of missing .
     we do not alway generate a milled.
     """
     # compare using s3, listJsonld(bucket, repo) to queryWithSparql("repo_select_graphs", graphendpoint)
-    pass
+    summoned_list = datastore.listSummonedSha(bucket, repo)
+    graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs",graphendpoint,{"repo":repo})
+    graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns['g']))
+    difference = pydash.arrays.difference(summoned_list, graph_shas)
+    return {
+        "summoned_count": pydash.collections.size(summoned_list),
+        "milled_count": pydash.collections.size(graph_shas),
+            "missing": difference
+            }
 
 
 def putProcessingReports4Repo(repo, date,  json_str, datastore: bucketDatastore, reportname='processing.json',):
