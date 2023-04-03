@@ -64,6 +64,6 @@ optional arguments:
   --detailed            run the detailed version of the reports
 ```
 
-::: ec.generate_repo_stats
+::: ec.generate_graph_stats
 
 
