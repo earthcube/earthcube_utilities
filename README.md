@@ -3,12 +3,14 @@
 ## earthcube_utilities
 
 Utilites used in the Earthcube Geocodes Codebase
-[GeoCODES](https://www.earthcube.org/geocodes) [search](https://geocodes.earthcube.org/) 
+* [GeoCODES](https://www.earthcube.org/geocodes) 
+* [search](https://geocodes.earthcube.org/) 
+* and [Notebooks]( https://github.com/earthcube/NotebookTemplates/tree/geocodes_template/GeoCODEStemplates)
 
 
 ##  Notebook Proxy
 [mknb.py](./notebook_proxy/mknb.py) 
-creates parameterized NoteBook gists (from a [template](./notebook_proxy/templates)) for opening in binder or collab
+Creates parameterized NoteBook gists (from a [template](./notebook_proxy/templates)) for opening in binder or collab
 
 **Please try the**  [search](https://geocodes.earthcube.org/) & click on it's feedback, incl for use-case that we can try to attain 
 
