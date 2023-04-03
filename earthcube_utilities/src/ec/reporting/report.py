@@ -214,20 +214,12 @@ def _get_report_type(reports, code) -> str:
 
 ##  for the 'object reports, we should have a set.these could probably be make a set of methos with (ObjectType[triples,keywords, types, authors, etc], repo, endpoint/datastore)
 def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"]) -> str:
-    #queryWithSparql("repo_count_types", graphendpoint)
-    parameters = {"repo": repo}
-    if repo== "all":
-        reports = map (lambda r:   {"report": r["code"],
+    reports = map (lambda r:   {"report": r["code"],
                                 "data": generateAGraphReportsRepo(repo, r["code"],
                                  graphendpoint, reportList).to_dict('records')
                                    }   ,
                                 reportList)
-    else:
-        reports = map(lambda r: {"report": r["code"],
-                            "data": generateAGraphReportsRepo(repo, r["code"],
-                              graphendpoint, reportList).to_dict('records')
-                              },
-                     reportList)
+
     reports = list(reports)
     return json.dumps({"version": 0, "reports": reports }, indent=4)
 
