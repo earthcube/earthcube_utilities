@@ -1,6 +1,6 @@
 import json
 import logging
-from datetime import date
+from datetime import date, datetime
 
 import pandas
 import pydash
@@ -214,6 +214,7 @@ def _get_report_type(reports, code) -> str:
 
 ##  for the 'object reports, we should have a set.these could probably be make a set of methos with (ObjectType[triples,keywords, types, authors, etc], repo, endpoint/datastore)
 def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"]) -> str:
+    current_dateTime = datetime.now().strftime("%Y-%m-%d")
     reports = map (lambda r:   {"report": r["code"],
                                 "data": generateAGraphReportsRepo(repo, r["code"],
                                  graphendpoint, reportList).to_dict('records')
@@ -221,7 +222,7 @@ def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"])
                                 reportList)
 
     reports = list(reports)
-    return json.dumps({"version": 0, "reports": reports }, indent=4)
+    return json.dumps({"version": 0, "repo": repo, "date": current_dateTime, "reports": reports }, indent=4)
 
 def generateAGraphReportsRepo(repo, code, graphendpoint, reportList) -> pandas.DataFrame:
     #queryWithSparql("repo_count_types", graphendpoint)
