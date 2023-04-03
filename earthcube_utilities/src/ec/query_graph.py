@@ -40,7 +40,7 @@ def start():
 
     """
     description="A tool to use the queries in the earthcube utilities. You can only use the all_ queries, at present"
-    epilog = "Queries \n" + "\n".join(listSparqlFilesFromResources())
+    epilog = "Queries \n" + '"'+ '", \n "'.join(listSparqlFilesFromResources()) +'"'
 
     parser = argparse.ArgumentParser(description=description, epilog=epilog)
 

@@ -208,38 +208,35 @@ reportTypes = {
     ]
 }
 
-def _get_report_type(repo, code) -> str:
-    if repo == "all":
-        report = pydash.find(reportTypes["all"], lambda r: r["code"] == code)
-    else:
-        report =pydash.find(reportTypes["repo"], lambda r:  r["code"] == code)
+def _get_report_type(reports, code) -> str:
+    report = pydash.find(reports, lambda r: r["code"] == code)
     return report["name"]
 
 ##  for the 'object reports, we should have a set.these could probably be make a set of methos with (ObjectType[triples,keywords, types, authors, etc], repo, endpoint/datastore)
-def generateGraphReportsRepo(repo, graphendpoint, reportTypes=reportTypes) -> str:
+def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"]) -> str:
     #queryWithSparql("repo_count_types", graphendpoint)
     parameters = {"repo": repo}
     if repo== "all":
         reports = map (lambda r:   {"report": r["code"],
-                                 "data": generateAGraphReportsRepo("all", r["code"],graphendpoint).to_dict('records')
-                                 }    ,reportTypes["all"])
+                                "data": generateAGraphReportsRepo(repo, r["code"],
+                                 graphendpoint, reportList).to_dict('records')
+                                   }   ,
+                                reportList)
     else:
         reports = map(lambda r: {"report": r["code"],
-                                 "data": generateAGraphReportsRepo(repo, r["code"], graphendpoint).to_dict('records')
-                                 },
-                                 reportTypes["repo"])
+                            "data": generateAGraphReportsRepo(repo, r["code"],
+                              graphendpoint, reportList).to_dict('records')
+                              },
+                     reportList)
     reports = list(reports)
     return json.dumps({"version": 0, "reports": reports }, indent=4)
 
-def generateAGraphReportsRepo(repo, code, graphendpoint) -> pandas.DataFrame:
+def generateAGraphReportsRepo(repo, code, graphendpoint, reportList) -> pandas.DataFrame:
     #queryWithSparql("repo_count_types", graphendpoint)
     parameters = {"repo": repo}
     try:
-        if repo== "all":
-            report =   queryWithSparql(_get_report_type("all", code), graphendpoint, parameters=parameters)
+        report =   queryWithSparql(_get_report_type(reportList, code), graphendpoint, parameters=parameters)
 
-        else:
-            report =  queryWithSparql(_get_report_type("repo", code), graphendpoint, parameters=parameters)
         return report
     except Exception as ex:
         logging.error(f"query with sparql failed: report:{code}  repo:{repo}   {ex}")

@@ -17,19 +17,23 @@ def basicCounts(args):
     log.info(f"Querying {args.graphendpoint} for graph statisitcs  ")
 ### more work needed before detailed works
     if args.repo == "all":
+         # report_json = generateGraphReportsRepo("all",
+         #      args.graphendpoint, reportTypes=reportTypes)
+
         if (args.detailed):
-            report_json = generateGraphReportsRepo("all",
-                                                   args.graphendpoint, reportTypes=reportTypes["all_detailed"])
+            report_json = generateGraphReportsRepo("all", args.graphendpoint, reportList=reportTypes["all_detailed"] )
         else:
             report_json = generateGraphReportsRepo("all",
-                                                   args.graphendpoint,reportTypes=reportTypes["all"])
+                                                       args.graphendpoint,reportList=reportTypes["all"])
     else:
+        # report_json = generateGraphReportsRepo(args.repo,
+        #   args.graphendpoint,reportTypes=reportTypes)
+
         if (args.detailed):
-            report_json = generateGraphReportsRepo(args.repo,
-                                               args.graphendpoint,reportTypes=reportTypes["repo_detailed"])
+            report_json = generateGraphReportsRepo(args.repo, args.graphendpoint,reportList=reportTypes["repo_detailed"] )
         else:
             report_json = generateGraphReportsRepo(args.repo,
-                                                   args.graphendpoint, reportTypes=reportTypes["repo"])
+                                                       args.graphendpoint, reportList=reportTypes["repo"] )
     s3Minio = s3.MinioDatastore( args.s3server, None)
     #data = f.getvalue()
     bucketname, objectname = s3Minio.putReportFile(args.s3bucket,args.repo,"graph_report.json",report_json)
