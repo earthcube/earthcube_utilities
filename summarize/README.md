@@ -125,7 +125,7 @@ optional arguments:
 2. run
 
 ```shell
-./src/summarize_from_graph_namespace.py --repo {repo} --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
+./src/ec_summarize/summarize_from_graph_namespace.py --repo {repo} --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
 
 ```
 repo is optional. Without the  `--repo` the code will summarize all information
@@ -166,7 +166,7 @@ optional arguments:
 
 #### run summarize_repo
 ```shell
-./src/summarize_repo.py {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
+./src/ec_summarize/summarize_repo.py {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
 
 ```
 
@@ -174,4 +174,26 @@ option 2:
 ```shell
 summarize_from_repo {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
 
+```
+
+
+## Developement
+
+create a virutal env
+
+`source {envname}/bin/activate`
+
+
+use editable install
+
+```shell
+cd summarize
+pip3 install -e .
+```
+
+If you edit the pyproject.toml and want to test an added script, 
+```shell
+cd summarize
+pip3 uninstall -e earthcube-summarize
+pip3 install -e .
 ```

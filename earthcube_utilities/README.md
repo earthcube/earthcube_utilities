@@ -15,15 +15,41 @@ https://pypi.org/project/earthcube-utilities/
 ## Developers
 
 ### scripts
-In theory, if pip installed, theree is one script at present,
+When installed via pip:
+
+`query_graph SPARQL_FILE --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ `
+
+`check_sitemap SITEMAP_URL --output FILE --no-check-url  `
+
 `generaterepostats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
+
 
 from [console scripts](https://setuptools.pypa.io/en/latest/userguide/entry_point.html#console-scripts)
 
 ### local development mode
 ```shell
 cd earthcube_utiltiies
-python -m pip install -e .
+pip3 install -e .
+```
+## Developement
+
+create a virutal env and activate
+
+`source {envname}/bin/activate`
+
+
+use editable install
+
+```shell
+cd earthcube_utiltiies
+pip3 install -e .
+```
+
+If you edit the pyproject.toml and want to test an added script, 
+```shell
+cd summarize
+pip3 uninstall -e earthcube_utiltiies
+pip3 install -e .
 ```
 
 ## building a test package

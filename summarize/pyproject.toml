@@ -1,6 +1,6 @@
 [project]
 name = "earthcube_summarize"
-version = "0.1.8"
+version = "0.1.13"
 dynamic = ["dependencies"]
 description = """
 This set of scripts 'materializes' a summarized view of a Science on Schema graph for
@@ -31,13 +31,13 @@ classifiers = [
 "Homepage" = "https://www.earthcube.org/"
 "Bug Tracker" = "https://github.com/earthcube/earthcube_utilities/issues"
 "Geocodes Documentation" = "https://earthcube.github.io/geocodes_documentation/"
-"Earthcube Utilities Documentation" = "https://earthcube.github.io/earthcube_utilities/"
+"EC Utilities Documentation" = "https://earthcube.github.io/earthcube_utilities/"
 "Source" = "https://github.com/earthcube/earthcube_utilities"
 
 [project.scripts]
-summarize_from_repo = "summarize_repo:summarizeRepo"
-summarize_from_graph = "summarize_from_graph_namespace:summarizeGraphOnly"
-summarize_from_release = "summarize_from_release:summarizeReleaseOnly"
+summarize_from_repo = "ec_summarize.summarize_repo:summarizeRepo"
+summarize_from_graph = "ec_summarize.summarize_from_graph_namespace:summarizeGraphOnly"
+summarize_from_release = "ec_summarize.summarize_from_release:summarizeReleaseOnly"
 
 [tool.setuptools]
 # If there are data files included in your packages that need to be

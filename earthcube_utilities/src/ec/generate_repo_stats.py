@@ -8,9 +8,9 @@ import sys
 from ec.graph.sparql_query import queryWithSparql
 
 from ec.datastore import s3
+from ec.logger import config_app
 
-logging.basicConfig(format='%(levelname)s : %(message)s', level=os.environ.get("LOGLEVEL", "INFO"), stream=sys.stdout)
-log = logging.getLogger()
+log = config_app()
 
 def basicCounts(args):
     """query an endpoint, store results as a json file in an s3 store"""
@@ -24,6 +24,15 @@ def basicCounts(args):
     bucketname, objectname = s3Minio.putReportFile(args.s3bucket,"all","dataset_count.json",json)
     return 0
 def start():
+    """
+        Run the generate_repo_stats program.
+        query an endpoint, store results as a json file in an s3 store.
+        Arguments:
+            args: Arguments passed from the command line.
+        Returns:
+            An exit code.
+
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('--graphendpoint', dest='graphendpoint',
                         help='graph endpoint' ,default="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/")

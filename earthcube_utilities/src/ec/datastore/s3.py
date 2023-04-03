@@ -4,9 +4,12 @@ import minio
 import pydash
 from pydash.collections import find
 
-def shaFroms3Path(path):
-    split = path.split()
-    return split[len(split)-1]
+def shaFroms3Path(path, extension=None):
+    split = path.split("/")
+    sha = split[len(split)-1]
+    if extension is not None:
+        sha = pydash.strings.replace_end(sha, extension, '')
+    return sha
 
 
 """
@@ -17,12 +20,13 @@ class bucketDatastore():
     endpoint = "http://localhost:9000" # basically minio
     options = {}
     default_bucket="gleaner"
-    paths = {"reports":"reports",
+    paths = {"report":"reports",
              "summon": "summoned",
              "milled":"milled",
              "graph":"graphs",
              "archive":"archive",
-             "collections":"collections"
+             "collection":"collections",
+             "sitemap":"sitemaps"
     }
 
     def __init__(self, s3endpoint, options, default_bucket="gleaner"):
@@ -40,6 +44,12 @@ class bucketDatastore():
         pass
     def getFileMetadataFromStore(self, s3ObjectInfo):
         pass
+    def putTextFileToStore(self,data, s3ObjectInfo ):
+        f = BytesIO()
+        length = f.write(bytes(data, 'utf-8'))
+        f.seek(0)
+        resp = self.s3client.put_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name, f,length=length)
+        return resp.bucket_name, resp.object_name
 
     #### Methods for a getting information using infrastructure information
 
@@ -50,14 +60,16 @@ class bucketDatastore():
         path = f"{self.paths['summon']}/{repo}/"
         return self.listPath(bucket, path,include_user_meta=include_user_meta)
 
-    def countJsonld(self,bucket, repo):
+    def countJsonld(self,bucket, repo) -> int:
         count = len(list(self.listJsonld(bucket,repo)))
+        return count
 
     def getJsonLD(self, bucket, repo, sha):
         path = f"{self.paths['summon']}/{repo}/{sha}.jsonld"
         s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
+
     def listSummonedUrls(self,bucket, repo):
         """  returns list of urns with urls"""
         jsonlds = self.listJsonld(bucket, repo, include_user_meta=True)
@@ -65,6 +77,14 @@ class bucketDatastore():
         # for ob in objs:
         #     print(ob)
         o_list = list(map(lambda f: {"sha": shaFroms3Path(f.object_name), "url": f.metadata["X-Amz-Meta-Url"]}, objs))
+        return o_list
+    def listSummonedSha(self,bucket, repo):
+        """  returns list of urns with urls"""
+        jsonlds = self.listJsonld(bucket, repo, include_user_meta=False)
+        objs = map(lambda f: shaFroms3Path( f.object_name, extension=".jsonld"), jsonlds)
+        # for ob in objs:
+        #     print(ob)
+        o_list = list(objs)
         return o_list
 
     def getJsonLDMetadata(self, bucket, repo, sha):
@@ -74,30 +94,44 @@ class bucketDatastore():
 
         return tags
 
-    def getOringalUrl(self, bucket, repo, sha):
+    def getOringalUrl(self, bucket, repo, sha) -> str:
         md = self.getJsonLDMetadata(bucket, repo, sha)
         return md['Url']
 
     '''Cleans the name of slashes... might need more in the future.'''
-    def getCleanObjectName(s3ObjectName):
+    def getCleanObjectName(s3ObjectName) -> str:
         return s3ObjectName.replace('/','__')
 
     def listMilledRdf(self,bucket, repo,urnonly=False):
         path = f"{self.paths['milled']}/{repo}/"
         return self.listPath(bucket, path)
+    def listMilledSha(self,bucket, repo,urnonly=False):
+        paths = self.listMilledRdf(bucket,repo)
+        shas = list(map(lambda p: shaFroms3Path(p.object_name, extension=".rdf"), paths))
+        return shas
 
-    def countMilledRdf(self,bucket, repo):
+    def countMilledRdf(self,bucket, repo) -> int:
         count = len(list(self.listMilledRdf(bucket,repo)))
+        return count
     ### methods for reporting
     '''
     Reporting will have to pull the original and put back to the datastore
     '''
 
+    def listReportFile(self,bucket, repo,include_user_meta=False):
+        """ urllist returns list of urn;s with urls"""
+        # include user meta not working.
+        path = f"{self.paths['report']}/{repo}/"
+        return self.listPath(bucket, path,include_user_meta=include_user_meta)
+
     def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
         pass
 
     def getReportFile(self, bucket, repo, filename):
-        pass
+        path = f"{self.paths['report']}/{repo}/filename"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        resp = self.getFileFromStore(s3ObjectInfo)
+        return resp
 
     def getLatestRelaseUrl(self, bucket, repo):
 
@@ -108,9 +142,26 @@ class bucketDatastore():
         pass
 
     def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
-        pass
-    def putRoCrateFile(self, filename, bucket="gleaner", user="public"):
-        pass
+        path = f"{self.paths['crate']}/{user}/{filename}"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        resp = self.getFileFromStore(s3ObjectInfo)
+        return resp
+
+    def putRoCrateFile(self, data: str,filename, bucket="gleaner", user="public"):
+        path = f"{self.paths['report']}/{user}/{filename}"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        return self.putTextFileToStore(data, s3ObjectInfo)
+
+    def getSitemapFile(self,bucket, repo, filename):
+        path = f"{self.paths['sitemap']}/{repo}/filename"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        resp = self.getFileFromStore(s3ObjectInfo)
+        return resp
+
+    def putSitemapFile(self,data: str, repo: str,filename: str, bucket="gleaner"):
+        path = f"{self.paths['sitemap']}/{repo}/{filename}"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        return self.putTextFileToStore(data, s3ObjectInfo)
 
 """
 Basic abstraction, in case someone want to store files in a 
@@ -161,7 +212,7 @@ class MinioDatastore(bucketDatastore):
         return user_meta
 
     def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
-        path = f"{self.paths['reports']}/{repo}/{date}/{filename}"
+        path = f"{self.paths['report']}/{repo}/{date}/{filename}"
         f = BytesIO()
         length = f.write(bytes(json_str, 'utf-8'))
         f.seek(0)
@@ -169,7 +220,7 @@ class MinioDatastore(bucketDatastore):
         return resp.bucket_name, resp.object_name
 
     def getReportFile(self, bucket, repo, filename):
-        path = f"{self.paths['reports']}/{repo}/{filename}"
+        path = f"{self.paths['report']}/{repo}/{filename}"
         s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
@@ -187,12 +238,7 @@ class MinioDatastore(bucketDatastore):
         return paths
 
     def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
-        path = f"/{self.paths['collections']}/{user}/{filename}"
+        path = f"/{self.paths['collection']}/{user}/{filename}"
         crate = self.s3client.get_object(bucket, path)
         return crate
 
-    def putRoCrateFile(self, filename, bucket="gleaner", user="public"):
-        path = f"/{self.paths['collections']}/{user}/{filename}"
-        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
-        crate = self.getFileFromStore(s3ObjectInfo)
-        return crate

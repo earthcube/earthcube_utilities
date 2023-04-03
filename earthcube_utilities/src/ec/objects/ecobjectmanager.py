@@ -28,7 +28,7 @@ class EcObjectManager():
     # forrm = rdflib
     # need to add frame, compact, frame queries type.
     # form = somthing easy to add to a pandas dataframe?
-    def getFromStore(self, urn, source='graph', form='rdflib'):
+    def getFromStore(self, urn, source='graph', form='rdflib') -> str:
 
         if source == 'datastore':
             logging.debug('datastore')

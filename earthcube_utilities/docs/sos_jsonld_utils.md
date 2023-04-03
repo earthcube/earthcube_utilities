@@ -1,5 +1,9 @@
 # utlities to manipulate Science on Schema JSONLD 
 
+implemented in sos_json
+
+the basic info and distibutions should be implemented in objects.
+
 ## functionality
 
 ## Methods

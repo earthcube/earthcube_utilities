@@ -13,7 +13,7 @@ creates parameterized NoteBook gists (from a [template](./notebook_proxy/templat
 **Please try the**  [search](https://geocodes.earthcube.org/) & click on it's feedback, incl for use-case that we can try to attain 
 
 ## Summarize
-[Summarize](./summarize/README.md) is  tool to materialize a set of triples that are used to improve search performance.
+[Summarize](https://earthcube.github.io/earthcube_utilities/summarize/) is  tool to materialize a set of triples that are used to improve search performance.
 
 ## Artifacts
 ### Notebook Proxy:
@@ -21,7 +21,7 @@ There is no pypi package, since this is code that runs in a docker container/loc
 
 https://hub.docker.com/repository/docker/nsfearthcube/mknb
 
-See [README.md](./notebook_proxy/README.md) in src/notebook_proxy
+See [README.md](https://earthcube.github.io/earthcube_utilities/notebook_proxy/) in src/notebook_proxy
 
 
 
@@ -33,8 +33,10 @@ python3 -m pip install earthcube-utilities
 [Code Documentation](https://earthcube.github.io/earthcube_utilities/)
 
 ### Earthcube Utility Summarize:
-https://test.pypi.org/project/earthcube-utility-summarize/
+https://test.pypi.org/project/earthcube-summarize/
 
-[Documentation](./summarize/README.md)
+python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube_summarize
+
+[Documentation](https://earthcube.github.io/earthcube_utilities/summarize/)
 
 

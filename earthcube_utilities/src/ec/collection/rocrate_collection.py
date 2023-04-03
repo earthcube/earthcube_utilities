@@ -7,6 +7,9 @@ import uuid as uuid
 from rocrate.rocrate import ROCrate
 from rocrate.model.person import Person
 from rocrate.model.softwareapplication import SoftwareApplication
+from rocrate.model.contextentity import ContextEntity
+from rocrate.model.data_entity import DataEntity
+from rocrate.model.computationalworkflow import ComputationalWorkflow
 
 from rocrate.model.dataset import Dataset
 from rocrate.model.metadata import Metadata
@@ -14,10 +17,16 @@ from rocrate.model.file import File
 from rocrate.model.file_or_dir import FileOrDir
 
 from rocrateValidator import validate
-from datastore.s3 import MinioDatastore
+from ec.datastore.s3 import MinioDatastore
+
+## Fair Signposting
+# https://pypi.org/project/signposting/
+# https://signposting.org/FAIR/
+# https://fair-impact.eu/enabling-fair-signposting-and-ro-crate-contentmetadata-discovery-and-consumption
+#######
 
 # issue https://github.com/earthcube/GeoCODES-Metadata/issues/5
-# logic that might be utilizle
+# logic that might be utilize
 # https://github.com/MBcode/ec/blob/8255d7c1312faca721000535b85cd1e22470a73e/ec.py#L2472
 
 ##### THOUGHTS #####
@@ -37,7 +46,8 @@ from datastore.s3 import MinioDatastore
 # then tell the tool where the files are, and execute the tool
 #  how frigging hard can that workflow be to understand.
 #  linking tool to the datasets to the tool will be the fun part
-#
+
+
 
 #####
 # add distribution... up here to prevent some linting errors
@@ -80,7 +90,7 @@ from datastore.s3 import MinioDatastore
 
 
 # this tool will read information from an s3 bucket, or a local zip crate
-def readDecaoderRoCrate(crate, bucket="gleaner", s3endpoint=None):
+def readDecoderRoCrate(crate, bucket="gleaner", s3endpoint=None) -> ROCrate:
     if (s3endpoint is not None):
         client = MinioDatastore(s3endpoint)
         data = client.getRoCrateFile(crate, bucket=bucket)
@@ -112,13 +122,23 @@ def _createIdentifier(proposedid):
         m = uuid.uuid4().hex
     return f"uuid:{m}"
 
-DATASET_DATADOWNLOAD = '@DataDownload'  # distribution
-DATASET_DATASET = '@Dataset'  # Dataset
-DATASET_WEBENTITY = '@File'  # url, aka web link
+DATASET__DATA_DOWNLOAD = '@DataDownload'  # distribution
+DATASET__DATASET = '@Dataset'  # Dataset
+DATASET__WEB_ENTITY = '@File'  # url, aka web link
+# DATASET__WEB_SERVICE = '@SERVICE'   #how do we do a service?
 
 ## we do not want to override the methods, we want to add methods
-class sosRocrate(ROCrate):
+# crates are a bit of a pain because they use disk layout, rather than just metadata file
 
+class SosRocrate(ROCrate):
+    """ Science on Schema(SOS) ROCrate Object.
+    ROCrate plus methods to easily add SOS information to an ROCrate
+
+    USE:
+     [Consuming an RO-Crate](https://github.com/ResearchObject/ro-crate-py#consuming-an-ro-crate):
+    use SosRocrate instead of RoCrate
+
+    """
     def nameCrate(self, aName):
         self.nameCrate(aName)
 
@@ -144,28 +164,46 @@ class sosRocrate(ROCrate):
 
 
 
-    def addSosDistribution(self, crate, dataset_jsonld, distribution_to_add=None, distType=DATASET_DATADOWNLOAD):
+    def addSosDistribution(self, crate, dataset_jsonld, distribution_to_add=None, distType=DATASET__DATA_DOWNLOAD):
         aurl = dataset_jsonld.get('url')
         name = dataset_jsonld.get('name')
         if distribution_to_add is None:
             #kw = {"fetch_remote": fetch_remote, "validate_url": validate_url}
             kw = {"name": name}
             self.add_file(aurl, properties=kw)
-        elif distType == DATASET_DATADOWNLOAD :
+        elif distType == DATASET__DATA_DOWNLOAD :
             pass
-        elif distType == DATASET_DATASET:
-            pass
+        elif distType == DATASET__DATASET:
+            self.add_dataset(source=dataset_jsonld)
 
     def addSosServicesAsEntity(self,crate, url=None, name=None):
         kw = {"name": name}
         self.add_file(source=url, properties=kw)
         pass
 
-    def addSosURL(self,crate, url=None, name=None):
-        kw = {"name": name}
-        self.add_file(source=url, properties=kw)
+    def addSosURL(self, url=None, name=None):
+        properties = {"name":name}
+        self.add_file(source=url, properties=properties)
         #self.add_file(url, identifier=CreateIdentifier(url), properties=kw)
 
+# two possible ways to add the whole JSONLD.
+    # 1. File: url plus the jsonld
+    # 2. Dataset (aka directory): url to geocodes, plus jsonld
 
-def addContact(self, sos_contact):
-        pass
+    # these need to check that these are datasets ;)
+    def addSosDatasetAsFile(self, dataset_jsonld,  url):
+        properties = dataset_jsonld
+        self.add_file(source=url, properties=properties)
+### humm https://github.com/ResearchObject/ro-crate-py#adding-entities-with-an-arbitrary-type
+    def addSosDatasetAsDataset(self, dataset_jsonld, urn, distType=DATASET__DATASET):
+        self.add_dataset(dest_path=urn, properties=dataset_jsonld)
+
+
+    # this does not get added to hasParts... aka does not get Identifieed as a Dataset
+    def addSosDatasetAsCtxEntity(self, dataset_jsonld, urn, distType=DATASET__DATASET):
+        """Not useful. this does not get added to hasParts... aka does not get Identifieed as a Dataset """
+        datasetCtxEntity =ContextEntity(self, identifier=urn, properties=dataset_jsonld)
+
+        self.add(datasetCtxEntity)
+    def addSosContact(self, sos_contact):
+            pass

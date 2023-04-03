@@ -18,6 +18,7 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
 
+
 plugins:
 - search
 - mkdocstrings:
@@ -29,12 +30,15 @@ plugins:
 #https://pypi.org/project/mkdocs-jupyter/
 - mkdocs-jupyter
 - callouts
+- include-markdown
 
 
 nav:
     - Summarize: summarize/
     - Notebook Proxy: notebook_proxy/README.md
-    - Earthcube Utilities: earthcube_utilities/index.md
+    - Earthcube Utilities:
+        - Documentation: earthcube_utilities/index.md
+        - Scripts: earthcube_utilities/earthcube_utilities_scripts.md
     - Code Reference:
         - Earthcube Utilites: earthcube_utilities/earthcube_utilities_code.md
         - Summarize: summarize/summarize_code.md

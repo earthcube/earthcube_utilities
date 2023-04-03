@@ -1,8 +1,9 @@
+import json
 import os
 import unittest
 
 import pytest
-from approvaltests import verify
+from approvaltests import verify, verify_as_json
 
 from ec.sos_json.rdf import df2rdfgraph,get_rdfgraph, load_release
 from ec.sos_json.utils import compact_jld_str, formatted_jsonld
@@ -71,7 +72,32 @@ class RDFTestCase(unittest.TestCase):
         jsonld = g.serialize(format="json-ld")
         self.assertIsNotNone(jsonld)
         framed = formatted_jsonld(jsonld, form="frame")
-        verify(f"length of jsonld is: {len(framed)}")
+        #verify(f"length of jsonld is: {len(framed)}")
+        compare = json.loads(framed)
+        verify_as_json(compare)
+
+    def test_dupe_at_id_Jsonld(self):
+        """demonstrates that @type is expanded to at type=['Dataset','PropertyValue']"""
+        file = '../resources/0024e35144d902d8b413ffd400ede6a27efe2146_orig.jsonld'
+        with open(file, 'r') as f:
+             jsonld = f.read()
+        self.assertIsNotNone(jsonld)
+
+        cmpt = formatted_jsonld(jsonld, form="frame")
+        compare = json.loads(cmpt)
+        # verify(f"length of jsonld is: {len(cmpt)}")
+        verify_as_json(compare)
+    def test_relative_at_if_Jsonld(self):
+        file = '../resources/0024e35144d902d8b413ffd400ede6a27efe2146_v2.jsonld'
+        with open(file, 'r') as f:
+            jsonld = f.read()
+        self.assertIsNotNone(jsonld)
+
+        cmpt = formatted_jsonld(jsonld, form="compact")
+        compare = json.loads(cmpt)
+       # verify(f"length of jsonld is: {len(cmpt)}")
+        verify_as_json(compare)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,8 +1,9 @@
 import unittest
+from approvaltests import verify
 
 # pycharm does not like the top level package name... but this is what makes it work
 # from ec.graph.sparql_query import getFileFromResources,getAGraph, queryWithSparql
-from ec.graph.sparql_query import _getFileFromResources,getAGraph, queryWithSparql
+from ec.graph.sparql_query import _getSparqlFileFromResources,getAGraph, queryWithSparql, _listSparqlFilesFromResources
 
 
 class Graph_SparqlDataframe_TestCase(unittest.TestCase):
@@ -14,8 +15,11 @@ class Graph_SparqlDataframe_TestCase(unittest.TestCase):
         cls.gbad = "urn:gleaner:summoned:random:uuid"
 
     def test_getFile(self):
-        f = _getFileFromResources("select_one")
+        f = _getSparqlFileFromResources("select_one")
         self.assertEqual(f, "SELECT * { ?s ?p ?o } LIMIT 1")  # add assertion here
+    def test_listile(self):
+        f =list(_listSparqlFilesFromResources())
+        verify(f)  # add assertion here
 
     def test_getGraph(self ):
         result = getAGraph(self.g, self.endpoint)

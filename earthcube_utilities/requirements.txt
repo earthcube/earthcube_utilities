@@ -11,5 +11,7 @@ rocrate
 rocrateValidator
 uuid
 logconfig
-
+jsonschema
 pydash
+advertools
+pandarallel

@@ -1,0 +1,108 @@
+{
+    "@context": {
+        "@vocab": "https://schema.org/",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "schema": "https://schema.org/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "@id": "https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1",
+    "@type": [
+        "Dataset",
+        "PropertyValue"
+    ],
+    "additionalType": [
+        "geolink:Dataset",
+        "vivo:Dataset"
+    ],
+    "alternateName": "POLETA",
+    "citation": "Poleta Folds, southern Deep Springs Valley, California. Distributed by OpenTopography. https://doi.org/10.5069/G95T3HFX . Accessed: 2022-10-05",
+    "contributor": {
+        "@type": "Organization",
+        "name": "White Mountain Research Center",
+        "url": "https://www.wmrc.edu/"
+    },
+    "dateCreated": "2015-05-21 16:38:09.270314",
+    "description": "These data cover a popular area for field geologic mapping courses called the Poleta Folds. The area is at the southern end of Deep Springs Valley, southeast of Bishop, CA. The purpose of collecting the data was to provide a good topographic base map for students to learn to map complex geologic structures.",
+    "encodingFormat": "application/octet-stream;type=ASPRS-LAS",
+    "fileFormat": "Point Cloud Data",
+    "funder": [
+        {
+            "@type": "Organization",
+            "name": "University of California, Los Angeles",
+            "url": "http://epss.ucla.edu/graduate/geology/"
+        },
+        {
+            "@type": "Organization",
+            "name": "University of California, Santa Cruz",
+            "url": "http://eps.ucsc.edu/"
+        }
+    ],
+    "identifier": {
+        "@id": "https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1"
+    },
+    "includedInDataCatalog": {
+        "@type": "DataCatalog",
+        "identifier": {
+            "@id": "https://doi.org/10.5069/G95T3HFX",
+            "@type": "PropertyValue",
+            "additionalType": [
+                "geolink:Identifier",
+                "datacite:Identifier"
+            ],
+            "propertyID": "datacite:doi",
+            "url": "https://doi.org/10.5069/G95T3HFX",
+            "value": "10.5069/G95T3HFX"
+        },
+        "name": "Poleta Folds, southern Deep Springs Valley, California",
+        "url": "https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.052015.32611.1"
+    },
+    "isAccessibleForFree": true,
+    "keywords": "folds, faults, structures, Cambrian, basin and range, lidar",
+    "license": "Not-Provided",
+    "locationCreated": "",
+    "name": "Poleta Folds, southern Deep Springs Valley, California",
+    "propertyID": "opentopoID",
+    "publisher": {
+        "@type": "Organization",
+        "additionalType": "geolink:Organization",
+        "award": "National Science Foundation under Award Numbers EAR-1948997, 1948994 & 1948857",
+        "email": "info@opentopography.org",
+        "legalName": "OpenTopography",
+        "logo": "http://www.opentopography.org/sites/opentopography.org/files/ot_transp_logo.png",
+        "name": "OpenTopography",
+        "url": "https://opentopography.org"
+    },
+    "sameAs": "https://portal.opentopography.org/datasetMetadata?otCollectionID=OT.052015.32611.1",
+    "spatialCoverage": {
+        "@type": "Place",
+        "additionalProperty": [
+            {
+                "@type": "PropertyValue",
+                "additionalType": "CoordinatesSystem",
+                "name": "Horizontal Coordinates",
+                "value": "UTM Zone 11N WGS 1984 [EPSG: 32611]"
+            },
+            {
+                "@type": "PropertyValue",
+                "additionalType": "CoordinatesSystem",
+                "name": "Vertical Coordinates",
+                "value": "Ellipsoid"
+            }
+        ],
+        "geo": {
+            "@type": "GeoShape",
+            "box": "37.0012019441369,-118.138459854726 37.3255695246386,-118.068826759762"
+        }
+    },
+    "temporalCoverage": "2014-02-01/2014-02-01",
+    "url": "https://doi.org/10.5069/G95T3HFX",
+    "usageinfo": "https://opentopography.org/usageterms",
+    "value": "OTLAS.052015.32611.1",
+    "variableMeasured": {
+        "@type": "PropertyValue",
+        "name": "LidarReturns",
+        "value": "41604637 points"
+    },
+    "version": "1.0"
+}
