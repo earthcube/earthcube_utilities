@@ -381,6 +381,6 @@ this will need to be rewritten to use a LIMIT and OFFSET
 
 ## Code
 
-::: ec.generate_repo_stats
+::: ec.generate_graph_stats
 
 
