@@ -6,5 +6,5 @@ SELECT ?g
 
       GRAPH ?g {?s ?p <https://schema.org/Organization>  .
 
-     } FILTER( CONTAINS(str(?s), "https://gleaner.io/id/org/") )
+     } FILTER( CONTAINS(STRSTARTS(?s), "https://gleaner.io/id/org/") )
    }
