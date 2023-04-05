@@ -61,15 +61,15 @@ def summarizeRepo():
     parser.add_argument('nabufile', type=argparse.FileType('r'),
                         help='nabu configuration file')
     parser.add_argument('--graphendpoint', dest='graphendpoint',
-                        help='override nabu endpoint')
+                        help='use this endpoint (full url:https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"). overrides nabu endpoint')
     parser.add_argument('--glcon', dest='glcon',
                         help='override path to glcon', default="~/indexing/glcon")
     parser.add_argument('--graphsummary', dest='graphsummary',
                         help='upload triples to graphsummary', default=True)
     parser.add_argument('--keeptemp', dest='graphtemp',
-                        help='do not delete the temp namespace. a namespace {repo}_temp will be created', default=True)
+                        help='do not delete the temp namespace. a namespace "{repo}_temp" will be created', default=True)
     parser.add_argument('--summary_namespace', dest='summary_namespace',
-                        help='summary_namespace defaults to {repo}_temp_summary')
+                        help='summary_namespace. just the namepsace defaults to "{repo}_temp_summary"')
     args = parser.parse_args()
 
     repo = args.repo

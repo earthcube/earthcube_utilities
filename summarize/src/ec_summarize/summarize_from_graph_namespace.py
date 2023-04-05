@@ -64,9 +64,9 @@ def summarizeGraphOnly():
                         , required=True)
 
     parser.add_argument('--graphsummary', dest='graphsummary',
-                        help='upload triples to graphsummary', default=True)
+                        help='upload triples to namespace defined in graphenpoint"', default=True)
     parser.add_argument('--summary_namespace', dest='summary_namespace',
-                        help='summary_namespace defaults to {repo_summary}',
+                        help='summary_namespace  just the namspace. defaults to "repo_summary"',
                         )
     args = parser.parse_args()
     repo = args.repo

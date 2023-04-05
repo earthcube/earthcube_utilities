@@ -39,7 +39,7 @@ class ReportingTestCase(unittest.TestCase):
     def test_generate_graph_all(self):
         """ run a list of report types."""
         report_json = generateGraphReportsRepo("all",
-                                          "self.graphendpoint",
+                                          self.graphendpoint,
                                           reportTypes=reportTypes)
         self.assertIsNot(None,report_json)
         report = json.loads(report_json)

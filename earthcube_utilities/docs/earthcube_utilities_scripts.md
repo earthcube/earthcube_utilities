@@ -7,7 +7,7 @@ this does not work with multirepo plug, so will need ot be linked
 
 ## **Scripts**
 
-## **query_graph** ()
+## **query_graph**
 [Separate Document with Sparql Queries](./earthcube_utilities_graph_query_sparql.md )
 `query_graph SPARQL_FILE --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ `
 
@@ -46,11 +46,13 @@ optional arguments:
 ::: ec.check_sitemap
 
 
-##  **generaterepostats**
-`generaterepostats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
+##  **generategrapstats**
+`generategrapstats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
 
 ```
-usage: generaterepostats [-h] [--graphendpoint GRAPHENDPOINT] [--s3 S3SERVER] [--s3bucket S3BUCKET]
+usage: generate_graph_stats.py [-h] [--graphendpoint GRAPHENDPOINT]
+                               [--s3 S3SERVER] [--s3bucket S3BUCKET]
+                               [--repo REPO] [--detailed]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -58,9 +60,10 @@ optional arguments:
                         graph endpoint
   --s3 S3SERVER         s3 server address (localhost:9000)
   --s3bucket S3BUCKET   s3 server address (localhost:9000)
-
+  --repo REPO           repository
+  --detailed            run the detailed version of the reports
 ```
 
-::: ec.generate_repo_stats
+::: ec.generate_graph_stats
 
 

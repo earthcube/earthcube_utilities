@@ -1,6 +1,6 @@
 import json
 import logging
-from datetime import date
+from datetime import date, datetime
 
 import pandas
 import pydash
@@ -157,57 +157,80 @@ reportTypes = {
     "all": [
         {"code": "triple_count", "name": "all_count_triples"},
             {"code": "graph_count_by_repo", "name": "all_repo_count_graphs"},
-            {"code": "kw_count", "name": "all_count_keywords"},
-            {"code": "kw_count_by_repo", "name": "all_repo_count_keywords"},
-            {"code": "dataset_count", "name": "all_count_datasets"},
-            {"code": "dataset_count_by_repo", "name": "all_repo_count_keywords"},
-            {"code": "types_count", "name": "all_count_types"},
-            {"code": "variablename_count", "name": "all_count_variablename"},
-            {"code": "mutilple_version_count", "name": "all_count_multiple_versioned_datasets"}
+        {"code": "dataset_count", "name": "all_count_datasets"},
+        {"code": "dataset_count_by_repo", "name": "all_repo_count_datasets"},
+        {"code": "mutilple_version_count", "name": "all_count_multiple_versioned_datasets"},
+        {"code": "mutilple_version_count_by_repo", "name": "all_repo_count_versioned_datasets"},
+        {"code": "repos_with_keywords", "name": "all_repo_with_keywords"},
+        {"code": "types_count", "name": "all_count_types"},
+        {"code": "types_count_by_repo", "name": "all_repo_count_types"},
      ],
+    # add the triple count by graph, and graph sizes
+    # this will need to be added, managed in the generate_graph
+    # add a basic by default, detailed if requested with a flag
+    "all_detailed": [
+        {"code": "triple_count", "name": "all_count_triples"},
+        {"code": "graph_count_by_repo", "name": "all_repo_count_graphs"},
+        {"code": "dataset_count", "name": "all_count_datasets"},
+        {"code": "dataset_count_by_repo", "name": "all_repo_count_dataset"},
+        {"code": "mutilple_version_count", "name": "all_count_multiple_versioned_datasets"},
+        {"code": "mutilple_version_count_by_repo", "name": "all_repo_count_versioned_datasets"},
+        {"code": "keywords_counts_by_repo", "name": "all_repo_count_keywords"},
+
+        {"code": "types_count", "name": "all_count_types"},
+        {"code": "keywords_count", "name": "all_count_keywords"},
+        {"code": "variablename_count", "name": "all_count_variablename"},
+        {"code": "graph_sizes", "name": "all_graph_sizes"},
+
+    ],
     "repo": [
+        {"code": "triple_count", "name": "repo_count_triples"},
+        {"code": "dataset_count", "name": "repo_count_datasets"},
+        {"code": "type_count", "name": "repo_count_types"},
+        {"code": "kw_count", "name": "repo_count_keywords"},
+        {"code": "variablename_count", "name": "repo_count_variablename"},
+        {"code": "version_count", "name": "repo_count_multi_versioned_datasets"},
+        {"code": "graph_sizes_count", "name": "repo_graph_sizes"},
+    ],
+    # add the triple count by graph, and graph sizes
+    # this will need to be added, managed in the generate_graph
+    # add a basic by default, detailed if requested with a flag
+    "repo_detailed": [
+        {"code": "triple_count", "name": "repo_count_triples"},
         {"code": "kw_count", "name": "repo_count_keywords"},
         {"code": "dataset_count", "name": "repo_count_datasets"},
-        {"code": "triple_count_by_graph", "name": "repo_count_graph_triples"},
         {"code": "triple_count", "name": "repo_count_triples"},
         {"code": "type_count", "name": "repo_count_types"},
         {"code": "version_count", "name": "repo_count_multi_versioned_datasets"},
         {"code": "variablename_count", "name": "repo_count_variablename"},
+        {"code": "graph_sizes_count", "name": "repo_graph_sizes"},
+        {"code": "triple_count_by_graph", "name": "repo_count_triples_by_graph"},
     ]
 }
 
-def _get_report_type(repo, code) -> str:
-    if repo == "all":
-        report = pydash.find(reportTypes["all"], lambda r: r["code"] == code)
-    else:
-        report =pydash.find(reportTypes["repo"], lambda r:  r["code"] == code)
+def _get_report_type(reports, code) -> str:
+    report = pydash.find(reports, lambda r: r["code"] == code)
     return report["name"]
 
 ##  for the 'object reports, we should have a set.these could probably be make a set of methos with (ObjectType[triples,keywords, types, authors, etc], repo, endpoint/datastore)
-def generateGraphReportsRepo(repo, graphendpoint, reportTypes=reportTypes) -> str:
-    #queryWithSparql("repo_count_types", graphendpoint)
-    parameters = {"repo": repo}
-    if repo== "all":
-        reports = map (lambda r:   {"report": r["code"],
-                                 "data": generateAGraphReportsRepo("all", r["code"],graphendpoint).to_dict('records')
-                                 }    ,reportTypes["all"])
-    else:
-        reports = map(lambda r: {"report": r["code"],
-                                 "data": generateAGraphReportsRepo("repo", r["code"], graphendpoint).to_dict('records')
-                                 },
-                                 reportTypes["repo"])
-    reports = list(reports)
-    return json.dumps({"version": 0, "reports": reports }, indent=4)
+def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"]) -> str:
+    current_dateTime = datetime.now().strftime("%Y-%m-%d")
+    reports = map (lambda r:   {"report": r["code"],
+                                "data": generateAGraphReportsRepo(repo, r["code"],
+                                 graphendpoint, reportList).to_dict('records')
+                                   }   ,
+                                reportList)
 
-def generateAGraphReportsRepo(repo, code, graphendpoint) -> pandas.DataFrame:
+    reports = list(reports)
+    return json.dumps({"version": 0, "repo": repo, "date": current_dateTime, "reports": reports }, indent=4)
+
+def generateAGraphReportsRepo(repo, code, graphendpoint, reportList) -> pandas.DataFrame:
     #queryWithSparql("repo_count_types", graphendpoint)
     parameters = {"repo": repo}
     try:
-        if repo== "all":
-            return  queryWithSparql(_get_report_type("all", code), graphendpoint, parameters=parameters)
+        report =   queryWithSparql(_get_report_type(reportList, code), graphendpoint, parameters=parameters)
 
-        else:
-            return queryWithSparql(_get_report_type("repo", code), graphendpoint, parameters=parameters)
+        return report
     except Exception as ex:
         logging.error(f"query with sparql failed: report:{code}  repo:{repo}   {ex}")
         return pandas.DataFrame()

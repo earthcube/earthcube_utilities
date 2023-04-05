@@ -1,11 +1,17 @@
 import json
 import logging
+from typing import Union, Tuple, Any
 
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from string import Template
 
-import pkg_resources
+try:
+    import importlib.resources as pkg_resources
+except ImportError:
+    # Try backported to PY<37 `importlib_resources`.
+    import importlib_resources as pkg_resources
+
 from pydash import ends_with, sort
 from pyld import jsonld
 import ec.sos_json.schemas as schemafiles
@@ -13,15 +19,16 @@ import ec.sos_json.schemas as schemafiles
 jsonld_context = context = {"@vocab": "https://schema.org/"}
 
 
-def _getSchemaFromResources(filename):
-    """ retrieves sparql file from the sparql_files folder when in a package"""
+def _getSchemaFromResources(filename) :
+    """ retrieves json schema file from the  ec.sos_json.schemas directory when in a package"""
     resourcename = f"{filename}.json"
     resource = pkg_resources.read_text(schemafiles, resourcename)
-    schema = json.load(resource)
+    schema = json.loads(resource)
     return schema
 
 
-def isValidJSON(jsonData):
+def isValidJSON(jsonData: str)-> bool:
+    """Is Json Valid"""
     try:
         json.loads(jsonData)
     except ValueError as err:
@@ -34,8 +41,17 @@ def listSchemaFilesFromResources() -> str:
     files = filter( lambda f: ends_with(f, ".json"), resource)
     files = sort(list(files))
     return files
-def validateJson2Schema(json_data: str, schemaname='GeoCodes-DatasetSchema.json') :
-    """REF: https://json-schema.org/ """
+def validateJson2Schema(json_data: Any, schemaname='GeoCodes-DatasetSchema') -> Tuple[bool,str]:
+    """REF: https://json-schema.org/
+
+    Parameters:
+        json_data: JSON Object (aka json.loads())
+        schemaname: name of schem in ec.sos_json.shcemas: (GeoCodes-DatasetSchema or GeoCodes-ECRR-DatasetSchema.json)
+
+    Returns:
+        bool: is valid
+        message: "Given JSON data is Valid" or "Given JSON data is InValid"
+        """
     # Describe what kind of json you expect.
     execute_api_schema = _getSchemaFromResources(schemaname)
 
@@ -43,7 +59,7 @@ def validateJson2Schema(json_data: str, schemaname='GeoCodes-DatasetSchema.json'
         validate(instance=json_data, schema=execute_api_schema)
     except ValidationError as err:
         logging.error(err)
-        err = "Given JSON data is InValid"
+        err = f"Given JSON data is InValid {err}"
         return False, err
 
     message = "Given JSON data is Valid"
@@ -51,6 +67,7 @@ def validateJson2Schema(json_data: str, schemaname='GeoCodes-DatasetSchema.json'
 
 
 def validateSosDataset(jsonData: str) -> bool:
+    """ validates a SOS Dataset"""
     try:
         json_data = json.loads(jsonData)
     except ValueError as err:

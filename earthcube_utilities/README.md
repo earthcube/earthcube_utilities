@@ -21,7 +21,7 @@ When installed via pip:
 
 `check_sitemap SITEMAP_URL --output FILE --no-check-url  `
 
-`generaterepostats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
+`generategraphstats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
 
 
 from [console scripts](https://setuptools.pypa.io/en/latest/userguide/entry_point.html#console-scripts)
