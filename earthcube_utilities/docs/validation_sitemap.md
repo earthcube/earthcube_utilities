@@ -1,4 +1,6 @@
 # Validating sitemaps
+https://earthcube.github.io/earthcube_utilities/earthcube_utilities/earthcube_utilities_code/#ec.sitemap.sitemap
+
 
 There is a tool in development for validating sitemaps with a github action.
 

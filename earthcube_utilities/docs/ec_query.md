@@ -1,6 +1,6 @@
 ### Earthcube Query
 
-Implemented in ec/graph
+Implemented in[ ec/graph](https://earthcube.github.io/earthcube_utilities/earthcube_utilities/earthcube_utilities_scripts/)
 
  manageGraph/ManageBlazegraph
 

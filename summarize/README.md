@@ -15,6 +15,7 @@ To do this, it reads the named graphs (aka quads) that nabu generates as part of
 converts them into flattend triples in  'summary' graph namespace.
 
 ## workflow for  Summarize a part of qualifying a repostiory for loading into geocodes
+
 ```mermaid
 sequenceDiagram
     
@@ -50,6 +51,7 @@ sequenceDiagram
 ```
 
 ## Workflow for Summarizing from an existing graph namespace
+
 ```mermaid
 sequenceDiagram
     
@@ -73,6 +75,7 @@ sequenceDiagram
 ```
 
 ## Dependencies
+
 * Geocodes Stack
 * glcon
 * python > 3.3
@@ -80,7 +83,8 @@ sequenceDiagram
 
 ## INSTALL
 
-### option 1:
+### option 1: doing developement
+
 * pull repository,
     * `git clone https://github.com/earthcube/earthcube_utilities.git`
 * `cd earthcube_utilities/summarize`
@@ -88,11 +92,13 @@ sequenceDiagram
     * `pip3 install requirements.txt`
 * Run steps below
 
-### Option 2: Needs testing
+### Option 2: use package
+
 The code exists in a testing package
 ```python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube_summarize```
 
 ##  Approaches
+
 * Summarize existing graph stores. AKA: data is loaded into a graph. The can and should be subsetted using  a repository name.
 * Summarize as part of workflow, aka build summary when repo is loaded. 
   This is useful for onboarding a new repository
@@ -101,7 +107,9 @@ The code exists in a testing package
 * Build summary for a 'release' graph (coded, but untested/undocumented)
 
 ### Summarize an existing graph stores. 
-This can  summarize an entire graph store, or just process a msubset, eg, a recently update repo.
+
+This can  summarize an entire graph store, or just process a msubset, eg, a recently updated repo.
+
 * The information is in an existing blazegraph instance 
     * ` glcon nabu prefix --cfgName {configdir} ` 
 * There exists a  summary namespace in a blazegraph instance
@@ -121,21 +129,23 @@ optional arguments:
 
 ```
 #### run summarize_from_graph_namespace
+
 1. if you have not, changed to the summarize directory: `cd  earthcube_utilities/summarize`
 2. run
 
+**option 2 script installed**
+```shell 
+summarize_from_graph --repo {repo} --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
+
+``` 
+
+**option1 from repository**
 ```shell
 ./src/ec_summarize/summarize_from_graph_namespace.py --repo {repo} --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
 
 ```
 repo is optional. Without the  `--repo` the code will summarize all information
 
-option2:
-
-```shell
-summarize_from_graph --repo {repo} --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
-
-````
 
 ### Summarize a part of qualifying a repostiory for loading into geocodes
 As part of the qualifying of a repository for loading we want to load the data into separate instances
@@ -165,16 +175,20 @@ optional arguments:
 ```
 
 #### run summarize_repo
-```shell
+
+**option 2 script installed**
+```shell 
+summarize_from_repo {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
+
+```
+
+**option1 from repository**
+```shell 
 ./src/ec_summarize/summarize_repo.py {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
 
 ```
 
-option 2:
-```shell
-summarize_from_repo {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
 
-```
 
 
 ## Developement
