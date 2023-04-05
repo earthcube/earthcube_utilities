@@ -12,7 +12,7 @@ from ec.logger import config_app
 
 log = config_app()
 
-def basicCounts(args):
+def graphStats(args):
     """query an endpoint, store results as a json file in an s3 store"""
     log.info(f"Querying {args.graphendpoint} for graph statisitcs  ")
 ### more work needed before detailed works
@@ -63,7 +63,7 @@ def start():
 
     args = parser.parse_args()
 
-    exitcode = basicCounts(args)
+    exitcode = graphStats(args)
 
 if __name__ == '__main__':
     start()
