@@ -1,7 +1,7 @@
 ### RDF to triples
 
 **working:**
-earthcube_utilities/earthcube_utilities/src/ec/sos_json/rdf.py
+[earthcube_utilities/earthcube_utilities/src/ec/sos_json/rdf.py](https://earthcube.github.io/earthcube_utilities/earthcube_utilities/earthcube_utilities_code/#ec.sos_json.rdf)
 
 ---
 ## original spec

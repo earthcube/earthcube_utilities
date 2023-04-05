@@ -2,9 +2,10 @@
 
 This can happen with queries that can be run. 
 
-earthcube_utilities/src/ec/graph/sparql_files
+[earthcube_utilities/src/ec/reporting](https://earthcube.github.io/earthcube_utilities/earthcube_utilities/earthcube_utilities_code/#ec.reporting.report)
 
  ```queryWithSparql( template_name, endpoint,parameters={}):```
+
 
 # Research
 https://github.com/gleanerio/notebooks/tree/master/notebooks/validation
