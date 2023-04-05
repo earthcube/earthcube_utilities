@@ -137,7 +137,7 @@ optional arguments:
 ```shell 
 summarize_from_graph --repo {repo} --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
 
-```` 
+``` 
 
 **option1 from repository**
 ```shell
