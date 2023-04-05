@@ -3,12 +3,46 @@ site_name: Earthcube Utilities -- Summarize
 theme:
   name: "material"
 
+  features:
+#    - content.code.copy
+    - navigation.sections
+markdown_extensions:
+  - toc:
+      permalink: 
+  - attr_list
+  - def_list
+  - tables
+  - pymdownx.highlight:
+      use_pygments: false
+  - admonition
+  - pymdownx.snippets
+  - pymdownx.details
+  - pymdownx.superfences:
+     custom_fences:
+      - name: mermaid
+        class: mermaid
+        format: !!python/name:mermaid2.fence_mermaid_custom
+extra_javascript:
+    - https://unpkg.com/mermaid/dist/mermaid.min.js
+    - js/loader.js
+
 plugins:
 - search
 - mkdocstrings:
     handlers:
       python:
+#        paths: [earthcube_utilities/src, summarize/src ]
         paths: [src ]
+- literate-nav
+#https://pypi.org/project/mkdocs-jupyter/
+- mkdocs-jupyter
+- callouts
+- include-markdown
+- mermaid2:
+   arguments:
+     securityLevel: 'loose'
+
+
 nav:
     - Summarize: index.md
     - Summarize Code Doc: summarize_code.md
