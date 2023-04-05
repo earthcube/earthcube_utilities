@@ -32,6 +32,8 @@ plugins:
 - callouts
 - include-markdown
 
+extra_javascript:
+    - https://unpkg.com/mermaid/dist/mermaid.min.js
 
 nav:
     - Summarize: summarize/
