@@ -7,7 +7,7 @@ this does not work with multirepo plug, so will need ot be linked
 
 ## **Scripts**
 
-## **query_graph** ()
+## **query_graph**
 [Separate Document with Sparql Queries](./earthcube_utilities_graph_query_sparql.md )
 `query_graph SPARQL_FILE --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ `
 
@@ -46,8 +46,8 @@ optional arguments:
 ::: ec.check_sitemap
 
 
-##  **generaterepostats**
-`generaterepostats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
+##  **generategrapstats**
+`generategrapstats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
 
 ```
 usage: generate_graph_stats.py [-h] [--graphendpoint GRAPHENDPOINT]
