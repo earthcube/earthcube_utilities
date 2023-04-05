@@ -5,7 +5,9 @@ theme:
 
   features:
 #    - content.code.copy
-    - navigation.sections
+  - navigation.sections
+  - navigation.tabs
+  - navigation.path
 markdown_extensions:
   - toc:
       permalink: 
@@ -15,6 +17,7 @@ markdown_extensions:
   - pymdownx.highlight:
       use_pygments: false
   - admonition
+  - pymdownx.snippets
   - pymdownx.snippets
   - pymdownx.details
   - pymdownx.superfences:
@@ -41,7 +44,7 @@ plugins:
 - mermaid2:
    arguments:
      securityLevel: 'loose'
-
+-  glightbox
 
 nav:
     - Summarize: index.md

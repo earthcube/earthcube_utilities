@@ -24,6 +24,7 @@ jobs:
       - run: pip install mkdocs-callouts
       - run: pip install mkdocstrings-python
       - run: pip install mkdocs-include-markdown-plugin
+      - run: pip install  mkdocs-glightbox
       - name: Checkout
         uses: actions/checkout@v3
 ## no cleaup needed
