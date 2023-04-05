@@ -80,7 +80,7 @@ sequenceDiagram
 
 ## INSTALL
 
-### option 1:
+### option 1: doing developement
 * pull repository,
     * `git clone https://github.com/earthcube/earthcube_utilities.git`
 * `cd earthcube_utilities/summarize`
@@ -88,7 +88,7 @@ sequenceDiagram
     * `pip3 install requirements.txt`
 * Run steps below
 
-### Option 2: Needs testing
+### Option 2: use package
 The code exists in a testing package
 ```python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube_summarize```
 
@@ -124,18 +124,17 @@ optional arguments:
 1. if you have not, changed to the summarize directory: `cd  earthcube_utilities/summarize`
 2. run
 
-```shell
+```shell title="option 2 script installed"
+summarize_from_graph --repo {repo} --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
+
+```` 
+
+```shell title="option1 from repository"
 ./src/ec_summarize/summarize_from_graph_namespace.py --repo {repo} --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
 
 ```
 repo is optional. Without the  `--repo` the code will summarize all information
 
-option2:
-
-```shell
-summarize_from_graph --repo {repo} --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
-
-````
 
 ### Summarize a part of qualifying a repostiory for loading into geocodes
 As part of the qualifying of a repository for loading we want to load the data into separate instances
@@ -165,16 +164,17 @@ optional arguments:
 ```
 
 #### run summarize_repo
-```shell
+```shell title="option 2 script installed"
+summarize_from_repo {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
+
+```
+
+```shell title="option1 from repository"
 ./src/ec_summarize/summarize_repo.py {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
 
 ```
 
-option 2:
-```shell
-summarize_from_repo {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
 
-```
 
 
 ## Developement
