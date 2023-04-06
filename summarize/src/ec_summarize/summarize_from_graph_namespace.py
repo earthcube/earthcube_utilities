@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 
 import argparse
-
 import logging
-
-
 import os
 from ec.graph.manageGraph import ManageBlazegraph as mg
 from ec.summarize.summarize_materializedview import summaryDF2ttl, get_summary4graph,get_summary4repoSubset
 from ec.gleanerio.gleaner import endpointUpdateNamespace,getNabu, reviseNabuConfGraph, runNabu
+from urllib.parse import urlparse
 
 # def endpointUpdateNamespace( fullendpoint, namepsace='temp'):
 #     paths = fullendpoint.split('/')
@@ -42,7 +40,13 @@ from ec.gleanerio.gleaner import endpointUpdateNamespace,getNabu, reviseNabuConf
 #         return True
 #     else:
 #         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
-
+def isValidURL(toValidate):
+    o = urlparse(toValidate)
+    if o.scheme and o.netloc:
+        return True
+    else:
+        return False
+    
 def summarizeGraphOnly():
     """ Summarize directly from a namespace, upload to provided summarize namespace
 
@@ -70,7 +74,11 @@ def summarizeGraphOnly():
                         )
     args = parser.parse_args()
     repo = args.repo
+
     if args.summary_namespace:
+        if isValidURL(args.summary_namespace):
+            print("For summary_namespace, Please enter the namespace only.")
+            return 1
         summary = args.summary_namespace
     else:
         summary = f"{repo}_summary"
@@ -116,8 +124,6 @@ def summarizeGraphOnly():
         logging.error(f"error {ex}")
         print(f"Error: {ex}")
         return 1
-
-
 
 if __name__ == '__main__':
 
