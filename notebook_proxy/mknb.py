@@ -76,9 +76,9 @@ import gistyc
 # should we just hash the name... would be simpler, because we want to pass multiple files to a notebook for a run.
 # (x) be able to pass a different template, or pull from a repo/url.
 ## (implemented temp file) can papermill to memory file reads, or be embedded to do such things?
-from graph.sparql_query import getAGraph
-from sos_json.rdf import get_graph2jsonld, get_rdfgraph
-from sos_json.utils import formatted_jsonld
+from ec.graph.sparql_query import getAGraph
+from ec.sos_json.rdf import get_graph2jsonld, get_rdfgraph
+from ec.sos_json.utils import formatted_jsonld
 
 
 def first_str(s):
@@ -327,25 +327,32 @@ def pm_nb(collection, template=None, filename="temp.ipynb"):
 
 def mknb(collection, template=None):
     "url2 pm2gist/colab nb"
-    if collection is None or len(collection["datasets"]) < 1:
-        r = f'bad-parameter:no datasets or empty datasets'
-    dwnurl_str = collection["datasets"][0].get("downloadurl")
-    ext = collection["datasets"][0].get("ext")
-    urn = collection["datasets"][0].get("urn")
-    if (dwnurl_str and dwnurl_str.startswith("http")):
-        # fn=dwnurl2fn(dwnurl_str) #already done in pm_nb
-        # r=pm_nb(dwnurl_str, ext)
-        # r=pm_nb2(dwnurl_str, ext)
-        # r=pm_nb3(dwnurl_str, ext, urn)
-        ## r = pm_nb(dwnurl_str, ext, urn, template)
-        dwnurl = dwnurl_str.replace('/', '')
-        fn = dwnurl2fn(dwnurl)
+    if collection is None:
+        r = f'bad-parameter:no collection or  datasets passed'
+    if (collection.get("collection") is not None):
+        collectionobject = collection["collection"]
         temp_dir = tempfile.gettempdir()
-        fn = os.path.join(temp_dir, fn)
-        r = pm_nb(collection, template, fn)
-    else:
-        r = f'bad-url:{dwnurl_str}'
-    return r
+        fn = os.path.join(temp_dir, "test")
+        r = pm_nb(collectionobject, template, fn)
+        return r
+    if (collection.get("datasets") is not None and len(collection.get("datasets")) < 1):
+        dwnurl_str = collection["datasets"][0].get("downloadurl")
+        ext = collection["datasets"][0].get("ext")
+        urn = collection["datasets"][0].get("urn")
+        if (dwnurl_str and dwnurl_str.startswith("http")):
+            # fn=dwnurl2fn(dwnurl_str) #already done in pm_nb
+            # r=pm_nb(dwnurl_str, ext)
+            # r=pm_nb2(dwnurl_str, ext)
+            # r=pm_nb3(dwnurl_str, ext, urn)
+            ## r = pm_nb(dwnurl_str, ext, urn, template)
+            dwnurl = dwnurl_str.replace('/', '')
+            fn = dwnurl2fn(dwnurl)
+            temp_dir = tempfile.gettempdir()
+            fn = os.path.join(temp_dir, fn)
+            r = pm_nb(collection, template, fn)
+        else:
+            r = f'bad-url:{dwnurl_str}'
+        return r
 
 
 ##############
@@ -444,7 +451,7 @@ def readme():
     return md_template_string
 
 
-@app.route('/mknb/')  # works, but often have2rerun the clicked link2get rid of errors
+@app.route('/mknb/',methods = ['GET', 'POST',])  # works, but often have2rerun the clicked link2get rid of errors
 @login_required
 def mk_nb():
     # dwv setup userauth
@@ -452,19 +459,35 @@ def mk_nb():
     g_api = gist_api(token)
 
     # "make a NoteBook"
-    dwnurl_str = request.args.get('url', type=str)
-    print(f'url={dwnurl_str}')
-    ext = request.args.get('ext', default='None', type=str)
-    print(f'ext={ext}')
-    urn = request.args.get('urn', default='None', type=str)
-    print(f'urn={urn}')
-    template = request.args.get('template', default='template.ipynb', type=str)
-    print(f'template={template}')
-    collection_parameter = {}
-    collection_parameter["datasets"] = [{"urn": urn, "ext": ext, "downloadurl": dwnurl_str}]
-
-    r = mknb(collection_parameter, template)
-    return r
+    if request.method == 'GET':
+        """return the information for <user_id>"""
+        dwnurl_str = request.args.get('url', type=str)
+        print(f'url={dwnurl_str}')
+        ext = request.args.get('ext', default='None', type=str)
+        print(f'ext={ext}')
+        urn = request.args.get('urn', default='None', type=str)
+        print(f'urn={urn}')
+        template = request.args.get('template', default='template.ipynb', type=str)
+        print(f'template={template}')
+        collection_parameter = {}
+        collection_parameter["datasets"] = [{"urn": urn, "ext": ext, "downloadurl": dwnurl_str}]
+        # r= mknb(dwnurl_str,ext,urn, template)
+        r = mknb(collection_parameter, template)
+        return r
+    if request.method == 'POST':
+        """modify/update the information for <user_id>"""
+        # you can use <user_id>, which is a str but could
+        # be changed to be int or whatever you want, along
+        # with your lxml knowledge to make the required
+        # changes
+        template = request.args.get('template', default='template.ipynb', type=str)
+        print(f'template={template}')
+        data = request.form
+        collection = request.form.get('collection')
+        collection_parameter = {}
+        collection_parameter["collection"] = collection
+        r = mknb(collection_parameter, template)
+        return r
 
 @app.route('/mkQ/')
 @login_required
