@@ -65,7 +65,7 @@ if the naming patter includes a repo or a urn then those are the parameters
 test query, returns one triple
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/select_one.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/select_one.sparql'
    
 %}
 ~~~
@@ -78,7 +78,7 @@ parameter:
 returns a list of triples which represents one JSONLD file, aka graph
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/urn_triples_for_a_graph.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/urn_triples_for_a_graph.sparql'
    
 %}
 ~~~
@@ -93,7 +93,7 @@ the information for  repository containing a single communities data.
 ####  all_count_datasets 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_count_datasets.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_count_datasets.sparql'
    
 %}
 ~~~
@@ -101,7 +101,7 @@ the information for  repository containing a single communities data.
 ####  all_count_keywords
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_count_keywords.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_count_keywords.sparql'
    
 %}
 ~~~
@@ -109,7 +109,7 @@ the information for  repository containing a single communities data.
 ####  all_count_multiple_versioned_datasets 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_count_multiple_versioned_datasets.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_count_multiple_versioned_datasets.sparql'
    
 %}
 ~~~
@@ -117,7 +117,7 @@ the information for  repository containing a single communities data.
 ####  all_count_triples 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_count_triples.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_count_triples.sparql'
    
 %}
 ~~~
@@ -129,7 +129,7 @@ High triple counts for a triple size may indicate a conversion issue
 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_graph_sizes.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_graph_sizes.sparql'
    
 %}
 ~~~
@@ -137,7 +137,7 @@ High triple counts for a triple size may indicate a conversion issue
 ####  all_count_types
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_count_types.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_count_types.sparql'
    
 %}
 ~~~
@@ -146,7 +146,7 @@ High triple counts for a triple size may indicate a conversion issue
 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_count_variablename.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_count_variablename.sparql'
    
 %}
 ~~~
@@ -154,7 +154,7 @@ High triple counts for a triple size may indicate a conversion issue
 ####  all_repo_count_datasets 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_repo_count_datasets.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_repo_count_datasets.sparql'
    
 %}
 ~~~
@@ -164,7 +164,7 @@ High triple counts for a triple size may indicate a conversion issue
 returns a count of inserted JSON-LD files, where each graph is a file.
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_repo_count_graphs.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_repo_count_graphs.sparql'
    
 %}
 ~~~
@@ -172,7 +172,7 @@ returns a count of inserted JSON-LD files, where each graph is a file.
 ####  all_repo_count_keywords 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_repo_count_keywords.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_repo_count_keywords.sparql'
    
 %}
 ~~~
@@ -182,7 +182,7 @@ returns a count of inserted JSON-LD files, where each graph is a file.
 returns a count of graphs including the version field.
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_repo_count_versioned_datasets.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_repo_count_versioned_datasets.sparql'
    
 %}
 ~~~
@@ -192,7 +192,7 @@ returns a count of graphs including the version field.
 Returns rows with a repo brief name, and the count of the keywords in that repo
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_repo_with_keywords.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_repo_with_keywords.sparql'
    
 %}
 ~~~
@@ -202,7 +202,7 @@ Returns rows with a repo brief name, and the count of the keywords in that repo
 returns a list of Schema.org/Dataset
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_select_datasets.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_select_datasets.sparql'
    
 %}
 ~~~
@@ -212,7 +212,7 @@ returns a list of Schema.org/Dataset
 returns a list of graphs, which are the urn's of the JSONLD files
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_select_graphs.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_select_graphs.sparql'
    
 %}
 ~~~
@@ -224,7 +224,7 @@ Return records with the fields as a 'summary ' which is used to materialize a vi
 this will need to be rewritten to use a LIMIT and OFFSET
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_summary_query.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_summary_query.sparql'
    
 %}
 ~~~
@@ -236,7 +236,7 @@ returns Schema.org/Dataset with more than one version.
 this might need to be a UNION with using SameAs, or another field... someone uses a different pattern
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/all_versioned_datasets_multiple_versions.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/all_versioned_datasets_multiple_versions.sparql'
    
 %}
 ~~~
@@ -251,7 +251,7 @@ These queries take a parameter 'repo'
 Returns count of Schema.org/Dataset
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_count_datasets.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_count_datasets.sparql'
    
 %}
 ~~~
@@ -265,7 +265,7 @@ is broken for this repository.
 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_count_triples_by_graph.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_count_triples_by_graph.sparql'
    
 %}
 ~~~
@@ -277,7 +277,7 @@ If the count is small, and the same number, then it is possible that the convers
 is broken for this repository.
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_graph_sizes.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_graph_sizes.sparql'
    
 %}
 ~~~
@@ -287,7 +287,7 @@ is broken for this repository.
 Count of loaded JSON-LD files
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_count_graphs.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_count_graphs.sparql'
    
 %}
 ~~~
@@ -295,7 +295,7 @@ Count of loaded JSON-LD files
 ####  repo_count_keywords 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_count_keywords.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_count_keywords.sparql'
    
 %}
 ~~~
@@ -307,7 +307,7 @@ Does this repo have multiple dataset versions, if so, what is the count.
 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_count_multi_versioned_datasets.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_count_multi_versioned_datasets.sparql'
    
 %}
 ~~~
@@ -315,7 +315,7 @@ Does this repo have multiple dataset versions, if so, what is the count.
 ####  repo_count_triples
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_count_triples.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_count_triples.sparql'
    
 %}
 ~~~
@@ -323,7 +323,7 @@ Does this repo have multiple dataset versions, if so, what is the count.
 ####  repo_count_types 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_count_types.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_count_types.sparql'
    
 %}
 ~~~
@@ -331,7 +331,7 @@ Does this repo have multiple dataset versions, if so, what is the count.
 ####  repo_count_variablename 
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_count_variablename.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_count_variablename.sparql'
    
 %}
 ~~~
@@ -339,7 +339,7 @@ Does this repo have multiple dataset versions, if so, what is the count.
 ####  repo_graphs_startwith
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_graphs_startwith.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_graphs_startwith.sparql'
    
 %}
 ~~~
@@ -349,7 +349,7 @@ Does this repo have multiple dataset versions, if so, what is the count.
 return urns/graph of Schema.org/Dataset
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_select_datasets.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_select_datasets.sparql'
    
 %}
 ~~~
@@ -359,7 +359,7 @@ return urns/graph of Schema.org/Dataset
 return urns/graph of all loaded information
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_select_graphs.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_select_graphs.sparql'
    
 %}
 ~~~
@@ -371,7 +371,7 @@ Return records with the fields as a 'summary ' which is used to materialize a vi
 this will need to be rewritten to use a LIMIT and OFFSET
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_summary_query.sparql'
+   include '../../earthcube_utilities/src/ec/graph/sparql_files/repo_summary_query.sparql'
    
 %}
 ~~~
