@@ -1,16 +1,17 @@
 prefix schema: <https://schema.org/>
 SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
-        (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw) ?datep
+        (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw) ?datep ?sosType
         #(GROUP_CONCAT(DISTINCT ?url; SEPARATOR=", ") AS ?disurl)
         WHERE {
           graph ?g {
              ?subj schema:name ?name .
              ?subj schema:description ?description .
-            ?subj a schema:Dataset
+            #?subj a schema:Dataset .
+             ?subj a ?sosType .
             Minus {?subj a schema:Person } .
  BIND (IF (exists {?subj a schema:Dataset .} ||exists{?subj a schema:DataCatalog .} , "data", "tool") AS ?resourceType).
-                  # ?subj a ?resourceType .
+
             optional {?subj schema:distribution/schema:url|schema:subjectOf/schema:url ?url .}
             OPTIONAL {?subj schema:datePublished ?date_p .}
             OPTIONAL {?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name .}
@@ -25,4 +26,4 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
              }
         FILTER( CONTAINS(str(?g), "${repo}") )
         }
-        GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?g
+        GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?sosType ?g

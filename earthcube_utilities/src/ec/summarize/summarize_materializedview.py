@@ -143,10 +143,14 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], G
         ###############
         s=row['subj']
 # RDF.TYPE
-        if rt == "tool":
-            g.add((graph_subject,RDF.type, sosschema.SoftwareApplication) )
-        else:
-            g.add((graph_subject, RDF.type, sosschema.Dataset))
+#         if rt == "tool":
+#             g.add((graph_subject,RDF.type, sosschema.SoftwareApplication) )
+#         else:
+#             g.add((graph_subject, RDF.type, sosschema.Dataset))
+        # RDF.TYPE
+        rt = row['sosType']
+        g.add((graph_subject, RDF.type, URIRef(rt)))
+
 # ecsummary.name
         if (pandas.isnull( row.get('name'))):
             g.add((graph_subject, ecsummary.name, Literal("")))
