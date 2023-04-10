@@ -67,8 +67,8 @@ def summarizeReleaseOnly():
                         help='graph endpoint with namespace',
                         default="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"
                         )
-    parser.add_argument('--graphsummary', dest='graphsummary',
-                        help='upload triples to graphsummary', default=True)
+    parser.add_argument('--nographsummary', action='store_true', dest='nographsummary',
+                        help='send triples to file', default=False)
     parser.add_argument('--summary_namespace', dest='summary_namespace',
                         help='summary_namespace defaults to {repo_summary}',
                         )
@@ -124,7 +124,7 @@ def summarizeReleaseOnly():
         # write to s3  in future
         # with open(os.path.join("output",f"{repo}.ttl"), 'w') as f:
         #      f.write(summaryttl)
-        if args.graphsummary:
+        if not args.nographsummary:
             inserted = sumnsgraph.insert(bytes(summaryttl, 'utf-8'),content_type="application/x-turtle" )
             if inserted:
                 logging.info(f"Inserted into graph store{sumnsgraph.namespace}" )
@@ -135,7 +135,7 @@ def summarizeReleaseOnly():
                      f.write(summaryttl)
                 return 1
         else:
-            logging.info(f" dumping file {repo}.ttl  graphsummary: {args.graphsummary} ")
+            logging.info(f" dumping file {repo}.ttl  nographsummary: {args.nographsummary} ")
 
             with open(os.path.join("output", f"{repo}.ttl"), 'w') as f:
                 f.write(summaryttl)

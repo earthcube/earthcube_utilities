@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
 import argparse
+import errno
 
 import logging
+import os
 
 from ec.graph.manageGraph import ManageBlazegraph as mg
 from ec.summarize.summarize_materializedview import summaryDF2ttl, get_summary4repo
@@ -41,7 +43,17 @@ from ec.gleanerio.gleaner import endpointUpdateNamespace, getNabu, reviseNabuCon
 #         return True
 #     else:
 #         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
-
+def dumpToFile(repo,summaryttl ):
+    filename = f"{repo}.ttl"
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+    with open(os.path.join("output", f"{repo}.ttl"), 'w') as f:
+        f.write(summaryttl)
+    return
 def summarizeRepo():
     """ Summarize a repository using a temporary graph namespace
 
@@ -64,8 +76,8 @@ def summarizeRepo():
                         help='use this endpoint (full url:https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"). overrides nabu endpoint')
     parser.add_argument('--glcon', dest='glcon',
                         help='override path to glcon', default="~/indexing/glcon")
-    parser.add_argument('--graphsummary', dest='graphsummary',
-                        help='upload triples to graphsummary', default=True)
+    parser.add_argument('--nographsummary', action='store_true', dest='nographsummary',
+                        help='send triples to file', default=False)
     parser.add_argument('--keeptemp', dest='graphtemp',
                         help='do not delete the temp namespace. a namespace "{repo}_temp" will be created', default=True)
     parser.add_argument('--summary_namespace', dest='summary_namespace',
@@ -98,14 +110,14 @@ def summarizeRepo():
         nt,g = summaryDF2ttl(summarydf,repo) # let's try the new generator
         summaryttl = g.serialize(format='longturtle')
         # write to s3  in future
-        with open(f"{repo}.ttl", 'w') as f:
-             f.write(summaryttl)
-        if args.graphsummary:
+        dumpToFile(repo, summaryttl)
+        if not args.nographsummary:
             inserted = sumnsgraph.insert(bytes(summaryttl, 'utf-8'),content_type="application/x-turtle" )
             if inserted:
                 logging.info(f"Inserted into graph store{sumnsgraph.namespace}" )
             else:
-                logging.error(f"Repo {repo} not inserted into {sumnsgraph.namespace}")
+                logging.error(f" dumping file {repo}.ttl  Repo {repo} not inserted into {sumnsgraph.namespace}")
+                dumpToFile(repo, summaryttl)
                 return 1
     except Exception as ex:
         logging.error(f"error {ex}")
