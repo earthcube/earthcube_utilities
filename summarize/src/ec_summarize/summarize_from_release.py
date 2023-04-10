@@ -80,7 +80,9 @@ def summarizeReleaseOnly():
     repo = args.repo
     if args.summary_namespace:
         if isValidURL(args.summary_namespace):
-            print("For summary_namespace, Please enter the namespace only.")
+            msg = 'For summary_namespace, Please enter the namespace only.'
+            print(msg)
+            logging.error(msg)
             return 1
         summary = args.summary_namespace
     else:
