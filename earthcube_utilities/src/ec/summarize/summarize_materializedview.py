@@ -143,10 +143,13 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], G
         ###############
         s=row['subj']
 # RDF.TYPE
+
 #         if rt == "tool":
 #             g.add((graph_subject,RDF.type, sosschema.SoftwareApplication) )
 #         else:
 #             g.add((graph_subject, RDF.type, sosschema.Dataset))
+
+        # original aummary query wrote out strings, then converted back to schema uri... just skip that step
         # RDF.TYPE
         rt = row['sosType']
         g.add((graph_subject, RDF.type, URIRef(rt)))

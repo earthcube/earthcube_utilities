@@ -23,7 +23,7 @@
       </ENTRIES>
     </EXTENSION>
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/summarize/src/ec_summarize/summarize_from_graph_namespace.py" />
-    <option name="PARAMETERS" value="--graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ --summary_namespace earthcube_summary" />
+    <option name="PARAMETERS" value="--graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql --summary_namespace earthcube_summary" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />
