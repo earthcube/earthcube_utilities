@@ -102,7 +102,7 @@ def getSourcesFromGleaner(cfgfile, sourcename=None):
     if sourcename is None:
         return sources
     else:
-        matched = list(filter(lambda source: source.name == sourcename, sources))
+        matched = list(filter(lambda source: source.get('name') == sourcename, sources))
         if len(matched) == 1:
             return matched[0]
         else:
@@ -112,11 +112,11 @@ def getSourcesFromGleaner(cfgfile, sourcename=None):
 def getSitemapSourcesFromGleaner(cfgfile, sourcename=None):
     s3endpoint,  bucket, cfg = getGleaner(cfgfile)
     sources = cfg['sources']
-    sources =list(filter(lambda source: source.sourcetype == "sitemap", sources))
+    sources =list(filter(lambda source: source.get('sourcetype') == "sitemap", sources))
     if sourcename is None:
         return sources
     else:
-        matched = list(filter(lambda source: source.name == sourcename, sources))
+        matched = list(filter(lambda source: source.get('name') == sourcename, sources))
         if len(matched) == 1:
             return matched[0]
         else:
