@@ -68,13 +68,16 @@ jobs:
 
 
 # COPY DOCS
-      - run:  cp README.md  ./docs/index.md
-      - run: cd summarize/docs; cp -r *  ../../docs/summarize/
-      -  run: cp -r summarize/README.md  docs/summarize/index.md
-      - run: cd  earthcube_utilities/docs; cp -r *  ../../docs/earthcube_utilities/
       -  run: cd  earthcube_utilities/src; cp -R ec/graph/sparql_files  ../../docs/src/ec/graph/
-      -  run: cp -r earthcube_utilities/README.md  docs/earthcube_utilities/index.md
-      -  run: cp -r notebook_proxy/README.md  docs/notebook_proxy/README.md
+
+# index.md now use an include.
+#      - run:  cp README.md  ./docs/index.md
+#      - run: cd summarize/docs; cp -r *  ../../docs/summarize/
+#      -  run: cp -r summarize/README.md  docs/summarize/README.md
+#      - run: cd  earthcube_utilities/docs; cp -r *  ../../docs/earthcube_utilities/
+
+#      -  run: cp -r earthcube_utilities/README.md  docs/earthcube_utilities/README.md
+#      -  run: cp -r notebook_proxy/README.md  docs/notebook_proxy/README.md
  # BUILD DOCS
       - run:  mkdocs gh-deploy  --force --clean --verbose
 
