@@ -1,6 +1,6 @@
 [project]
 name = "earthcube_summarize"
-version = "0.1.13"
+version = "0.1.14"
 dynamic = ["dependencies"]
 description = """
 This set of scripts 'materializes' a summarized view of a Science on Schema graph for
@@ -10,11 +10,13 @@ readme =  "README.md"
 
 authors = [
     {name = "Mike Bobak", email = "mbobak@illinois.edu"},
-    {name= "David Valentine", email="dwvalentine@ucsd.edu"}
+    {name = "David Valentine", email = "dwvalentine@ucsd.edu"},
+    {name = "Ya-Lan Yang", email = "ylyang@illinois.edu"}
 ]
 maintainers = [
     {name = "Mike Bobak", email = "mbobak@illinois.edu"},
-    {name= "David Valentine", email="dwvalentine@ucsd.edu"}
+    {name = "David Valentine", email = "dwvalentine@ucsd.edu"},
+    {name = "Ya-Lan Yang", email = "ylyang@illinois.edu"}
 ]
 
 classifiers = [
