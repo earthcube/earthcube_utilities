@@ -7,7 +7,7 @@ import logging
 
 import os
 from ec.graph.manageGraph import ManageBlazegraph as mg
-from ec.summarize.summarize_materializedview import summaryDF2ttl, get_summary4graph,get_summary4repoSubset
+from ec.summarize import summaryDF2ttl, get_summary4graph,get_summary4repoSubset
 from ec.gleanerio.gleaner import endpointUpdateNamespace,getNabu, reviseNabuConfGraph, runNabu
 
 # def endpointUpdateNamespace( fullendpoint, namepsace='temp'):
