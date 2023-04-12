@@ -32,7 +32,11 @@ def writeMissingReport(args):
         try:
             report = missingReport(url, bucket, repo, s3Minio, graphendpoint)
             report = json.dumps(report,  indent=2)
-            s3Minio.putReportFile(bucket, repo, "missing_report.json", report)
+            if (args.output): # just append the json files to one filem, for now.
+                logging.info(f" report for {repo} appended to file")
+                args.output.write(report)
+            if not args.no_upload:
+                s3Minio.putReportFile(bucket, repo, "missing_report.json", report)
         except Exception as e:
             logging.error(f"could not write missing report for {repo} to s3server:{s3server}:{bucket} error:{e}", repo,s3server,bucket, e)
 
@@ -58,6 +62,8 @@ def start():
                         help = 's3 server address ')
     parser.add_argument('--s3bucket', dest = 's3bucket',
                         help = 's3 bucket ')
+    parser.add_argument('--no_upload', dest = 'no_upload',action='store_true', default=False,
+                        help = 'do not upload to s3 bucket ')
     parser.add_argument('--output',  type=argparse.FileType('w'), dest="output", help="dump to file")
 
 
