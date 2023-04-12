@@ -1,6 +1,7 @@
 import logging
 from io import StringIO
 from string import Template
+from typing import Union
 
 import pandas
 import sparqldataframe
@@ -54,7 +55,7 @@ def get_summary4repoSubset(endpoint: str, repo : str) -> pandas.DataFrame:
 ###
 # from dataframe
 ####
-def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ str|bytes, Graph]:
+def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], Graph]:
     "summarize sparql query returns turtle string and rdf lib Graph"
     urns = {}
     def is_str(v):
@@ -66,6 +67,7 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ str|bytes, Graph]:
     ###########
     g.bind("ecsummary", BASE_SHCEMA_ORG)
     ecsummary = Namespace(BASE_SHCEMA_ORG)
+    sosschema = Namespace(BASE_SHCEMA_ORG)
 
 
     for index, row in df.iterrows():
@@ -141,10 +143,14 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ str|bytes, Graph]:
         ###############
         s=row['subj']
 # RDF.TYPE
-        if rt == "tool":
-            g.add((graph_subject,RDF.type, Literal("SoftwareApplication")) )
-        else:
-            g.add((graph_subject, RDF.type, Literal("Dataset")))
+#         if rt == "tool":
+#             g.add((graph_subject,RDF.type, sosschema.SoftwareApplication) )
+#         else:
+#             g.add((graph_subject, RDF.type, sosschema.Dataset))
+        # RDF.TYPE
+        rt = row['sosType']
+        g.add((graph_subject, RDF.type, URIRef(rt)))
+
 # ecsummary.name
         if (pandas.isnull( row.get('name'))):
             g.add((graph_subject, ecsummary.name, Literal("")))

@@ -7,6 +7,7 @@ import logging
 from ec.graph.manageGraph import ManageBlazegraph as mg
 from ec.summarize.summarize_materializedview import summaryDF2ttl, get_summary4repo
 from ec.gleanerio.gleaner import endpointUpdateNamespace, getNabu, reviseNabuConfGraph, runNabu, getNabuFromFile
+from urllib.parse import urlparse
 
 
 # def endpointUpdateNamespace( fullendpoint, namepsace='temp'):
@@ -41,6 +42,12 @@ from ec.gleanerio.gleaner import endpointUpdateNamespace, getNabu, reviseNabuCon
 #         return True
 #     else:
 #         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
+def isValidURL(toValidate):
+    o = urlparse(toValidate)
+    if o.scheme and o.netloc:
+        return True
+    else:
+        return False
 
 def summarizeRepo():
     """ Summarize a repository using a temporary graph namespace
@@ -61,19 +68,24 @@ def summarizeRepo():
     parser.add_argument('nabufile', type=argparse.FileType('r'),
                         help='nabu configuration file')
     parser.add_argument('--graphendpoint', dest='graphendpoint',
-                        help='override nabu endpoint')
+                        help='use this endpoint (full url:https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"). overrides nabu endpoint')
     parser.add_argument('--glcon', dest='glcon',
                         help='override path to glcon', default="~/indexing/glcon")
     parser.add_argument('--graphsummary', dest='graphsummary',
                         help='upload triples to graphsummary', default=True)
     parser.add_argument('--keeptemp', dest='graphtemp',
-                        help='do not delete the temp namespace. a namespace {repo}_temp will be created', default=True)
+                        help='do not delete the temp namespace. a namespace "{repo}_temp" will be created', default=True)
     parser.add_argument('--summary_namespace', dest='summary_namespace',
-                        help='summary_namespace defaults to {repo}_temp_summary')
+                        help='summary_namespace. just the namepsace defaults to "{repo}_temp_summary"')
     args = parser.parse_args()
 
     repo = args.repo
     if args.summary_namespace:
+        if isValidURL(args.summary_namespace):
+            msg = 'For summary_namespace, Please enter the namespace only.'
+            print(msg)
+            logging.error(msg)
+            return 1
         summary = args.summary_namespace
     else:
         summary = f"{repo}__temp_summary"

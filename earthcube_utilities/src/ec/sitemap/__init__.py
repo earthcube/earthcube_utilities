@@ -1,1 +1,1 @@
-from .sitemap import Sitemap, SitemapForSource
+from .sitemap import Sitemap, GleanerioSourceSitemap

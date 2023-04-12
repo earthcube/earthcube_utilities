@@ -33,7 +33,7 @@ classifiers = [
 # if the name of the module is the same as the name of the script, then you get
 #    'module' object is not callable
 [project.scripts]
-generaterepostats = "ec.generate_repo_stats:start"
+generategraphstats = "ec.generate_graph_stats:start"
 check_sitemap = "ec.check_sitemap:start"
 query_graph = "ec.query_graph:start"
 

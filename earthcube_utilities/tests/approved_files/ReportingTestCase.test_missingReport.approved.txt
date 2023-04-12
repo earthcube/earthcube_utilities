@@ -1,0 +1,22 @@
+{
+    "bucket": "gleaner",
+    "date": "03/31/23",
+    "graph": "https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparlq",
+    "milled_count": 774,
+    "missing_sitemap_summon": [
+        "https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.102019.32616.1",
+        "https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.082019.32616.1",
+        "https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.072015.26916.1",
+        "https://portal.opentopography.org/raster?opentopoID=OTNED.012021.4269.3",
+        "https://portal.opentopography.org/raster?opentopoID=OTSDEM.102019.32616.1",
+        "https://portal.opentopography.org/raster?opentopoID=OTSDEM.082019.32616.1",
+        "https://portal.opentopography.org/raster?opentopoID=OTSDEM.072015.26916.1"
+    ],
+    "missing_summon_graph": [],
+    "missing_summon_milled": [],
+    "repo": "opentopography",
+    "s3store": "oss.geocodes-dev.earthcube.org",
+    "sitemap": "https://opentopography.org/sitemap.xml",
+    "sitemap_count": 780,
+    "summoned_count": 774
+}

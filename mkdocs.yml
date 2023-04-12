@@ -3,8 +3,10 @@ site_name: Earthcube Utilities
 theme:
   name: "material"
   features:
-#    - content.code.copy
-    - navigation.sections
+  -   content.code.annotate
+  - navigation.sections
+  - navigation.tabs
+  - navigation.path
 markdown_extensions:
   - toc:
       permalink: 
@@ -16,8 +18,11 @@ markdown_extensions:
   - admonition
   - pymdownx.snippets
   - pymdownx.details
-  - pymdownx.superfences
-
+  - pymdownx.superfences:
+     custom_fences:
+      - name: mermaid
+        class: mermaid
+        format: !!python/name:mermaid2.fence_mermaid_custom
 
 plugins:
 - search
@@ -32,6 +37,8 @@ plugins:
 - callouts
 - include-markdown
 
+extra_javascript:
+    - https://unpkg.com/mermaid/dist/mermaid.min.js
 
 nav:
     - Summarize: summarize/

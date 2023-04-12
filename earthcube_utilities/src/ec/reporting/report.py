@@ -1,9 +1,11 @@
 import json
 import logging
+from datetime import date, datetime
 
 import pandas
 import pydash
 
+import ec.sitemap
 from ec.graph.sparql_query import queryWithSparql
 
 from ec.datastore.s3 import MinioDatastore, bucketDatastore
@@ -61,23 +63,82 @@ FUTURE:
 Use issues from repo reports as data for a tool that can evaluate the failures
 
 """
+def get_url_from_sha_list(shas: list,  bucket, repo, datastore: bucketDatastore):
+    """if a repo has issues with milling or loading to a graph, then get the summoned file"""
 
-def compareSitemap2Summoned(valid_sitemap_urls, bucket, repo, datastore: bucketDatastore):
-    #Grab list of metadater-Url from Datastore, ec.datastore.s3.listSummonedUrls
     pass
+
+def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore, graphendpoint, milled=True):
+    today = date.today().strftime("%Y-%m-%d")
+    response = {"repo":repo,"graph":graphendpoint,"sitemap":valid_sitemap_url,
+                "date": today, "bucket": bucket, "s3store": datastore.endpoint }
+    sitemap = ec.sitemap.Sitemap(valid_sitemap_url)
+    sitemap_urls = sitemap.uniqueUrls()
+    sitemap_count = pydash.collections.size(sitemap_urls)
+    summoned_list = datastore.listSummonedUrls(bucket, repo)
+    summoned_count = pydash.collections.size(summoned_list)
+    summoned_urls = list(map(lambda s: s.get("url"), summoned_list))
+    dif_sm_summon = pydash.arrays.difference(sitemap_urls, summoned_urls)
+    response["sitemap_count"] = sitemap_count
+    response["summoned_count"] = summoned_count
+    response["missing_sitemap_summon"] = dif_sm_summon
+    ##### summmon to graph
+    summoned_sha_list = datastore.listSummonedSha(bucket, repo)
+    graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, {"repo": repo})
+    graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns['g']))
+    dif_summon_graph = pydash.arrays.difference(summoned_sha_list, graph_shas)
+    response["milled_count"] = pydash.collections.size(graph_shas)
+    response["missing_summon_graph"] = dif_summon_graph
+    if milled:
+        milled_list = datastore.listMilledSha(bucket, repo)
+
+        dif_summon_milled = pydash.arrays.difference(summoned_sha_list, milled_list)
+        response["milled_count"] = pydash.collections.size(milled_list)
+        response["missing_summon_milled"] = dif_summon_milled
+    return response
+
+def compareSitemap2Summoned(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore):
+    #Grab list of metadater-Url from Datastore, ec.datastore.s3.listSummonedUrls
+    sitemap = ec.sitemap.Sitemap(valid_sitemap_url)
+    sitemap_urls = sitemap.uniqueUrls()
+    sitemap_count= pydash.collections.size(sitemap_urls)
+    summoned_list = datastore.listSummonedUrls(bucket,repo)
+    summoned_count = pydash.collections.size(summoned_list)
+    summoned_urls=list(map(lambda s: s.get("url"),summoned_list ))
+    difference = pydash.arrays.difference( sitemap_urls, summoned_urls)
+    return {
+        "sitemap_count": sitemap_count,
+        "summoned_count": summoned_count,
+            "missing": difference
+            }
+
 
 def compareSummoned2Milled(bucket, repo, datastore: bucketDatastore):
     """ return list of missing urns/urls
     Generating milled will be good to catch such errors"""
     # compare using s3, listJsonld(bucket, repo) to  listMilledRdf(bucket, repo)
-    pass
-
+    summoned_list = datastore.listSummonedSha(bucket, repo)
+    milled_list = datastore.listMilledSha(bucket, repo)
+    difference = pydash.arrays.difference(summoned_list, milled_list)
+    return {
+        "summoned_count": pydash.collections.size(summoned_list),
+        "milled_count": pydash.collections.size(milled_list),
+            "missing": difference
+            }
 def compareSummoned2Graph(bucket, repo, datastore: bucketDatastore, graphendpoint):
     """ return list of missing .
     we do not alway generate a milled.
     """
     # compare using s3, listJsonld(bucket, repo) to queryWithSparql("repo_select_graphs", graphendpoint)
-    pass
+    summoned_list = datastore.listSummonedSha(bucket, repo)
+    graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs",graphendpoint,{"repo":repo})
+    graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns['g']))
+    difference = pydash.arrays.difference(summoned_list, graph_shas)
+    return {
+        "summoned_count": pydash.collections.size(summoned_list),
+        "milled_count": pydash.collections.size(graph_shas),
+            "missing": difference
+            }
 
 
 def putProcessingReports4Repo(repo, date,  json_str, datastore: bucketDatastore, reportname='processing.json',):
@@ -96,57 +157,80 @@ reportTypes = {
     "all": [
         {"code": "triple_count", "name": "all_count_triples"},
             {"code": "graph_count_by_repo", "name": "all_repo_count_graphs"},
-            {"code": "kw_count", "name": "all_count_keywords"},
-            {"code": "kw_count_by_repo", "name": "all_repo_count_keywords"},
-            {"code": "dataset_count", "name": "all_count_datasets"},
-            {"code": "dataset_count_by_repo", "name": "all_repo_count_keywords"},
-            {"code": "types_count", "name": "all_count_types"},
-            {"code": "variablename_count", "name": "all_count_variablename"},
-            {"code": "mutilple_version_count", "name": "all_count_multiple_versioned_datasets"}
+        {"code": "dataset_count", "name": "all_count_datasets"},
+        {"code": "dataset_count_by_repo", "name": "all_repo_count_datasets"},
+        {"code": "mutilple_version_count", "name": "all_count_multiple_versioned_datasets"},
+        {"code": "mutilple_version_count_by_repo", "name": "all_repo_count_versioned_datasets"},
+        {"code": "repos_with_keywords", "name": "all_repo_with_keywords"},
+        {"code": "types_count", "name": "all_count_types"},
+        {"code": "types_count_by_repo", "name": "all_repo_count_types"},
      ],
+    # add the triple count by graph, and graph sizes
+    # this will need to be added, managed in the generate_graph
+    # add a basic by default, detailed if requested with a flag
+    "all_detailed": [
+        {"code": "triple_count", "name": "all_count_triples"},
+        {"code": "graph_count_by_repo", "name": "all_repo_count_graphs"},
+        {"code": "dataset_count", "name": "all_count_datasets"},
+        {"code": "dataset_count_by_repo", "name": "all_repo_count_dataset"},
+        {"code": "mutilple_version_count", "name": "all_count_multiple_versioned_datasets"},
+        {"code": "mutilple_version_count_by_repo", "name": "all_repo_count_versioned_datasets"},
+        {"code": "keywords_counts_by_repo", "name": "all_repo_count_keywords"},
+
+        {"code": "types_count", "name": "all_count_types"},
+        {"code": "keywords_count", "name": "all_count_keywords"},
+        {"code": "variablename_count", "name": "all_count_variablename"},
+        {"code": "graph_sizes", "name": "all_graph_sizes"},
+
+    ],
     "repo": [
+        {"code": "triple_count", "name": "repo_count_triples"},
+        {"code": "dataset_count", "name": "repo_count_datasets"},
+        {"code": "type_count", "name": "repo_count_types"},
+        {"code": "kw_count", "name": "repo_count_keywords"},
+        {"code": "variablename_count", "name": "repo_count_variablename"},
+        {"code": "version_count", "name": "repo_count_multi_versioned_datasets"},
+        {"code": "graph_sizes_count", "name": "repo_graph_sizes"},
+    ],
+    # add the triple count by graph, and graph sizes
+    # this will need to be added, managed in the generate_graph
+    # add a basic by default, detailed if requested with a flag
+    "repo_detailed": [
+        {"code": "triple_count", "name": "repo_count_triples"},
         {"code": "kw_count", "name": "repo_count_keywords"},
         {"code": "dataset_count", "name": "repo_count_datasets"},
-        {"code": "triple_count_by_graph", "name": "repo_count_graph_triples"},
         {"code": "triple_count", "name": "repo_count_triples"},
         {"code": "type_count", "name": "repo_count_types"},
         {"code": "version_count", "name": "repo_count_multi_versioned_datasets"},
         {"code": "variablename_count", "name": "repo_count_variablename"},
+        {"code": "graph_sizes_count", "name": "repo_graph_sizes"},
+        {"code": "triple_count_by_graph", "name": "repo_count_triples_by_graph"},
     ]
 }
 
-def _get_report_type(repo, code) -> str:
-    if repo == "all":
-        report = pydash.find(reportTypes["all"], lambda r: r["code"] == code)
-    else:
-        report =pydash.find(reportTypes["repo"], lambda r:  r["code"] == code)
+def _get_report_type(reports, code) -> str:
+    report = pydash.find(reports, lambda r: r["code"] == code)
     return report["name"]
 
 ##  for the 'object reports, we should have a set.these could probably be make a set of methos with (ObjectType[triples,keywords, types, authors, etc], repo, endpoint/datastore)
-def generateGraphReportsRepo(repo, graphendpoint, reportTypes=reportTypes) -> str:
-    #queryWithSparql("repo_count_types", graphendpoint)
-    parameters = {"repo": repo}
-    if repo== "all":
-        reports = map (lambda r:   {"report": r["code"],
-                                 "data": generateAGraphReportsRepo("all", r["code"],graphendpoint).to_dict('records')
-                                 }    ,reportTypes["all"])
-    else:
-        reports = map(lambda r: {"report": r["code"],
-                                 "data": generateAGraphReportsRepo("repo", r["code"], graphendpoint).to_dict('records')
-                                 },
-                                 reportTypes["repo"])
-    reports = list(reports)
-    return json.dumps({"version": 0, "reports": reports }, indent=4)
+def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"]) -> str:
+    current_dateTime = datetime.now().strftime("%Y-%m-%d")
+    reports = map (lambda r:   {"report": r["code"],
+                                "data": generateAGraphReportsRepo(repo, r["code"],
+                                 graphendpoint, reportList).to_dict('records')
+                                   }   ,
+                                reportList)
 
-def generateAGraphReportsRepo(repo, code, graphendpoint) -> pandas.DataFrame:
+    reports = list(reports)
+    return json.dumps({"version": 0, "repo": repo, "date": current_dateTime, "reports": reports }, indent=4)
+
+def generateAGraphReportsRepo(repo, code, graphendpoint, reportList) -> pandas.DataFrame:
     #queryWithSparql("repo_count_types", graphendpoint)
     parameters = {"repo": repo}
     try:
-        if repo== "all":
-            return  queryWithSparql(_get_report_type("all", code), graphendpoint, parameters=parameters)
+        report =   queryWithSparql(_get_report_type(reportList, code), graphendpoint, parameters=parameters)
 
-        else:
-            return queryWithSparql(_get_report_type("repo", code), graphendpoint, parameters=parameters)
+        return report
     except Exception as ex:
         logging.error(f"query with sparql failed: report:{code}  repo:{repo}   {ex}")
         return pandas.DataFrame()

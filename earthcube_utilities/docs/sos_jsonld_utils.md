@@ -1,6 +1,6 @@
 # utlities to manipulate Science on Schema JSONLD 
 
-implemented in sos_json
+implemented in[ sos_json/utils](https://earthcube.github.io/earthcube_utilities/earthcube_utilities/earthcube_utilities_code/#ec.sos_json.utils)
 
 the basic info and distibutions should be implemented in objects.
 

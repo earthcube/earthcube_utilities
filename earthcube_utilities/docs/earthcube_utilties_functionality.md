@@ -2,18 +2,18 @@
 
 ## Earthcube Utilities Functionality Docments:
 * [Functionality Breakdown ](./breakdown.md)
-  * [Mini-base](./mini-base.md)
-  * [Query Graphstore](./ec_query.md)
-  * [RDF to Quads](/.rdf2triples.md)
+  * ~~[Mini-base](./mini-base.md)~~
+  * [ X] [Query Graphstore](./ec_query.md)
+  * [ X]  [RDF to Quads](/.rdf2triples.md) in sos_json/rdf
   * [Validation](./validation_overall.md)
-    * [Validating Sitemaps](./validation_sitemap.md)
-    * [Validating JSONLD](./validation_jsonld.md)
-    * [Validating Graph Loading](./validation_graph.md)
-    * [Check Distribution Links](./validate_distribution_links.md)
-  * [Implementation Testing](./validation_test_data.md)
-  * [Repository Reporting](./repository_reporting.md)]
-  * [RoCrate, aka collection](./ro_crate.md)
-  * [JSONLD Utils](./sos_jsonld_utils.md)
+    * [ X]  [Validating Sitemaps](./validation_sitemap.md)
+    *[ ]  [Validating JSONLD](./validation_jsonld.md)
+    *[x ]  [Validating Graph Loading](./validation_graph.md) initially use [reporting/get graph reports](hhttps://earthcube.github.io/earthcube_utilities/earthcube_utilities/earthcube_utilities_code/#ec.reporting.report)
+    * [ ] [Check Distribution Links](./validate_distribution_links.md)
+  * [ X] [Implementation Testing](./validation_test_data.md) in Geocodes_Metadata/Integration_testing
+  * [X ] [Repository Reporting](./repository_reporting.md)]
+  * [ ]  [RoCrate, aka collection](./ro_crate.md)
+  * [ X]  [JSONLD Utils](./sos_jsonld_utils.md) sos_json/utils
   * Notebooks
     * [Visualization](./viz.md)
 

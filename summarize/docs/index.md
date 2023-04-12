@@ -133,11 +133,11 @@ optional arguments:
 1. if you have not, changed to the summarize directory: `cd  earthcube_utilities/summarize`
 2. run
 
-**option 2 script installed**
-```shell 
+**option1 from repository**
+```shell
 summarize_from_graph --repo {repo} --graphendpoint {endppiont} --summary_namespace {earthcube_summary}
 
-``` 
+```` 
 
 **option1 from repository**
 ```shell
@@ -176,14 +176,14 @@ optional arguments:
 
 #### run summarize_repo
 
-**option 2 script installed**
-```shell 
+**option1 from repository**
+```shell
 summarize_from_repo {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
 
 ```
 
 **option1 from repository**
-```shell 
+```shell
 ./src/ec_summarize/summarize_repo.py {repo} {path_to_nabu_config_file} --graphendpoint {endppiont} --summary_namespace {{repo}_temp_summary}
 
 ```

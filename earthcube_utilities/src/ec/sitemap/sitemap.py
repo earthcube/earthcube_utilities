@@ -3,6 +3,7 @@ import logging
 from io import StringIO
 
 import advertools as adv
+import numpy as np
 import pandas
 from numpy import ndarray
 from pandarallel import pandarallel
@@ -63,11 +64,11 @@ class Sitemap():
         return self.errors
     def uniqueItems(self):
         """list of unqiue sitemaps records"""
-        return self.sitemap_df.sitemap.unique()
+        return self.sitemap_df.sitemap.unique().tolist()
 
     def uniqueUrls(self) :
         """Returns a pandas series of the URLS'"""
-        return self.sitemap_df["loc"].unique()
+        return self.sitemap_df["loc"].unique().tolist()
 
     def check_urls(self) -> DataFrame:
         """This will run head on the list of url's in the pandas dataframe.
