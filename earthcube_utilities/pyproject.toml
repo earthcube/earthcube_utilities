@@ -36,6 +36,7 @@ classifiers = [
 generategraphstats = "ec.generate_graph_stats:start"
 check_sitemap = "ec.check_sitemap:start"
 query_graph = "ec.query_graph:start"
+missing_report = "ec.missing_report:start"
 
 [tool.setuptools]
 # If there are data files included in your packages that need to be

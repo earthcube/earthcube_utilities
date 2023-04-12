@@ -4,7 +4,7 @@ import json
 import os
 import shutil
 import subprocess
-from typing import Tuple
+from typing import Tuple, Any
 
 import yaml
 
@@ -74,7 +74,7 @@ def runNabu(cfg, repo,glcon="~/indexing/glcon"):
 
 
 
-def getGleaner( cfgfile):
+def getGleaner( cfgfile) -> Tuple[str,str,Any]:
     with open(cfgfile, "r") as stream:
         try:
             cfg =(yaml.safe_load(stream))
