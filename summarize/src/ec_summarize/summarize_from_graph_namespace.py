@@ -41,6 +41,17 @@ from urllib.parse import urlparse
 #         return True
 #     else:
 #         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
+def dumpToFile(repo,summaryttl ):
+    filename = os.path.join("output", f"{repo}.ttl")
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+    with open(filename, 'w') as f:
+        f.write(summaryttl)
+    return
 def isValidURL(toValidate):
     o = urlparse(toValidate)
     if o.scheme and o.netloc:
