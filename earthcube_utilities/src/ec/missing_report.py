@@ -2,6 +2,8 @@
 import argparse
 import logging
 import json
+import sys
+
 from pydash import is_empty
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
 from ec.reporting.report import missingReport
@@ -40,6 +42,8 @@ def writeMissingReport(args):
                 s3Minio.putReportFile(bucket, repo, "missing_report.json", report)
         except Exception as e:
             logging.error(f"could not write missing report for {repo} to s3server:{s3server}:{bucket} error:{e}", repo,s3server,bucket, e)
+            return 1
+    return 0
 
 def start():
     """
@@ -70,6 +74,7 @@ def start():
 
     args = parser.parse_args()
     exitcode = writeMissingReport(args)
+    sys.exit(exitcode)
 
 if __name__ == '__main__':
     start()
