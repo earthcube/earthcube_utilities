@@ -1,0 +1,93 @@
+context:
+    cache: true
+contextmaps:
+    - file: ./configs/schemaorg-current-https.jsonld
+      prefix: https://schema.org/
+    - file: ./configs/schemaorg-current-https.jsonld
+      prefix: http://schema.org/
+gleaner:
+    mill: true
+    runid: runX
+    summon: true
+millers:
+    graph: true
+minio:
+    address: oss.geocodes-dev.earthcube.org
+    port: 443
+    ssl: true
+    accesskey: worldsbestaccesskey
+    secretkey: worldsbestsecretkey
+    bucket: dv-testing
+sources:
+    - sourcetype: sitemap
+      name: geocodes_demo_datasets
+      logo: ""
+      url: https://earthcube.github.io/GeoCODES-Metadata/metadata/Dataset/allgood/sitemap.xml
+      headless: false
+      pid: https://github.com/earthcube/GeoCODES-Metadata/metadata/OtherResources
+      propername: Geocodes Demo Datasets
+      domain: https://www.earthcube.org/datasets/allgood
+      active: true
+      credentialsfile: ""
+      other: {}
+      headlesswait: 0
+      delay: 0
+      identifierpath: ""
+      apipagelimit: 0
+      identifiertype: identifiersha
+      fixcontextoption: 0
+    - sourcetype: sitemap
+      name: geocodes_actual_datasets
+      logo: ""
+      url: https://earthcube.github.io/GeoCODES-Metadata/metadata/Dataset/actualdata/sitemap.xml
+      headless: false
+      pid: https://github.com/earthcube/GeoCODES-Metadata/metadata/
+      propername: Geocodes Actual Datasets
+      domain: https://www.earthcube.org/datasets/actual
+      active: true
+      credentialsfile: ""
+      other: {}
+      headlesswait: 0
+      delay: 0
+      identifierpath: ""
+      apipagelimit: 0
+      identifiertype: jsonsha
+      fixcontextoption: 0
+    - sourcetype: sitemap
+      name: iris
+      logo: http://ds.iris.edu/static/img/layout/logos/iris_logo_shadow.png
+      url: http://ds.iris.edu/files/sitemap.xml
+      headless: false
+      pid: https://www.re3data.org/repository/r3d100010268
+      propername: IRIS
+      domain: http://iris.edu
+      active: true
+      credentialsfile: ""
+      other: {}
+      headlesswait: 0
+      delay: 0
+      identifierpath: ""
+      identifiertype: ""
+      fixcontextoption: 0
+    - sourcetype: sitemap
+      name: earthchem
+      logo: http://www.earthchem.org/sites/default/files/files/EC_0-1.png
+      url: https://ecl.earthchem.org/sitemap.xml
+      headless: false
+      pid: https://www.re3data.org/repository/r3d100011538
+      propername: earthchem
+      domain: https://ecl.earthchem.org/home.php
+      active: false
+      credentialsfile: ""
+      other: {}
+      headlesswait: 0
+      delay: 0
+      identifierpath: $.sameAs
+      identifiertype: identifiersha
+      fixcontextoption: 0
+summoner:
+    after: ""
+    delay: null
+    headless: http://127.0.0.1:9222
+    mode: full
+    threads: 5

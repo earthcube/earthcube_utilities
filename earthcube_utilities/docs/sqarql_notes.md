@@ -1,24 +1,4 @@
-# sparql notes
-
-RENAME WITH CARE
-The filenames are coded into some of the courtesy classes.
-
-##Regex notes
-```python
-## the regesx replace grabs the first portioon, replaces it with nothing,
-## then grabs the last part and replaces it with nothing,
-## NOTE: double \\ the escape sequeqnce akd \w+ becomes \\w+
-#((\w+):(\w+))$$
-#(?2)(:(\w+))
-
-##<urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146>
-# urn:\w+:summoned:(\w+)
-#urn:(?:\w+):summoned:(\w+)
-.
-```
-
-
-## notes on developing new sparql queries
+# notes on developing new sparql queries
 
 graph:<urn:gleaner:summoned:opentopography:237ccc9501fc0e0349c8643e61e9db1e82dbd9ac>
 top level subj: <https://portal.opentopography.org/raster?opentopoID=OTSDEM.052015.26910.1>
