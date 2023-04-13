@@ -4,7 +4,8 @@ import logging
 
 # pycharm does not like the top level package name... but this is what makes it work
 # import ec.gleanerio.gleaner
-from  ec.gleanerio.gleaner import endpointUpdateNamespace,getNabuFromFile,reviseNabuConfGraph,runIdentifier , getGleaner
+from  ec.gleanerio.gleaner import endpointUpdateNamespace,getNabuFromFile,reviseNabuConfGraph,runIdentifier
+from  ec.gleanerio.gleaner import getGleaner, getSitemapSourcesFromGleaner
 
 class MyTestCase(unittest.TestCase):
     def test_endpointUpdate(self):
@@ -54,6 +55,9 @@ class MyTestCase(unittest.TestCase):
          self.assertIsNotNone(result)
          result = result.decode("utf-8")
          self.assertFalse("ERROR"  in result )
+    def test_sitemapFromGleaner(self):
+        sitemaps = getSitemapSourcesFromGleaner("../resources/testing/gleaner")
+        self.assertEqual(len(sitemaps), 1)
 
 if __name__ == '__main__':
     unittest.main()
