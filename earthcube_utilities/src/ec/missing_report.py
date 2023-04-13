@@ -17,9 +17,10 @@ def writeMissingReport(args):
     else:
         s3server = args.s3server
         bucket = args.s3bucket
-    graphendpoint =  args.graphendpoint  # not in gleaner file, at present
+    graphendpoint = args.graphendpoint  # not in gleaner file, at present
     if is_empty(graphendpoint) or is_empty(s3server) or is_empty(bucket):
         logging.fatal(f" must provide graphendpoint and [a gleaner config or (s3endpoint and s3bucket)]")
+        return 1
     logging.info(f" s3server: {s3server} bucket:{bucket} graph:{graphendpoint}")
     s3Minio = s3.MinioDatastore(s3server, None)
     sources = getSitemapSourcesFromGleaner(args.cfgfile)
