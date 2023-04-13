@@ -15,7 +15,7 @@ class SummarizeMaterializedViewTestCase(unittest.TestCase):
             tesdf = f.read()
         testdf = pandas.read_csv(file)
         results, g = summaryDF2ttl(testdf, "test")
-        self.assertEqual(2, results.count("a :Dataset ;"))  # add assertion here
+        self.assertEqual(2, results.count("a ecsummary:Dataset ;"))  # add assertion here
         # this is an approval test.
         # in the approved_files directory there will be a file .approved.txt
         # if the test fails, but the results are correct,
