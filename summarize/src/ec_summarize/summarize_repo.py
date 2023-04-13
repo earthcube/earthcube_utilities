@@ -7,6 +7,7 @@ import logging
 from ec.graph.manageGraph import ManageBlazegraph as mg
 from ec.summarize.summarize_materializedview import summaryDF2ttl, get_summary4repo
 from ec.gleanerio.gleaner import endpointUpdateNamespace, getNabu, reviseNabuConfGraph, runNabu, getNabuFromFile
+from urllib.parse import urlparse
 
 
 # def endpointUpdateNamespace( fullendpoint, namepsace='temp'):
@@ -41,6 +42,12 @@ from ec.gleanerio.gleaner import endpointUpdateNamespace, getNabu, reviseNabuCon
 #         return True
 #     else:
 #         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
+def isValidURL(toValidate):
+    o = urlparse(toValidate)
+    if o.scheme and o.netloc:
+        return True
+    else:
+        return False
 
 def summarizeRepo():
     """ Summarize a repository using a temporary graph namespace
@@ -74,6 +81,11 @@ def summarizeRepo():
 
     repo = args.repo
     if args.summary_namespace:
+        if isValidURL(args.summary_namespace):
+            msg = 'For summary_namespace, Please enter the namespace only.'
+            print(msg)
+            logging.error(msg)
+            return 1
         summary = args.summary_namespace
     else:
         summary = f"{repo}__temp_summary"
