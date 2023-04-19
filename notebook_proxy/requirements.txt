@@ -1,4 +1,4 @@
-# --extra-index-url https://test.pypi.org/simple/
+
 authlib==1.2.0
 Flask==2.2.3
 flask_ipban==1.1.5
@@ -8,5 +8,7 @@ papermill==2.4.0
 requests_toolbelt==0.10.1
 Werkzeug==2.2.3
 pandas
-earthcube-utilities
+
 jmespath
+# --extra-index-url https://test.pypi.org/simple/
+earthcube-utilities

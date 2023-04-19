@@ -28,22 +28,22 @@ def writeMissingReport(args):
     s3Minio = s3.MinioDatastore(s3server, None)
     sources = getSitemapSourcesFromGleaner(args.cfgfile)
     sources = list(filter(lambda source: source.get('active'), sources))
-    repos=args.source
+    sources_to_run=args.source  # optional if null, run all
 
     for i in sources:
-        url = i.get('url')
-        repo = i.get('name')
-        if repos is not None and len(repos) >0:
-            if not find (repos , lambda x: x == repo ):
+        source_url = i.get('url')
+        source_name = i.get('name')
+        if sources_to_run is not None and len(sources_to_run) >0:
+            if not find (sources_to_run , lambda x: x == source_name ):
                 continue
         try:
-            report = missingReport(url, bucket, repo, s3Minio, graphendpoint, milled=args.milled, summon=args.summon)
+            report = missingReport(source_url, bucket, source_name, s3Minio, graphendpoint, milled=args.milled, summon=args.summon)
             report = json.dumps(report,  indent=2)
             if (args.output): # just append the json files to one filem, for now.
-                logging.info(f" report for {repo} appended to file")
+                logging.info(f" report for {source_name} appended to file")
                 args.output.write(report)
             if not args.no_upload:
-                s3Minio.putReportFile(bucket, repo, "missing_report.json", report)
+                s3Minio.putReportFile(bucket, source_name, "missing_report.json", report)
         except Exception as e:
             logging.error(f"could not write missing report for {repo} to s3server:{s3server}:{bucket} error:{e}", repo,s3server,bucket, e)
     return 0
