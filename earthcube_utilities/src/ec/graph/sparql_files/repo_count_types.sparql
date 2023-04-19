@@ -6,7 +6,7 @@ GRAPH ?g  {
        ?s a ?type .
 
        }
-       FILTER( STRSTARTS(str(?g), "urn:gleaner:summoned:${repo}"))
+       FILTER( CONTAINS(str(?g), "${repo}"))
 }
 
 GROUP By ?type
