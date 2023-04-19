@@ -55,7 +55,7 @@ def start():
                         help='s3 server address (localhost:9000)', default='localhost:9000')
     parser.add_argument('--s3bucket', dest='s3bucket',
                         help='s3 server address (localhost:9000)', default='gleaner')
-    parser.add_argument('--repo', dest='repo',
+    parser.add_argument('--source', dest='repo',
                         help='repository', default='all')
 
     parser.add_argument("--detailed",action='store_true',

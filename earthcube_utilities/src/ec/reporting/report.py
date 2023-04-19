@@ -70,7 +70,7 @@ def get_url_from_sha_list(shas: list,  bucket, repo, datastore: bucketDatastore)
 
 def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore, graphendpoint, milled=True, summon=False):
     today = date.today().strftime("%Y-%m-%d")
-    response = {"repo":repo,"graph":graphendpoint,"sitemap":valid_sitemap_url,
+    response = {"source":repo,"graph":graphendpoint,"sitemap":valid_sitemap_url,
                 "date": today, "bucket": bucket, "s3store": datastore.endpoint }
     sitemap = ec.sitemap.Sitemap(valid_sitemap_url)
     sitemap_urls = sitemap.uniqueUrls()

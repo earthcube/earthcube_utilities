@@ -74,7 +74,7 @@ def start():
     parser.add_argument('--no_upload', dest = 'no_upload',action='store_true', default=False,
                         help = 'do not upload to s3 bucket ')
     parser.add_argument('--output',  type=argparse.FileType('w'), dest="output", help="dump to file")
-    parser.add_argument('--repo', action='append', help="one or more repositories (--repo a --repo b)")
+    parser.add_argument('--source', action='append', help="one or more repositories (--source a --source b)")
     parser.add_argument('--milled', action='store_true', default=False, help="include milled")
     parser.add_argument('--summon', action='store_true', default=False, help="check summon only")
 
