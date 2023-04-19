@@ -4,6 +4,7 @@ import logging
 import json
 import sys
 
+from pydash.collections import find
 from pydash import is_empty
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
 from ec.reporting.report import missingReport
@@ -27,22 +28,24 @@ def writeMissingReport(args):
     s3Minio = s3.MinioDatastore(s3server, None)
     sources = getSitemapSourcesFromGleaner(args.cfgfile)
     sources = list(filter(lambda source: source.get('active'), sources))
+    sources_to_run=args.source  # optional if null, run all
 
     for i in sources:
-        url = i.get('url')
-        repo = i.get('name')
-
+        source_url = i.get('url')
+        source_name = i.get('name')
+        if sources_to_run is not None and len(sources_to_run) >0:
+            if not find (sources_to_run , lambda x: x == source_name ):
+                continue
         try:
-            report = missingReport(url, bucket, repo, s3Minio, graphendpoint)
+            report = missingReport(source_url, bucket, source_name, s3Minio, graphendpoint, milled=args.milled, summon=args.summon)
             report = json.dumps(report,  indent=2)
             if (args.output): # just append the json files to one filem, for now.
-                logging.info(f" report for {repo} appended to file")
+                logging.info(f" report for {source_name} appended to file")
                 args.output.write(report)
             if not args.no_upload:
-                s3Minio.putReportFile(bucket, repo, "missing_report.json", report)
+                s3Minio.putReportFile(bucket, source_name, "missing_report.json", report)
         except Exception as e:
-            logging.error(f"could not write missing report for {repo} to s3server:{s3server}:{bucket} error:{e}", repo,s3server,bucket, e)
-            return 1
+            logging.error(f"could not write missing report for {source_name} to s3server:{s3server}:{bucket} error:{e}", source_name,s3server,bucket, e)
     return 0
 
 def start():
@@ -70,6 +73,9 @@ def start():
     parser.add_argument('--no_upload', dest = 'no_upload',action='store_true', default=False,
                         help = 'do not upload to s3 bucket ')
     parser.add_argument('--output',  type=argparse.FileType('w'), dest="output", help="dump to file")
+    parser.add_argument('--source', action='append', help="one or more repositories (--source a --source b)")
+    parser.add_argument('--milled', action='store_true', default=False, help="include milled")
+    parser.add_argument('--summon', action='store_true', default=False, help="check summon only")
 
 
     args = parser.parse_args()

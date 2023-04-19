@@ -68,9 +68,9 @@ def get_url_from_sha_list(shas: list,  bucket, repo, datastore: bucketDatastore)
 
     pass
 
-def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore, graphendpoint, milled=True):
+def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore, graphendpoint, milled=True, summon=False):
     today = date.today().strftime("%Y-%m-%d")
-    response = {"repo":repo,"graph":graphendpoint,"sitemap":valid_sitemap_url,
+    response = {"source":repo,"graph":graphendpoint,"sitemap":valid_sitemap_url,
                 "date": today, "bucket": bucket, "s3store": datastore.endpoint }
     sitemap = ec.sitemap.Sitemap(valid_sitemap_url)
     sitemap_urls = sitemap.uniqueUrls()
@@ -82,6 +82,8 @@ def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatast
     response["sitemap_count"] = sitemap_count
     response["summoned_count"] = summoned_count
     response["missing_sitemap_summon"] = dif_sm_summon
+    if summon:
+        return response
     ##### summmon to graph
     summoned_sha_list = datastore.listSummonedSha(bucket, repo)
     graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, {"repo": repo})
