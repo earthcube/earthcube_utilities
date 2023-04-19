@@ -28,7 +28,7 @@ def writeMissingReport(args):
     s3Minio = s3.MinioDatastore(s3server, None)
     sources = getSitemapSourcesFromGleaner(args.cfgfile)
     sources = list(filter(lambda source: source.get('active'), sources))
-    repos=args.repo
+    repos=args.source
 
     for i in sources:
         url = i.get('url')
