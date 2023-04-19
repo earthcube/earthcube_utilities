@@ -4,6 +4,7 @@ import logging
 import json
 import sys
 
+from pydash.collections import find
 from pydash import is_empty
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
 from ec.reporting.report import missingReport
@@ -27,13 +28,16 @@ def writeMissingReport(args):
     s3Minio = s3.MinioDatastore(s3server, None)
     sources = getSitemapSourcesFromGleaner(args.cfgfile)
     sources = list(filter(lambda source: source.get('active'), sources))
+    repos=args.repo
 
     for i in sources:
         url = i.get('url')
         repo = i.get('name')
-
+        if repos is not None and len(repos) >0:
+            if not find (repos , lambda x: x == repo ):
+                continue
         try:
-            report = missingReport(url, bucket, repo, s3Minio, graphendpoint)
+            report = missingReport(url, bucket, repo, s3Minio, graphendpoint, milled=args.milled, summon=args.summon)
             report = json.dumps(report,  indent=2)
             if (args.output): # just append the json files to one filem, for now.
                 logging.info(f" report for {repo} appended to file")
@@ -70,6 +74,9 @@ def start():
     parser.add_argument('--no_upload', dest = 'no_upload',action='store_true', default=False,
                         help = 'do not upload to s3 bucket ')
     parser.add_argument('--output',  type=argparse.FileType('w'), dest="output", help="dump to file")
+    parser.add_argument('--repo', action='append', help="one or more repositories (--repo a --repo b)")
+    parser.add_argument('--milled', action='store_true', default=False, help="include milled")
+    parser.add_argument('--summon', action='store_true', default=False, help="check summon only")
 
 
     args = parser.parse_args()
