@@ -172,7 +172,7 @@ reportTypes = {
         {"code": "triple_count", "name": "all_count_triples"},
         {"code": "graph_count_by_repo", "name": "all_repo_count_graphs"},
         {"code": "dataset_count", "name": "all_count_datasets"},
-        {"code": "dataset_count_by_repo", "name": "all_repo_count_dataset"},
+        {"code": "dataset_count_by_repo", "name": "all_repo_count_datasets"},
         {"code": "mutilple_version_count", "name": "all_count_multiple_versioned_datasets"},
         {"code": "mutilple_version_count_by_repo", "name": "all_repo_count_versioned_datasets"},
         {"code": "keywords_counts_by_repo", "name": "all_repo_count_keywords"},
