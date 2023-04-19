@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging
 import sys
 import pandas as pd
@@ -25,10 +26,8 @@ def summarizeIdentifierMetadata(args):
     logging.info(f" s3server: {s3server} bucket:{bucket}")
 
     s3Minio = s3.MinioDatastore(s3server, None)
-
     sources = getSitemapSourcesFromGleaner(args.cfgfile)
     sources = list(filter(lambda source: source.get('active'), sources))
-
     for repo in sources:
         jsonlds = s3Minio.listJsonld(bucket, repo.get('name'), include_user_meta = True)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
@@ -39,15 +38,16 @@ def summarizeIdentifierMetadata(args):
         df = pd.DataFrame(o_list)
 
         try:
-            o = df.groupby(['Identifiertype', 'Matchedpath']).count().to_string()
-            if (args.output): # just append the json files to one filem, for now.
-                logging.info(f" report for {repo} appended to file")
-                args.output.write(o)
-            #if not args.no_upload:
-            s3Minio.putReportFile(bucket, repo, "identifier_metadata_summary.txt", o)
+            o = df.groupby(['Identifiertype', 'Matchedpath']).count()
+            if (args.output):
+                logging.info(f" report for {repo.get('name')} appended to file")
+                args.output.writelines('\n\nSource name: ' + repo.get('name') + o.to_string())
+            if not args.no_upload:
+                o = json.loads(o.to_json(orient = 'index'))
+                o = json.dumps(o, indent = 2)
+                s3Minio.putReportFile(bucket, repo.get('name'), "identifier_metadata_summary.json", o)
         except Exception as e:
             logging.info('Missing keys: ', e)
-
     return 0
 
 def checkMatchpath(f):
