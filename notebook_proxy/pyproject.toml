@@ -1,6 +1,25 @@
+[project]
+name = "earthcube_notebook"
+version = "0.1.14"
+dynamic = ["dependencies"]
+description = """
+This is a proxy for creating notebooks in binder and gist
+ """
+readme =  "README.md"
+
+authors = [
+    {name = "Mike Bobak", email = "mbobak@illinois.edu"},
+    {name = "David Valentine", email = "dwvalentine@ucsd.edu"},
+]
+maintainers = [
+    {name = "Mike Bobak", email = "mbobak@illinois.edu"},
+    {name = "David Valentine", email = "dwvalentine@ucsd.edu"},
+]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
 [build-system]
 requires = [
     "setuptools>=42",
     "wheel"
 ]
-build-backend = "setuptools.build_meta"
