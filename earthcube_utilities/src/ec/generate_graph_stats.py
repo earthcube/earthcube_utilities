@@ -36,7 +36,12 @@ def graphStats(args):
                                                        args.graphendpoint, reportList=reportTypes["repo"] )
     s3Minio = s3.MinioDatastore( args.s3server, None)
     #data = f.getvalue()
-    bucketname, objectname = s3Minio.putReportFile(args.s3bucket,args.source,"graph_report.json",report_json)
+
+    if (args.output):  # just append the json files to one filem, for now.
+        logging.info(f" report for {args.source} appended to file")
+        args.output.write(report_json)
+    if not args.no_upload:
+        bucketname, objectname = s3Minio.putReportFile(args.s3bucket,args.source,"graph_report.json",report_json)
     return 0
 def start():
     """
@@ -60,6 +65,9 @@ def start():
 
     parser.add_argument("--detailed",action='store_true',
                         dest="detailed" ,help='run the detailed version of the reports', default=False)
+    parser.add_argument('--no_upload', dest = 'no_upload',action='store_true', default=False,
+                        help = 'do not upload to s3 bucket ')
+    parser.add_argument('--output',  type=argparse.FileType('w'), dest="output", help="dump to file")
 
     args = parser.parse_args()
 
