@@ -6,7 +6,7 @@ WHERE {
 
        ?s schema:version ?version .
 
-       }  FILTER( STRSTARTS(str(?g), "urn:gleaner:summoned:${repo}")) .
+       }  FILTER( CONTAINS(str(?g), "${repo}")) .
 }
 GROUP By ?g
 HAVING(count(distinct ?s) >1 )

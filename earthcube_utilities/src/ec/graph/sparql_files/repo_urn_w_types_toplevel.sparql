@@ -7,7 +7,7 @@ Graph ?g {
        ?s a ?type .
   		?s schema:identifier ?id .
 FILTER ( !isBLANK(?s) )  .
-FILTER( STRSTARTS(str(?g), "urn:gleaner:summoned:${repo}"))
+FILTER( CONTAINS(str(?g), "${repo}"))
        }
 }
 

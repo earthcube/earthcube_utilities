@@ -16,7 +16,7 @@ def graphStats(args):
     """query an endpoint, store results as a json file in an s3 store"""
     log.info(f"Querying {args.graphendpoint} for graph statisitcs  ")
 ### more work needed before detailed works
-    if args.repo == "all":
+    if args.source == "all":
          # report_json = generateGraphReportsRepo("all",
          #      args.graphendpoint, reportTypes=reportTypes)
 
@@ -30,13 +30,13 @@ def graphStats(args):
         #   args.graphendpoint,reportTypes=reportTypes)
 
         if (args.detailed):
-            report_json = generateGraphReportsRepo(args.repo, args.graphendpoint,reportList=reportTypes["repo_detailed"] )
+            report_json = generateGraphReportsRepo(args.source, args.graphendpoint,reportList=reportTypes["repo_detailed"] )
         else:
-            report_json = generateGraphReportsRepo(args.repo,
+            report_json = generateGraphReportsRepo(args.source,
                                                        args.graphendpoint, reportList=reportTypes["repo"] )
     s3Minio = s3.MinioDatastore( args.s3server, None)
     #data = f.getvalue()
-    bucketname, objectname = s3Minio.putReportFile(args.s3bucket,args.repo,"graph_report.json",report_json)
+    bucketname, objectname = s3Minio.putReportFile(args.s3bucket,args.source,"graph_report.json",report_json)
     return 0
 def start():
     """
@@ -55,7 +55,7 @@ def start():
                         help='s3 server address (localhost:9000)', default='localhost:9000')
     parser.add_argument('--s3bucket', dest='s3bucket',
                         help='s3 server address (localhost:9000)', default='gleaner')
-    parser.add_argument('--source', dest='repo',
+    parser.add_argument('--source', dest='source',
                         help='repository', default='all')
 
     parser.add_argument("--detailed",action='store_true',
