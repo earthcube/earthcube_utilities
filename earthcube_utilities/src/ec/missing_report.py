@@ -45,7 +45,7 @@ def writeMissingReport(args):
             if not args.no_upload:
                 s3Minio.putReportFile(bucket, source_name, "missing_report.json", report)
         except Exception as e:
-            logging.error(f"could not write missing report for {repo} to s3server:{s3server}:{bucket} error:{e}", repo,s3server,bucket, e)
+            logging.error(f"could not write missing report for {source_name} to s3server:{s3server}:{bucket} error:{e}", source_name,s3server,bucket, e)
     return 0
 
 def start():
