@@ -12,5 +12,5 @@ WHERE   {
       ?s schema:identifier/schema:url ?id_url .
       }
   }
- FILTER( CONTAINS(str(?s), "https://gleaner.io/id/org/") )
+ FILTER( CONTAINS(STRSTARTS(?s), "https://gleaner.io/id/org/") )
         }

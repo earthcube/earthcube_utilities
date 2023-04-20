@@ -53,7 +53,7 @@ select_one
 ## SPARQL RESOURCES
 The naming pattern is if the query starts with all_ then it applies to the overall graph store, and requires no parameters
 
-if the naming patter includes a repo or a urn then those are the parameters
+if the naming pattern includes a repo or a urn then those are the parameters
 
 ```python
 
@@ -83,12 +83,48 @@ returns a list of triples which represents one JSONLD file, aka graph
 %}
 ~~~
 
+
 ### Information about the overall graph
 
 These may be used to collect information on the overall graph.
 
 In addition, when onboarding a community, these can be used to assess the evaluation
 the information for  repository containing a single communities data.
+
+#### Top Level types
+
+#### all_count_types_top_level
+~~~sparql
+{%
+   include '../src/ec/graph/sparql_files/all_count_types_top_level.sparql'
+   
+%}
+~~~
+
+#### repo_count_types_top_level
+~~~sparql
+{%
+   include '../src/ec/graph/sparql_files/repo_count_types_top_level.spaql'
+   
+%}
+~~~
+
+#### repo_urn_w_types_toplevel
+~~~sparql
+{%
+   include '../src/ec/graph/sparql_files/repo_urn_w_types_toplevel.sparql'
+   
+%}
+~~~
+
+#### all_urn_w_types_toplevel
+~~~sparql
+{%
+   include '../src/ec/graph/sparql_files/all_urn_w_types_toplevel.sparql'
+   
+%}
+~~~
+
 
 ####  all_count_datasets 
 ~~~sparql

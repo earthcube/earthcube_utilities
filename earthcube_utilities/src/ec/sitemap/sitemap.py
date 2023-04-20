@@ -44,9 +44,9 @@ class Sitemap():
     sitemapurl = None
     _validSitemap = True
     sitemap_df = pandas.DataFrame()
-    errors=[]
     _checkedUrls=False
     def __init__(self, sitemapurl, repoName="", no_progress_bar=False):
+        self.errors=[]
         self.sitemapurl = sitemapurl
         self.no_progress_bar = no_progress_bar
         if _urlExists(sitemapurl):

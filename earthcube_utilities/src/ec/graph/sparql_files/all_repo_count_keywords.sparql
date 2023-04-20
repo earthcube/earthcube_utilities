@@ -5,7 +5,7 @@ SELECT  ?keyword (count(distinct ?s) as ?scount) ?repo
 WHERE {
  GRAPH ?g {
            ?s schema:keywords ?keyword .
-           bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):?(?:\\w+)?:" ,"" ), ":\\w+$$" , "")   as ?repo ) .
+           bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):" ,"" ), ":\\w+$$" , "")   as ?repo ) .
            }
       }
 GROUP By ?keyword ?repo

@@ -1,12 +1,13 @@
+# returns count of top level types
+
 prefix schema: <https://schema.org/>
 SELECT  ?type  (count(distinct ?s ) as ?scount)
 WHERE {
-GRAPH ?g  {
+Graph ?g {
 
        ?s a ?type .
-
+FILTER ( !isBLANK(?s) )  .
        }
-       FILTER( CONTAINS(str(?g), "${repo}"))
 }
 
 GROUP By ?type

@@ -1,6 +1,6 @@
 [project]
 name = "earthcube_utilities"
-version = "0.1.13"
+version = "0.1.14"
 dynamic = ["dependencies"]
 description = "A package of utilities for NSF Earthcube Geocodes Project"
 readme =  "README.md"
@@ -36,6 +36,7 @@ classifiers = [
 generategraphstats = "ec.generate_graph_stats:start"
 check_sitemap = "ec.check_sitemap:start"
 query_graph = "ec.query_graph:start"
+missing_report = "ec.missing_report:start"
 
 [tool.setuptools]
 # If there are data files included in your packages that need to be
