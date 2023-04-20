@@ -89,7 +89,7 @@ def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatast
     graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, {"repo": repo})
     graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns['g']))
     dif_summon_graph = pydash.arrays.difference(summoned_sha_list, graph_shas)
-    response["milled_count"] = pydash.collections.size(graph_shas)
+    response["graph_urn_count"] = pydash.collections.size(graph_shas)
     response["missing_summon_graph"] = dif_summon_graph
     if milled:
         milled_list = datastore.listMilledSha(bucket, repo)
@@ -161,12 +161,12 @@ reportTypes = {
             {"code": "graph_count_by_repo", "name": "all_repo_count_graphs"},
         {"code": "dataset_count", "name": "all_count_datasets"},
         {"code": "dataset_count_by_repo", "name": "all_repo_count_datasets"},
+        {"code": "types_count", "name": "all_count_types"},
+        {"code": "types_count_by_repo", "name": "all_repo_count_types"},
         {"code": "mutilple_version_count", "name": "all_count_multiple_versioned_datasets"},
         {"code": "mutilple_version_count_by_repo", "name": "all_repo_count_versioned_datasets"},
         {"code": "repos_with_keywords", "name": "all_repo_with_keywords"},
-        {"code": "types_count", "name": "all_count_types"},
-        {"code": "types_count_by_repo", "name": "all_repo_count_types"},
-     ],
+    ],
     # add the triple count by graph, and graph sizes
     # this will need to be added, managed in the generate_graph
     # add a basic by default, detailed if requested with a flag
@@ -175,11 +175,11 @@ reportTypes = {
         {"code": "graph_count_by_repo", "name": "all_repo_count_graphs"},
         {"code": "dataset_count", "name": "all_count_datasets"},
         {"code": "dataset_count_by_repo", "name": "all_repo_count_datasets"},
+        {"code": "types_count", "name": "all_count_types"},
+        {"code": "types_count_by_repo", "name": "all_repo_count_types"},
         {"code": "mutilple_version_count", "name": "all_count_multiple_versioned_datasets"},
         {"code": "mutilple_version_count_by_repo", "name": "all_repo_count_versioned_datasets"},
         {"code": "keywords_counts_by_repo", "name": "all_repo_count_keywords"},
-
-        {"code": "types_count", "name": "all_count_types"},
         {"code": "keywords_count", "name": "all_count_keywords"},
         {"code": "variablename_count", "name": "all_count_variablename"},
         {"code": "graph_sizes", "name": "all_graph_sizes"},
