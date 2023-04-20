@@ -7,6 +7,7 @@ or editable developer package (cd earthcube_utilties; pip3 install -e .)
 In the longer term, this will provide a record of how repostories grow/shrink etc.
 
 These scripts are installed.
+
 * `check_sitemap` - given a sitemap, checks to see if the url work
 * `missing_report` = looks a data loss sitemap>summon>graph
 * `generate_graph_stats` = provides a summary of the infromation loaded into a graph
@@ -31,15 +32,17 @@ Some webistes return 200 for all calls, so this will not be accurate, but
 
 ## missing report
 Counts
+
 * sitemap how many urls in a sitemap
 * summon how many made it into the graphstore. This may be larger if multiple JSONLD's are in a page
 * graph_urn_count how many JSONLD loaded into the graph
-* 
+
 Records
+
 * Missing_sitemap_Summon == Files w/o jsonld, or not a url
 * "missing_summon_graph" URN's of files that did not make it into graph.
 
-```
+```json
 {
   "source": "cchdo",
   "graph": "https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/deepoceans/sparql",
@@ -65,9 +68,8 @@ Records
 ## Identifier Report
 This summarizes which 'identifiers' were used to generate the unique identifier (sha hash)
 
-
-
-```[
+```json
+[
   {
     "Identifiertype":"identifiersha",
     "Matchedpath":"$.url",
@@ -95,7 +97,8 @@ and variable naming. How many ways to say latitude, longitude... date, Day, etc
 
 While for variable names we may not need to address this, in loading since they describe the dataset, for 
 discovery, we will need to well, use the graph for what the graph is good at.
-```
+
+```json
 {
     "version": 0,
     "repo": "all",
