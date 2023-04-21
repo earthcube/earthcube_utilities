@@ -143,14 +143,6 @@ def compareSummoned2Graph(bucket, repo, datastore: bucketDatastore, graphendpoin
             }
 
 
-def putProcessingReports4Repo(repo, date,  json_str, datastore: bucketDatastore, reportname='processing.json',):
-    """put reports about the processing into reports store
-    this should be items like the sitemap count, summoned counts, and 'milled' counts if apprporate"""
-    # store twice. latest and date
-    bucket_name, object_name= bucketDatastore.putReportFile(datastore.default_bucket, repo, reportname, json_str, date=date)
-    # might return a url...
-    return bucket_name, object_name
-
 ##################################
 #  REPORT GENERATION USING SPARQL QUERIES
 #   this uses defined spaql queries to return counts for reports
@@ -249,10 +241,5 @@ def listGraphReportDates4Repo(repo,  datastore: bucketDatastore):
     filelist = datastore.listPath(path)
     return filelist
 
-def putGraphReports4RepoReport(repo, json_str, datastore: bucketDatastore, date='latest', reportname='sparql.json'):
-    """put the latest for a dashboard. report.GetLastDate to store"""
-    # store twice. latest and date
-    bucket_name, object_name= datastore.putReportFile(datastore.default_bucket, repo, reportname, json_str, date=date)
-    # might return a url...
-    return bucket_name, object_name
+
 

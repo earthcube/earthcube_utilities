@@ -5,7 +5,7 @@ from approvaltests import verify, verify_as_json
 from ec.datastore.s3 import MinioDatastore
 
 import ec.reporting.report
-from ec.reporting.report import generateAGraphReportsRepo, generateGraphReportsRepo, putGraphReports4RepoReport
+from ec.reporting.report import generateAGraphReportsRepo, generateGraphReportsRepo
 
 # shortened list of report types for testing
 reportTypes ={
@@ -40,7 +40,7 @@ class ReportingTestCase(unittest.TestCase):
         """ run a list of report types."""
         report_json = generateGraphReportsRepo("all",
                                           self.graphendpoint,
-                                          reportTypes=reportTypes)
+                                          reportList=reportTypes['all'])
         self.assertIsNot(None,report_json)
         report = json.loads(report_json)
         self.assertEquals(2, len(report["reports"]) )
@@ -49,23 +49,22 @@ class ReportingTestCase(unittest.TestCase):
         """ run a list of report types."""
         report_json = generateGraphReportsRepo("opentopography",
                                                self.graphendpoint,
-                                          reportTypes=reportTypes)
+                                          reportList=reportTypes['repo'])
         self.assertIsNot(None,report_json)
         report = json.loads(report_json)
         self.assertEquals(2, len(report["reports"]) )
 
     def test_put_report(self):
-        bucket = "gleaner"
+        bucket = "citesting"
         endpoint = "oss.geocodes-dev.earthcube.org"
-        repo="opentopography"
+        repo="geocodes_demo_datasets"
         date="latest"
-        report_json = generateGraphReportsRepo("all",
-                                          "https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparlq",
-                                          reportTypes=reportTypes,
-                                               )
+        report_json = '{"test":"test"}'
         s3client = MinioDatastore(endpoint, None)
 
-        bucket_name, object_name = putGraphReports4RepoReport(repo,   report_json, s3client, reportname="putest.json", date='latest')
+        bucket_name, object_name = s3client.putReportFile(bucket, repo, "putest.json",  report_json,
+                                                              date='latest'
+                                                              )
         self.assertEquals(bucket_name, bucket)
         self.assertIsNotNone(object_name)
 
