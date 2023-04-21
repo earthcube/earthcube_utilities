@@ -75,6 +75,7 @@ optional arguments:
 usage: missing_report.py [-h] [--graphendpoint GRAPHENDPOINT]
                               [--s3 S3SERVER] [--s3bucket S3BUCKET]
                               [--cfgfile] [--no_upload] [--output]
+                              [--source] [--milled] [--summon]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -85,8 +86,34 @@ optional arguments:
   --cfgfile             a gleaner config file
   --no_upload           whether to write the missing report to s3 or not (True/False)
   --output              if no_upload is True, dump the missing report to output
+  --source              one or more repositories (--source a --source b)
+  --milled              include milled
+  --summon              check summon only
 ```
 
 ::: ec.missing_report
 
+## **summarize_identifier_metadata**
+`summarize_identifier_metadata --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ 
+--s3 localhost:9000 --s3bucket gleaner --cfgfile gleaner --no_upload True 
+--output output.json --json False --source Iris`
+
+```
+usage: summarize_identifier_metadata.py [-h] [--graphendpoint GRAPHENDPOINT]
+                              [--s3 S3SERVER] [--s3bucket S3BUCKET]
+                              [--cfgfile] [--no_upload] [--output]
+                              [--json] [--source]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --graphendpoint GRAPHENDPOINT
+                        graph endpoint
+  --s3 S3SERVER         s3 server address (localhost:9000)
+  --s3bucket S3BUCKET   s3 bucket name
+  --cfgfile             a gleaner config file
+  --no_upload           whether to write the missing report to s3 or not (True/False)
+  --output              if no_upload is True, dump the report to output
+  --json                output as json format, otherwise csv format (True/False)
+  --source              one or more repositories (--source a --source b)
+```
 
