@@ -5,6 +5,7 @@ import uuid
 
 import uuid as uuid
 from rocrate.rocrate import ROCrate
+from rocrate.model.metadata import Metadata
 from rocrate.model.person import Person
 from rocrate.model.softwareapplication import SoftwareApplication
 from rocrate.model.contextentity import ContextEntity
@@ -139,6 +140,12 @@ class SosRocrate(ROCrate):
     use SosRocrate instead of RoCrate
 
     """
+    def getMetadata(self):
+        """ROCrates are zip files or directories. We just need the metadata for information transfer"""
+        md = Metadata(self)
+        as_jsonld = md.generate()
+        return as_jsonld
+
     def nameCrate(self, aName):
         self.nameCrate(aName)
 

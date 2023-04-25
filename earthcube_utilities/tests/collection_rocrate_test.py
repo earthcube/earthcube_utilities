@@ -107,6 +107,18 @@ class RoCreateTestCase(unittest.TestCase):
                 file_content =f.read()
                 self.assertIsNotNone(file_content)
 
+    def test_just_metadata(self):
+        crate = SosRocrate()
+        crate.name = "test"
+        crate.addSosCreator(crate, "aUser")
+        crate.addSosPublisher(crate, name="publsher")
+       # crate.addSosURL(crate, url="http://example.com", name="a url")
+        # crate.addSosDatasetAsEntity(crate,json.dumps(jsonld), "urn1")
+        crate.addSosDatasetAsDataset(self.json1,
+                                     "https://portal.opentopography.org/lidarDataset?opentopoID=OTLAS.052015.32611.1")
+
+        jsonld = crate.getMetadata()
+        self.assertIsNotNone(jsonld)
 
 if __name__ == '__main__':
     unittest.main()
