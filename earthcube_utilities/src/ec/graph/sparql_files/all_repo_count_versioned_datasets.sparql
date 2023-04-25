@@ -6,7 +6,7 @@ WHERE {
 
        ?s schema:version ?version .
 
-       } bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):?(?:\\w+)?:" ,"" ), ":\\w+$$" , "")   as ?repo ) .
+       } bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):" ,"" ), ":\\w+$$" , "")   as ?repo ) .
 }
 GROUP By ?repo
 ORDER By DESC(?versionscount)

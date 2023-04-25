@@ -3,7 +3,7 @@ from approvaltests import verify
 
 # pycharm does not like the top level package name... but this is what makes it work
 # from ec.graph.sparql_query import getFileFromResources,getAGraph, queryWithSparql
-from ec.graph.sparql_query import _getSparqlFileFromResources,getAGraph, queryWithSparql, _listSparqlFilesFromResources
+from ec.graph.sparql_query import _getSparqlFileFromResources,getAGraph, queryWithSparql, listSparqlFilesFromResources
 
 
 class Graph_SparqlDataframe_TestCase(unittest.TestCase):
@@ -18,7 +18,7 @@ class Graph_SparqlDataframe_TestCase(unittest.TestCase):
         f = _getSparqlFileFromResources("select_one")
         self.assertEqual(f, "SELECT * { ?s ?p ?o } LIMIT 1")  # add assertion here
     def test_listile(self):
-        f =list(_listSparqlFilesFromResources())
+        f =list(listSparqlFilesFromResources())
         verify(f)  # add assertion here
 
     def test_getGraph(self ):

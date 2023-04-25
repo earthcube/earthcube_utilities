@@ -1,6 +1,6 @@
 import unittest
 
-import graph.manageGraph as mg
+import ec.graph.manageGraph as mg
 
 
 class BrazgraphTestCase(unittest.TestCase):

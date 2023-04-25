@@ -3,6 +3,7 @@
 import argparse
 import logging
 import os
+import errno
 from ec.graph.manageGraph import ManageBlazegraph as mg
 from ec.summarize import summaryDF2ttl, get_summary4graph,get_summary4repoSubset
 from ec.gleanerio.gleaner import endpointUpdateNamespace,getNabu, reviseNabuConfGraph, runNabu
@@ -40,13 +41,36 @@ from urllib.parse import urlparse
 #         return True
 #     else:
 #         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
+def dumpToFile(repo,summaryttl ):
+    filename = os.path.join("output", f"{repo}.ttl")
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+    with open(filename, 'w') as f:
+        f.write(summaryttl)
+    return
 def isValidURL(toValidate):
     o = urlparse(toValidate)
     if o.scheme and o.netloc:
         return True
     else:
         return False
-    
+
+def dumpToFile(repo,summaryttl ):
+    filename = os.path.join("output", f"{repo}.ttl")
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+    with open(filename, 'w') as f:
+        f.write(summaryttl)
+    return
+
 def summarizeGraphOnly():
     """ Summarize directly from a namespace, upload to provided summarize namespace
 
@@ -67,8 +91,8 @@ def summarizeGraphOnly():
                         default="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"
                         , required=True)
 
-    parser.add_argument('--graphsummary', dest='graphsummary',
-                        help='upload triples to namespace defined in graphenpoint"', default=True)
+    parser.add_argument('--nographsummary', action='store_true', dest='nographsummary',
+                        help='send triples to file', default=False)
     parser.add_argument('--summary_namespace', dest='summary_namespace',
                         help='summary_namespace  just the namspace. defaults to "repo_summary"',
                         )
@@ -107,21 +131,18 @@ def summarizeGraphOnly():
         # write to s3  in future
         # with open(os.path.join("output",f"{repo}.ttl"), 'w') as f:
         #      f.write(summaryttl)
-        if args.graphsummary:
+        if not args.nographsummary:
             inserted = sumnsgraph.insert(bytes(summaryttl, 'utf-8'),content_type="application/x-turtle" )
             if inserted:
                 logging.info(f"Inserted into graph store{sumnsgraph.namespace}" )
             else:
                 logging.error(f" dumping file {repo}.ttl  Repo {repo} not inserted into {sumnsgraph.namespace}")
-
-                with open(os.path.join("output",f"{repo}.ttl"), 'w') as f:
-                     f.write(summaryttl)
+                dumpToFile(repo, summaryttl)
                 return 1
         else:
-            logging.info(f" dumping file {repo}.ttl  graphsummary: {args.graphsummary} ")
+            logging.info(f" dumping file {repo}.ttl  nographsummary: {args.nographsummary} ")
 
-            with open(os.path.join("output", f"{repo}.ttl"), 'w') as f:
-                f.write(summaryttl)
+            dumpToFile(repo, summaryttl)
     except Exception as ex:
         logging.error(f"error {ex}")
         print(f"Error: {ex}")

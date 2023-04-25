@@ -4,7 +4,7 @@ SELECT   ?repo (COUNT(distinct ?g) as ?graphs) (COUNT(*) as ?triples)
 WHERE     {
   GRAPH ?g {
       ?s ?p ?o .
-      bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):?(?:\\w+)?:" ,"" ), ":\\w+$$" , "")   as ?repo )
+      bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):" ,"" ), ":\\w+$$" , "")   as ?repo )
    }
 }
 group by ?repo

@@ -5,7 +5,7 @@ SELECT   ?repo ?type (COUNT(distinct ?g) as ?type_counts)
 WHERE     {
   GRAPH ?g {
       ?s a ?type .
-      bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):?(?:\\w+)?:" ,"" ), ":\\w+$$" , "")   as ?repo )
+      bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):" ,"" ), ":\\w+$$" , "")   as ?repo )
    }
 }
 group by ?repo ?type

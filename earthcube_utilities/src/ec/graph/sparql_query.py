@@ -61,7 +61,7 @@ def listSparqlFilesFromResources() -> str:
 
 def getAGraph(  g, endpoint: str) -> pandas.DataFrame:
     """Query a SPARQL endpoint and return a Pandas Dataframe for a geocodes object"""
-    query = _getSparqlFileFromResources('get_triples_for_a_graph')
+    query = _getSparqlFileFromResources('urn_triples_for_a_graph')
     q_template = Template(query)
     thsGraphQuery = q_template.substitute(urn=g)
     g_df = sparqldataframe.query(endpoint, thsGraphQuery)

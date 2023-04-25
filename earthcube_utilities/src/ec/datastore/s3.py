@@ -1,7 +1,9 @@
+from datetime import datetime
 from io import BytesIO
 
 import minio
 import pydash
+from minio.commonconfig import CopySource, REPLACE
 from pydash.collections import find
 
 def shaFroms3Path(path, extension=None):
@@ -50,6 +52,15 @@ class bucketDatastore():
         f.seek(0)
         resp = self.s3client.put_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name, f,length=length)
         return resp.bucket_name, resp.object_name
+    def copyObject(self,s3ObjectInfoToCopy, ObjectPath ):
+        ''' Server Side Copy, eg upload report to latest, make copy to today'''
+        self.s3client.copy_object(
+            s3ObjectInfoToCopy.bucket_name,
+            ObjectPath,
+            CopySource(s3ObjectInfoToCopy.bucket_name, s3ObjectInfoToCopy.object_name),
+           # metadata=metadata,
+            metadata_directive=REPLACE,
+        )
 
     #### Methods for a getting information using infrastructure information
 
@@ -124,7 +135,8 @@ class bucketDatastore():
         path = f"{self.paths['report']}/{repo}/"
         return self.listPath(bucket, path,include_user_meta=include_user_meta)
 
-    def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
+    def putReportFile(self, bucket, repo, filename, json_str,  date="latest", copy_to_date=True):
+
         pass
 
     def getReportFile(self, bucket, repo, filename):
@@ -211,12 +223,16 @@ class MinioDatastore(bucketDatastore):
         # this needs to return the metadata
         return user_meta
 
-    def putReportFile(self, bucket, repo, filename, json_str, date="latest"):
+    def putReportFile(self, bucket, repo, filename, json_str, date="latest", copy_to_date=True):
         path = f"{self.paths['report']}/{repo}/{date}/{filename}"
         f = BytesIO()
         length = f.write(bytes(json_str, 'utf-8'))
         f.seek(0)
         resp = self.s3client.put_object(bucket, path, f,length=length)
+        if copy_to_date:
+            today_str = datetime.now().strftime("%Y%m%d")
+            path = f"{self.paths['report']}/{repo}/{today_str}/{filename}"
+            self.copyObject(resp,path)
         return resp.bucket_name, resp.object_name
 
     def getReportFile(self, bucket, repo, filename):

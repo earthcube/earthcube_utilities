@@ -1,8 +1,8 @@
 # Earthcube Utilities
 
 
+## Users
 
-## Proposed use
 ### Earthcube Utilities:
 https://pypi.org/project/earthcube-utilities/
 
