@@ -64,7 +64,7 @@ def start():
     parser.add_argument('--cfgfile', dest='cfgfile',
                         help='gleaner config file', default='gleaner')
     parser.add_argument('--graphendpoint', dest = 'graphendpoint',
-                        help = 'graph endpoint', default = "https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/")
+                        help = 'graph endpoint')
 # no default for s3 parameters here. read from gleaner. if provided, these override the gleaner config
     parser.add_argument('--s3', dest = 's3server',
                         help = 's3 server address ')
