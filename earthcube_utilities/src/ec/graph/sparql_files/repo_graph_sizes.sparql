@@ -1,14 +1,14 @@
 ## WARNING SLOW FOR A REPO...
 ## if the SAME TRIPLE COUNT APPEARS it may be a loading issue
 
-SELECT  ?triplesize (count(?triplesize) as ?triplecount)
+SELECT  ?triple_per_jsonld (count(?triple_per_jsonld) as ?count)
 WHERE     {
-    SELECT  ?g (count(?s) as ?triplesize)
+    SELECT  ?g (count(?s) as ?triple_per_jsonld)
     WHERE     {
          GRAPH ?g {?s ?p ?o .}
          FILTER( CONTAINS(str(?g), "${repo}") )
     }
     GROUP BY ?g
          }
-GROUP BY ?triplesize
-ORDER BY DESC(?triplecount)
+GROUP BY ?triple_per_jsonld
+ORDER BY DESC(?count)
