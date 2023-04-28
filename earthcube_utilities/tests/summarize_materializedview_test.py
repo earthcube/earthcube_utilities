@@ -3,7 +3,7 @@ from approvaltests.approvals import verify
 
 import pandas
 
-from ec.summarize.summarize_materializedview import summaryDF2ttl
+from ec.summarize.summarize_materializedview import summaryDF2ttl,summaryAsQuads
 
 
 class SummarizeMaterializedViewTestCase(unittest.TestCase):
@@ -23,6 +23,21 @@ class SummarizeMaterializedViewTestCase(unittest.TestCase):
         # rerun test
         nt = g.serialize(format='longturtle')
         verify(nt)
-
+    def test_summaryAsQuads(self):
+        file = "../resources/testing/summarydf_short.csv"
+        with open(file, 'r') as f:
+            tesdf = f.read()
+        testdf = pandas.read_csv(file)
+        results, g = summaryAsQuads(testdf, "test")
+     #   self.assertEqual(2, results.count("<https://schema.org/Dataset>"))  # add assertion here
+        # this is an approval test.
+        # in the approved_files directory there will be a file .approved.txt
+        # if the test fails, but the results are correct,
+        # mv summarize/src/approved_files/SummarizeMaterializedViewTestCase.test_summaryDF2ttl.recieved.txt summarize/src/approved_files/SummarizeMaterializedViewTestCase.test_summaryDF2ttl.approved.txt
+        # rerun test
+        nt = g.serialize(format='nquads')
+        lines = nt.splitlines()
+        lines = '\n'.join(sorted(lines))
+        verify(lines)
 if __name__ == '__main__':
     unittest.main()

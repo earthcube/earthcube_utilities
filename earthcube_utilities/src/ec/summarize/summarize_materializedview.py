@@ -5,7 +5,7 @@ from typing import Union
 
 import pandas
 import sparqldataframe
-from rdflib import URIRef, BNode, Literal, Graph,Namespace, RDF
+from rdflib import URIRef, BNode, Literal, Graph, Namespace, RDF, Dataset, ConjunctiveGraph
 import json
 
 from  ec.graph.sparql_query import queryWithSparql
@@ -57,12 +57,22 @@ def get_summary4repoSubset(endpoint: str, repo : str) -> pandas.DataFrame:
 ###
 # from dataframe
 ####
+def summaryAsQuads(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], Graph]:
+    ''' graph as an RDF Dataset'''
+    triples_ttl, sum_graph = summaryDF2ttl(df, repo)
+    # d= Dataset()
+    # d.add_graph(sum_graph)
+    sum_graph.qname (URIRef("https://earthcube.org/summarygraph"))
+    return   sum_graph.serialize(format='nquads'), sum_graph
+
 def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], Graph]:
     "summarize sparql query returns turtle string and rdf lib Graph"
     urns = {}
     def is_str(v):
         return type(v) is str
-    g = Graph()
+
+    g = ConjunctiveGraph(identifier=URIRef("https://earthcube.org/summarygraph"))
+
     ## ##########
     # Not officially a standard schema format.
     # we might want to use our own namespace in the future
