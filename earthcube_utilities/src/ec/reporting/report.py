@@ -1,6 +1,8 @@
 import json
 import logging
 from datetime import date, datetime
+import time
+from typing import Any
 
 import pandas
 import pydash
@@ -72,30 +74,42 @@ def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatast
     today = date.today().strftime("%Y-%m-%d")
     response = {"source":repo,"graph":graphendpoint,"sitemap":valid_sitemap_url,
                 "date": today, "bucket": bucket, "s3store": datastore.endpoint }
+    t = time.time()
     sitemap = ec.sitemap.Sitemap(valid_sitemap_url)
     sitemap_urls = sitemap.uniqueUrls()
+    response["sitemap_geturls_time"] = time.time() - t
     sitemap_count = pydash.collections.size(sitemap_urls)
+    t = time.time()
     summoned_list = datastore.listSummonedUrls(bucket, repo)
+    response["s3_geturls_time"] = time.time() - t
     summoned_count = pydash.collections.size(summoned_list)
     summoned_urls = list(map(lambda s: s.get("url"), summoned_list))
     dif_sm_summon = pydash.arrays.difference(sitemap_urls, summoned_urls)
     response["sitemap_count"] = sitemap_count
     response["summoned_count"] = summoned_count
+    response["missing_sitemap_summon_count"] = len(dif_sm_summon)
     response["missing_sitemap_summon"] = dif_sm_summon
     if summon:
         return response
     ##### summmon to graph
+    t = time.time()
     summoned_sha_list = datastore.listSummonedSha(bucket, repo)
+    response["summon_list_s3_sha_time"] = time.time() - t
+    t = time.time()
     graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, {"repo": repo})
     graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns['g']))
+    response["graph_sha_urn_time"] = time.time() - t
     dif_summon_graph = pydash.arrays.difference(summoned_sha_list, graph_shas)
     response["graph_urn_count"] = pydash.collections.size(graph_shas)
+    response["missing_summon_graph_count"] = len(dif_summon_graph)
     response["missing_summon_graph"] = dif_summon_graph
     if milled:
+        t = time.time()
         milled_list = datastore.listMilledSha(bucket, repo)
-
+        response["milled_sha_time"] = time.time() - t
         dif_summon_milled = pydash.arrays.difference(summoned_sha_list, milled_list)
         response["milled_count"] = pydash.collections.size(milled_list)
+        response["missing_summon_milled"] = len(dif_summon_milled)
         response["missing_summon_milled"] = dif_summon_milled
     return response
 
@@ -209,25 +223,36 @@ def _get_report_type(reports, code) -> str:
 ##  for the 'object reports, we should have a set.these could probably be make a set of methos with (ObjectType[triples,keywords, types, authors, etc], repo, endpoint/datastore)
 def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"]) -> str:
     current_dateTime = datetime.now().strftime("%Y-%m-%d")
-    reports = map (lambda r:   {"report": r["code"],
-                                "data": generateAGraphReportsRepo(repo, r["code"],
-                                 graphendpoint, reportList).to_dict('records')
-                                   }   ,
+    reports = map (lambda r:    generateAGraphReportsRepo(repo, r,
+                                 graphendpoint, reportList)
+                                      ,
                                 reportList)
 
     reports = list(reports)
     return json.dumps({"version": 0, "repo": repo, "date": current_dateTime, "reports": reports }, indent=4)
 
-def generateAGraphReportsRepo(repo, code, graphendpoint, reportList) -> pandas.DataFrame:
+
+def generateAGraphReportsRepo(repo, r, graphendpoint, reportList) -> Any:
     #queryWithSparql("repo_count_types", graphendpoint)
     parameters = {"repo": repo}
     try:
-        report =   queryWithSparql(_get_report_type(reportList, code), graphendpoint, parameters=parameters)
-
-        return report
+        t = time.time()
+        report =   queryWithSparql(_get_report_type(reportList, r['code']), graphendpoint, parameters=parameters)
+        elapsed_time = time.time() - t
+        data = report.to_dict('records')
+        return  {"report": r["code"],
+                 "processing_time": elapsed_time,
+                 "length": len(data),
+         "data": report.to_dict('records')
+         }
     except Exception as ex:
-        logging.error(f"query with sparql failed: report:{code}  repo:{repo}   {ex}")
-        return pandas.DataFrame()
+        logging.error(f"query with sparql failed: report:{r['code']}  repo:{repo}   {ex}")
+        elapsed_time = time.time() - t
+        return {"report": r["code"],
+                "errpr": f"{ex}",
+                 "processing_time": elapsed_time,
+         "data": []
+         }
 
 def getGraphReportsLatestRepoReports(repo,  datastore: bucketDatastore):
     """get the latest for a dashboard"""
