@@ -18,6 +18,7 @@ context = f"@prefix : <{BASE_SHCEMA_ORG}> ."
 ### BLAZEGRAPH
 '''original fetch all from temporary namespace'''
 def get_summary4repo(endpoint: str) -> pandas.DataFrame:
+    logging.INFO("Running Summary Query to Get all records")
     df = queryWithSparql("all_summary_query", endpoint)
     return df
     # file = '../resources/sparql/summary_query.txt'
@@ -28,6 +29,7 @@ def get_summary4repo(endpoint: str) -> pandas.DataFrame:
 
 ''' fetch all from graph namespace'''
 def get_summary4graph(endpoint : str) -> pandas.DataFrame:
+    logging.INFO("Running Summary Query to Get all records")
     df= queryWithSparql("all_summary_query",endpoint)
     return df
     # file = '../resources/sparql/all_summary_query.sparql'
@@ -38,7 +40,7 @@ def get_summary4graph(endpoint : str) -> pandas.DataFrame:
 
 ''' fetch subset  from graph namespace'''
 def get_summary4repoSubset(endpoint: str, repo : str) -> pandas.DataFrame:
-
+    logging.INFO(f"Running Summary Query to Get {repo} records")
     df = queryWithSparql("repo_summary_query",endpoint, parameters={"repo":repo})
     return df
     # file = '../resources/sparql/repo_summary_query.sparql'

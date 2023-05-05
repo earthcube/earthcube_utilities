@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="summarize_all " type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="summarize_all oceans" type="PythonConfigurationType" factoryName="Python" folderName="oceans">
     <module name="earthcube_utilities" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
@@ -23,7 +23,7 @@
       </ENTRIES>
     </EXTENSION>
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/summarize/src/ec_summarize/summarize_from_graph_namespace.py" />
-    <option name="PARAMETERS" value="--graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql --summary_namespace earthcube_summary" />
+    <option name="PARAMETERS" value="--graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/deepoceans/sparql --summary_namespace deepoceans_summary" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />
