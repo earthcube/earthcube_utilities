@@ -4,8 +4,9 @@ from string import Template
 from typing import Union
 
 import pandas
+import rdflib
 import sparqldataframe
-from rdflib import URIRef, BNode, Literal, Graph,Namespace, RDF
+from rdflib import URIRef, BNode, Literal, Graph,Namespace, RDF, ConjunctiveGraph
 import json
 
 from  ec.graph.sparql_query import queryWithSparql
@@ -13,8 +14,10 @@ from  ec.graph.sparql_query import queryWithSparql
 HTTPS_SCHEMA_ORG = "https://schema.org/"
 HTTP_SCHEMA_ORG = "http://schema.org/"
 BASE_SHCEMA_ORG = HTTPS_SCHEMA_ORG
-context = f"@prefix : <{BASE_SHCEMA_ORG}> ."
+#context = f"@prefix : <{BASE_SHCEMA_ORG}> ."
 
+BASE_SUMMARIZE_NS = "https://earthcube.org/ns/summarize"
+SUMMARIZE_GRAPH_URI="urn:gleaner.io:gecodes:schema:summarize" # urn pattern, urn:gleaner.io:{ORG}:{SOURCE}:{SHA/ID}
 ### BLAZEGRAPH
 '''original fetch all from temporary namespace'''
 def get_summary4repo(endpoint: str) -> pandas.DataFrame:
@@ -57,18 +60,22 @@ def get_summary4repoSubset(endpoint: str, repo : str) -> pandas.DataFrame:
 ###
 # from dataframe
 ####
-def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], Graph]:
+def summaryDF2ttl(df: pandas.DataFrame, repo: str, useSummarizeNS=False) -> tuple[ Union[str,bytes], Graph]:
     "summarize sparql query returns turtle string and rdf lib Graph"
     urns = {}
     def is_str(v):
         return type(v) is str
-    g = Graph()
+    g = ConjunctiveGraph(identifier=SUMMARIZE_GRAPH_URI)
     ## ##########
     # Not officially a standard schema format.
     # we might want to use our own namespace in the future
     ###########
-    g.bind("ecsummary", BASE_SHCEMA_ORG)
-    ecsummary = Namespace(BASE_SHCEMA_ORG)
+    if useSummarizeNS:
+        g.bind("ecsummary", BASE_SUMMARIZE_NS)
+        ecsummary = Namespace(BASE_SUMMARIZE_NS)
+    else:
+        g.bind("schema", BASE_SHCEMA_ORG)
+        ecsummary = Namespace(BASE_SHCEMA_ORG)
     sosschema = Namespace(BASE_SHCEMA_ORG)
 
 
@@ -215,3 +222,8 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], G
 # or other formats
 
 
+def summaryDF2quad(df: pandas.DataFrame, repo: str, useSummarizeNS=True) -> tuple[ Union[str,bytes], Graph]:
+    """Returns a string/byte of nquads, and the graph"""
+    _, g = summaryDF2ttl(df, repo,useSummarizeNS)
+    quads = g.serialize(format="nquads")
+    return quads, g
