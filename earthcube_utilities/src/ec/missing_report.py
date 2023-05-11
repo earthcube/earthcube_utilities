@@ -11,17 +11,17 @@ from ec.reporting.report import missingReport
 from ec.datastore import s3
 
 @click.command()
-@click.option('--cfgfile', help='gleaner config file', default='gleaner', type=click.Path(exists=True))
-@click.option('--graphendpoint', help='graph endpoint',
-              default='https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/')
+@click.option('--cfgfile', help='gleaner config file', type=click.Path(exists=True))
+@click.option('--graphendpoint', help='graph endpoint'
+              )
 # no default for s3 parameters here. read from gleaner. if provided, these override the gleaner config
 @click.option('--s3server', help='s3 server address')
 @click.option('--s3bucket', help='s3 bucket')
-@click.option('--no_upload', help='do not upload to s3 bucket', default=False)
+@click.option('--no_upload', help='do not upload to s3 bucket',is_flag=True, default=False)
 @click.option('--output', help='dump to file', type=click.File('wb'))
 @click.option('--source', help='gone or more repositories (--source a --source b)', multiple=True)
-@click.option('--milled', help='include milled', default=False)
-@click.option('--summon', help='check summon only', default=False)
+@click.option('--milled', help='include milled', is_flag=True,default=False)
+@click.option('--summon', help='check summon only',is_flag=True, default=False)
 
 def writeMissingReport(cfgfile, graphendpoint, s3server, s3bucket, no_upload, output, source, milled, summon):
     if cfgfile:
