@@ -1,4 +1,7 @@
+import functools
 import os
+from typing import Tuple
+
 import click
 import logging
 import json
@@ -15,7 +18,7 @@ from ec.datastore import s3
 from ec.logger import config_app
 
 log = config_app()
-class Cfgfile(object):
+class EcConfig(object):
     """ Parameters that might be common to commands"""
     def __init__(self, cfgfile=None, s3server=None, s3bucket=None, graphendpoint=None, upload=None, output=None,debug=False):
         if cfgfile:
@@ -28,9 +31,10 @@ class Cfgfile(object):
             self.s3server = s3server
             self.bucket = s3bucket
         # this is not always... no upload should ignore here and catch in command
-        if  upload and ( is_empty(self.s3server) or is_empty(self.bucket) ):
-            log.fatal(f" must provide a gleaner config or (s3endpoint and s3bucket)]")
-            sys.exit(1)
+        ## sys.exit() is bad idead to have check in this class.
+        # if  upload and ( is_empty(self.s3server) or is_empty(self.bucket) ):
+        #     log.fatal(f" must provide a gleaner config or (s3endpoint and s3bucket)]")
+        #     sys.exit(1)
  #       self.s3server=s3server
  #       self.s3bucket=s3bucket
         self.graphendpoint = graphendpoint
@@ -40,39 +44,77 @@ class Cfgfile(object):
         self.debug = debug
 
 
+    # lets put checks as methods in here.
+    # that way some checks if we can connect can be done in one place
+    def hasS3(self) -> bool:
+         if   ( is_empty(self.s3server) or is_empty(self.bucket) ):
+             log.fatal(f" must provide a gleaner config or (s3endpoint and s3bucket)]")
+             sys.exit(1)
+         return True
+    def hasS3Upload(self) -> bool:
+         if  not self.upload and ( is_empty(self.s3server) or is_empty(self.bucket) ):
+             log.fatal(f" must provide a gleaner config or (s3endpoint and s3bucket)]")
+             sys.exit(1)
+         return True
+    def hasGraphendpoint(self, option:bool=False, message="must provide graphendpoint") -> bool:
+         """ if option is not true, so if summon only, then empty is graphendpoint is ok
+            """
+         if  not option or is_empty(self.graphendpoint) :
+             log.fatal(message)
+             sys.exit(1)
+         return True
+
+def common_params(func):
+    @click.option('--cfgfile', help='gleaner config file', type=click.Path(exists=True))
+    @click.option('--s3server', help='s3 server address')
+    @click.option('--s3bucket', help='s3 bucket')
+    @click.option('--graphendpoint', help='graph endpoint')
+    @click.option('--upload/--no-upload', help='upload to s3 bucket', default=True)
+    @click.option('--output', help='dump to file', type=click.File('wb'))
+    @click.option('--debug/--no-debug', default=False,
+                  envvar='REPO_DEBUG')
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+
 @click.group()
 #click.option('--cfgfile', help='gleaner config file', default='gleaner', type=click.Path(exists=True))
 
-@click.option('--cfgfile', help='gleaner config file', type=click.Path(exists=True))
-@click.option('--s3server', help='s3 server address')
-@click.option('--s3bucket', help='s3 bucket')
-
-@click.option('--graphendpoint', help='graph endpoint',
-              default='https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/')
-
-@click.option('--upload/--no-upload', help='upload to s3 bucket', default=True)
-@click.option('--output', help='dump to file', type=click.File('wb'))
-
-@click.option('--debug/--no-debug', default=False,
-              envvar='REPO_DEBUG')
-@click.pass_context
-def cli(ctx, cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug):
-    ctx.obj = Cfgfile(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug)
-
+# @click.option('--cfgfile', help='gleaner config file', type=click.Path(exists=True))
+# @click.option('--s3server', help='s3 server address')
+# @click.option('--s3bucket', help='s3 bucket')
+#
+# @click.option('--graphendpoint', help='graph endpoint',
+#               default='https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/')
+#
+# @click.option('--upload/--no-upload', help='upload to s3 bucket', default=True)
+# @click.option('--output', help='dump to file', type=click.File('wb'))
+#
+# @click.option('--debug/--no-debug', default=False,
+#               envvar='REPO_DEBUG')
+@common_params
+def cli( cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug):
+   obj = EcConfig(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug)
+#    #pass
+# def cli( ):
+#     pass
 
 @cli.command()
 # @click.option('--cfgfile', help='gleaner config file', default='gleaner', type=click.Path(exists=True))
 # no default for s3 parameters here. read from gleaner. if provided, these override the gleaner config
 #@click.option('--s3server', help='s3 server address')
 #@click.option('--s3bucket', help='s3 bucket')
-@click.option('--source', help='gone or more repositories (--source a --source b)', multiple=True)
+@click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
 @click.option('--milled/--no-milled', help='include milled', default=False)
 @click.option('--summon/--no-sommon', help='check summon only', default=False)
-@click.pass_obj
-# name missing-report
-def missing_report(cfgfile,  source, milled, summon):
-    output = cfgfile.ouput
-    no_upload = cfgfile.no_upload
+#@click.pass_obj
+@common_params
+def missing_report(ctx,  cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug, source, milled, summon):
+    # name missing-report
+    ctx.obj = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    output = ctx.ouput
+    no_upload = ctx.no_upload
     # if cfgfile:
     #     s3endpoint, bucket, glnr = getGleaner(cfgfile)
     #     minio = glnr.get("minio")
@@ -82,16 +124,15 @@ def missing_report(cfgfile,  source, milled, summon):
     # else:
     #     s3server = s3server
     #     bucket = s3bucket
-    bucket = cfgfile.bucket
-    s3server= cfgfile.s3server
-    graphendpoint = cfgfile.graphendpoint  # not in gleaner file, at present
+    bucket = ctx.bucket
+    s3server= ctx.s3server
+    graphendpoint = ctx.graphendpoint  # not in gleaner file, at presen
 
-    if not no_upload and (is_empty(s3server) or is_empty(bucket)):
-        log.fatal(f" must provide a gleaner config or (s3endpoint and s3bucket)]")
-        sys.exit(1)
-    if is_empty(graphendpoint) and not summon:
-        logging.fatal(f" must provide graphendpoint if you are checking milled")
-        sys.exit(1)
+    ctx.hasS3()
+    ctx.hasGraphendpoint(option=milled,
+                                           message=" must provide graphendpoint if you are checking milled" )
+
+
     log.info(f" s3server: {s3server} bucket:{bucket} graph:{graphendpoint}")
     s3Minio = s3.MinioDatastore(s3server, None)
     sources = getSitemapSourcesFromGleaner(cfgfile)
@@ -121,17 +162,23 @@ def missing_report(cfgfile,  source, milled, summon):
 # no default for s3 parameters here. read from gleaner. if provided, these override the gleaner config
 #@click.option('--s3server', help='s3 server address')
 #@click.option('--s3bucket', help='s3 bucket')
-@click.option('--source', help='gone or more repositories (--source a --source b)', multiple=True)
+@click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
 @click.option('--detailed', help='run the detailed version of the reports',is_flag=True, default=False)
-@click.pass_obj
+#@click.pass_obj
+@common_params
+def graph_stats( cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug, source, detailed):
+    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    output= ctx.ouput
+    no_upload = ctx.upload
+    graphendpoint = ctx.graphendpoint
+    s3server = ctx.s3server
+    s3bucket = ctx.bucket
 
-def graph_stats(cfgfile,  source, detailed):
-    output= cfgfile.ouput
-    no_upload = cfgfile.no_upload
-    graphendpoint = cfgfile.graphendpoint
-    s3server = cfgfile.s3server
-    s3bucket = cfgfile.bucket
-    s3Minio = s3.MinioDatastore(s3server, None)
+    ctx.hasS3Upload()
+    ctx.hasGraphendpoint(
+                         message=" must provide graphendpoint")
+    if  upload:
+        s3Minio = s3.MinioDatastore(s3server, None)
     """query an endpoint, store results as a json file in an s3 store"""
     log.info(f"Querying {graphendpoint} for graph statisitcs  ")
 ### more work needed before detailed works
@@ -147,7 +194,7 @@ def graph_stats(cfgfile,  source, detailed):
             if (output):  # just append the json files to one filem, for now.
                 log.info(f" report for ALL appended to file")
                 output.write(report_json)
-            if not no_upload:
+            if  upload:
                 bucketname, objectname = s3Minio.putReportFile(s3bucket, "all", "graph_report.json", report_json)
     else:
         # report_json = generateGraphReportsRepo(args.repo,
@@ -161,7 +208,7 @@ def graph_stats(cfgfile,  source, detailed):
             if (output):  # just append the json files to one filem, for now.
                 log.info(f" report for {s} appended to file")
                 output.write(report_json)
-            if not no_upload:
+            if  upload:
                 bucketname, objectname = s3Minio.putReportFile(s3bucket,s,"graph_report.json",report_json)
     sys.exit(0)
 

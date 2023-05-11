@@ -7,6 +7,60 @@ this does not work with multirepo plug, so will need to be linked
 
 ## **Scripts**
 
+## **ec_reports**
+```Usage: ec_reports.py [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --cfgfile PATH          gleaner config file
+  --s3server TEXT         s3 server address
+  --s3bucket TEXT         s3 bucket
+  --graphendpoint TEXT    graph endpoint
+  --upload / --no-upload  upload to s3 bucket
+  --output FILENAME       dump to file
+  --debug / --no-debug
+  --help                  Show this message and exit.
+
+Commands:
+  graph-stats
+  missing-report
+```
+
+```
+Usage: ec_reports.py missing-report [OPTIONS]
+
+Options:
+  --source TEXT           gone or more repositories (--source a --source b)
+  --milled / --no-milled  include milled
+  --summon / --no-sommon  check summon only
+  --cfgfile PATH          gleaner config file
+  --s3server TEXT         s3 server address
+  --s3bucket TEXT         s3 bucket
+  --graphendpoint TEXT    graph endpoint
+  --upload / --no-upload  upload to s3 bucket
+  --output FILENAME       dump to file
+  --debug / --no-debug
+  --help                  Show this message and exit.
+
+```
+
+```
+ec_reports.py  graph-stats --help
+Usage: ec_reports.py graph-stats [OPTIONS]
+
+Options:
+  --source TEXT           One or more repositories (--source a --source b)
+  --detailed              run the detailed version of the reports
+  --cfgfile PATH          gleaner config file
+  --s3server TEXT         s3 server address
+  --s3bucket TEXT         s3 bucket
+  --graphendpoint TEXT    graph endpoint
+  --upload / --no-upload  upload to s3 bucket
+  --output FILENAME       dump to file
+  --debug / --no-debug
+  --help                  Show this message and exit.
+
+```
+
 ## **query_graph**
 [Separate Document with Sparql Queries](./earthcube_utilities_graph_query_sparql.md )
 `query_graph SPARQL_FILE --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ `
