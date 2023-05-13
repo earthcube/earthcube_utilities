@@ -50,19 +50,19 @@ class EcConfig(object):
     def hasS3(self) -> bool:
          if   ( is_empty(self.s3server) or is_empty(self.bucket) ):
              log.fatal(f" must provide a gleaner config or (s3endpoint and s3bucket)]")
-             sys.exit(1)
+             raise Exception("must provide a gleaner config or (s3endpoint and s3bucket)]")
          return True
     def hasS3Upload(self) -> bool:
          if  not self.upload and ( is_empty(self.s3server) or is_empty(self.bucket) ):
              log.fatal(f" must provide a gleaner config or (s3endpoint and s3bucket)]")
-             sys.exit(1)
+             raise Exception("must provide a gleaner config or (s3endpoint and s3bucket)]")
          return True
     def hasGraphendpoint(self, option:bool=False, message="must provide graphendpoint") -> bool:
          """ if option is not true, so if summon only, then empty is graphendpoint is ok
             """
          if   option or is_empty(self.graphendpoint) :
              log.fatal(message)
-             sys.exit(1)
+             raise Exception(message)
          return True
 
 def common_params(func):
@@ -157,7 +157,8 @@ def missing_report(  cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
         except Exception as e:
             log.error(f"could not write missing report for {source_name} to s3server:{s3server}:{bucket} error:{e}",
                           source_name, s3server, bucket, e)
-    sys.exit(0)
+    return
+
 @cli.command()
 # @click.option('--cfgfile', help='gleaner config file', default='gleaner', type=click.Path(exists=True))
 # no default for s3 parameters here. read from gleaner. if provided, these override the gleaner config
@@ -211,7 +212,7 @@ def graph_stats( cfgfile,s3server, s3bucket, graphendpoint, upload, output, debu
                 output.write(bytes(report_json, 'utf-8'))
             if  upload:
                 bucketname, objectname = s3Minio.putReportFile(s3bucket,s,"graph_report.json",report_json)
-    sys.exit(0)
+    return
 
 
 
@@ -240,7 +241,7 @@ def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
 
     if is_empty(s3server) or is_empty(bucket):
         logging.fatal(f" must provide a gleaner config or (s3endpoint and s3bucket)]")
-        return 1
+        raise Exception(" must provide a gleaner config or (s3endpoint and s3bucket)]")
 
 ## output is file
     if json:
@@ -293,7 +294,28 @@ def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
 
         except Exception as e:
             logging.info('Missing keys: ', e)
-    sys.exit(0)
+    return
+
+@cli.command()
+# @click.option('--cfgfile', help='gleaner config file', default='gleaner', type=click.Path(exists=True))
+# no default for s3 parameters here. read from gleaner. if provided, these override the gleaner config
+# @click.option('--s3server', help='s3 server address')
+# @click.option('--s3bucket', help='s3 bucket')
+@click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
+@click.option('--json', help='output json format', is_flag=True, default=True)
+@click.option('--detailed', help='run the detailed version of the reports',is_flag=True, default=False)
+@click.option('--milled/--no-milled', help='include milled', default=False)
+@click.option('--summononly', help='check summon only',is_flag=True, default=False)
+# @click.pass_obj
+@common_params
+
+def run_all (cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug, source, json,detailed, milled, summononly ):
+# this probably needs to run to a try catch block where ratehr than method doing a sys.exit, they
+# toss an exception, so if one report fails, the others run.
+    missing_report(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, milled, summononly)
+    identifier_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, json)
+    graph_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, detailed)
 
 if __name__ == '__main__':
     cli()
+    sys.exit(0)
