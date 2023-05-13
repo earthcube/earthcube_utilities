@@ -102,6 +102,11 @@ def cli( cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug):
 #     pass
 
 @cli.command()
+
+# @cli.command(context_settings=dict(
+#     ignore_unknown_options=True,
+# ))
+
 # @click.option('--cfgfile', help='gleaner config file', default='gleaner', type=click.Path(exists=True))
 # no default for s3 parameters here. read from gleaner. if provided, these override the gleaner config
 #@click.option('--s3server', help='s3 server address')
@@ -296,25 +301,44 @@ def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
             logging.info('Missing keys: ', e)
     return
 
-@cli.command()
-# @click.option('--cfgfile', help='gleaner config file', default='gleaner', type=click.Path(exists=True))
-# no default for s3 parameters here. read from gleaner. if provided, these override the gleaner config
-# @click.option('--s3server', help='s3 server address')
-# @click.option('--s3bucket', help='s3 bucket')
-@click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
-@click.option('--json', help='output json format', is_flag=True, default=True)
-@click.option('--detailed', help='run the detailed version of the reports',is_flag=True, default=False)
-@click.option('--milled/--no-milled', help='include milled', default=False)
-@click.option('--summononly', help='check summon only',is_flag=True, default=False)
-# @click.pass_obj
-@common_params
-
-def run_all (cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug, source, json,detailed, milled, summononly ):
-# this probably needs to run to a try catch block where ratehr than method doing a sys.exit, they
-# toss an exception, so if one report fails, the others run.
-    missing_report(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, milled, summononly)
-    identifier_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, json)
-    graph_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, detailed)
+# @cli.command()
+# # @click.option('--cfgfile', help='gleaner config file', default='gleaner', type=click.Path(exists=True))
+# # no default for s3 parameters here. read from gleaner. if provided, these override the gleaner config
+# # @click.option('--s3server', help='s3 server address')
+# # @click.option('--s3bucket', help='s3 bucket')
+# @click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
+# @click.option('--json', help='output json format', is_flag=True, default=True)
+# @click.option('--detailed', help='run the detailed version of the reports',is_flag=True, default=False)
+# @click.option('--milled/--no-milled', help='include milled', default=False)
+# @click.option('--summononly', help='check summon only',is_flag=True, default=False)
+# # @click.pass_obj
+# @common_params
+# @click.pass_context
+# def run_all (ctx, cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug, source, json,detailed, milled, summononly ):
+# # this probably needs to run to a try catch block where ratehr than method doing a sys.exit, they
+# # toss an exception, so if one report fails, the others run.
+#     try:
+#         ctx.forward(missing_report)
+#         # ctx.invoke( missing_report, cfgfile=cfgfile,s3server=s3server,
+#         #             s3bucket=s3bucket,
+#         #             graphendpoint=graphendpoint,
+#         #             upload=upload, output=output,
+#         #             debug=debug,
+#         #             source=source,
+#         #             milled=milled,
+#         #             summononly=summononly
+#         #             )
+#     except Exception as e:
+#         log.error("missing report failed ")
+#     try:
+#         identifier_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, json)
+#     except Exception as e:
+#         log.error("identifier stats failed")
+#     try:
+#
+#         graph_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, detailed)
+#     except Exception as e:
+#         log.error("graph stats failed")
 
 if __name__ == '__main__':
     cli()
