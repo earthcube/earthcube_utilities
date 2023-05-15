@@ -6,7 +6,7 @@ import ec.graph.sparql_query
 from ec.datastore.s3 import MinioDatastore
 
 summary_sparql = """
-prefix schema: <https://schema.org/>
+# prefix schema: <https://schema.org/>
 SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
         (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw) ?datep ?sosType
@@ -38,7 +38,7 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?sosType ?g
         """
 test_types="""
-prefix schema: <http://schema.org/>
+prefix schema: <https://schema.org/>
 SELECT  ?type  (count(distinct ?s ) as ?scount)
 WHERE {
 {
@@ -55,8 +55,8 @@ SCHEMAORG_http = Namespace("http://schema.org/")
 SCHEMAORG_https = Namespace("https://schema.org/")
 class ReleaseGraph:
     dataset = Dataset(default_union=True)
-    dataset.bind('schema',SCHEMAORG_http)
-    dataset.bind('schemas', SCHEMAORG_https)
+    dataset.bind('schema_http',SCHEMAORG_http)
+    dataset.bind('schema', SCHEMAORG_https)
     #dataset = ConjunctiveGraph()
     filename = ""
 
@@ -75,8 +75,8 @@ class ReleaseGraph:
        # resource = ec.graph.sparql_query._getSparqlFileFromResources("all_summary_query")
         resource = ec.graph.sparql_query._getSparqlFileFromResources("all_repo_count_datasets")
        # result = self.dataset.query(resource)
-       # result = self.dataset.query(summary_sparql, initNs={'schema_old': SCHEMAORG_http, 'schema':SCHEMAORG_https })
-        result = self.dataset.query(test_types, initNs={'schema': SCHEMAORG_http, 'schemas':SCHEMAORG_https })
+        result = self.dataset.query(summary_sparql, initNs={'schema_old': SCHEMAORG_http, 'schema':SCHEMAORG_https })
+      #  result = self.dataset.query(test_types, initNs={'schema_o': SCHEMAORG_http, 'schema':SCHEMAORG_https })
         df = pandas.DataFrame(result)
         return df
 
