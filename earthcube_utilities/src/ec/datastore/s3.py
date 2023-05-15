@@ -26,6 +26,7 @@ class bucketDatastore():
              "summon": "summoned",
              "milled":"milled",
              "graph":"graphs",
+             "release":"graphs",
              "archive":"archive",
              "collection":"collections",
              "sitemap":"sitemaps"
@@ -145,13 +146,17 @@ class bucketDatastore():
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
 
-    def getLatestRelaseUrl(self, bucket, repo):
-
-        pass
+    def getLatestRelaseUrl(self, bucket, source):
+        urls = self.getLatestRelaseUrls(bucket)
+        url = pydash.find( urls, lambda x: source in x.get("object_name") )
+        return url.get('url')
 
     def getLatestRelaseUrls(self, bucket):
-
-        pass
+        path = f"{self.paths['release']}/latest/"
+        urls = self.listPath(bucket,path)
+        urls = map(lambda f: { "object_name": f.object_name,
+                               "url": f"https://{self.endpoint}/{f.bucket_name}/{f.object_name}" }, urls)
+        return list(urls)
 
     def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
         path = f"{self.paths['crate']}/{user}/{filename}"
