@@ -13,7 +13,8 @@ class ReelaseTestCase(unittest.TestCase):
 
     def test_summarize(self):
         rg = ReleaseGraph()
-        rg.read_release(s3server, s3bucket, "geocodes_demo_data")
+       # rg.read_release(s3server, s3bucket, "geocodes_demo_data")
+        rg.load_release( "./resources/releases/summonediris_https_fixed_release.nq")
         df = rg.summarize()
         self.assertEqual(len(df), 1604)
 
