@@ -94,6 +94,16 @@ def count(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, sou
         log.fatal(message)
         raise Exception(message)
 
+@cli.command()
+@click.option('--path', help='Path to source',)
+@click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
+@common_params
+def urls(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, path):
+    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    s3Minio = s3.MinioDatastore(s3server, None)
+    for s in source:
+        o = s3Minio.listSummonedUrls(s3bucket, s)
+        print(s, o)
 
 if __name__ == '__main__':
     cli()
