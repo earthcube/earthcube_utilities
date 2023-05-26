@@ -42,6 +42,7 @@ class bucketDatastore():
         pass
     def countPath(self, bucket, path):
         count = len(list(self.listPath(bucket,path)))
+        return count
 
     def DataframeFromPath(self, bucket, path, include_user_meta=False):
         pass
@@ -200,11 +201,15 @@ class MinioDatastore(bucketDatastore):
 
     def listPath(self, bucket, path, include_user_meta=False):
         """ returns the filelist for a path with the starting path removed from the list"""
-        resp = self.s3client.list_objects(bucket, path, include_user_meta=include_user_meta)
+        resp = self.s3client.list_objects(bucket, path, include_user_meta=include_user_meta, recursive=True)
         # the returned list includes the path
         #o_list = list(resp)
         o_list = filter(lambda f: f.object_name != path, resp)
         return o_list
+
+    def countPath(self, bucket, path):
+        count = len(list(self.listPath(bucket, path)))
+        return count
 
     def getFileFromStore(self, s3ObjectInfo):
         """ get an s3 file from teh store
