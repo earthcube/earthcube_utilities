@@ -95,15 +95,33 @@ def count(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, sou
         raise Exception(message)
 
 @cli.command()
-@click.option('--path', help='Path to source',)
-@click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
+@click.option('--path', help='Path to source')
+@click.option('--source', help='One repositories')
 @common_params
 def urls(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, path):
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
     s3Minio = s3.MinioDatastore(s3server, None)
-    for s in source:
-        o = s3Minio.listSummonedUrls(s3bucket, s)
-        print(s, o)
+    res = s3Minio.listSummonedUrls(s3bucket, source)
+    return res
+
+@cli.command()
+@click.option('--source', help='One repositories')
+@common_params
+def download(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source):
+    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    s3Minio = s3.MinioDatastore(s3server, None)
+    urns = s3Minio.listSummonedSha(s3bucket, source)
+    mypath = source
+    if not os.path.isdir(mypath):
+        os.makedirs(mypath)
+    for urn in urns:
+        outFileName = f"{mypath}/{urn}.jsonld"
+        print(outFileName)
+        outFile = open(outFileName, "wb")
+        o = s3Minio.getJsonLD(s3bucket, source, urn)
+        outFile.write(o)
+        outFile.close()
+    return
 
 if __name__ == '__main__':
     cli()
