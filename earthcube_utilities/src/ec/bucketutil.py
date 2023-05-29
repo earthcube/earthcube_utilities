@@ -123,6 +123,22 @@ def download(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, 
         outFile.close()
     return
 
+@cli.command()
+@click.option('--url', help='the X-Amz-Meta-Url in metadata')
+@common_params
+def sourceurl(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
+    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    s3Minio = s3.MinioDatastore(s3server, None)
+    sources = getSitemapSourcesFromGleaner(cfgfile)
+    sources = list(filter(lambda source: source.get('active'), sources))
+    sources = list(map(lambda r: r.get('name'), sources))
+    o_list = list()
+    for repo in sources:
+        jsonlds = s3Minio.listJsonld(s3bucket, repo, include_user_meta=True)
+        objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
+        o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
+    return o_list
+
 if __name__ == '__main__':
     cli()
     sys.exit(0)
