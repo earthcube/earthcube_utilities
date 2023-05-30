@@ -88,11 +88,12 @@ def count(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, sou
     if path:
         count = s3Minio.countPath(s3bucket, path)
         res = f"Count for path {path}: {count}"
-        print(res)
+        return res
     else:
         message = "Please provide path to source. E.g. --path milled/iris"
         log.fatal(message)
         raise Exception(message)
+    return
 
 @cli.command()
 @click.option('--path', help='Path to source')
@@ -135,6 +136,23 @@ def sourceurl(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug,
     o_list = list()
     for repo in sources:
         jsonlds = s3Minio.listJsonld(s3bucket, repo, include_user_meta=True)
+        objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
+        o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
+    return o_list
+
+
+@cli.command()
+@click.option('--url', help='the X-Amz-Meta-Url in metadata')
+@common_params
+def duplicate(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
+    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    s3Minio = s3.MinioDatastore(s3server, None)
+    sources = getSitemapSourcesFromGleaner(cfgfile)
+    sources = list(filter(lambda source: source.get('active'), sources))
+    sources = list(map(lambda r: r.get('name'), sources))
+    o_list = list()
+    for repo in sources:
+        jsonlds = s3Minio.listJsonld("gleaner", repo, include_user_meta=True)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
         o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
     return o_list
