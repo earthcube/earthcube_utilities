@@ -11,6 +11,7 @@ from pydash.collections import find
 from pydash import is_empty
 import pandas as pd
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
+from ec.objects.utils import parts_from_urn
 from ec.reporting.report import missingReport
 from ec.datastore import s3
 
@@ -29,6 +30,7 @@ class EcConfig(object):
             # passed paramters override the config parameters
             self.s3server = s3server if s3server else s3endpoint
             self.bucket = s3bucket if s3bucket else bucket
+            self.glnr = glnr
         else:
             self.s3server = s3server
             self.bucket = s3bucket
@@ -88,53 +90,76 @@ def count(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, sou
     if path:
         count = s3Minio.countPath(ctx.bucket, path)
         res = f"Count for path {path}: {count}"
-        return res
+        sys.stdout.write(json.dumps(res))
     elif source:
+        counts = list()
         for s in source:
             path = f"/{s3Minio.paths.get('summon')}/{s.get('name')}"
             count = s3Minio.countPath(ctx.bucket, path)
-            res = f"Count for source {s.name}: {count}"
+            res = f"Count for source {s.get('name')}: {count}"
+            counts.append(res)
+        sys.stdout.write( json.dumps(counts) )
+    elif cfgfile:
+        sources = getSitemapSourcesFromGleaner(cfgfile)
+        counts = list()
+        for s in sources:
+            path = f"/{s3Minio.paths.get('summon')}/{s.get('name')}"
+            count = s3Minio.countPath(ctx.bucket, path)
+            res = f"Count for source {s.get('name')}: {count}"
+            counts.append(res)
+        sys.stdout.write( json.dumps(counts) )
     else:
-        message = "Please provide path to source. E.g. --path milled/iris"
+        message = "Please provide path to source. E.g. --path milled/iris or a config and optional sources"
         log.fatal(message)
         raise Exception(message)
     return
 
 @cli.command()
-@click.option('--path', help='Path to source')
+# @click.option('--path', help='Path to source')
+# need to add a method to the s3 to handle the path approach... or not needed
 @click.option('--source', help='One repositories')
 @common_params
-def urls(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, path):
+def urls(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source):
+    """Retreive the URL harvested for a give bucket. T
+    There may be duplicate URL's, if an HTML has more than one JSONLD"""
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
-    res = s3Minio.listSummonedUrls(ctx.bucket, source)
-    return res
+    if source:
+        res = s3Minio.listSummonedUrls(ctx.bucket, source)
+        sys.stdout.write( json.dumps(res))
+    else:
+        log.fatal("we need a source and a s3 endpoints")
+
 
 @cli.command()
-@click.option('--urn', help='One or more urns (--source urna --source urnb)', multiple=True)
+@click.option('--urn', help='One or more urns (--urn urna --urn urnb)', multiple=True)
 @common_params
-def download(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, urn):
+def download(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, urn):
+    """For a given URN(s), download the files and the Metadata"""
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
    # urns = s3Minio.listSummonedSha(ctx.bucket, source)
-    mypath = source
+
 
     for sha in urn:
-        # need to parse the source out of the urn
+        # need to parse the source and actual sha/id out of the urn
         # and then do the path and creat path
+        parts = parts_from_urn(sha)
+        mypath = parts.get('source')
+        id = parts.get('id')
         if not os.path.isdir(mypath):
             os.makedirs(mypath)
-        outFileName = f"{mypath}/{sha}.jsonld"
+        outFileName = f"{mypath}/{id}.jsonld"
         log.info(outFileName)
         outFile = open(outFileName, "wb")
-        o = s3Minio.getJsonLD(ctx.bucket, source, sha)
+        o = s3Minio.getJsonLD(ctx.bucket, mypath, id)
         outFile.write(o)
         outFile.close()
-        outFileName = f"{mypath}/{sha}.jsonld.txt"
+        outFileName = f"{mypath}/{id}.jsonld.txt"
         log.info(outFileName)
         outFile = open(outFileName, "wb")
-        o = s3Minio.getJsonLDMetadata(ctx.bucket, source, sha)
-        outFile.write(o)
+        o = s3Minio.getJsonLDMetadata(ctx.bucket, mypath, id)
+        outFile.write( bytes(json.dumps(o), 'utf8'))
         outFile.close()
     return
 
@@ -142,6 +167,7 @@ def download(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, 
 @click.option('--url', help='the X-Amz-Meta-Url in metadata')
 @common_params
 def sourceurl(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
+    """ for a given url, find the sha of the file"""
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     sources = getSitemapSourcesFromGleaner(cfgfile)
@@ -159,6 +185,10 @@ def sourceurl(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug,
 @click.option('--source', help='the X-Amz-Meta-Url in metadata')
 @common_params
 def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
+    """ Find Possible Duplicates based on the URL that was used to summon JSONLD.
+    Note, the may be ok, if a given URL has more than one JSONLD in the HTML.
+    """
+
     # this is more complex. It is about finding duplicate url's,
     # returning the counts, if there is more than one, and the full urn's for thr duplicated
     # probably best done in pandas?
