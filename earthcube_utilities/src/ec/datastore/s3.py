@@ -238,9 +238,12 @@ class MinioDatastore(bucketDatastore):
                  s3ObjectInfo: {"bucket_name":obj.bucket_name, "object_name":obj.object_name }
 
                """
-        s3obj = self.s3client.stat_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
-        for o in s3obj:
-            user_meta = pydash.collections.filter_(o,lambda m: m.startswith("X-Amz-Meta") )
+        s3obj = self.s3client.stat_object(s3ObjectInfo.get('bucket_name'), s3ObjectInfo.get('object_name'))
+        md = s3obj.metadata
+        user_meta = list()
+        for o in md:
+            if o.startswith("X-Amz-Meta"):
+               user_meta.append({"name": o, "value": md[o]})
         # this needs to return the metadata
         return user_meta
 
