@@ -178,7 +178,7 @@ def sourceurl(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug,
         jsonlds = s3Minio.listJsonld(s3bucket, repo, include_user_meta=True)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
         o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
-    return o_list
+    sys.stdout.write( json.dumps( o_list))
 
 
 @cli.command()
@@ -202,7 +202,7 @@ def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug
         jsonlds = s3Minio.listJsonld("gleaner", repo, include_user_meta=True)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
         o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
-    return o_list
+    sys.stdout.write( json.dumps( o_list))
 
 if __name__ == '__main__':
     cli()
