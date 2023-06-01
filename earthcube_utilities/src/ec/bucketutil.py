@@ -117,7 +117,7 @@ def count(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, sou
 @cli.command()
 # @click.option('--path', help='Path to source')
 # need to add a method to the s3 to handle the path approach... or not needed
-@click.option('--source', help='One repositories')
+@click.option('--source', help='A repository')
 @common_params
 def urls(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source):
     """Retreive the URL harvested for a give bucket. T
