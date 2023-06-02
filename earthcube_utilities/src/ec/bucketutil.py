@@ -204,6 +204,27 @@ def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug
         o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
     sys.stdout.write( json.dumps( o_list))
 
+@cli.command()
+@common_params
+def stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug):
+    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    s3Minio = s3.MinioDatastore(ctx.s3server, None)
+    sources = getSitemapSourcesFromGleaner(cfgfile)
+    sources = list(filter(lambda source: source.get('active'), sources))
+    sources = list(map(lambda r: r.get('name'), sources))
+
+    pathMilled = f"/{s3Minio.paths.get('milled')}/"
+    pathSummon = f"/{s3Minio.paths.get('summon')}/"
+    stats = {'milled': {'total': 0, 'repo': {}}, 'summon': {'total': 0, 'repo': {}}}
+    for repo in sources:
+        countMilled = s3Minio.countPath(s3bucket, pathMilled + repo)
+        countSummon = s3Minio.countPath(s3bucket, pathSummon + repo)
+        stats['milled']['total'] += countMilled
+        stats['summon']['total'] += countSummon
+        stats['milled']['repo'] |= {repo: countMilled}
+        stats['summon']['repo'] |= {repo: countSummon}
+    print(json.dumps(stats, sort_keys = True, indent = 4))
+
 if __name__ == '__main__':
     cli()
     sys.exit(0)
