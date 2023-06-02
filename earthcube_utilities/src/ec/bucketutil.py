@@ -219,10 +219,12 @@ def stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug):
     for repo in sources:
         countMilled = s3Minio.countPath(s3bucket, pathMilled + repo)
         countSummon = s3Minio.countPath(s3bucket, pathSummon + repo)
-        stats['milled']['total'] += countMilled
-        stats['summon']['total'] += countSummon
-        stats['milled']['repo'] |= {repo: countMilled}
-        stats['summon']['repo'] |= {repo: countSummon}
+        if countMilled > 0:
+            stats['milled']['repo'] |= {repo: countMilled}
+            stats['milled']['total'] += countMilled
+        if countSummon > 0:
+            stats['summon']['repo'] |= {repo: countSummon}
+            stats['summon']['total'] += countSummon
     print(json.dumps(stats, sort_keys = True, indent = 4))
 
 if __name__ == '__main__':
