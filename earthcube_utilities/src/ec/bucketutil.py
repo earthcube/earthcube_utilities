@@ -18,6 +18,8 @@ from ec.datastore import s3
 from ec.reporting.report import  generateGraphReportsRepo, reportTypes
 from ec.datastore import s3
 from ec.logger import config_app
+import datetime
+import pytz
 
 log = config_app()
 
@@ -182,7 +184,7 @@ def sourceurl(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug,
 
 
 @cli.command()
-@click.option('--source', help='the X-Amz-Meta-Url in metadata')
+@click.option('--url', help='the X-Amz-Meta-Url in metadata')
 @common_params
 def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
     """ Find Possible Duplicates based on the URL that was used to summon JSONLD.
@@ -226,6 +228,27 @@ def stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug):
             stats['summon']['repo'] |= {repo: countSummon}
             stats['summon']['total'] += countSummon
     print(json.dumps(stats, sort_keys = True, indent = 4))
+
+@cli.command()
+@click.option('--url', help='the X-Amz-Meta-Url in metadata')
+@common_params
+def cull(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
+    """ for a given url, find the sha of the file"""
+    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    s3Minio = s3.MinioDatastore(ctx.s3server, None)
+    utc = pytz.UTC
+    # sources = getSitemapSourcesFromGleaner(cfgfile)
+    # sources = list(filter(lambda source: source.get('active'), sources))
+    # sources = list(map(lambda r: r.get('name'), sources))
+    o_list = list()
+    for repo in ['iris']:
+        jsonlds = s3Minio.listJsonld(s3bucket, repo, include_user_meta=True)
+        objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
+        o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
+    for obj in o_list:
+        if obj.last_modified < utc.localize(datetime.datetime.now() - datetime.timedelta(days=7)):
+            #s3Minio.removeObject(s3bucket, obj.object_name)
+            print(obj.object_name, obj.last_modified)
 
 if __name__ == '__main__':
     cli()
