@@ -213,17 +213,6 @@ def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug
             logging.info('Missing keys: ', e)
     return 0
 
-
-    # sources = getSitemapSourcesFromGleaner(cfgfile)
-    # sources = list(filter(lambda source: source.get('active'), sources))
-    # sources = list(map(lambda r: r.get('name'), sources))
-    # o_list = list()
-    # for repo in sources:
-    #     jsonlds = s3Minio.listJsonld("gleaner", repo, include_user_meta=True)
-    #     objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-    #     o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
-    # sys.stdout.write( json.dumps( o_list))
-
 @cli.command()
 @common_params
 def stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug):
@@ -258,15 +247,24 @@ def cull(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url)
     sources = getSitemapSourcesFromGleaner(cfgfile)
     sources = list(filter(lambda source: source.get('active'), sources))
     sources = list(map(lambda r: r.get('name'), sources))
-    o_list = list()
+
     for repo in sources:
         jsonlds = s3Minio.listJsonld(s3bucket, repo, include_user_meta=True)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-        o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
-    for obj in o_list:
-        if obj.last_modified < utc.localize(datetime.datetime.now() - datetime.timedelta(days=7)):
-            #s3Minio.removeObject(s3bucket, obj.object_name)
-            print(obj.object_name, obj.last_modified)
+        o_list = list(map(lambda f: {'Source': repo,
+                                     'Url': f.metadata.get('X-Amz-Meta-Url'),
+                                     'Date': f.last_modified,
+                                     'Name': f.object_name
+                                     }, objs))
+        df = pd.DataFrame(o_list)
+        try:
+            res = df[df.duplicated(subset=['Url'])]
+            res = res[res['Date'] < utc.localize(datetime.datetime.now() - datetime.timedelta(days=7))]
+            removeObjectList = res['Name'].values.tolist()
+            for r in removeObjectList:
+                 s3Minio.removeObject(s3bucket, r)
+        except Exception as e:
+            logging.info('Missing keys: ', e)
 
 if __name__ == '__main__':
     cli()
