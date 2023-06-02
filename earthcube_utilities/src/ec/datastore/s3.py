@@ -1,7 +1,9 @@
+import json
 from datetime import datetime
 from io import BytesIO
 
 import minio
+import pandas
 import pydash
 from minio.commonconfig import CopySource, REPLACE
 from pydash.collections import find
@@ -41,6 +43,8 @@ class bucketDatastore():
     def countPath(self, bucket, path):
         count = len(list(self.listPath(bucket,path)))
 
+    def DataframeFromPath(self, bucket, path, include_user_meta=False):
+        pass
 # who knows, we might implement on disk, or in a database. This just separates the data from the annotated metadata
     def getFileFromStore(self, s3ObjectInfo):
         pass
@@ -210,6 +214,18 @@ class MinioDatastore(bucketDatastore):
         """
         resp = self.s3client.get_object(s3ObjectInfo["bucket_name"], s3ObjectInfo["object_name"])
         return resp.data
+    def DataframeFromPath(self, bucket, path, include_user_meta=False):
+        pathFiles = list(self.listPath(bucket,path,include_user_meta=include_user_meta))
+
+        objs = map(lambda f: self.s3client.stat_object(f.bucket_name, f.object_name), pathFiles)
+        data = map(lambda f: { "metadata": f.metadata, "bucket_name":f.bucket_name, "object_name":f.object_name}, objs )
+        # does not work... should, but does not
+        # data = list(map(lambda f:
+        #                 pick(f,  'bucket_name', 'object_name')
+        #                 , objs ))
+
+        df = pandas.DataFrame(data=data)
+        return df
 
     def getFileMetadataFromStore(self, s3ObjectInfo):
         """ get metadata s3 file from teh store
