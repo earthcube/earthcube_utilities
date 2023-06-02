@@ -266,3 +266,6 @@ class MinioDatastore(bucketDatastore):
         crate = self.s3client.get_object(bucket, path)
         return crate
 
+    def removeObject(self, bucket, path):
+        self.s3client.remove_object(bucket, path)
+        return
