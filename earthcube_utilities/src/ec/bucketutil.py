@@ -1,7 +1,5 @@
 import functools
 import os
-from typing import Tuple
-
 import click
 import logging
 import json
@@ -12,10 +10,6 @@ from pydash import is_empty
 import pandas as pd
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
 from ec.objects.utils import parts_from_urn
-from ec.reporting.report import missingReport
-from ec.datastore import s3
-
-from ec.reporting.report import  generateGraphReportsRepo, reportTypes
 from ec.datastore import s3
 from ec.logger import config_app
 import datetime
@@ -199,12 +193,36 @@ def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug
     sources = getSitemapSourcesFromGleaner(cfgfile)
     sources = list(filter(lambda source: source.get('active'), sources))
     sources = list(map(lambda r: r.get('name'), sources))
-    o_list = list()
+
     for repo in sources:
-        jsonlds = s3Minio.listJsonld("gleaner", repo, include_user_meta=True)
+        jsonlds = s3Minio.listJsonld(s3bucket, repo, include_user_meta=True)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-        o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
-    sys.stdout.write( json.dumps( o_list))
+        o_list = list(map(lambda f: {'Source': repo,
+                                     'Url': f.metadata.get('X-Amz-Meta-Url'),
+                                     'Date': f.last_modified,
+                                     'Name': f.object_name
+                                     }, objs))
+        df = pd.DataFrame(o_list)
+        try:
+            res = df.groupby(['Url'], group_keys=True, dropna=False) \
+            .agg({'Name': 'count', 'Name': lambda x: x.iloc[0:5].tolist(), 'Date': lambda x: x.iloc[0:5].tolist()},
+                 ).reset_index()
+            res.to_json(orient='records', indent=2)
+            print(res)
+        except Exception as e:
+            logging.info('Missing keys: ', e)
+    return 0
+
+
+    # sources = getSitemapSourcesFromGleaner(cfgfile)
+    # sources = list(filter(lambda source: source.get('active'), sources))
+    # sources = list(map(lambda r: r.get('name'), sources))
+    # o_list = list()
+    # for repo in sources:
+    #     jsonlds = s3Minio.listJsonld("gleaner", repo, include_user_meta=True)
+    #     objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
+    #     o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
+    # sys.stdout.write( json.dumps( o_list))
 
 @cli.command()
 @common_params
@@ -237,11 +255,11 @@ def cull(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url)
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     utc = pytz.UTC
-    # sources = getSitemapSourcesFromGleaner(cfgfile)
-    # sources = list(filter(lambda source: source.get('active'), sources))
-    # sources = list(map(lambda r: r.get('name'), sources))
+    sources = getSitemapSourcesFromGleaner(cfgfile)
+    sources = list(filter(lambda source: source.get('active'), sources))
+    sources = list(map(lambda r: r.get('name'), sources))
     o_list = list()
-    for repo in ['iris']:
+    for repo in sources:
         jsonlds = s3Minio.listJsonld(s3bucket, repo, include_user_meta=True)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
         o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
