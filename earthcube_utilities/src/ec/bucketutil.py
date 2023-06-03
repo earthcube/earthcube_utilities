@@ -134,8 +134,6 @@ def download(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, 
     """For a given URN(s), download the files and the Metadata"""
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
-   # urns = s3Minio.listSummonedSha(ctx.bucket, source)
-
 
     for sha in urn:
         # need to parse the source and actual sha/id out of the urn
@@ -179,26 +177,27 @@ def sourceurl(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug,
 
 @cli.command()
 @click.option('--url', help='the X-Amz-Meta-Url in metadata')
+@click.option('--milled', help='include milled', default=False)
+@click.option('--summon', help='include summon', default=True)
 @common_params
-def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
+def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, summon, milled, url):
     """ Find Possible Duplicates based on the URL that was used to summon JSONLD.
     Note, the may be ok, if a given URL has more than one JSONLD in the HTML.
     """
-
     # this is more complex. It is about finding duplicate url's,
     # returning the counts, if there is more than one, and the full urn's for thr duplicated
     # probably best done in pandas?
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
-    sources = getSitemapSourcesFromGleaner(cfgfile)
-    sources = list(filter(lambda source: source.get('active'), sources))
-    sources = list(map(lambda r: r.get('name'), sources))
-
-    for repo in sources:
-        jsonlds = s3Minio.listJsonld(s3bucket, repo, include_user_meta=True)
+    paths = list()
+    if summon:
+        paths = list(s3Minio.listPath(s3bucket, 'summoned/', recursive=False))
+    if milled:
+        paths.extend(list(s3Minio.listPath(s3bucket, 'milled/', recursive=False)))
+    for path in paths:
+        jsonlds = s3Minio.listPath(s3bucket, path.object_name)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-        o_list = list(map(lambda f: {'Source': repo,
-                                     'Url': f.metadata.get('X-Amz-Meta-Url'),
+        o_list = list(map(lambda f: {'Url': f.metadata.get('X-Amz-Meta-Url'),
                                      'Date': f.last_modified,
                                      'Name': f.object_name
                                      }, objs))
@@ -207,7 +206,6 @@ def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug
             res = df.groupby(['Url'], group_keys=True, dropna=False) \
             .agg({'Name': 'count', 'Name': lambda x: x.iloc[0:5].tolist(), 'Date': lambda x: x.iloc[0:5].tolist()},
                  ).reset_index()
-            res.to_json(orient='records', indent=2)
             print(res)
         except Exception as e:
             logging.info('Missing keys: ', e)

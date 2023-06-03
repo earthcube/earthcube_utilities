@@ -195,9 +195,9 @@ class MinioDatastore(bucketDatastore):
         self.s3client  =minio.Minio(s3endpoint) # this will neeed to be fixed with authentication
 
 
-    def listPath(self, bucket, path, include_user_meta=False):
+    def listPath(self, bucket, path, include_user_meta=False, recursive=True):
         """ returns the filelist for a path with the starting path removed from the list"""
-        resp = self.s3client.list_objects(bucket, path, include_user_meta=include_user_meta, recursive=True)
+        resp = self.s3client.list_objects(bucket, path, include_user_meta=include_user_meta, recursive=recursive)
         # the returned list includes the path
         #o_list = list(resp)
         o_list = filter(lambda f: f.object_name != path, resp)
