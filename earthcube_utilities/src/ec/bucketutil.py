@@ -5,8 +5,7 @@ import logging
 import json
 import sys
 
-from pydash.collections import find
-from pydash import is_empty
+from pydash import is_empty, find
 import pandas as pd
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
 from ec.objects.utils import parts_from_urn
@@ -86,15 +85,15 @@ def count(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, sou
     if path:
         count = s3Minio.countPath(ctx.bucket, path)
         res = f"Count for path {path}: {count}"
-        sys.stdout.write(json.dumps(res))
+        sys.stdout.write(json.dumps(res, sort_keys=True, indent=4))
     elif source:
         counts = list()
         for s in source:
-            path = f"/{s3Minio.paths.get('summon')}/{s.get('name')}"
+            path = f"/{s3Minio.paths.get('summon')}/{s}"
             count = s3Minio.countPath(ctx.bucket, path)
-            res = f"Count for source {s.get('name')}: {count}"
+            res = f"Count for source {s}: {count}"
             counts.append(res)
-        sys.stdout.write( json.dumps(counts) )
+        sys.stdout.write(json.dumps(counts, sort_keys=True, indent=4))
     elif cfgfile:
         sources = getSitemapSourcesFromGleaner(cfgfile)
         counts = list()
@@ -103,7 +102,7 @@ def count(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, sou
             count = s3Minio.countPath(ctx.bucket, path)
             res = f"Count for source {s.get('name')}: {count}"
             counts.append(res)
-        sys.stdout.write( json.dumps(counts) )
+        sys.stdout.write(json.dumps(counts, sort_keys=True, indent=4))
     else:
         message = "Please provide path to source. E.g. --path milled/iris or a config and optional sources"
         log.fatal(message)
@@ -111,8 +110,6 @@ def count(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, sou
     return
 
 @cli.command()
-# @click.option('--path', help='Path to source')
-# need to add a method to the s3 to handle the path approach... or not needed
 @click.option('--source', help='A repository')
 @common_params
 def urls(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source):
@@ -122,10 +119,10 @@ def urls(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, sour
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     if source:
         res = s3Minio.listSummonedUrls(ctx.bucket, source)
-        sys.stdout.write( json.dumps(res))
+        sys.stdout.write(json.dumps(res, sort_keys=True, indent=4))
     else:
         log.fatal("we need a source and a s3 endpoints")
-
+    return
 
 @cli.command()
 @click.option('--urn', help='One or more urns (--urn urna --urn urnb)', multiple=True)
@@ -149,7 +146,7 @@ def download(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, 
         o = s3Minio.getJsonLD(ctx.bucket, mypath, id)
         outFile.write(o)
         outFile.close()
-        outFileName = f"{mypath}/{id}.jsonld.txt"
+        outFileName = f"{mypath}/{id}.jsonld.meta.txt"
         log.info(outFileName)
         outFile = open(outFileName, "wb")
         o = s3Minio.getJsonLDMetadata(ctx.bucket, mypath, id)
@@ -159,28 +156,52 @@ def download(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, 
 
 @cli.command()
 @click.option('--url', help='the X-Amz-Meta-Url in metadata')
-@common_params
-def sourceurl(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
-    """ for a given url, find the sha of the file"""
-    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
-    s3Minio = s3.MinioDatastore(ctx.s3server, None)
-    sources = getSitemapSourcesFromGleaner(cfgfile)
-    sources = list(filter(lambda source: source.get('active'), sources))
-    sources = list(map(lambda r: r.get('name'), sources))
-    o_list = list()
-    for repo in sources:
-        jsonlds = s3Minio.listJsonld(s3bucket, repo, include_user_meta=True)
-        objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-        o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
-    sys.stdout.write( json.dumps( o_list))
-
-
-@cli.command()
-@click.option('--url', help='the X-Amz-Meta-Url in metadata')
 @click.option('--milled', help='include milled', default=False)
 @click.option('--summon', help='include summon', default=True)
 @common_params
-def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, summon, milled, url):
+def sourceurl(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url, summon, milled):
+    """ for a given url, find the sha of the file"""
+    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    s3Minio = s3.MinioDatastore(ctx.s3server, None)
+    paths = list()
+    o_list = list()
+    if summon:
+        paths = list(s3Minio.listPath(s3bucket, 'summoned/', recursive=False))
+    if milled:
+        paths.extend(list(s3Minio.listPath(s3bucket, 'milled/', recursive=False)))
+    for path in paths:
+        try:
+            jsonlds = s3Minio.listPath(s3bucket, path.object_name, include_user_meta=True)
+            objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
+            o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
+        except Exception as e:
+            logging.error(e)
+
+    if len(o_list)>0:
+        for o in o_list:
+            outFileName = f"urn_{o.metadata.get('X-Amz-Meta-Uniqueid')}.jsonld"
+            log.info(outFileName)
+            outFile = open(outFileName, "wb")
+            s3ObjectInfo = {"bucket_name": s3bucket, "object_name": o.object_name}
+            resp = s3Minio.getFileFromStore(s3ObjectInfo)
+            outFile.write(resp)
+            outFile.close()
+            outFileName = f"urn_{o.metadata.get('X-Amz-Meta-Uniqueid')}.jsonld.meta.txt"
+            log.info(outFileName)
+            outFile = open(outFileName, "wb")
+            s3ObjectInfo = {"bucket_name": s3bucket, "object_name": o.object_name}
+            tags = s3Minio.getFileMetadataFromStore(s3ObjectInfo)
+            outFile.write(bytes(json.dumps(tags, indent=4), 'utf8'))
+            outFile.close()
+    return
+
+
+@cli.command()
+@click.option('--path', help='Path to source',)
+@click.option('--milled', help='include milled', default=False)
+@click.option('--summon', help='include summon', default=True)
+@common_params
+def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, summon, milled, path):
     """ Find Possible Duplicates based on the URL that was used to summon JSONLD.
     Note, the may be ok, if a given URL has more than one JSONLD in the HTML.
     """
@@ -188,27 +209,33 @@ def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug
     # returning the counts, if there is more than one, and the full urn's for thr duplicated
     # probably best done in pandas?
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    path_to_run = path
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     paths = list()
     if summon:
         paths = list(s3Minio.listPath(s3bucket, 'summoned/', recursive=False))
     if milled:
         paths.extend(list(s3Minio.listPath(s3bucket, 'milled/', recursive=False)))
-    for path in paths:
-        jsonlds = s3Minio.listPath(s3bucket, path.object_name)
+    for p in paths:
+        if path_to_run is not None and len(path_to_run) >0:
+            if path_to_run != p.object_name:
+                continue
+        jsonlds = s3Minio.listPath(s3bucket, p.object_name)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
         o_list = list(map(lambda f: {'Url': f.metadata.get('X-Amz-Meta-Url'),
-                                     'Date': f.last_modified,
-                                     'Name': f.object_name
+                                     'Total': f.object_name,
+                                     'Examples': {f.object_name, f.last_modified}
                                      }, objs))
         df = pd.DataFrame(o_list)
         try:
+            # list total count for the objects with the same url, and list 5 cases
             res = df.groupby(['Url'], group_keys=True, dropna=False) \
-            .agg({'Name': 'count', 'Name': lambda x: x.iloc[0:5].tolist(), 'Date': lambda x: x.iloc[0:5].tolist()},
+            .agg({'Total': 'count', 'Examples': lambda x: x.iloc[0:5].tolist()},
                  ).reset_index()
-            print(res)
+            res = res.to_csv(index=False)
+            sys.stdout.write(res)
         except Exception as e:
-            logging.info('Missing keys: ', e)
+            logging.info(e)
     return 0
 
 @cli.command()
@@ -232,37 +259,50 @@ def stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug):
         if countSummon > 0:
             stats['summon']['repo'] |= {repo: countSummon}
             stats['summon']['total'] += countSummon
-    print(json.dumps(stats, sort_keys = True, indent = 4))
+    sys.stdout.write(json.dumps(stats, sort_keys = True, indent = 4))
 
 @cli.command()
-@click.option('--url', help='the X-Amz-Meta-Url in metadata')
+@click.option('--path', help='Path to source',)
+@click.option('--milled', help='include milled', default=False)
+@click.option('--summon', help='include summon', default=True)
 @common_params
-def cull(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
+def cull(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, summon, milled, path):
     """ for a given url, find the sha of the file"""
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     utc = pytz.UTC
-    sources = getSitemapSourcesFromGleaner(cfgfile)
-    sources = list(filter(lambda source: source.get('active'), sources))
-    sources = list(map(lambda r: r.get('name'), sources))
-
-    for repo in sources:
-        jsonlds = s3Minio.listJsonld(s3bucket, repo, include_user_meta=True)
+    path_to_run = path
+    s3Minio = s3.MinioDatastore(ctx.s3server, None)
+    paths = list()
+    if summon:
+        paths = list(s3Minio.listPath(s3bucket, 'summoned/', recursive=False))
+    if milled:
+        paths.extend(list(s3Minio.listPath(s3bucket, 'milled/', recursive=False)))
+    for p in paths:
+        if path_to_run is not None and len(path_to_run) > 0:
+            if path_to_run != p.object_name:
+                continue
+        jsonlds = s3Minio.listPath(s3bucket, p.object_name)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-        o_list = list(map(lambda f: {'Source': repo,
-                                     'Url': f.metadata.get('X-Amz-Meta-Url'),
+        o_list = list(map(lambda f: {'Url': f.metadata.get('X-Amz-Meta-Url'),
                                      'Date': f.last_modified,
                                      'Name': f.object_name
                                      }, objs))
+        if len(o_list) <= 0:
+            break
         df = pd.DataFrame(o_list)
         try:
-            res = df[df.duplicated(subset=['Url'])]
-            res = res[res['Date'] < utc.localize(datetime.datetime.now() - datetime.timedelta(days=7))]
-            removeObjectList = res['Name'].values.tolist()
+            # get objects with duplicated url and older than 7 days
+            # the last occurrence of each set of duplicated objects are excluded
+            df = df[df.duplicated(subset=['Url'], keep='last')]
+            df = df[df['Date'] < utc.localize(datetime.datetime.now() - datetime.timedelta(days=7))]
+            removeObjectList = df.get('Name').values.tolist()
             for r in removeObjectList:
                  s3Minio.removeObject(s3bucket, r)
+                 logging.info('Removed object: ', r)
         except Exception as e:
-            logging.info('Missing keys: ', e)
+            logging.info(e)
+    return
 
 if __name__ == '__main__':
     cli()
