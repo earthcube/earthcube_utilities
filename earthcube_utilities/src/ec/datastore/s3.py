@@ -66,7 +66,7 @@ class bucketDatastore():
     #### Methods for a getting information using infrastructure information
 
     """ Method for gleaner store"""
-    def listJsonld(self,bucket, repo,include_user_meta=False):
+    def listJsonld(self,bucket, repo, include_user_meta=False):
         """ urllist returns list of urn;s with urls"""
         # include user meta not working.
         path = f"{self.paths['summon']}/{repo}/"
@@ -82,14 +82,14 @@ class bucketDatastore():
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
 
+
     def listSummonedUrls(self,bucket, repo):
         """  returns list of urns with urls"""
         jsonlds = self.listJsonld(bucket, repo, include_user_meta=True)
         objs = map(lambda f: self.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-        # for ob in objs:
-        #     print(ob)
         o_list = list(map(lambda f: {"sha": shaFroms3Path(f.object_name), "url": f.metadata["X-Amz-Meta-Url"]}, objs))
         return o_list
+
     def listSummonedSha(self,bucket, repo):
         """  returns list of urns with urls"""
         jsonlds = self.listJsonld(bucket, repo, include_user_meta=False)
@@ -199,7 +199,6 @@ class MinioDatastore(bucketDatastore):
         """ returns the filelist for a path with the starting path removed from the list"""
         resp = self.s3client.list_objects(bucket, path, include_user_meta=include_user_meta, recursive=recursive)
         # the returned list includes the path
-        #o_list = list(resp)
         o_list = filter(lambda f: f.object_name != path, resp)
         return o_list
 
