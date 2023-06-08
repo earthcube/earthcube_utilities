@@ -5,3 +5,35 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "earthcube_utilities_notebook_proxy"
+version = "0.1.14"
+dynamic = ["dependencies"]
+description = "A proxy  to create notebooks for the for the Earthcube Geocodes Project"
+readme =  "README.md"
+
+authors = [
+    {name = "Mike Bobak", email = "mbobak@illinois.edu"},
+    {name= "David Valentine", email="dwvalentine@ucsd.edu"}
+]
+maintainers = [
+
+    {name= "David Valentine", email="dwvalentine@ucsd.edu"}
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering",
+
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+[project.urls]  # Optional
+"Homepage" = "https://www.earthcube.org/"
+"Bug Tracker" = "https://github.com/earthcube/earthcube_utilities/issues"
+"Geocodes Documentation" = "https://earthcube.github.io/geocodes_documentation/"
+"Source" = "https://github.com/earthcube/earthcube_utilities"

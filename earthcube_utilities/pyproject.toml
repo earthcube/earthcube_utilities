@@ -7,10 +7,11 @@ readme =  "README.md"
 
 authors = [
     {name = "Mike Bobak", email = "mbobak@illinois.edu"},
-    {name= "David Valentine", email="dwvalentine@ucsd.edu"}
+    {name= "David Valentine", email="dwvalentine@ucsd.edu"},
+    {name = "Ya-Lan Yang", email = "ylyang@illinois.edu"}
 ]
 maintainers = [
-    {name = "Mike Bobak", email = "mbobak@illinois.edu"},
+    {name = "Ya-Lan Yang", email = "ylyang@illinois.edu"},
     {name= "David Valentine", email="dwvalentine@ucsd.edu"}
 ]
 
