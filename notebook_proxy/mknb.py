@@ -76,9 +76,9 @@ import gistyc
 # should we just hash the name... would be simpler, because we want to pass multiple files to a notebook for a run.
 # (x) be able to pass a different template, or pull from a repo/url.
 ## (implemented temp file) can papermill to memory file reads, or be embedded to do such things?
-from graph.sparql_query import getAGraph
-from sos_json.rdf import get_graph2jsonld, get_rdfgraph
-from sos_json.utils import formatted_jsonld
+from ec.graph.sparql_query import getAGraph
+from ec.sos_json.rdf import get_graph2jsonld, get_rdfgraph
+from ec.sos_json.utils import formatted_jsonld
 
 
 def first_str(s):

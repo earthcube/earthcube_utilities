@@ -46,6 +46,13 @@ class S3TestCase(unittest.TestCase):
 
         list = s3client.listSummonedUrls(bucket, repo)
         self.assertIsNone(list)
-
+    def test_DataframeFromPath(self):
+        bucket = "dv-testing"
+        endpoint = "oss.geocodes-dev.earthcube.org"
+        repo = 'geocodes_demo_datasets'
+        s3client = MinioDatastore(endpoint, None)
+        path = f"/{s3client.paths['summon']}/{repo}/"
+        list = s3client.DataframeFromPath(bucket, path)
+        self.assertIsNone(list)
 if __name__ == '__main__':
     unittest.main()
