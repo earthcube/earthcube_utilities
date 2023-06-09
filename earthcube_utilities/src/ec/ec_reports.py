@@ -72,7 +72,7 @@ def cli( cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug):
 
 @click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
 @click.option('--milled/--no-milled', help='include milled', default=False)
-@click.option('--summononly', help='check summon only',is_flag=True, default=False)
+@click.option('--summononly', help='check summon only', is_flag=True, default=False)
 @common_params
 def missing_report(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug, source, milled, summononly):
     # name missing-report
@@ -116,7 +116,7 @@ def missing_report(cfgfile,s3server, s3bucket, graphendpoint, upload, output, de
 @common_params
 def graph_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug, source, detailed):
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
-    output= ctx.output
+    output = ctx.output
     no_upload = ctx.upload
     graphendpoint = ctx.graphendpoint
     s3server = ctx.s3server
@@ -165,8 +165,8 @@ def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
         s3server = s3server if s3server else s3endpoint
         bucket = s3bucket if s3bucket else bucket
     else:
-        s3server =s3server
-        bucket =s3bucket
+        s3server = s3server
+        bucket = s3bucket
 
     if is_empty(s3server) or is_empty(bucket):
         logging.fatal(f" must provide a gleaner config or (s3endpoint and s3bucket)]")
