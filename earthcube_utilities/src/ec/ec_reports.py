@@ -57,8 +57,7 @@ def common_params(func):
     @click.option('--graphendpoint', help='graph endpoint')
     @click.option('--upload/--no-upload', help='upload to s3 bucket', default=True)
     @click.option('--output', help='dump to file', type=click.File('wb'))
-    @click.option('--debug/--no-debug', default=False,
-                  envvar='REPO_DEBUG')
+    @click.option('--debug/--no-debug', default=False, envvar='REPO_DEBUG')
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         return func(*args, **kwargs)
@@ -86,7 +85,7 @@ def missing_report(cfgfile,s3server, s3bucket, graphendpoint, upload, output, de
     ctx.hasS3()
     ctx.hasGraphendpoint(option=summononly, message="must provide graphendpoint if you are checking the graph" )
 
-    log.info(f" s3server: {s3server} bucket:{bucket} graph:{graphendpoint}")
+    log.info(f"s3server: {s3server} bucket:{bucket} graph:{graphendpoint}")
     s3Minio = s3.MinioDatastore(s3server, None)
     sources = getSitemapSourcesFromGleaner(cfgfile)
     sources = list(filter(lambda source: source.get('active'), sources))
@@ -102,7 +101,7 @@ def missing_report(cfgfile,s3server, s3bucket, graphendpoint, upload, output, de
             report = missingReport(source_url, bucket, source_name, s3Minio, graphendpoint, milled=milled, summon=summononly)
             report = json.dumps(report,  indent=2)
             if output:  # just append the json files to one filem, for now.
-                log.info(f" report for {source_name} appended to file")
+                log.info(f"report for {source_name} appended to file")
                 output.write(bytes(report, 'utf-8'))
             if upload:
                 s3Minio.putReportFile(bucket, source_name, "missing_report.json", report)
@@ -125,7 +124,7 @@ def graph_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug
 
     ctx.hasS3Upload()
     ctx.hasGraphendpoint(message=" must provide graphendpoint")
-    if  upload:
+    if upload:
         s3Minio = s3.MinioDatastore(s3server, None)
     """query an endpoint, store results as a json file in an s3 store"""
     log.info(f"Querying {graphendpoint} for graph statisitcs  ")
@@ -153,9 +152,6 @@ def graph_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug
                 bucketname, objectname = s3Minio.putReportFile(s3bucket, s, "graph_report.json", report_json)
     return
 
-
-
-
 @cli.command()
 @click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
 @click.option('--json', help='output json format', is_flag=True, default=True)
@@ -163,7 +159,7 @@ def graph_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug
 def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug, source, json):
     filename = 'identifier_metadata_summary'
     if cfgfile:
-        s3endpoint,  bucket, glnr= getGleaner(cfgfile)
+        s3endpoint,  bucket, glnr=getGleaner(cfgfile)
         minio = glnr.get("minio")
         # passed paramters override the config parameters
         s3server = s3server if s3server else s3endpoint
@@ -204,7 +200,7 @@ def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
         df = pd.DataFrame(o_list)
         try:
             identifier_stats = df.groupby(['Source', 'Identifiertype', 'Matchedpath'], group_keys=True, dropna=False)\
-                .agg({'Uniqueid': 'count', 'Example':lambda x: x.iloc[0:5].tolist()}).reset_index()
+                .agg({'Uniqueid': 'count', 'Example': lambda x: x.iloc[0:5].tolist()}).reset_index()
             if json:
                 o = identifier_stats.to_json(orient='records', indent=2)
             else:
