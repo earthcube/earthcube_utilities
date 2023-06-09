@@ -23,6 +23,7 @@ Options:
 Commands:
   graph-stats
   missing-report
+  identifier-stats
 ```
 
 ```
@@ -44,7 +45,6 @@ Options:
 ```
 
 ```
-ec_reports.py  graph-stats --help
 Usage: ec_reports.py graph-stats [OPTIONS]
 
 Options:
@@ -56,7 +56,24 @@ Options:
   --graphendpoint TEXT    graph endpoint
   --upload / --no-upload  upload to s3 bucket
   --output FILENAME       dump to file
-  --debug / --no-debug
+  --debug / --no-debug    run the detailed version of the reports
+  --help                  Show this message and exit.
+
+```
+
+```
+Usage: ec_reports.py identifier-stats [OPTIONS]
+
+Options:
+  --source TEXT           One or more repositories (--source a --source b)
+  --detailed              run the detailed version of the reports
+  --cfgfile PATH          gleaner config file
+  --s3server TEXT         s3 server address
+  --s3bucket TEXT         s3 bucket
+  --graphendpoint TEXT    graph endpoint
+  --upload / --no-upload  upload to s3 bucket
+  --output FILENAME       dump to file
+  --json boolean          output json format (default True for json, False for csv)
   --help                  Show this message and exit.
 
 ```
