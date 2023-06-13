@@ -18,7 +18,7 @@ log = config_app()
 
 class EcConfig(object):
     """ Parameters that might be common to commands"""
-    def __init__(self, cfgfile=None, s3server=None, s3bucket=None, graphendpoint=None, upload=None, output=None,debug=False):
+    def __init__(self, cfgfile=None, s3server=None, s3bucket=None, upload=None, output=None,debug=False):
         if cfgfile:
             s3endpoint, bucket, glnr = getGleaner(cfgfile)
             minio = glnr.get("minio")
@@ -29,8 +29,6 @@ class EcConfig(object):
         else:
             self.s3server = s3server
             self.bucket = s3bucket
-
-        self.graphendpoint = graphendpoint
         self.output= output
         self.upload = upload
         self.debug = debug
@@ -47,19 +45,11 @@ class EcConfig(object):
              log.fatal(f" must provide a gleaner config or (s3endpoint and s3bucket)]")
              raise Exception("must provide a gleaner config or (s3endpoint and s3bucket)]")
          return True
-    def hasGraphendpoint(self, option:bool=False, message="must provide graphendpoint") -> bool:
-         """ if option is not true, so if summon only, then empty is graphendpoint is ok
-            """
-         if   option or is_empty(self.graphendpoint) :
-             log.fatal(message)
-             raise Exception(message)
-         return True
 
 def common_params(func):
     @click.option('--cfgfile', help='gleaner config file', type=click.Path(exists=True))
     @click.option('--s3server', help='s3 server address')
     @click.option('--s3bucket', help='s3 bucket')
-    @click.option('--graphendpoint', help='graph endpoint')
     @click.option('--upload/--no-upload', help='upload to s3 bucket', default=True)
     @click.option('--output', help='dump to file', type=click.File('wb'))
     @click.option('--debug/--no-debug', default=False,
@@ -71,15 +61,15 @@ def common_params(func):
 
 @click.group()
 @common_params
-def cli( cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug):
-   obj = EcConfig(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug)
+def cli( cfgfile,s3server, s3bucket, upload, output, debug):
+   obj = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
 
 @cli.command()
 @click.option('--path', help='Path to source',)
 @click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
 @common_params
-def count(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source, path):
-    ctx = EcConfig(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug)
+def count(cfgfile, s3server, s3bucket, upload, output, debug, source, path):
+    ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
 
     if path:
@@ -112,24 +102,25 @@ def count(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, sou
 @cli.command()
 @click.option('--source', help='A repository')
 @common_params
-def urls(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source):
+def urls(cfgfile, s3server, s3bucket, upload, output, debug, source):
     """Retreive the URL harvested for a give bucket. T
     There may be duplicate URL's, if an HTML has more than one JSONLD"""
-    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     if source:
         res = s3Minio.listSummonedUrls(ctx.bucket, source)
         sys.stdout.write(json.dumps(res, sort_keys=True, indent=4))
+        return 0
     else:
         log.fatal("we need a source and a s3 endpoints")
-    return
+    return 1
 
 @cli.command()
-@click.option('--urn', help='One or more urns (--urn urna --urn urnb)', multiple=True)
+@click.option('--urn', help='One or more urns (--urn urn a --urn urn b)', multiple=True)
 @common_params
-def download(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, urn):
+def download(cfgfile, s3server, s3bucket, upload, output, debug, urn):
     """For a given URN(s), download the files and the Metadata"""
-    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
 
     for sha in urn:
@@ -159,9 +150,9 @@ def download(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, 
 @click.option('--milled', help='include milled', default=False)
 @click.option('--summon', help='include summon', default=True)
 @common_params
-def sourceurl(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url, summon, milled):
+def sourceurl(cfgfile, s3server, s3bucket, upload, output, debug, url, summon, milled):
     """ for a given url, find the sha of the file"""
-    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     paths = list()
     o_list = list()
@@ -201,14 +192,14 @@ def sourceurl(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug,
 @click.option('--milled', help='include milled', default=False)
 @click.option('--summon', help='include summon', default=True)
 @common_params
-def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, summon, milled, path):
+def duplicates(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, path):
     """ Find Possible Duplicates based on the URL that was used to summon JSONLD.
     Note, the may be ok, if a given URL has more than one JSONLD in the HTML.
     """
     # this is more complex. It is about finding duplicate url's,
     # returning the counts, if there is more than one, and the full urn's for thr duplicated
     # probably best done in pandas?
-    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     path_to_run = path
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     paths = list()
@@ -240,8 +231,8 @@ def duplicates(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug
 
 @cli.command()
 @common_params
-def stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug):
-    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+def stats(cfgfile, s3server, s3bucket, upload, output, debug):
+    ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     sources = getSitemapSourcesFromGleaner(cfgfile)
     sources = list(filter(lambda source: source.get('active'), sources))
@@ -266,9 +257,9 @@ def stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug):
 @click.option('--milled', help='include milled', default=False)
 @click.option('--summon', help='include summon', default=True)
 @common_params
-def cull(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, summon, milled, path):
+def cull(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, path):
     """ for a given url, find the sha of the file"""
-    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     utc = pytz.UTC
     path_to_run = path
@@ -305,5 +296,4 @@ def cull(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, summ
     return
 
 if __name__ == '__main__':
-    cli()
-    sys.exit(0)
+    res = cli()
