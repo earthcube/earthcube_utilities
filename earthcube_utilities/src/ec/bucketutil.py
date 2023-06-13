@@ -148,7 +148,7 @@ def download(cfgfile, s3server, s3bucket, upload, output, debug, urn):
 @cli.command()
 @click.option('--url', help='the X-Amz-Meta-Url in metadata')
 @click.option('--milled', help='include milled', default=False)
-@click.option('--summon', help='include summon', default=True)
+@click.option('--summon', help='include summon only', default=True)
 @common_params
 def sourceurl(cfgfile, s3server, s3bucket, upload, output, debug, url, summon, milled):
     """ for a given url, find the sha of the file"""
@@ -157,12 +157,12 @@ def sourceurl(cfgfile, s3server, s3bucket, upload, output, debug, url, summon, m
     paths = list()
     o_list = list()
     if summon:
-        paths = list(s3Minio.listPath(s3bucket, 'summoned/', recursive=False))
+        paths = list(s3Minio.listPath(ctx.bucket, 'summoned/', recursive=False))
     if milled:
-        paths.extend(list(s3Minio.listPath(s3bucket, 'milled/', recursive=False)))
+        paths.extend(list(s3Minio.listPath(ctx.bucket, 'milled/', recursive=False)))
     for path in paths:
         try:
-            jsonlds = s3Minio.listPath(s3bucket, path.object_name, include_user_meta=True)
+            jsonlds = s3Minio.listPath(ctx.bucket, path.object_name, include_user_meta=True)
             objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
             o_list.extend(list(filter(lambda f: f.metadata.get('X-Amz-Meta-Url') == url, objs)))
         except Exception as e:
@@ -173,17 +173,19 @@ def sourceurl(cfgfile, s3server, s3bucket, upload, output, debug, url, summon, m
             outFileName = f"urn_{o.metadata.get('X-Amz-Meta-Uniqueid')}.jsonld"
             log.info(outFileName)
             outFile = open(outFileName, "wb")
-            s3ObjectInfo = {"bucket_name": s3bucket, "object_name": o.object_name}
+            s3ObjectInfo = {"bucket_name": ctx.bucket, "object_name": o.object_name}
             resp = s3Minio.getFileFromStore(s3ObjectInfo)
             outFile.write(resp)
             outFile.close()
             outFileName = f"urn_{o.metadata.get('X-Amz-Meta-Uniqueid')}.jsonld.meta.txt"
             log.info(outFileName)
             outFile = open(outFileName, "wb")
-            s3ObjectInfo = {"bucket_name": s3bucket, "object_name": o.object_name}
+            s3ObjectInfo = {"bucket_name": ctx.bucket, "object_name": o.object_name}
             tags = s3Minio.getFileMetadataFromStore(s3ObjectInfo)
             outFile.write(bytes(json.dumps(tags, indent=4), 'utf8'))
             outFile.close()
+    else:
+        log.info(f"we don't find anythiing for url: ", url)
     return
 
 
@@ -204,14 +206,14 @@ def duplicates(cfgfile, s3server, s3bucket, upload, output, debug, summon, mille
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     paths = list()
     if summon:
-        paths = list(s3Minio.listPath(s3bucket, 'summoned/', recursive=False))
+        paths = list(s3Minio.listPath(ctx.bucket, 'summoned/', recursive=False))
     if milled:
-        paths.extend(list(s3Minio.listPath(s3bucket, 'milled/', recursive=False)))
+        paths.extend(list(s3Minio.listPath(ctx.bucket, 'milled/', recursive=False)))
     for p in paths:
         if path_to_run is not None and len(path_to_run) >0:
             if path_to_run != p.object_name:
                 continue
-        jsonlds = s3Minio.listPath(s3bucket, p.object_name)
+        jsonlds = s3Minio.listPath(ctx.bucket, p.object_name)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
         o_list = list(map(lambda f: {'Url': f.metadata.get('X-Amz-Meta-Url'),
                                      'Total': f.object_name,
@@ -242,8 +244,8 @@ def stats(cfgfile, s3server, s3bucket, upload, output, debug):
     pathSummon = f"/{s3Minio.paths.get('summon')}/"
     stats = {'milled': {'total': 0, 'repo': {}}, 'summon': {'total': 0, 'repo': {}}}
     for repo in sources:
-        countMilled = s3Minio.countPath(s3bucket, pathMilled + repo)
-        countSummon = s3Minio.countPath(s3bucket, pathSummon + repo)
+        countMilled = s3Minio.countPath(ctx.bucket, pathMilled + repo)
+        countSummon = s3Minio.countPath(ctx.bucket, pathSummon + repo)
         if countMilled > 0:
             stats['milled']['repo'] |= {repo: countMilled}
             stats['milled']['total'] += countMilled
@@ -266,14 +268,14 @@ def cull(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, pat
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     paths = list()
     if summon:
-        paths = list(s3Minio.listPath(s3bucket, 'summoned/', recursive=False))
+        paths = list(s3Minio.listPath(ctx.bucket, 'summoned/', recursive=False))
     if milled:
-        paths.extend(list(s3Minio.listPath(s3bucket, 'milled/', recursive=False)))
+        paths.extend(list(s3Minio.listPath(ctx.bucket, 'milled/', recursive=False)))
     for p in paths:
         if path_to_run is not None and len(path_to_run) > 0:
             if path_to_run != p.object_name:
                 continue
-        jsonlds = s3Minio.listPath(s3bucket, p.object_name)
+        jsonlds = s3Minio.listPath(ctx.bucket, p.object_name)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
         o_list = list(map(lambda f: {'Url': f.metadata.get('X-Amz-Meta-Url'),
                                      'Date': f.last_modified,
@@ -289,7 +291,7 @@ def cull(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, pat
             df = df[df['Date'] < utc.localize(datetime.datetime.now() - datetime.timedelta(days=7))]
             removeObjectList = df.get('Name').values.tolist()
             for r in removeObjectList:
-                 s3Minio.removeObject(s3bucket, r)
+                 s3Minio.removeObject(ctx.bucket, r)
                  logging.info('Removed object: ', r)
         except Exception as e:
             logging.info(e)
