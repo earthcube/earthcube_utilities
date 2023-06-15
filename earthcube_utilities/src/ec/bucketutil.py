@@ -224,7 +224,7 @@ def duplicates(cfgfile, s3server, s3bucket, upload, output, debug, summon, mille
             # list total count for the objects with the same url, and list 5 cases
             res = df.groupby(['Url'], group_keys=True, dropna=False) \
             .agg({'Total': 'count', 'Examples': lambda x: x.iloc[0:5].tolist()},
-                 ).reset_index()
+                 ).query('Total > 1').reset_index()
             res = res.to_csv(index=False)
             sys.stdout.write(res)
         except Exception as e:
@@ -232,18 +232,24 @@ def duplicates(cfgfile, s3server, s3bucket, upload, output, debug, summon, mille
     return 0
 
 @cli.command()
+@click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
 @common_params
-def stats(cfgfile, s3server, s3bucket, upload, output, debug):
+def stats(cfgfile, s3server, s3bucket, upload, output, debug, source):
     ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
+    ctx.hasS3()
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     sources = getSitemapSourcesFromGleaner(cfgfile)
     sources = list(filter(lambda source: source.get('active'), sources))
     sources = list(map(lambda r: r.get('name'), sources))
+    sources_to_run = source  # optional if null, run all
 
     pathMilled = f"/{s3Minio.paths.get('milled')}/"
     pathSummon = f"/{s3Minio.paths.get('summon')}/"
     stats = {'milled': {'total': 0, 'repo': {}}, 'summon': {'total': 0, 'repo': {}}}
     for repo in sources:
+        if sources_to_run is not None and len(sources_to_run) > 0:
+            if not find(sources_to_run, lambda x: x == repo):
+                continue
         countMilled = s3Minio.countPath(ctx.bucket, pathMilled + repo)
         countSummon = s3Minio.countPath(ctx.bucket, pathSummon + repo)
         if countMilled > 0:
