@@ -5,7 +5,8 @@ import logging
 import json
 import sys
 
-from pydash import is_empty, find
+from pydash import is_empty
+from pydash.collections import find
 import pandas as pd
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
 from ec.objects.utils import parts_from_urn
@@ -270,7 +271,7 @@ def cull(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, pat
     ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     utc = pytz.UTC
-    path_to_run = path
+    path_to_run = path.strip("/")
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     paths = list()
     if summon:
@@ -279,7 +280,7 @@ def cull(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, pat
         paths.extend(list(s3Minio.listPath(ctx.bucket, 'milled/', recursive=False)))
     for p in paths:
         if path_to_run is not None and len(path_to_run) > 0:
-            if path_to_run != p.object_name:
+            if not path_to_run == p.object_name.strip("/"):
                 continue
         jsonlds = s3Minio.listPath(ctx.bucket, p.object_name)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
@@ -288,6 +289,7 @@ def cull(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, pat
                                      'Name': f.object_name
                                      }, objs))
         if len(o_list) <= 0:
+            logging.info(f" Nothing to cull")
             break
         df = pd.DataFrame(o_list)
         try:
