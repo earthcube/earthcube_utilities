@@ -227,18 +227,26 @@ def duplicates(cfgfile, s3server, s3bucket, upload, output, debug, summon, mille
                 continue
         jsonlds = s3Minio.listPath(ctx.bucket, p.object_name)
         objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-        o_list = list(map(lambda f: {'Url': f.metadata.get('X-Amz-Meta-Url'),
+        o_list = list(map(lambda f: {'Source': p.object_name,
+                                     'Url': f.metadata.get('X-Amz-Meta-Url'),
                                      'Total': f.object_name,
                                      'Examples': {f.object_name, f.last_modified}
                                      }, objs))
         df = pd.DataFrame(o_list)
         try:
             # list total count for the objects with the same url, and list 5 cases
-            res = df.groupby(['Url'], group_keys=True, dropna=False) \
+            res = df.groupby(['Source', 'Url'], group_keys=True, dropna=False) \
             .agg({'Total': 'count', 'Examples': lambda x: x.iloc[0:5].tolist()},
                  ).query('Total > 1').reset_index()
+            # if len(res) <= 0:
+            #     logging.info("No duplicate has been found")
+            #     break
             res = res.to_csv(index=False)
             sys.stdout.write(res)
+            if output:  # just append the json files to one filem, for now.
+                output.write(bytes(res, 'utf-8'))
+            if upload:
+                s3Minio.putReportFile(ctx.bucket, "all", "bucketutil_dupliactes.csv", res)
         except Exception as e:
             logging.info(e)
     return 0
