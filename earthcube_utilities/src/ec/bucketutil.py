@@ -238,9 +238,9 @@ class Bucket(object):
                 res = df.groupby(['Source', 'Url'], group_keys=True, dropna=False) \
                 .agg({'Total': 'count', 'Examples': lambda x: x.iloc[0:5].tolist()},
                      ).query('Total > 1').reset_index()
-                # if len(res) <= 0:
-                #     logging.info("No duplicate has been found")
-                #     break
+                if len(res) <= 0:
+                    logging.info("No duplicate has been found")
+                    break
                 res = res.to_csv(index=False)
                 sys.stdout.write(res)
                 if output:  # just append the json files to one filem, for now.
@@ -297,7 +297,6 @@ class Bucket(object):
         s3Minio = s3.MinioDatastore(ctx.s3server, None)
         utc = pytz.UTC
         path_to_run = path.strip("/")
-        s3Minio = s3.MinioDatastore(ctx.s3server, None)
         paths = list()
         if summon:
             paths = list(s3Minio.listPath(ctx.bucket, 'summoned/', recursive=False))
