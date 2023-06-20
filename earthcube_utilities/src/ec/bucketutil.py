@@ -51,9 +51,9 @@ def common_params(func):
     @click.option('--cfgfile', help='gleaner config file', type=click.Path(exists=True))
     @click.option('--s3server', help='s3 server address')
     @click.option('--s3bucket', help='s3 bucket')
-    @click.option('--upload/--no-upload', help='upload to s3 bucket', default=True)
+    @click.option('--upload', help='upload to s3 bucket', default=True)
     @click.option('--output', help='dump to file', type=click.File('wb'))
-    @click.option('--debug/--no-debug', default=False,
+    @click.option('--debug', default=False,
                   envvar='REPO_DEBUG')
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -72,6 +72,7 @@ def cli( cfgfile,s3server, s3bucket, upload, output, debug):
 def count(cfgfile, s3server, s3bucket, upload, output, debug, source, path):
     ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
+    ctx.hasS3()
 
     if path:
         count = s3Minio.countPath(ctx.bucket, path)
@@ -108,13 +109,20 @@ def urls(cfgfile, s3server, s3bucket, upload, output, debug, source):
     There may be duplicate URL's, if an HTML has more than one JSONLD"""
     ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
+    ctx.hasS3()
+
     if source:
         res = s3Minio.listSummonedUrls(ctx.bucket, source)
-        sys.stdout.write(json.dumps(res, sort_keys=True, indent=4))
-        return 0
+        res = json.dumps(res, sort_keys=True, indent=4)
+        sys.stdout.write(res)
+        if output:  # just append the json files to one filem, for now.
+            log.info(f"report for {source} appended to file")
+            output.write(bytes(res, 'utf-8'))
+        if upload:
+            s3Minio.putReportFile(ctx.bucket, source, "bucketutil_urls.json", res)
     else:
         log.fatal("we need a source and a s3 endpoints")
-    return 1
+    return
 
 @cli.command()
 @click.option('--urn', help='One or more urns (--urn urn a --urn urn b)', multiple=True)
@@ -123,6 +131,7 @@ def download(cfgfile, s3server, s3bucket, upload, output, debug, urn):
     """For a given URN(s), download the files and the Metadata"""
     ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
+    ctx.hasS3()
 
     for sha in urn:
         # need to parse the source and actual sha/id out of the urn
@@ -154,6 +163,7 @@ def download(cfgfile, s3server, s3bucket, upload, output, debug, urn):
 def sourceurl(cfgfile, s3server, s3bucket, upload, output, debug, url, summon, milled):
     """ for a given url, find the sha of the file"""
     ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
+    ctx.hasS3()
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     paths = list()
     o_list = list()
@@ -171,14 +181,14 @@ def sourceurl(cfgfile, s3server, s3bucket, upload, output, debug, url, summon, m
 
     if len(o_list)>0:
         for o in o_list:
-            outFileName = f"urn_{o.metadata.get('X-Amz-Meta-Uniqueid')}.jsonld"
+            outFileName = f"{o.metadata.get('X-Amz-Meta-Uniqueid')}.jsonld"
             log.info(outFileName)
             outFile = open(outFileName, "wb")
             s3ObjectInfo = {"bucket_name": ctx.bucket, "object_name": o.object_name}
             resp = s3Minio.getFileFromStore(s3ObjectInfo)
             outFile.write(resp)
             outFile.close()
-            outFileName = f"urn_{o.metadata.get('X-Amz-Meta-Uniqueid')}.jsonld.meta.txt"
+            outFileName = f"{o.metadata.get('X-Amz-Meta-Uniqueid')}.jsonld.meta.txt"
             log.info(outFileName)
             outFile = open(outFileName, "wb")
             s3ObjectInfo = {"bucket_name": ctx.bucket, "object_name": o.object_name}
@@ -203,6 +213,7 @@ def duplicates(cfgfile, s3server, s3bucket, upload, output, debug, summon, mille
     # returning the counts, if there is more than one, and the full urn's for thr duplicated
     # probably best done in pandas?
     ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
+    ctx.hasS3()
     path_to_run = path
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     paths = list()
@@ -211,7 +222,7 @@ def duplicates(cfgfile, s3server, s3bucket, upload, output, debug, summon, mille
     if milled:
         paths.extend(list(s3Minio.listPath(ctx.bucket, 'milled/', recursive=False)))
     for p in paths:
-        if path_to_run is not None and len(path_to_run) >0:
+        if path_to_run is not None and len(path_to_run) > 0:
             if path_to_run != p.object_name:
                 continue
         jsonlds = s3Minio.listPath(ctx.bucket, p.object_name)
@@ -259,7 +270,12 @@ def stats(cfgfile, s3server, s3bucket, upload, output, debug, source):
         if countSummon > 0:
             stats['summon']['repo'] |= {repo: countSummon}
             stats['summon']['total'] += countSummon
-    sys.stdout.write(json.dumps(stats, sort_keys = True, indent = 4))
+    res = json.dumps(stats, sort_keys = True, indent = 4)
+    sys.stdout.write(res)
+    if output:  # just append the json files to one filem, for now.
+        output.write(bytes(res, 'utf-8'))
+    if upload:
+        s3Minio.putReportFile(ctx.bucket, "all", "bucketutil_stats.json", res)
 
 @cli.command()
 @click.option('--path', help='Path to source',)
@@ -269,6 +285,7 @@ def stats(cfgfile, s3server, s3bucket, upload, output, debug, source):
 def cull(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, path):
     """ for a given url, find the sha of the file"""
     ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
+    ctx.hasS3()
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     utc = pytz.UTC
     path_to_run = path.strip("/")
