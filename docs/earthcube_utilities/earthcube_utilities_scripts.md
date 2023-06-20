@@ -80,12 +80,11 @@ Options:
 ## **bucketutil**
 ```Usage: bucketutil.py [OPTIONS] COMMAND [ARGS]...
 Options:
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
+  --cfgfile PATH          Gleaner config file
+  --s3server TEXT         S3 server address
+  --s3bucket TEXT         S3 bucket
+  --upload Boolean        Upload to s3 bucket. default True
+  --output FILENAME       Dump to file
   --help                  Show this message and exit.
 
 Commands:
@@ -101,14 +100,13 @@ Commands:
 Usage: bucketutil.py count [OPTIONS]
 
 Options:
-  --path TEXT             path to source, e.g. summoned/iris
-  --milled / --no-milled  include milled
-  --summon / --no-sommon  check summon only
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
+  --path TEXT             Path to source, e.g. summoned/iris
+  --milled Boolean        Include milled, default False
+  --summon Boolean        Check summon only, default True
+  --cfgfile PATH          Gleaner config file
+  --s3server TEXT         S3 server address
+  --s3bucket TEXT         S3 bucket
+  --upload Boolean        Upload to s3 bucket
   --output FILENAME       dump to file
   --help                  Show this message and exit.
 ```
@@ -116,202 +114,80 @@ Options:
 Usage: bucketutil.py urls [OPTIONS]
 
 Options:
-  --source TEXT           a repository
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
+  --source TEXT           A repository
+  --cfgfile PATH          Gleaner config file
+  --s3server TEXT         S3 server address
+  --s3bucket TEXT         S3 bucket
+  --graphendpoint TEXT    Graph endpoint
+  --upload Boolean        Upload to s3 bucket, default True
+  --output FILENAME       Dump to file
   --help                  Show this message and exit.
 ```
 ```
 Usage: bucketutil.py download [OPTIONS]
 
 Options:
-  --urn TEXT              one or more urns (--urn urna --urn urnb)
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
+  --urn TEXT              One or more urns (--urn a --urn b)
+  --cfgfile PATH          Gleaner config file
+  --s3server TEXT         S3 server address
+  --s3bucket TEXT         S3 bucket
+  --upload Boolean        Upload to s3 bucket, default True
+  --output FILENAME       Dump to file
   --help                  Show this message and exit.
 ```
 ```
 Usage: bucketutil.py sourceurl [OPTIONS]
 
 Options:
-  --url TEXT              the X-Amz-Meta-Url in metadata
-  --milled / --no-milled  include milled
-  --summon / --no-sommon  check summon only
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
+  --url TEXT              The X-Amz-Meta-Url in metadata
+  --milled Boolean        Include milled, default False
+  --summon Boolean        Check summon only, default True
+  --cfgfile PATH          Gleaner config file
+  --s3server TEXT         S3 server address
+  --s3bucket TEXT         S3 bucket
+  --upload Boolean        Upload to s3 bucket, default True
+  --output FILENAME       Dump to file
   --help                  Show this message and exit.
 ```
 ```
 Usage: bucketutil.py duplicates [OPTIONS]
 
 Options:
-  --path TEXT             path to source
-  --milled / --no-milled  include milled
-  --summon / --no-sommon  check summon only
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
+  --path TEXT             Path to source
+  --milled Boolean        Include milled, default False
+  --summon Boolean        Check summon only, default True
+  --cfgfile PATH          Gleaner config file
+  --s3server TEXT         S3 server address
+  --s3bucket TEXT         S3 bucket
+  --upload Boolean        Upload to s3 bucket, default True
+  --output FILENAME       Dump to file
   --help                  Show this message and exit.
 ```
 ```
 Usage: bucketutil.py stats [OPTIONS]
 
 Options:
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
+  --source TEXT           One or more sources (--source a --source b)
+  --cfgfile PATH          Gleaner config file
+  --s3server TEXT         S3 server address
+  --s3bucket TEXT         S3 bucket
+  --upload Boolean        Upload to s3 bucket, default True
+  --output FILENAME       Dump to file
   --help                  Show this message and exit.
 ```
 ```
 Usage: bucketutil.py cull [OPTIONS]
 
 Options:
-  --path TEXT             path to source
-  --milled / --no-milled  include milled
-  --summon / --no-sommon  check summon only
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
-  --help                  Show this message and exit.
-```
-
-## **bucketutil**
-```Usage: bucketutil.py [OPTIONS] COMMAND [ARGS]...
-Options:
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
-  --help                  Show this message and exit.
-
-Commands:
-  count
-  urls
-  download
-  sourceurl
-  duplicates
-  stats
-  cull
-```
-```
-Usage: bucketutil.py count [OPTIONS]
-
-Options:
-  --path TEXT             path to source, e.g. summoned/iris
-  --milled / --no-milled  include milled
-  --summon / --no-sommon  check summon only
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
-  --help                  Show this message and exit.
-```
-```
-Usage: bucketutil.py urls [OPTIONS]
-
-Options:
-  --source TEXT           a repository
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
-  --help                  Show this message and exit.
-```
-```
-Usage: bucketutil.py download [OPTIONS]
-
-Options:
-  --urn TEXT              one or more urns (--urn urna --urn urnb)
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
-  --help                  Show this message and exit.
-```
-```
-Usage: bucketutil.py sourceurl [OPTIONS]
-
-Options:
-  --url TEXT              the X-Amz-Meta-Url in metadata
-  --milled / --no-milled  include milled
-  --summon / --no-sommon  check summon only
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
-  --help                  Show this message and exit.
-```
-```
-Usage: bucketutil.py duplicates [OPTIONS]
-
-Options:
-  --path TEXT             path to source
-  --milled / --no-milled  include milled
-  --summon / --no-sommon  check summon only
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
-  --help                  Show this message and exit.
-```
-```
-Usage: bucketutil.py stats [OPTIONS]
-
-Options:
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
-  --help                  Show this message and exit.
-```
-```
-Usage: bucketutil.py cull [OPTIONS]
-
-Options:
-  --path TEXT             path to source
-  --milled / --no-milled  include milled
-  --summon / --no-sommon  check summon only
-  --cfgfile PATH          gleaner config file
-  --s3server TEXT         s3 server address
-  --s3bucket TEXT         s3 bucket
-  --graphendpoint TEXT    graph endpoint
-  --upload / --no-upload  upload to s3 bucket
-  --output FILENAME       dump to file
+  --path TEXT             Path to source
+  --milled Boolean        Include milled, default False
+  --summon Boolean        Check summon only, default True
+  --cfgfile PATH          Gleaner config file
+  --s3server TEXT         S3 server address
+  --s3bucket TEXT         S3 bucket
+  --graphendpoint TEXT    Graph endpoint
+  --upload Boolean        Upload to s3 bucket, default True
+  --output FILENAME       Dump to file
   --help                  Show this message and exit.
 ```
 
