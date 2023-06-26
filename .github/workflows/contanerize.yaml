@@ -1,4 +1,4 @@
-name: Dockerize  Flask
+name: Dockerize  Utilties
 on:
   push:
 
@@ -8,7 +8,7 @@ defaults:
   run:
     working-directory: .
 jobs:
-  deploy:
+  flask:
     name: Dockerize Flask
     runs-on: ubuntu-latest
     steps:
