@@ -222,6 +222,7 @@ def duplicates(cfgfile, s3server, s3bucket, upload, output, debug, summon, mille
         df['Example'] = df.apply(lambda f: f['Name'] + ', ' + str(f['Date']), axis=1)
         df = df.groupby(['Source', 'Url'], group_keys=True, dropna=False) \
             .agg({'Name': 'count', 'Example': lambda x: x.iloc[0:5].tolist()}).reset_index()
+        df = df.rename(columns={'Name': 'Duplicates'})
 
         res = df.to_csv(index=False)
         sys.stdout.write(res)
