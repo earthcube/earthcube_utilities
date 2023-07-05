@@ -206,6 +206,31 @@ class MinioDatastore(bucketDatastore):
         o_list = filter(lambda f: f.object_name != path, resp)
         return o_list
 
+    def listDuplicates(self, bucket, path, summoned, milled, include_user_meta=False, recursive=False):
+        path_to_run = path.strip("/")
+        paths = list()
+        dfs = pandas.DataFrame()
+        if summoned:
+            paths = list(self.listPath(bucket, "summoned/", include_user_meta=include_user_meta, recursive=recursive))
+        if milled:
+            paths.extend(list(self.listPath(bucket, "milled/", include_user_meta=include_user_meta, recursive=recursive)))
+        for p in paths:
+            if path_to_run is not None and len(path_to_run) > 0:
+                if path_to_run != p.object_name.strip("/"):
+                    continue
+            jsonlds = self.listPath(bucket, p.object_name)
+            objs = map(lambda f: self.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
+            o_list = list(map(lambda f: {'Source': p.object_name,
+                                    'Url': f.metadata.get('X-Amz-Meta-Url'),
+                                    'Name': f.object_name,
+                                    'Date': f.last_modified,
+                                    }, objs))
+            df = pandas.DataFrame(o_list)
+            df['Url Duplicates'] = df.groupby(['Source', 'Url'])['Name'].transform('count')
+            dfs = pandas.concat([dfs, df])
+        return dfs
+
+
     def countPath(self, bucket, path):
         count = len(list(self.listPath(bucket, path)))
         return count
