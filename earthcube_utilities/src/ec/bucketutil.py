@@ -101,7 +101,7 @@ def count(cfgfile, s3server, s3bucket, upload, output, debug, source, path):
     return
 
 @cli.command()
-@click.option('--source', help='A repository')
+@click.option('--source', help='A repository', required=True)
 @common_params
 def urls(cfgfile, s3server, s3bucket, upload, output, debug, source):
     """Retreive the URL harvested for a give bucket. T
@@ -110,21 +110,18 @@ def urls(cfgfile, s3server, s3bucket, upload, output, debug, source):
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     ctx.hasS3()
 
-    if source:
-        res = s3Minio.listSummonedUrls(ctx.bucket, source)
-        res = json.dumps(res, sort_keys=True, indent=4)
-        sys.stdout.write(res)
-        if output:  # just append the json files to one filem, for now.
-            log.info(f"report for {source} appended to file")
-            output.write(bytes(res, 'utf-8'))
-        if upload:
-            s3Minio.putReportFile(ctx.bucket, source, "bucketutil_urls.json", res)
-    else:
-        log.fatal("we need a source and a s3 endpoints")
+    res = s3Minio.listSummonedUrls(ctx.bucket, source)
+    res = pd.DataFrame(res).to_csv(index=False)
+    sys.stdout.write(res)
+    if output:
+        log.info(f"report for {source} appended to file")
+        output.write(bytes(res, 'utf-8'))
+    if upload:
+        s3Minio.putReportFile(ctx.bucket, source, "bucketutil_urls.csv", res)
     return
 
 @cli.command()
-@click.option('--urn', help='One or more urns (--urn a --urn b)', multiple=True)
+@click.option('--urn', help='One or more urns (--urn a --urn b)', multiple=True, required=True)
 @common_params
 def download(cfgfile, s3server, s3bucket, upload, output, debug, urn):
     """For a given URN(s), download the files and the Metadata"""
@@ -155,7 +152,7 @@ def download(cfgfile, s3server, s3bucket, upload, output, debug, urn):
     return
 
 @cli.command()
-@click.option('--url', help='the X-Amz-Meta-Url in metadata')
+@click.option('--url', help='the X-Amz-Meta-Url in metadata', required=True)
 @click.option('--milled', help='include milled', default=False)
 @click.option('--summon', help='include summon only', default=True)
 @common_params
@@ -195,12 +192,12 @@ def sourceurl(cfgfile, s3server, s3bucket, upload, output, debug, url, summon, m
             outFile.write(bytes(json.dumps(tags, indent=4), 'utf8'))
             outFile.close()
     else:
-        log.info(f"we don't find anythiing for url: ", url)
+        log.info(f"Nothing has been found for url: ", url)
     return
 
 
 @cli.command()
-@click.option('--path', help='Path to source',)
+@click.option('--path', help='Path to source', required=True)
 @click.option('--milled', help='include milled', default=False)
 @click.option('--summon', help='include summon', default=True)
 @common_params
@@ -216,7 +213,7 @@ def duplicates(cfgfile, s3server, s3bucket, upload, output, debug, summon, mille
     df = df[df['Url Duplicates'] > 1]
     try:
         if len(df) <= 0:
-            logging.info("No duplicate has been found")
+            logging.info(f"No duplicate has been found")
             return
 
         df['Example'] = df.apply(lambda f: f['Name'] + ', ' + str(f['Date']), axis=1)
