@@ -200,7 +200,7 @@ def sourceurl(cfgfile, s3server, s3bucket, upload, output, debug, url, summon, m
 
 
 @cli.command()
-@click.option('--path', help='Path to source',)
+@click.option('--path', help='Path to source', required=True)
 @click.option('--milled', help='include milled', default=False)
 @click.option('--summon', help='include summon', default=True)
 @common_params

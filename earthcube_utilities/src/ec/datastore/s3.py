@@ -1,4 +1,5 @@
 import json
+import logging
 from datetime import datetime
 from io import BytesIO
 
@@ -6,6 +7,7 @@ import minio
 import pandas
 import pydash
 from minio.commonconfig import CopySource, REPLACE
+from pydash import is_empty
 from pydash.collections import find
 
 def shaFroms3Path(path, extension=None):
@@ -207,6 +209,9 @@ class MinioDatastore(bucketDatastore):
         return o_list
 
     def listDuplicates(self, bucket, path, summoned, milled, include_user_meta=False, recursive=False):
+        if is_empty(path):
+            raise Exception("must provide a path")
+
         path_to_run = path.strip("/")
         paths = list()
         dfs = pandas.DataFrame()
@@ -218,13 +223,16 @@ class MinioDatastore(bucketDatastore):
             if path_to_run is not None and len(path_to_run) > 0:
                 if path_to_run != p.object_name.strip("/"):
                     continue
-            jsonlds = self.listPath(bucket, p.object_name)
-            objs = map(lambda f: self.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-            o_list = list(map(lambda f: {'Source': p.object_name,
-                                    'Url': f.metadata.get('X-Amz-Meta-Url'),
-                                    'Name': f.object_name,
-                                    'Date': f.last_modified,
-                                    }, objs))
+            try:
+                jsonlds = self.listPath(bucket, p.object_name)
+                objs = map(lambda f: self.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
+                o_list = list(map(lambda f: {'Source': p.object_name,
+                                             'Url': f.metadata.get('X-Amz-Meta-Url'),
+                                             'Name': f.object_name,
+                                             'Date': f.last_modified,
+                                             }, objs))
+            except Exception as e:
+                logging.error(e)
             df = pandas.DataFrame(o_list)
             df['Url Duplicates'] = df.groupby(['Source', 'Url'])['Name'].transform('count')
             dfs = pandas.concat([dfs, df])
