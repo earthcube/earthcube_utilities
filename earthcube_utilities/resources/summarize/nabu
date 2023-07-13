@@ -13,7 +13,7 @@ objects:
         - org
     prefixoff: []
 sparql:
-    endpoint: https://graph.geodex.org/blazegraph/namespace/earthcube/sparql
+    endpoint: https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/earthcube/sparql
     authenticate: false
     username: ""
     password: ""
