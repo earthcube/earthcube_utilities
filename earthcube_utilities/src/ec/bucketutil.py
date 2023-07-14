@@ -208,10 +208,13 @@ def duplicates(cfgfile, s3server, s3bucket, upload, output, debug, summon, mille
     ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     ctx.hasS3()
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
-
     df = s3Minio.listDuplicates(ctx.bucket, path, summon, milled)
-    df = df[df['Url Duplicates'] > 1]
     try:
+        if len(df) <= 0:
+            logging.info(f"No object has been found")
+            return
+
+        df = df[df['Url Duplicates'] > 1]
         if len(df) <= 0:
             logging.info(f"No duplicate has been found")
             return
@@ -276,10 +279,13 @@ def cull(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, pat
     ctx.hasS3()
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     utc = pytz.UTC
-
     df = s3Minio.listDuplicates(ctx.bucket, path, summon, milled)
-    df = df[df['Url Duplicates'] > 1]
     try:
+        if len(df) <= 0:
+            logging.info(f"No object has been found")
+            return
+
+        df = df[df['Url Duplicates'] > 1]
         if len(df) <= 0:
             logging.info(f" Nothing to cull")
             return
