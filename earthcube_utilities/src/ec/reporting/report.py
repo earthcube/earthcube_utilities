@@ -266,5 +266,20 @@ def listGraphReportDates4Repo(repo,  datastore: bucketDatastore):
     filelist = datastore.listPath(path)
     return filelist
 
+def generateIdentifierRepo(repo, bucket, datastore: bucketDatastore):
+    jsonlds = datastore.listJsonld(bucket, repo, include_user_meta=True)
+    objs = map(lambda f: datastore.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
+    o_list = list(map(lambda f: {'Source': repo,
+                                 'Identifiertype': f.metadata.get('X-Amz-Meta-Identifiertype'),
+                                 'Matchedpath': f.metadata.get('X-Amz-Meta-Matchedpath'),
+                                 'Uniqueid': f.metadata.get('X-Amz-Meta-Uniqueid'),
+                                 'Example': f.metadata.get('X-Amz-Meta-Uniqueid')
+                                 }, objs))
+    df = pandas.DataFrame(o_list)
+    identifier_stats = df.groupby(['Source', 'Identifiertype', 'Matchedpath'], group_keys=True, dropna=False) \
+        .agg({'Uniqueid': 'count', 'Example': lambda x: x.iloc[0:5].tolist()}).reset_index()
+    return identifier_stats
+
+
 
 
