@@ -12,12 +12,12 @@ gleaner:
 millers:
     graph: true
 minio:
-    address: oss.geocodes-aws.earthcube.org
+    address: oss.geocodes-aws-dev.earthcube.org
     port: 443
     ssl: true
     accesskey: worldsbestaccesskey
     secretkey: worldsbestsecretkey
-    bucket: gleaner-wf
+    bucket: test
 sources:
     - sourcetype: sitemap
       name: geocodes_demo_datasets
