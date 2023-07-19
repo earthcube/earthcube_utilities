@@ -5,10 +5,8 @@ import json
 import sys
 from pydash.collections import find
 from pydash import is_empty
-import pandas as pd
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
-from ec.reporting.report import missingReport
-from ec.reporting.report import  generateGraphReportsRepo, reportTypes
+from ec.reporting.report import generateGraphReportsRepo, reportTypes, missingReport, generateIdentifierRepo
 from ec.datastore import s3
 from ec.logger import config_app
 
@@ -188,19 +186,8 @@ def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
         sources = list(filter(lambda source: source.get('active'), sources))
         sources = list(map(lambda r: r.get('name'), sources))
     for repo in sources:
-        jsonlds = s3Minio.listJsonld(bucket, repo, include_user_meta=True)
-        objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-        o_list = list(map(lambda f: {'Source': repo,
-                                     'Identifiertype': f.metadata.get('X-Amz-Meta-Identifiertype'),
-                                     'Matchedpath': f.metadata.get('X-Amz-Meta-Matchedpath'),
-                                     'Uniqueid': f.metadata.get('X-Amz-Meta-Uniqueid'),
-                                     'Example': f.metadata.get('X-Amz-Meta-Uniqueid')
-                                     }, objs))
-
-        df = pd.DataFrame(o_list)
         try:
-            identifier_stats = df.groupby(['Source', 'Identifiertype', 'Matchedpath'], group_keys=True, dropna=False)\
-                .agg({'Uniqueid': 'count', 'Example': lambda x: x.iloc[0:5].tolist()}).reset_index()
+            identifier_stats = generateIdentifierRepo(repo, bucket, s3Minio)
             if json:
                 o = identifier_stats.to_json(orient='records', indent=2)
             else:
