@@ -293,8 +293,8 @@ def cull(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, pat
         df = df[df['Date'] < utc.localize(datetime.datetime.now() - datetime.timedelta(days=7))]
         removeObjectList = df.get('Name').values.tolist()
         for r in removeObjectList:
-            s3Minio.removeObject(ctx.bucket, r)
-            logging.info('Removed object: ', r)
+            s3Minio.removeObject(ctx.bucket, str(r))
+            logging.info('Removed object: ' + str(r))
     except Exception as e:
         logging.info(e)
     return
