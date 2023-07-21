@@ -150,10 +150,10 @@ Options:
   --help                  Show this message and exit.
 ```
 ```
-Usage: bucketutil.py duplicatesUrl [OPTIONS]
+Usage: bucketutil.py duplicateurls [OPTIONS]
 
 Options:
-  --path TEXT             Path to source
+  --source TEXT           One or more sources (--source a --source b)
   --cfgfile PATH          Gleaner config file
   --s3server TEXT         S3 server address
   --s3bucket TEXT         S3 bucket
@@ -174,10 +174,10 @@ Options:
   --help                  Show this message and exit.
 ```
 ```
-Usage: bucketutil.py cullUrl [OPTIONS]
+Usage: bucketutil.py cullurls [OPTIONS]
 
 Options:
-  --path TEXT             Path to source
+  --source TEXT           One or more sources (--source a --source b)
   --cfgfile PATH          Gleaner config file
   --s3server TEXT         S3 server address
   --s3bucket TEXT         S3 bucket

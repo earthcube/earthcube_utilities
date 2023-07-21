@@ -208,18 +208,16 @@ class MinioDatastore(bucketDatastore):
         o_list = filter(lambda f: f.object_name != path, resp)
         return o_list
 
-    def listDuplicates(self, bucket, path, include_user_meta=False, recursive=False):
-        if is_empty(path):
-            raise Exception("must provide a path")
+    def listDuplicateUrls(self, bucket, sources, include_user_meta=False, recursive=False):
+        if is_empty(sources):
+            raise Exception("must provide sources")
 
-        path_to_run = path.strip("/")
-        paths = list()
+        sources_to_run = sources
         dfs = pandas.DataFrame()
         paths = list(self.listPath(bucket, "summoned/", include_user_meta=include_user_meta, recursive=recursive))
         for p in paths:
-            if path_to_run is not None and len(path_to_run) > 0:
-                if path_to_run != p.object_name.strip("/"):
-                    continue
+            if not find(sources_to_run, lambda x: f"{self.paths.get('summon')}/{x}/" == p.object_name):
+                continue
             try:
                 jsonlds = self.listPath(bucket, p.object_name)
                 objs = map(lambda f: self.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
