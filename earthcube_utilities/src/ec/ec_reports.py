@@ -126,19 +126,25 @@ def graph_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug
         s3Minio = s3.MinioDatastore(s3server, None)
     """query an endpoint, store results as a json file in an s3 store"""
     log.info(f"Querying {graphendpoint} for graph statisitcs  ")
+    if source:
+        sources = source
+    else:
+        sources = getSitemapSourcesFromGleaner(cfgfile)
+        sources = list(filter(lambda source: source.get('active'), sources))
+        sources = list(map(lambda r: r.get('name'), sources))
 ### more work needed before detailed works
     if "all" in source:
         if detailed:
             report_json = generateGraphReportsRepo("all", graphendpoint, reportList=reportTypes["all_detailed"])
         else:
             report_json = generateGraphReportsRepo("all", graphendpoint,reportList=reportTypes["all"])
-            if output:  # just append the json files to one filem, for now.
-                log.info(f" report for ALL appended to file")
-                output.write(report_json)
-            if upload:
-                bucketname, objectname = s3Minio.putReportFile(s3bucket, "all", "graph_report.json", report_json)
+        if output:  # just append the json files to one filem, for now.
+            log.info(f" report for ALL appended to file")
+            output.write(report_json)
+        if upload:
+            bucketname, objectname = s3Minio.putReportFile(s3bucket, "all", "graph_report.json", report_json)
     else:
-        for s in source:
+        for s in sources:
             if detailed:
                 report_json = generateGraphReportsRepo(s, graphendpoint, reportList=reportTypes["repo_detailed"])
             else:
