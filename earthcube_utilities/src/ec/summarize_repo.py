@@ -12,47 +12,16 @@ from ec.gleanerio.gleaner import endpointUpdateNamespace, getNabu, reviseNabuCon
 from urllib.parse import urlparse
 
 
-# def endpointUpdateNamespace( fullendpoint, namepsace='temp'):
-#     paths = fullendpoint.split('/')
-#     paths[len(paths)-2] = namepsace
-#     newurl= '/'.join(paths)
-#     return newurl
-#
-# def getNabu( cfgfile):
-#     cfg = yaml.safe_load(cfgfile)
-#     endpoint = cfg['sparql']['endpoint']
-#     return endpoint, cfg
-#
-# def reviseNabuConf(cfg, endpoint):
-#     newcfg = copy.deepcopy(cfg)
-#     newcfg['sparql']['endpoint'] = endpoint
-#     return newcfg
-#
-# def runNabu(cfg, repo,glcon="~/indexing/glcon"):
-#     if shutil.which(glcon) is not None:
-#         filename = f"nabu_{repo}" # avoid possible naming conflicts
-#         with open(filename, 'w') as f:
-#             yaml.dump(cfg, f)
-#         executeNabu = f"{glcon} nabu prefix --cfg {filename} --prefix summoned/{repo}"
-#         try:
-#             result = os.system(executeNabu)
-#             if result != 0:
-#                 raise Exception(f"running glcon failed {result}")
-#         except Exception as ex:
-#             raise Exception(f"running glcon failed {ex}")
-#         # delete config file here
-#         return True
-#     else:
-#         raise Exception(f"glcon not found at {glcon}. Pass path to glcon with --glcon")
+
 def dumpToFile(repo,summaryttl ):
-    filename = f"{repo}.ttl"
+    filename = os.path.join("output", f"{repo}.ttl")
     if not os.path.exists(os.path.dirname(filename)):
         try:
             os.makedirs(os.path.dirname(filename))
         except OSError as exc:  # Guard against race condition
             if exc.errno != errno.EEXIST:
                 raise
-    with open(os.path.join("output", f"{repo}.ttl"), 'w') as f:
+    with open(filename, 'w') as f:
         f.write(summaryttl)
     return
 def isValidURL(toValidate):
@@ -62,17 +31,7 @@ def isValidURL(toValidate):
     else:
         return False
 
-def dumpToFile(repo,summaryttl ):
-    filename = f"{repo}.ttl"
-    if not os.path.exists(os.path.dirname(filename)):
-        try:
-            os.makedirs(os.path.dirname(filename))
-        except OSError as exc:  # Guard against race condition
-            if exc.errno != errno.EEXIST:
-                raise
-    with open(os.path.join("output", f"{repo}.ttl"), 'w') as f:
-        f.write(summaryttl)
-    return
+
 def summarizeRepo():
     """ Summarize a repository using a temporary graph namespace
 
@@ -130,6 +89,7 @@ def summarizeRepo():
         summaryendpoint =endpointUpdateNamespace(endpoint,summary)
         newNabucfg = reviseNabuConfGraph(cfg, tempendpoint)
         runNabu(newNabucfg,repo, args.glcon )
+
         summarydf = get_summary4repo(tempendpoint)
         nt,g = summaryDF2ttl(summarydf,repo) # let's try the new generator
         summaryttl = g.serialize(format='longturtle')
@@ -140,8 +100,8 @@ def summarizeRepo():
             if inserted:
                 logging.info(f"Inserted into graph store{sumnsgraph.namespace}" )
             else:
-                logging.error(f" dumping file {repo}.ttl  Repo {repo} not inserted into {sumnsgraph.namespace}")
-                dumpToFile(repo, summaryttl)
+                logging.error(f" dumping file {repo}_dumped.ttl  Repo {repo} not inserted into {sumnsgraph.namespace}")
+                dumpToFile(f"{repo}_dumped", summaryttl)
                 return 1
     except Exception as ex:
         logging.error(f"error {ex}")
@@ -152,9 +112,9 @@ def summarizeRepo():
         if not args.graphtemp :
             logging.debug(f"Deleting Temp namespace {tempnsgraph.namespace}")
             deleted = tempnsgraph.deleteNamespace()
-
+        return 0
 
 if __name__ == '__main__':
-
+    logging.info("Not Ready")
     exitcode= summarizeRepo()
     exit(exitcode)

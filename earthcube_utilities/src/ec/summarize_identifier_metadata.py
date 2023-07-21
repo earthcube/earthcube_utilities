@@ -1,13 +1,10 @@
 import argparse
 import logging
 import sys
-
-from pydash.collections import find
 from pydash import is_empty
-import pandas as pd
-
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
 from ec.datastore import s3
+from ec.reporting.report import generateIdentifierRepo
 
 def summarizeIdentifierMetadata(args):
     if (args.cfgfile):
@@ -34,10 +31,6 @@ def summarizeIdentifierMetadata(args):
     logging.info(f" s3server: {s3server} bucket:{bucket}")
 
     s3Minio = s3.MinioDatastore(s3server, None)
-    #sources = getSitemapSourcesFromGleaner(args.cfgfile)
-    # sources = list(filter(lambda source: source.get('active'), sources))
-    # sources = list(map(lambda r: r.get('name'), sources))
-    # repos = args.source
     if args.source:
         sources = args.source
     else:
@@ -45,22 +38,8 @@ def summarizeIdentifierMetadata(args):
         sources = list(filter(lambda source: source.get('active'), sources))
         sources = list(map(lambda r: r.get('name'), sources))
     for repo in sources:
-        # if repos is not None and len(repos) >0:
-        #     if not find (repos , lambda x: x == repo ):
-        #         continue
-        jsonlds = s3Minio.listJsonld(bucket, repo, include_user_meta=True)
-        objs = map(lambda f: s3Minio.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-        o_list = list(map(lambda f: {'Source': repo,
-                                     'Identifiertype': f.metadata.get('X-Amz-Meta-Identifiertype'),
-                                     'Matchedpath': f.metadata.get('X-Amz-Meta-Matchedpath'),
-                                     'Uniqueid': f.metadata.get('X-Amz-Meta-Uniqueid'),
-                                     'Example': f.metadata.get('X-Amz-Meta-Uniqueid')
-                                     }, objs))
-
-        df = pd.DataFrame(o_list)
         try:
-            identifier_stats = df.groupby(['Source', 'Identifiertype', 'Matchedpath'], group_keys=True, dropna=False)\
-                .agg({'Uniqueid': 'count', 'Example':lambda x: x.iloc[0:5].tolist()}).reset_index()
+            identifier_stats = generateIdentifierRepo(repo, bucket, s3Minio)
             if args.json:
                 o = identifier_stats.to_json(orient='records', indent=2)
             else:

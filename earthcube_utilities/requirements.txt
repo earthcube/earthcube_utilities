@@ -15,3 +15,5 @@ jsonschema
 pydash
 advertools
 pandarallel
+argparse
+logging

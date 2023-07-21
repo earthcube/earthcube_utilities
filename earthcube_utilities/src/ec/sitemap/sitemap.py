@@ -12,7 +12,6 @@ from pandas import DataFrame
 import requests, sys, os
 import yaml
 from pandas.core.arrays import ExtensionArray
-from tqdm import tqdm
 
 def _urlExists(sitemapurl):
     try:
