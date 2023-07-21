@@ -150,12 +150,10 @@ Options:
   --help                  Show this message and exit.
 ```
 ```
-Usage: bucketutil.py duplicates [OPTIONS]
+Usage: bucketutil.py duplicatesUrl [OPTIONS]
 
 Options:
   --path TEXT             Path to source
-  --milled Boolean        Include milled, default False
-  --summon Boolean        Check summon only, default True
   --cfgfile PATH          Gleaner config file
   --s3server TEXT         S3 server address
   --s3bucket TEXT         S3 bucket
@@ -176,12 +174,10 @@ Options:
   --help                  Show this message and exit.
 ```
 ```
-Usage: bucketutil.py cull [OPTIONS]
+Usage: bucketutil.py cullUrl [OPTIONS]
 
 Options:
   --path TEXT             Path to source
-  --milled Boolean        Include milled, default False
-  --summon Boolean        Check summon only, default True
   --cfgfile PATH          Gleaner config file
   --s3server TEXT         S3 server address
   --s3bucket TEXT         S3 bucket

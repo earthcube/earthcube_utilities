@@ -198,17 +198,15 @@ def sourceurl(cfgfile, s3server, s3bucket, upload, output, debug, url, summon, m
 
 @cli.command()
 @click.option('--path', help='Path to source', required=True)
-@click.option('--milled', help='include milled', default=False)
-@click.option('--summon', help='include summon', default=True)
 @common_params
-def duplicates(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, path):
+def duplicatesurl(cfgfile, s3server, s3bucket, upload, output, debug, path):
     """ Find Possible Duplicates based on the URL that was used to summon JSONLD.
     Note, the may be ok, if a given URL has more than one JSONLD in the HTML.
     """
     ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     ctx.hasS3()
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
-    df = s3Minio.listDuplicates(ctx.bucket, path, summon, milled)
+    df = s3Minio.listDuplicates(ctx.bucket, path)
     try:
         if len(df) <= 0:
             logging.info(f"No object has been found")
@@ -270,16 +268,14 @@ def stats(cfgfile, s3server, s3bucket, upload, output, debug, source):
 
 @cli.command()
 @click.option('--path', help='Path to source',)
-@click.option('--milled', help='include milled', default=False)
-@click.option('--summon', help='include summon', default=True)
 @common_params
-def cull(cfgfile, s3server, s3bucket, upload, output, debug, summon, milled, path):
+def cullurl(cfgfile, s3server, s3bucket, upload, output, debug, path):
     """ for a given url, find the sha of the file"""
     ctx = EcConfig(cfgfile, s3server, s3bucket, upload, output, debug)
     ctx.hasS3()
     s3Minio = s3.MinioDatastore(ctx.s3server, None)
     utc = pytz.UTC
-    df = s3Minio.listDuplicates(ctx.bucket, path, summon, milled)
+    df = s3Minio.listDuplicates(ctx.bucket, path)
     try:
         if len(df) <= 0:
             logging.info(f"No object has been found")

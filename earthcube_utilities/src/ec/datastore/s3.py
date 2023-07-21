@@ -208,17 +208,14 @@ class MinioDatastore(bucketDatastore):
         o_list = filter(lambda f: f.object_name != path, resp)
         return o_list
 
-    def listDuplicates(self, bucket, path, summoned, milled, include_user_meta=False, recursive=False):
+    def listDuplicates(self, bucket, path, include_user_meta=False, recursive=False):
         if is_empty(path):
             raise Exception("must provide a path")
 
         path_to_run = path.strip("/")
         paths = list()
         dfs = pandas.DataFrame()
-        if summoned:
-            paths = list(self.listPath(bucket, "summoned/", include_user_meta=include_user_meta, recursive=recursive))
-        if milled:
-            paths.extend(list(self.listPath(bucket, "milled/", include_user_meta=include_user_meta, recursive=recursive)))
+        paths = list(self.listPath(bucket, "summoned/", include_user_meta=include_user_meta, recursive=recursive))
         for p in paths:
             if path_to_run is not None and len(path_to_run) > 0:
                 if path_to_run != p.object_name.strip("/"):
