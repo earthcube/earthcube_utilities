@@ -17,7 +17,7 @@ minio:
     ssl: true
     accesskey: worldsbestaccesskey
     secretkey: worldsbestsecretkey
-    bucket: gleaner
+    bucket: test
 sources:
     - sourcetype: sitemap
       name: geocodes_demo_datasets

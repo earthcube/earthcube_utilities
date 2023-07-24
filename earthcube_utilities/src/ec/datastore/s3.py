@@ -1,4 +1,5 @@
 import json
+import logging
 from datetime import datetime
 from io import BytesIO
 
@@ -6,6 +7,7 @@ import minio
 import pandas
 import pydash
 from minio.commonconfig import CopySource, REPLACE
+from pydash import is_empty
 from pydash.collections import find
 
 def shaFroms3Path(path, extension=None):
@@ -42,6 +44,7 @@ class bucketDatastore():
         pass
     def countPath(self, bucket, path):
         count = len(list(self.listPath(bucket,path)))
+        return count
 
     def DataframeFromPath(self, bucket, path, include_user_meta=False):
         pass
@@ -69,7 +72,7 @@ class bucketDatastore():
     #### Methods for a getting information using infrastructure information
 
     """ Method for gleaner store"""
-    def listJsonld(self,bucket, repo,include_user_meta=False):
+    def listJsonld(self,bucket, repo, include_user_meta=False):
         """ urllist returns list of urn;s with urls"""
         # include user meta not working.
         path = f"{self.paths['summon']}/{repo}/"
@@ -85,14 +88,14 @@ class bucketDatastore():
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
 
+
     def listSummonedUrls(self,bucket, repo):
         """  returns list of urns with urls"""
         jsonlds = self.listJsonld(bucket, repo, include_user_meta=True)
         objs = map(lambda f: self.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-        # for ob in objs:
-        #     print(ob)
         o_list = list(map(lambda f: {"sha": shaFroms3Path(f.object_name), "url": f.metadata["X-Amz-Meta-Url"]}, objs))
         return o_list
+
     def listSummonedSha(self,bucket, repo):
         """  returns list of urns with urls"""
         jsonlds = self.listJsonld(bucket, repo, include_user_meta=False)
@@ -198,13 +201,42 @@ class MinioDatastore(bucketDatastore):
         self.s3client  =minio.Minio(s3endpoint) # this will neeed to be fixed with authentication
 
 
-    def listPath(self, bucket, path, include_user_meta=False):
+    def listPath(self, bucket, path, include_user_meta=False, recursive=True):
         """ returns the filelist for a path with the starting path removed from the list"""
-        resp = self.s3client.list_objects(bucket, path, include_user_meta=include_user_meta)
+        resp = self.s3client.list_objects(bucket, path, include_user_meta=include_user_meta, recursive=recursive)
         # the returned list includes the path
-        #o_list = list(resp)
         o_list = filter(lambda f: f.object_name != path, resp)
         return o_list
+
+    def listDuplicateUrls(self, bucket, sources, include_user_meta=False, recursive=False):
+        if is_empty(sources):
+            raise Exception("must provide sources")
+
+        sources_to_run = sources
+        dfs = pandas.DataFrame()
+        paths = list(self.listPath(bucket, "summoned/", include_user_meta=include_user_meta, recursive=recursive))
+        for p in paths:
+            if not find(sources_to_run, lambda x: f"{self.paths.get('summon')}/{x}/" == p.object_name):
+                continue
+            try:
+                jsonlds = self.listPath(bucket, p.object_name)
+                objs = map(lambda f: self.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
+                o_list = list(map(lambda f: {'Source': p.object_name,
+                                             'Url': f.metadata.get('X-Amz-Meta-Url'),
+                                             'Name': f.object_name,
+                                             'Date': f.last_modified,
+                                             }, objs))
+            except Exception as e:
+                logging.error(e)
+            df = pandas.DataFrame(o_list)
+            df['Url Duplicates'] = df.groupby(['Source', 'Url'])['Name'].transform('count')
+            dfs = pandas.concat([dfs, df])
+        return dfs
+
+
+    def countPath(self, bucket, path):
+        count = len(list(self.listPath(bucket, path)))
+        return count
 
     def getFileFromStore(self, s3ObjectInfo):
         """ get an s3 file from teh store
@@ -233,9 +265,12 @@ class MinioDatastore(bucketDatastore):
                  s3ObjectInfo: {"bucket_name":obj.bucket_name, "object_name":obj.object_name }
 
                """
-        s3obj = self.s3client.stat_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name)
-        for o in s3obj:
-            user_meta = pydash.collections.filter_(o,lambda m: m.startswith("X-Amz-Meta") )
+        s3obj = self.s3client.stat_object(s3ObjectInfo.get('bucket_name'), s3ObjectInfo.get('object_name'))
+        md = s3obj.metadata
+        user_meta = list()
+        for o in md:
+            if o.startswith("X-Amz-Meta"):
+               user_meta.append({"name": o, "value": md[o]})
         # this needs to return the metadata
         return user_meta
 
@@ -274,3 +309,6 @@ class MinioDatastore(bucketDatastore):
         crate = self.s3client.get_object(bucket, path)
         return crate
 
+    def removeObject(self, bucket, path):
+        self.s3client.remove_object(bucket, path)
+        return

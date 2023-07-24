@@ -39,9 +39,8 @@ check_sitemap = "ec.check_sitemap:start"
 query_graph = "ec.query_graph:start"
 missing_report = "ec.missing_report:start"
 summarize_identifier_metadata = "ec.summarize_identifier_metadata:start"
-summarize_from_repo = "ec.summarize_repo:summarizeRepo"
-summarize_from_graph = "ec.summarize_from_graph_namespace:summarizeGraphOnly"
-summarize_from_release = "ec.summarize_from_release:summarizeReleaseOnly"
+ec_reports = "ec.ec_reports:start"
+bucketutil = "ec.bucketutil:start"
 
 [tool.setuptools]
 # If there are data files included in your packages that need to be
