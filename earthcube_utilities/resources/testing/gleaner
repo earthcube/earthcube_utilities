@@ -88,8 +88,8 @@ sources:
     - sourcetype: sitemap
       name: opentopography
       logo: https://opentopography.org/sites/opentopography.org/files/ot_transp_logo_2.png
-     # url: https://portal.opentopography.org/sitemap.xml
-      url: https://opentopography.org/sitemap.xml
+      url: https://portal.opentopography.org/sitemap.xml
+      #url: https://opentopography.org/sitemap.xml
       headless: false
       pid: https://www.re3data.org/repository/r3d100010655
       propername: OpenTopography

@@ -24,7 +24,11 @@ different method
 """
 class bucketDatastore():
     endpoint = "http://localhost:9000" # basically minio
-    options = {}
+    options = {secure:True,
+               region: 'us-west-2',
+               access_key: None,
+               secret_key: None
+               }
     default_bucket="gleaner"
     paths = {"report":"reports",
              "summon": "summoned",
@@ -198,7 +202,8 @@ class MinioDatastore(bucketDatastore):
         self.endpoint = s3endpoint
         self.options = options
         self.default_bucket= default_bucket
-        self.s3client  =minio.Minio(s3endpoint) # this will neeed to be fixed with authentication
+
+        self.s3client  =minio.Minio(s3endpoint, *options ) # this will neeed to be fixed with authentication
 
 
     def listPath(self, bucket, path, include_user_meta=False, recursive=True):
