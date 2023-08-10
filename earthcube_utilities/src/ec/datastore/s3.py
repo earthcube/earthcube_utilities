@@ -24,10 +24,10 @@ different method
 """
 class bucketDatastore():
     endpoint = "http://localhost:9000" # basically minio
-    options = {secure:True,
-               region: 'us-west-2',
-               access_key: None,
-               secret_key: None
+    options = {"secure":True,
+               "region": 'us-west-2',
+               "access_key": None,
+               "secret_key": None
                }
     default_bucket="gleaner"
     paths = {"report":"reports",
