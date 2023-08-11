@@ -192,7 +192,7 @@ different method
 """
 class MinioDatastore(bucketDatastore):
     """ Instance of a minio datastore with utility methods to retreive information"""
-    def __init__(self, s3endpoint, options,default_bucket="gleaner"):
+    def __init__(self, s3endpoint, options={},default_bucket="gleaner"):
         """ Initilize with
         Parameters:
             s3endpoint: endpoint. If this is aws, include the region. eg s3.us-west-2.amazon....
