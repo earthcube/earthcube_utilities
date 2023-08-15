@@ -56,7 +56,11 @@ def get_summary4repoSubset(endpoint: str, repo : str) -> pandas.DataFrame:
 
 ###
 # from dataframe
+
+# need a from release flag for rdflib terms ...
+# (rdflib.term.Variable('datep'), None) (rdflib.term.Variable('description'), rdflib.term.Literal('Global stacks of up to a million event-windowed seismograms using short-term to long-term averages (STA/LTA) in different frequency bands for vertical broadband data (1990-2012) available from the IRIS DMC.  Long period versions include vertical and horizontal component data.\r\n')) (rdflib.term.Variable('g'), rdflib.term.URIRef('urn:ec-geocodes:iris:7c61b564beb0be54aca8085c1d0a3b311ffe0cbb')) (rdflib.term.Variable('kw'), rdflib.term.Literal('seismic,seismology,geophysics,globalstacks')) (rdflib.term.Variable('name'), rdflib.term.Literal('Global stacks of millions of seismograms')) (rdflib.term.Variable('placenames'), rdflib.term.Literal('No spatialCoverage')) (rdflib.term.Variable('pubname'), None) (rdflib.term.Variable('resourceType'), rdflib.term.URIRef('https://schema.org/Dataset')) (rdflib.term.Variable('sosType'), rdflib.term.URIRef('https://schema.org/Dataset')) (rdflib.term.Variable...
 ####
+
 def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], Graph]:
     "summarize sparql query returns turtle string and rdf lib Graph"
     urns = {}
@@ -74,7 +78,7 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], G
 
     for index, row in df.iterrows():
         logging.debug(f'dbg:{row}')
-        gu=df["g"][index]
+        gu=row["g"]  # df["g"][index]
         graph_subject = URIRef(gu)
         #skip the small %of dups, that even new get_summary.txt * has
         if not urns.get(gu):
