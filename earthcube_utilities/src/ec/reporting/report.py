@@ -8,6 +8,7 @@ import pandas
 import pydash
 
 import ec.sitemap
+from ec.graph.release_graph import ReleaseGraph
 from ec.graph.sparql_query import queryWithSparql
 
 from ec.datastore.s3 import MinioDatastore, bucketDatastore
@@ -30,7 +31,7 @@ Reports
 *** sitemap count
 *** summoned count ec.datastore.s3.countJsonld
 *** milled count ec.datastore.s3.countMilled
-*** graph count repo_count_graphs.sparql ec.graph.sparql_query.queryWithSparql("repo_count_graphs", graphendpoint, parameters={"repo": repo})
+*** graph count repo_count_graphs.sparql ec.graph.sparql_query.queryWithSparql("repo_count_graphs", release_file, parameters={"repo": repo})
 *** when processing details is working, then add counts of  was summoned but did not make it into the graph
 
 * PROCESSING REPORT DETAILS:
@@ -47,7 +48,7 @@ Reports
 # will need to do a list(map(lambda , collection) to get a list of urls.
 o_list = list(map(lambda f: ec.datastore.s3.urnFroms3Path(f.object_name), objs))
 **** milled ids: ec.datastore.s3.listMilledRdf
-**** graph ids:  ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, parameters={"repo": repo})
+**** graph ids:  ec.graph.sparql_query.queryWithSparql("repo_select_graphs", release_file, parameters={"repo": repo})
 
 ***** suggest compare using pydash, or use pandas...
 then look up the urls' using: ec.datastore.s3.getJsonLDMetadata
@@ -145,7 +146,7 @@ def compareSummoned2Graph(bucket, repo, datastore: bucketDatastore, graphendpoin
     """ return list of missing .
     we do not alway generate a milled.
     """
-    # compare using s3, listJsonld(bucket, repo) to queryWithSparql("repo_select_graphs", graphendpoint)
+    # compare using s3, listJsonld(bucket, repo) to queryWithSparql("repo_select_graphs", release_file)
     summoned_list = datastore.listSummonedSha(bucket, repo)
     graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs",graphendpoint,{"repo":repo})
     graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns['g']))
@@ -220,6 +221,34 @@ def _get_report_type(reports, code) -> str:
     report = pydash.find(reports, lambda r: r["code"] == code)
     return report["name"]
 
+def generateGraphReportsRelease(repo,  release_file, reportList=reportTypes["all"]) -> Any:
+    #queryWithSparql("repo_count_types", release_file)
+    parameters = {"repo": repo}
+    current_dateTime = datetime.now().strftime("%Y-%m-%d")
+    rg = ReleaseGraph()
+    rg.load_release(release_file)
+    reports= []
+    for report in reportList:
+        try:
+            t = time.time()
+            result =  rg.query_release(template_name=report["name"],parameters=parameters)
+            elapsed_time = time.time() - t
+            data = result.to_dict('records')
+            reports.append(  {"report": report["code"],
+                     "processing_time": elapsed_time,
+                     "length": len(data),
+             "data": data
+             })
+        except Exception as ex:
+            logging.error(f"query with sparql against release failed: report:{report['code']}  repo:{repo}   {ex}")
+            elapsed_time = time.time() - t
+            reports.append( {"report": report["code"],
+                    "errpr": f"{ex}",
+                     "processing_time": elapsed_time,
+             "data": []
+             })
+    return json.dumps({"version": 0, "repo": repo, "date": current_dateTime, "reports": reports }, indent=4)
+
 ##  for the 'object reports, we should have a set.these could probably be make a set of methos with (ObjectType[triples,keywords, types, authors, etc], repo, endpoint/datastore)
 def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"]) -> str:
     current_dateTime = datetime.now().strftime("%Y-%m-%d")
@@ -233,7 +262,7 @@ def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"])
 
 
 def generateAGraphReportsRepo(repo, r, graphendpoint, reportList) -> Any:
-    #queryWithSparql("repo_count_types", graphendpoint)
+    #queryWithSparql("repo_count_types", release_file)
     parameters = {"repo": repo}
     try:
         t = time.time()

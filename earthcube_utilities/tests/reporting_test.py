@@ -5,7 +5,7 @@ from approvaltests import verify, verify_as_json
 from ec.datastore.s3 import MinioDatastore
 
 import ec.reporting.report
-from ec.reporting.report import generateAGraphReportsRepo, generateGraphReportsRepo
+from ec.reporting.report import generateAGraphReportsRepo, generateGraphReportsRepo, generateGraphReportsRelease
 
 # shortened list of report types for testing
 reportTypes ={
@@ -15,7 +15,12 @@ reportTypes ={
     "repo":[
         {"code":"kw_count", "name": "repo_count_keywords"},
 {"code":"dataset_count", "name": "repo_count_datasets"},
-    ]
+    ],
+   "release": [{"code":"triple_count", "name": "all_count_triples"},
+            {"code":"graph_count_by_repo", "name": "all_repo_count_graphs"},
+       {"code":"kw_count", "name": "all_count_keywords"},
+{"code":"dataset_count", "name": "all_count_datasets"}
+            ]
 }
 class ReportingTestCase(unittest.TestCase):
 
@@ -43,7 +48,7 @@ class ReportingTestCase(unittest.TestCase):
                                           reportList=reportTypes['all'])
         self.assertIsNot(None,report_json)
         report = json.loads(report_json)
-        self.assertEquals(2, len(report["reports"]) )
+        self.assertEquals(len(reportTypes['all']), len(report["reports"]) )
 
     def test_generate_graph_repo(self):
         """ run a list of report types."""
@@ -52,7 +57,17 @@ class ReportingTestCase(unittest.TestCase):
                                           reportList=reportTypes['repo'])
         self.assertIsNot(None,report_json)
         report = json.loads(report_json)
-        self.assertEquals(2, len(report["reports"]) )
+        self.assertEquals(len(reportTypes['repo']), len(report["reports"]) )
+    def test_generate_graph_release(self):
+        """ run a list of report types."""
+        report_json = generateGraphReportsRelease("iris",
+                                               "./resources/releases/summonediris_https_fixed_release.nq",
+                                          reportList=reportTypes['repo'])
+        self.assertIsNot(None,report_json)
+        report = json.loads(report_json)
+        self.assertEquals(len(reportTypes['repo']), len(report["reports"]) )
+        # approvaltests will not work. sorting changes with each run
+        #verify_as_json(report)
 
     def test_put_report(self):
         bucket = "citesting"
