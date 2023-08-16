@@ -8,6 +8,10 @@ class S3TestCase(unittest.TestCase):
         sm = Sitemap("https://earthcube.github.io/GeoCODES-Metadata/metadata/Dataset/allgood/sitemap.xml")
         self.assertTrue(sm.validUrl())
 
+    def test_sitemap_gone(self):
+        sm = Sitemap("http://get.iedadata.org/doi/xml-sitemap.php")
+        self.assertTrue(sm.validUrl())
+
     def test_sitemap_invalid(self):
         # with self.assertRaises(Exception) as context:
         #     Sitemap("https://dfdgsagfs")

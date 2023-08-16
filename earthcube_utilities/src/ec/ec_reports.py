@@ -9,6 +9,7 @@ from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
 from ec.reporting.report import generateGraphReportsRepo, reportTypes, missingReport, generateIdentifierRepo
 from ec.datastore import s3
 from ec.logger import config_app
+from ec.sitemap import Sitemap
 
 log = config_app()
 class EcConfig(object):
@@ -43,7 +44,7 @@ class EcConfig(object):
     def hasGraphendpoint(self, option:bool=False, message="must provide graphendpoint") -> bool:
          """ if option is not true, so if summon only, then empty is graphendpoint is ok
             """
-         if   option or is_empty(self.graphendpoint) :
+         if    not option and is_empty(self.graphendpoint) :
              log.fatal(message)
              raise Exception(message)
          return True
@@ -95,7 +96,12 @@ def missing_report(cfgfile,s3server, s3bucket, graphendpoint, upload, output, de
         if sources_to_run is not None and len(sources_to_run) >0:
             if not find (sources_to_run, lambda x: x == source_name ):
                 continue
+        sm = Sitemap(source_url)
+        if not sm.validUrl():
+            log.error("Invalid or unreachable URL: {source_url} ")
+            break
         try:
+
             report = missingReport(source_url, bucket, source_name, s3Minio, graphendpoint, milled=milled, summon=summononly)
             report = json.dumps(report,  indent=2)
             if output:  # just append the json files to one filem, for now.
@@ -104,8 +110,7 @@ def missing_report(cfgfile,s3server, s3bucket, graphendpoint, upload, output, de
             if upload:
                 s3Minio.putReportFile(bucket, source_name, "missing_report.json", report)
         except Exception as e:
-            log.error(f"could not write missing report for {source_name} to s3server:{s3server}:{bucket} error:{e}",
-                          source_name, s3server, bucket, e)
+            log.error(f"could not write missing report for {source_name} to s3server:{s3server}:{bucket} error:{str(e)}")
     return
 
 @cli.command()

@@ -11,7 +11,7 @@ import ec.sitemap
 from ec.graph.sparql_query import queryWithSparql
 
 from ec.datastore.s3 import MinioDatastore, bucketDatastore
-
+from requests.exceptions import MissingSchema, InvalidURL
 
 """
 reports
@@ -76,6 +76,8 @@ def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatast
                 "date": today, "bucket": bucket, "s3store": datastore.endpoint }
     t = time.time()
     sitemap = ec.sitemap.Sitemap(valid_sitemap_url)
+    if not sitemap.validUrl():
+        raise InvalidURL(valid_sitemap_url)
     sitemap_urls = sitemap.uniqueUrls()
     response["sitemap_geturls_time"] = time.time() - t
     sitemap_count = pydash.collections.size(sitemap_urls)
