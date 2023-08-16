@@ -1,3 +1,6 @@
+import csv
+from io import StringIO
+
 import pandas
 from rdflib import Namespace, Dataset,Graph, ConjunctiveGraph
 from rdflib.namespace import RDF
@@ -125,9 +128,12 @@ class ReleaseGraph:
         # result = self.dataset.query(resource)
 
         #result = self.dataset.query(test_types, initNs={'schema_o': SCHEMAORG_http, 'schema':SCHEMAORG_https })
-        result = self.dataset.query(summary_sparql, initNs={'schema_old': SCHEMAORG_http, 'schema': SCHEMAORG_https})
+        result = self.dataset.query(summary_sparql, result='sparql', initNs={'schema_old': SCHEMAORG_http, 'schema': SCHEMAORG_https})
         #result = self.dataset.query(summary_sparql)
-        df = pandas.DataFrame(result.bindings)
+        csvres = result.serialize(format="csv")
+        csvres = csvres.decode()
+        csv_io = StringIO(csvres)
+        df = pandas.read_csv(csv_io)
         return df
 
 # types works, summary does not.
