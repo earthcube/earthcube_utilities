@@ -5,7 +5,7 @@ import pandas
 from rdflib import Namespace, Dataset,Graph, ConjunctiveGraph
 from rdflib.namespace import RDF
 
-import ec.graph.sparql_query
+from  ec.graph.sparql_query import _getSparqlFileFromResources
 from ec.datastore.s3 import MinioDatastore
 
 """
@@ -128,6 +128,7 @@ class ReleaseGraph:
         # result = self.dataset.query(resource)
 
         #result = self.dataset.query(test_types, initNs={'schema_o': SCHEMAORG_http, 'schema':SCHEMAORG_https })
+        query = _getSparqlFileFromResources('all_summary_query')
         result = self.dataset.query(summary_sparql, result='sparql', initNs={'schema_old': SCHEMAORG_http, 'schema': SCHEMAORG_https})
         #result = self.dataset.query(summary_sparql)
         csvres = result.serialize(format="csv")
@@ -136,4 +137,21 @@ class ReleaseGraph:
         df = pandas.read_csv(csv_io)
         return df
 
+    def query_release(self, template_name='all_summary_query'):
+        query = _getSparqlFileFromResources(f"{template_name}")
+        # get the summary sparql query, run it sparql data frome to put it in a dataframe
+        #might just feed the result rows to pandas
+        # all_summary_query returns no rows ;)
+       # resource = ec.graph.sparql_query._getSparqlFileFromResources("all_summary_query")
+       # resource = ec.graph.sparql_query._getSparqlFileFromResources("all_repo_count_datasets")
+        # result = self.dataset.query(resource)
+
+        #result = self.dataset.query(test_types, initNs={'schema_o': SCHEMAORG_http, 'schema':SCHEMAORG_https })
+        result = self.dataset.query(query, result='sparql', initNs={'schema_old': SCHEMAORG_http, 'schema': SCHEMAORG_https})
+        #result = self.dataset.query(summary_sparql)
+        csvres = result.serialize(format="csv")
+        csvres = csvres.decode()
+        csv_io = StringIO(csvres)
+        df = pandas.read_csv(csv_io)
+        return df
 # types works, summary does not.

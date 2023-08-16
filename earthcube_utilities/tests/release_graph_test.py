@@ -25,5 +25,15 @@ class ReelaseTestCase(unittest.TestCase):
         nt = g.serialize(format='longturtle')
         verify(nt)
 
+    def test_query_release_datsetcount(self, source='iris'):
+        rg = ReleaseGraph()
+       # rg.read_release(s3server, s3bucket, "geocodes_demo_data")
+        rg.load_release( "./resources/releases/summonediris_https_fixed_release.nq")
+        self.assertEqual( 465, len(rg.dataset))
+        df = rg.query_release(template_name='all_count_datasets')
+        #self.assertEqual(28, df['datasetcount'])
+        res = df.to_csv()
+        verify(res)
+
 if __name__ == '__main__':
     unittest.main()
