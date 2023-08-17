@@ -1,11 +1,14 @@
 import json
 import logging
 from datetime import date, datetime
+import time
+from typing import Any
 
 import pandas
 import pydash
 
 import ec.sitemap
+from ec.graph.release_graph import ReleaseGraph
 from ec.graph.sparql_query import queryWithSparql
 
 from ec.datastore.s3 import MinioDatastore, bucketDatastore
@@ -28,7 +31,7 @@ Reports
 *** sitemap count
 *** summoned count ec.datastore.s3.countJsonld
 *** milled count ec.datastore.s3.countMilled
-*** graph count repo_count_graphs.sparql ec.graph.sparql_query.queryWithSparql("repo_count_graphs", graphendpoint, parameters={"repo": repo})
+*** graph count repo_count_graphs.sparql ec.graph.sparql_query.queryWithSparql("repo_count_graphs", release_file, parameters={"repo": repo})
 *** when processing details is working, then add counts of  was summoned but did not make it into the graph
 
 * PROCESSING REPORT DETAILS:
@@ -45,7 +48,7 @@ Reports
 # will need to do a list(map(lambda , collection) to get a list of urls.
 o_list = list(map(lambda f: ec.datastore.s3.urnFroms3Path(f.object_name), objs))
 **** milled ids: ec.datastore.s3.listMilledRdf
-**** graph ids:  ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, parameters={"repo": repo})
+**** graph ids:  ec.graph.sparql_query.queryWithSparql("repo_select_graphs", release_file, parameters={"repo": repo})
 
 ***** suggest compare using pydash, or use pandas...
 then look up the urls' using: ec.datastore.s3.getJsonLDMetadata
@@ -72,30 +75,44 @@ def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatast
     today = date.today().strftime("%Y-%m-%d")
     response = {"source":repo,"graph":graphendpoint,"sitemap":valid_sitemap_url,
                 "date": today, "bucket": bucket, "s3store": datastore.endpoint }
+    t = time.time()
     sitemap = ec.sitemap.Sitemap(valid_sitemap_url)
+    if not sitemap.validUrl():
+        raise ValueError(valid_sitemap_url)
     sitemap_urls = sitemap.uniqueUrls()
+    response["sitemap_geturls_time"] = time.time() - t
     sitemap_count = pydash.collections.size(sitemap_urls)
+    t = time.time()
     summoned_list = datastore.listSummonedUrls(bucket, repo)
+    response["s3_geturls_time"] = time.time() - t
     summoned_count = pydash.collections.size(summoned_list)
     summoned_urls = list(map(lambda s: s.get("url"), summoned_list))
     dif_sm_summon = pydash.arrays.difference(sitemap_urls, summoned_urls)
     response["sitemap_count"] = sitemap_count
     response["summoned_count"] = summoned_count
+    response["missing_sitemap_summon_count"] = len(dif_sm_summon)
     response["missing_sitemap_summon"] = dif_sm_summon
     if summon:
         return response
     ##### summmon to graph
+    t = time.time()
     summoned_sha_list = datastore.listSummonedSha(bucket, repo)
+    response["summon_list_s3_sha_time"] = time.time() - t
+    t = time.time()
     graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, {"repo": repo})
     graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns['g']))
+    response["graph_sha_urn_time"] = time.time() - t
     dif_summon_graph = pydash.arrays.difference(summoned_sha_list, graph_shas)
     response["graph_urn_count"] = pydash.collections.size(graph_shas)
+    response["missing_summon_graph_count"] = len(dif_summon_graph)
     response["missing_summon_graph"] = dif_summon_graph
     if milled:
+        t = time.time()
         milled_list = datastore.listMilledSha(bucket, repo)
-
+        response["milled_sha_time"] = time.time() - t
         dif_summon_milled = pydash.arrays.difference(summoned_sha_list, milled_list)
         response["milled_count"] = pydash.collections.size(milled_list)
+        response["missing_summon_milled"] = len(dif_summon_milled)
         response["missing_summon_milled"] = dif_summon_milled
     return response
 
@@ -131,7 +148,7 @@ def compareSummoned2Graph(bucket, repo, datastore: bucketDatastore, graphendpoin
     """ return list of missing .
     we do not alway generate a milled.
     """
-    # compare using s3, listJsonld(bucket, repo) to queryWithSparql("repo_select_graphs", graphendpoint)
+    # compare using s3, listJsonld(bucket, repo) to queryWithSparql("repo_select_graphs", release_file)
     summoned_list = datastore.listSummonedSha(bucket, repo)
     graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs",graphendpoint,{"repo":repo})
     graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns['g']))
@@ -142,14 +159,6 @@ def compareSummoned2Graph(bucket, repo, datastore: bucketDatastore, graphendpoin
             "missing": difference
             }
 
-
-def putProcessingReports4Repo(repo, date,  json_str, datastore: bucketDatastore, reportname='processing.json',):
-    """put reports about the processing into reports store
-    this should be items like the sitemap count, summoned counts, and 'milled' counts if apprporate"""
-    # store twice. latest and date
-    bucket_name, object_name= bucketDatastore.putReportFile(datastore.default_bucket, repo, reportname, json_str, date=date)
-    # might return a url...
-    return bucket_name, object_name
 
 ##################################
 #  REPORT GENERATION USING SPARQL QUERIES
@@ -214,28 +223,67 @@ def _get_report_type(reports, code) -> str:
     report = pydash.find(reports, lambda r: r["code"] == code)
     return report["name"]
 
+def generateGraphReportsRelease(repo,  release_file, reportList=reportTypes["all"]) -> Any:
+    #queryWithSparql("repo_count_types", release_file)
+    parameters = {"repo": repo}
+    current_dateTime = datetime.now().strftime("%Y-%m-%d")
+    rg = ReleaseGraph()
+    rg.load_release(release_file)
+    reports= []
+    for report in reportList:
+        try:
+            t = time.time()
+            result =  rg.query_release(template_name=report["name"],parameters=parameters)
+            elapsed_time = time.time() - t
+            data = result.to_dict('records')
+            reports.append(  {"report": report["code"],
+                     "processing_time": elapsed_time,
+                     "length": len(data),
+             "data": data
+             })
+        except Exception as ex:
+            logging.error(f"query with sparql against release failed: report:{report['code']}  repo:{repo}   {ex}")
+            elapsed_time = time.time() - t
+            reports.append( {"report": report["code"],
+                    "errpr": f"{ex}",
+                     "processing_time": elapsed_time,
+             "data": []
+             })
+    return json.dumps({"version": 0, "repo": repo, "date": current_dateTime, "reports": reports }, indent=4)
+
 ##  for the 'object reports, we should have a set.these could probably be make a set of methos with (ObjectType[triples,keywords, types, authors, etc], repo, endpoint/datastore)
 def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"]) -> str:
     current_dateTime = datetime.now().strftime("%Y-%m-%d")
-    reports = map (lambda r:   {"report": r["code"],
-                                "data": generateAGraphReportsRepo(repo, r["code"],
-                                 graphendpoint, reportList).to_dict('records')
-                                   }   ,
+    reports = map (lambda r:    generateAGraphReportsRepo(repo, r,
+                                 graphendpoint, reportList)
+                                      ,
                                 reportList)
 
     reports = list(reports)
     return json.dumps({"version": 0, "repo": repo, "date": current_dateTime, "reports": reports }, indent=4)
 
-def generateAGraphReportsRepo(repo, code, graphendpoint, reportList) -> pandas.DataFrame:
-    #queryWithSparql("repo_count_types", graphendpoint)
+
+def generateAGraphReportsRepo(repo, r, graphendpoint, reportList) -> Any:
+    #queryWithSparql("repo_count_types", release_file)
     parameters = {"repo": repo}
     try:
-        report =   queryWithSparql(_get_report_type(reportList, code), graphendpoint, parameters=parameters)
-
-        return report
+        t = time.time()
+        report =   queryWithSparql(_get_report_type(reportList, r['code']), graphendpoint, parameters=parameters)
+        elapsed_time = time.time() - t
+        data = report.to_dict('records')
+        return  {"report": r["code"],
+                 "processing_time": elapsed_time,
+                 "length": len(data),
+         "data": report.to_dict('records')
+         }
     except Exception as ex:
-        logging.error(f"query with sparql failed: report:{code}  repo:{repo}   {ex}")
-        return pandas.DataFrame()
+        logging.error(f"query with sparql failed: report:{r['code']}  repo:{repo}   {ex}")
+        elapsed_time = time.time() - t
+        return {"report": r["code"],
+                "errpr": f"{ex}",
+                 "processing_time": elapsed_time,
+         "data": []
+         }
 
 def getGraphReportsLatestRepoReports(repo,  datastore: bucketDatastore):
     """get the latest for a dashboard"""
@@ -249,10 +297,20 @@ def listGraphReportDates4Repo(repo,  datastore: bucketDatastore):
     filelist = datastore.listPath(path)
     return filelist
 
-def putGraphReports4RepoReport(repo, json_str, datastore: bucketDatastore, date='latest', reportname='sparql.json'):
-    """put the latest for a dashboard. report.GetLastDate to store"""
-    # store twice. latest and date
-    bucket_name, object_name= datastore.putReportFile(datastore.default_bucket, repo, reportname, json_str, date=date)
-    # might return a url...
-    return bucket_name, object_name
+def generateIdentifierRepo(repo, bucket, datastore: bucketDatastore):
+    jsonlds = datastore.listJsonld(bucket, repo, include_user_meta=True)
+    objs = map(lambda f: datastore.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
+    o_list = list(map(lambda f: {'Source': repo,
+                                 'Identifiertype': f.metadata.get('X-Amz-Meta-Identifiertype'),
+                                 'Matchedpath': f.metadata.get('X-Amz-Meta-Matchedpath'),
+                                 'Uniqueid': f.metadata.get('X-Amz-Meta-Uniqueid'),
+                                 'Example': f.metadata.get('X-Amz-Meta-Uniqueid')
+                                 }, objs))
+    df = pandas.DataFrame(o_list)
+    identifier_stats = df.groupby(['Source', 'Identifiertype', 'Matchedpath'], group_keys=True, dropna=False) \
+        .agg({'Uniqueid': 'count', 'Example': lambda x: x.iloc[0:5].tolist()}).reset_index()
+    return identifier_stats
+
+
+
 

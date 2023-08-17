@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="summarize_all opentopography" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="summarize_all opentopography" type="PythonConfigurationType" factoryName="Python" folderName="sitemap">
     <module name="earthcube_utilities" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />

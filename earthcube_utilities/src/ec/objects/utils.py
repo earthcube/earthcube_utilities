@@ -5,4 +5,4 @@ def parts_from_urn(urn):
     repo = parts[len(parts)-2]
     org = parts[len(parts)-3] ## new identifier will have an org identifier
 
-    return {"id": id, "repo":repo, "org":org}
+    return {"id": id, "source":repo, "org":org, "original": urn}

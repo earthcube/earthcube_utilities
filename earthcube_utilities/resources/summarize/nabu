@@ -1,0 +1,21 @@
+minio:
+    address: oss.geocodes.ncsa.illinois.edu
+    port: 443
+    ssl: true
+    accesskey: worldsbestaccesskey
+    secretkey: worldsbestsecretkey
+    bucket: gleaner
+objects:
+    bucket: gleaner
+    domain: us-east-1
+    prefix:
+        - summoned/iris
+        - org
+    prefixoff: []
+sparql:
+    endpoint: https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/earthcube/sparql
+    authenticate: false
+    username: ""
+    password: ""
+txtaipkg:
+    endpoint: http://0.0.0.0:8000
