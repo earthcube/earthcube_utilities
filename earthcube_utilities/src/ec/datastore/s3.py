@@ -24,7 +24,11 @@ different method
 """
 class bucketDatastore():
     endpoint = "http://localhost:9000" # basically minio
-    options = {}
+    options = {"secure":True,
+               "region": 'us-west-2',
+#               "access_key": None,
+ #              "secret_key": None
+               }
     default_bucket="gleaner"
     paths = {"report":"reports",
              "summon": "summoned",
@@ -188,7 +192,7 @@ different method
 """
 class MinioDatastore(bucketDatastore):
     """ Instance of a minio datastore with utility methods to retreive information"""
-    def __init__(self, s3endpoint, options,default_bucket="gleaner"):
+    def __init__(self, s3endpoint, options={},default_bucket="gleaner"):
         """ Initilize with
         Parameters:
             s3endpoint: endpoint. If this is aws, include the region. eg s3.us-west-2.amazon....
@@ -198,7 +202,8 @@ class MinioDatastore(bucketDatastore):
         self.endpoint = s3endpoint
         self.options = options
         self.default_bucket= default_bucket
-        self.s3client  =minio.Minio(s3endpoint) # this will neeed to be fixed with authentication
+        logging.info(str(options))
+        self.s3client  =minio.Minio(s3endpoint, **options ) # this will neeed to be fixed with authentication
 
 
     def listPath(self, bucket, path, include_user_meta=False, recursive=True):
