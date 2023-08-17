@@ -46,13 +46,12 @@ extra_javascript:
     - https://unpkg.com/mermaid/dist/mermaid.min.js
 
 nav:
-    - Summarize:
-        - Documentation: summarize/index.md
     - Notebook Proxy: notebook_proxy/index.md
     - Earthcube Utilities:
         - Documentation: earthcube_utilities/index.md
         - Scripts: earthcube_utilities/earthcube_utilities_scripts.md
         - Reporting: earthcube_utilities/reporting.md
+        - Summarize: earthcube_utilities/summarize.md
     - Code Reference:
         - Earthcube Utilites: earthcube_utilities/earthcube_utilities_code.md
-        - Summarize: summarize/summarize_code.md
+
