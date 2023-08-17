@@ -85,7 +85,7 @@ def missing_report(cfgfile,s3server, s3bucket, graphendpoint, upload, output, de
     ctx.hasGraphendpoint(option=summononly, message="must provide graphendpoint if you are checking the graph" )
 
     log.info(f"s3server: {s3server} bucket:{bucket} graph:{graphendpoint}")
-    s3Minio = s3.MinioDatastore(s3server, None)
+    s3Minio = s3.MinioDatastore(s3server, {})
     sources = getSitemapSourcesFromGleaner(cfgfile)
     sources = list(filter(lambda source: source.get('active'), sources))
     sources_to_run = source  # optional if null, run all

@@ -206,10 +206,10 @@ class MinioDatastore(bucketDatastore):
             default_bucket: 'gleaner'
             """
         self.endpoint = s3endpoint
-        self.options = options
+        self.options = {} if options is None else options # old code has none...
         self.default_bucket= default_bucket
         logging.info(str(options))
-        self.s3client  =minio.Minio(s3endpoint, **options ) # this will neeed to be fixed with authentication
+        self.s3client  =minio.Minio(s3endpoint, **self.options ) # this will neeed to be fixed with authentication
 
 
     def listPath(self, bucket, path, include_user_meta=False, recursive=True):
