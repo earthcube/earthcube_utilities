@@ -6,6 +6,7 @@ from typing import Union
 import pandas
 import sparqldataframe
 from rdflib import URIRef, BNode, Literal, Graph,Namespace, RDF
+import rdflib
 import json
 
 from  ec.graph.sparql_query import queryWithSparql
@@ -56,8 +57,12 @@ def get_summary4repoSubset(endpoint: str, repo : str) -> pandas.DataFrame:
 
 ###
 # from dataframe
+
+# need a from release flag for rdflib terms ...
+# (rdflib.term.Variable('datep'), None) (rdflib.term.Variable('description'), rdflib.term.Literal('Global stacks of up to a million event-windowed seismograms using short-term to long-term averages (STA/LTA) in different frequency bands for vertical broadband data (1990-2012) available from the IRIS DMC.  Long period versions include vertical and horizontal component data.\r\n')) (rdflib.term.Variable('g'), rdflib.term.URIRef('urn:ec-geocodes:iris:7c61b564beb0be54aca8085c1d0a3b311ffe0cbb')) (rdflib.term.Variable('kw'), rdflib.term.Literal('seismic,seismology,geophysics,globalstacks')) (rdflib.term.Variable('name'), rdflib.term.Literal('Global stacks of millions of seismograms')) (rdflib.term.Variable('placenames'), rdflib.term.Literal('No spatialCoverage')) (rdflib.term.Variable('pubname'), None) (rdflib.term.Variable('resourceType'), rdflib.term.URIRef('https://schema.org/Dataset')) (rdflib.term.Variable('sosType'), rdflib.term.URIRef('https://schema.org/Dataset')) (rdflib.term.Variable...
 ####
-def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], Graph]:
+
+def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[ Union[str,bytes], Graph]:
     "summarize sparql query returns turtle string and rdf lib Graph"
     urns = {}
     def is_str(v):
@@ -71,10 +76,10 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], G
     ecsummary = Namespace(BASE_SHCEMA_ORG)
     sosschema = Namespace(BASE_SHCEMA_ORG)
 
-
     for index, row in df.iterrows():
         logging.debug(f'dbg:{row}')
-        gu=df["g"][index]
+        gu=row["g"]
+
         graph_subject = URIRef(gu)
         #skip the small %of dups, that even new get_summary.txt * has
         if not urns.get(gu):
@@ -112,23 +117,17 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], G
             kw=f'"{kw_}"'
 # publisher
         pubname=row['pubname']
+        if   pandas.isna(pubname) or  pubname=="No Publisher":
+            pubname = repo
         #if no publisher urn.split(':')
         #to use:repo in: ['urn', 'gleaner', 'summoned', 'opentopography', '58048498c7c26c7ab253519efc16df237866e8fe']
         #as of the last runs, this was being done per repo, which comes in on the CLI, so could just use that too*
-        if pubname=="No Publisher":
-            ul=gu.split(':')
-            if len(ul)>4: #could check, for changing urn more, but for now:
-                #pub_repo=ul[3]
-                pub_repo=ul[4]
-                if is_str(pub_repo):
-                    pubname=pub_repo
-                else: #could just use cli repo
-#                        global repo
-                    pubname=repo
+
+
 # date
         datep=row['datep']
         if datep == "No datePublished":
-            datep=None
+            datep=pandas.NA
         # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
         # UI Date Select failed, because it expects an actual date
         #   Empty values might be handled in the UI...,
@@ -168,12 +167,12 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str) -> tuple[ Union[str,bytes], G
 # ecsummary.keywords
         g.add((graph_subject, ecsummary.keywords, Literal(kw_)))
 # ecsummary.publisher
-
-        g.add((graph_subject, ecsummary.publisher, Literal(pubname)))
+        if pandas.notna(pubname):
+            g.add((graph_subject, ecsummary.publisher, Literal(pubname)))
 # ecsummary.place
         g.add((graph_subject, ecsummary.place, Literal(placename)))
 # ecsummary date
-        if datep:
+        if pandas.notna(datep):
             #might be: "No datePublished" ;should change in qry, for dv's lack of checking
             # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
             # UI Date Select failed, because it expects an actual date
