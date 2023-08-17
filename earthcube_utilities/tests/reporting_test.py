@@ -82,6 +82,11 @@ class ReportingTestCase(unittest.TestCase):
     def test_missingReport(self):
         results = ec.reporting.report.missingReport(self.sitemapurl,self.bucket, self.repo, self.s3client, self.graphendpoint)
         verify_as_json(results)
+    def test_missingReport_badsitemap(self):
+        with self.assertRaises(ValueError):
+            ec.reporting.report.missingReport("https://example.com/sitemap.xml",self.bucket, self.repo, self.s3client, self.graphendpoint)
+
+
 
 if __name__ == '__main__':
     unittest.main()
