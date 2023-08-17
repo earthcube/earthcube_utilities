@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "earthcube_utilities_notebook_proxy"
-version = "0.1.14"
+version = "0.1.18"
 dynamic = ["dependencies"]
 description = "A proxy  to create notebooks for the for the Earthcube Geocodes Project"
 readme =  "README.md"
