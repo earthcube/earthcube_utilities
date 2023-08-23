@@ -158,9 +158,9 @@ class bucketDatastore():
         resp = self.getFileFromStore(s3ObjectInfo)
         return resp
 
-    def getLatestRelaseUrl(self, bucket, source):
+    def getLatestRelaseUrl(self, bucket, source, extension='nq'):
         urls = self.getLatestRelaseUrls(bucket)
-        url = pydash.find( urls, lambda x: source in x.get("object_name") )
+        url = pydash.find( urls, lambda x: source in x.get("object_name") and x.get("object_name").endswith(extension) )
         return url.get('url')
 
     def getLatestRelaseUrls(self, bucket):
