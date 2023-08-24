@@ -23,7 +23,7 @@
       </ENTRIES>
     </EXTENSION>
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/earthcube_utilities/src/ec/bucketutil.py" />
-    <option name="PARAMETERS" value="duplicates --cfgfile ./resources/testing/gleaner --path summmoned/geocodes_demo_datasets" />
+    <option name="PARAMETERS" value="duplicateurls --cfgfile ./resources/testing/gleaner --source geocodes_demo_datasets" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />
