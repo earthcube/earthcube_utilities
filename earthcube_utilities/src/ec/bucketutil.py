@@ -1,3 +1,4 @@
+import csv
 import functools
 import os
 import click
@@ -111,7 +112,7 @@ def urls(cfgfile, s3server, s3bucket, upload, output, debug, source):
     ctx.hasS3()
 
     res = s3Minio.listSummonedUrls(ctx.bucket, source)
-    res = pd.DataFrame(res).to_csv(index=False)
+    res = pd.DataFrame(res).to_csv(index=False, quoting=csv.QUOTE_NONNUMERIC)
     sys.stdout.write(res)
     if output:
         log.info(f"report for {source} appended to file")
