@@ -88,10 +88,13 @@ def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatast
     summoned_count = pydash.collections.size(summoned_list)
     summoned_urls = list(map(lambda s: s.get("url"), summoned_list))
     dif_sm_summon = pydash.arrays.difference(sitemap_urls, summoned_urls)
+    dif_summon_sm = pydash.arrays.difference( summoned_urls, sitemap_urls)
     response["sitemap_count"] = sitemap_count
     response["summoned_count"] = summoned_count
     response["missing_sitemap_summon_count"] = len(dif_sm_summon)
     response["missing_sitemap_summon"] = dif_sm_summon
+    response["extra_in_summon_count"] = len(dif_summon_sm)
+    response["extra_in_summon"] = dif_summon_sm
     if summon:
         return response
     ##### summmon to graph
