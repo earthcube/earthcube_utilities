@@ -104,7 +104,7 @@ the information for  repository containing a single communities data.
 #### repo_count_types_top_level
 ~~~sparql
 {%
-   include '../src/ec/graph/sparql_files/repo_count_types_top_level.spaql'
+   include '../src/ec/graph/sparql_files/repo_count_types_top_level.sparql'
    
 %}
 ~~~
