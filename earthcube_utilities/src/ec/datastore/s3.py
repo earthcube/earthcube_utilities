@@ -99,7 +99,12 @@ class bucketDatastore():
         """  returns list of urns with urls"""
         jsonlds = self.listJsonld(bucket, repo, include_user_meta=True)
         objs = map(lambda f: self.s3client.stat_object(f.bucket_name, f.object_name), jsonlds)
-        o_list = list(map(lambda f: {"sha": shaFroms3Path(f.object_name), "url": f.metadata["X-Amz-Meta-Url"]}, objs))
+        o_list = list(map(lambda f: {"sha": shaFroms3Path(f.object_name),
+                                     "url": f.metadata["X-Amz-Meta-Url"],
+                                     "identifiertype": f.metadata["X-Amz-Meta-Identifiertype"],
+                                     "lastmodified": f.last_modified
+                                     }
+                          , objs))
         return o_list
 
     def listSummonedSha(self,bucket, repo):
