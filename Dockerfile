@@ -1,4 +1,4 @@
-FROM python
+FROM python:3.11-slim
 
 # We copy just the requirements.txt first to leverage Docker cache
 

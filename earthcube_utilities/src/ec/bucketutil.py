@@ -155,7 +155,7 @@ def download(cfgfile, s3server, s3bucket, upload, output, debug, urn):
 @cli.command()
 @click.option('--url', help='the X-Amz-Meta-Url in metadata', required=True)
 @click.option('--milled', help='include milled', default=False)
-@click.option('--summon', help='include summon only', default=True)
+@click.option('--summoned', help='include summon only', default=True)
 @common_params
 def sourceurl(cfgfile, s3server, s3bucket, upload, output, debug, url, summon, milled):
     """ for a given url, find the sha of the file"""
