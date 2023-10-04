@@ -15,4 +15,8 @@ jsonschema
 pydash
 advertools
 pandarallel
+kglab
+reportlab
+seaborn
+jupyterlab
 
