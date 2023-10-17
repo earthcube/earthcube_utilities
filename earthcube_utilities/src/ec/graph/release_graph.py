@@ -112,10 +112,10 @@ class ReleaseGraph:
     #dataset = ConjunctiveGraph()
     filename = ""
 
-    def load_release(self, file_or_url):
-        self.dataset.parse(file_or_url, format='nquads')
-    def read_release(self, s3server, s3bucket, source, date="latest"):
-        s3 = MinioDatastore(s3server, None)
+    def load_release(self, file_or_url, format='nquads' ):
+        self.dataset.parse(file_or_url, format=format)
+    def read_release(self, s3server, s3bucket, source, date="latest", options={}):
+        s3 = MinioDatastore(s3server, options)
         url = s3.getLatestRelaseUrl(s3bucket, source)
         self.filename = url[ url.rfind('/') +1 :]
         self.load_release(url)
