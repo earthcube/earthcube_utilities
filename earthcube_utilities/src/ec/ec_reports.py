@@ -6,10 +6,11 @@ import sys
 from pydash.collections import find
 from pydash import is_empty
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
-from ec.reporting.report import generateGraphReportsRepo, reportTypes, missingReport, generateIdentifierRepo
+from ec.reporting.report import generateGraphReportsRepo, reportTypes, missingReport, generateIdentifierRepo, \
+    generateReportStats
 from ec.datastore import s3
 from ec.logger import config_app
-from ec.sitemap import Sitemap
+from ec.sitemap import Sitemap, GleanerioSourceSitemap
 
 log = config_app()
 class EcConfig(object):
@@ -213,6 +214,59 @@ def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
         except Exception as e:
             logging.info('Missing keys: ', e)
     return
+
+@cli.command()
+@click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
+@common_params
+def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source):
+    # name missing-report
+    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    output = ctx.output
+    upload = ctx.upload
+    bucket = ctx.bucket
+    s3server = ctx.s3server
+    graphendpoint = ctx.graphendpoint  # not in gleaner file
+    ctx.hasS3()
+
+    log.info(f"s3server: {s3server} bucket:{bucket} graph:{graphendpoint}")
+    s3Minio = s3.MinioDatastore(s3server, {})
+    sources = getSitemapSourcesFromGleaner(cfgfile)
+    sources = list(filter(lambda source: source.get('active'), sources))
+    sources_to_run = source  # optional if null, run all
+
+    for i in sources:
+        source_url = i.get('url')
+        source_name = i.get('name')
+        source_logo = i.get('logo')
+        count = s3Minio.countPath(ctx.bucket, f"summoned/{source_name}/")
+        if sources_to_run is not None and len(sources_to_run) >0:
+            if not find (sources_to_run, lambda x: x == source_name ):
+                continue
+        sm = Sitemap(source_url)
+        if not sm.validUrl():
+            log.error("Invalid or unreachable URL: {source_url} ")
+            break
+        try:
+
+            dictionary = {
+                "title": source_name,
+                "website": source_url,
+                "image": source_logo,
+                "description": "",
+                "record_count": count
+            }
+
+            report = json.dumps(dictionary, indent=4)
+
+            if output:  # just append the json files to one file, for now.
+                log.info(f"report for {source_name} appended to file")
+                output.write(bytes(report, 'utf-8'))
+            if upload:
+                s3Minio.putReportFile(bucket, source_name, "report_stats.json", report)
+        except Exception as e:
+            log.error(f"could not write missing report for {source_name} to s3server:{s3server}:{bucket} error:{str(e)}")
+    return
+
 
 # @cli.command()
 # # @click.option('--cfgfile', help='gleaner config file', default='gleaner', type=click.Path(exists=True))
