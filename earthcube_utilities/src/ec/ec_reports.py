@@ -234,37 +234,41 @@ def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, ou
     sources = list(filter(lambda source: source.get('active'), sources))
     sources_to_run = source  # optional if null, run all
 
-    for i in sources:
-        source_url = i.get('url')
-        source_name = i.get('name')
-        source_logo = i.get('logo')
-        count = s3Minio.countPath(ctx.bucket, f"summoned/{source_name}/")
-        if sources_to_run is not None and len(sources_to_run) >0:
-            if not find (sources_to_run, lambda x: x == source_name ):
-                continue
-        sm = Sitemap(source_url)
-        if not sm.validUrl():
-            log.error("Invalid or unreachable URL: {source_url} ")
-            break
-        try:
+    if is_empty(sources_to_run):
+        report = []
+        for i in sources:
+            source_url = i.get('url')
+            source_name = i.get('name')
+            count = s3Minio.countPath(ctx.bucket, f"summoned/{source_name}/")
 
-            dictionary = {
-                "title": source_name,
-                "website": source_url,
-                "image": source_logo,
-                "description": "",
-                "record_count": count
-            }
+            try:
+                sm = Sitemap(source_url)
+                if not sm.validUrl():
+                    log.error(f"Invalid or unreachable URL: {source_url} ")
+                    break
 
-            report = json.dumps(dictionary, indent=4)
+                dictionary = {
+                    "title": source_name,
+                    "website": source_url,
+                    "image": f"{source_name}.png",
+                    "description": "",
+                    "record_count": count
+                }
 
-            if output:  # just append the json files to one file, for now.
-                log.info(f"report for {source_name} appended to file")
-                output.write(bytes(report, 'utf-8'))
-            if upload:
-                s3Minio.putReportFile(bucket, source_name, "report_stats.json", report)
-        except Exception as e:
-            log.error(f"could not write missing report for {source_name} to s3server:{s3server}:{bucket} error:{str(e)}")
+                #report.append(json.dumps(dictionary, indent=4))
+                report.append(dictionary)
+
+            except Exception as e:
+                log.error(f"could not write missing report for {source_name} to s3server:{s3server}:{bucket} error:{str(e)}")
+        report_json = json.dumps(report, indent=4)
+        if output:  # just append the json files to one file, for now.
+            log.info(f"report for all sources appended to file")
+            output.write(bytes(report_json, 'utf-8'))
+        if upload:
+            s3Minio.putReportFile(bucket, "all", "report_stats.json", report_json)
+    else:
+        print("Not all")
+
     return
 
 
