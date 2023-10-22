@@ -10,7 +10,8 @@ from ec.reporting.report import generateGraphReportsRepo, reportTypes, missingRe
     generateReportStats
 from ec.datastore import s3
 from ec.logger import config_app
-from ec.sitemap import Sitemap, GleanerioSourceSitemap
+from ec.sitemap import Sitemap
+import pandas as pd
 
 log = config_app()
 class EcConfig(object):
@@ -230,32 +231,53 @@ def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, ou
 
     log.info(f"s3server: {s3server} bucket:{bucket} graph:{graphendpoint}")
     s3Minio = s3.MinioDatastore(s3server, {})
-    sources = getSitemapSourcesFromGleaner(cfgfile)
-    sources = list(filter(lambda source: source.get('active'), sources))
+    #sources = getSitemapSourcesFromGleaner(cfgfile)
+    #sources = list(filter(lambda source: source.get('active'), sources))
+
+    url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTt_45dYd5LMFK9Qm_lCg6P7YxG-ae0GZEtrHMZmNbI-y5tVDd8ZLqnEeIAa-SVTSztejfZeN6xmRZF/pub?gid=1340502269&single=true&output=csv'
+
+    import csv
+    from urllib import request
+
+    def read_csv_url_to_list(csv_url):
+        response = request.urlopen(csv_url)
+        csv_reader = csv.DictReader(response.read().decode('utf-8').splitlines())
+
+        # Convert the CSV data to a list of dictionaries
+        data_list = list(csv_reader)
+
+        return data_list
+
+    # Example usage:
+    #url = "https://example.com/your_csv_file.csv"
+    csv_data = read_csv_url_to_list(url)
+
+    sources = list(filter(lambda source: source.get('Active')=="TRUE", csv_data))
     sources_to_run = source  # optional if null, run all
 
     if is_empty(sources_to_run):
         report = []
         for i in sources:
-            source_url = i.get('url')
-            source_name = i.get('name')
+            source_url = i.get('URL')
+            source_name = i.get('Name')
+            source_propername = i.get('ProperName')
+            source_des = i.get('Description')
             count = s3Minio.countPath(ctx.bucket, f"summoned/{source_name}/")
 
             try:
                 sm = Sitemap(source_url)
                 if not sm.validUrl():
                     log.error(f"Invalid or unreachable URL: {source_url} ")
-                    break
+                    #break
 
                 dictionary = {
-                    "title": source_name,
+                    "title": source_propername,
                     "website": source_url,
                     "image": f"{source_name}.png",
-                    "description": "",
+                    "description": source_des,
                     "record_count": count
                 }
 
-                #report.append(json.dumps(dictionary, indent=4))
                 report.append(dictionary)
 
             except Exception as e:
