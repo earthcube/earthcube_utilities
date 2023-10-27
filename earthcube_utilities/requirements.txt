@@ -18,5 +18,5 @@ pandarallel
 kglab
 reportlab
 seaborn
-jupyterlab
+#jupyterlab
 
