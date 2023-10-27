@@ -15,9 +15,10 @@ jsonschema
 pydash
 advertools
 pandarallel
+# these dependencies are only needed for the notebook.
+# kglab causes issues with buildling containers in scheduler
 #kglab # this uses JPyPe1 which is abandoned
-reportlab
-seaborn
-
-Notebook
+# reportlab
+# seaborn
+# Notebook
 
