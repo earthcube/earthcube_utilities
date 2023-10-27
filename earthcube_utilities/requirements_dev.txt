@@ -15,9 +15,8 @@ jsonschema
 pydash
 advertools
 pandarallel
-#kglab
-#reportlab
-#seaborn
-#jupyterlab  # this uses JPyPe1 which is abandoned
-Notebook
+kglab
+reportlab
+seaborn
+jupyterlab
 
