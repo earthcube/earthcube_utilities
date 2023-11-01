@@ -343,10 +343,7 @@ def generateReportStats(url, bucket, datastore: bucketDatastore):
             if not sm.validUrl():
                 logging.error(f"Invalid or unreachable URL: {source_url} ")
 
-            obj_graph = datastore.s3client.get_object(bucket, f"reports/{source_name}/latest/graph_stats.json")
             obj_miss = datastore.s3client.get_object(bucket, f"reports/{source_name}/latest/missing_report_graph.json")
-
-            graph = json.loads(obj_graph.data.decode("utf-8").replace("'", '"'))
             miss = json.loads(obj_miss.data.decode("utf-8").replace("'", '"'))
 
             dictionary = {
@@ -356,18 +353,7 @@ def generateReportStats(url, bucket, datastore: bucketDatastore):
                 "sitemap": source_url,
                 "image": f"{source_name}.png",
                 "description": source_des,
-                "records": miss["graph_urn_count"],
-                "report": {
-                    "missing_report": {
-                        "date": miss["date"],
-                        "sitemap_count": miss["sitemap_count"],
-                        "summoned_count": miss["summoned_count"],
-                        "missing_sitemap_summon_count": miss["missing_sitemap_summon_count"],
-                        "graph_urn_count": miss["graph_urn_count"],
-                        "missing_summon_graph_count": miss["missing_summon_graph_count"],
-                    },
-                    "graph_stats": graph
-                }
+                "records": miss["graph_urn_count"]
             }
 
             report.append(dictionary)
