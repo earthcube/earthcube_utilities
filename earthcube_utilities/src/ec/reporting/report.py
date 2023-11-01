@@ -356,8 +356,16 @@ def generateReportStats(url, bucket, datastore: bucketDatastore):
                 "sitemap": source_url,
                 "image": f"{source_name}.png",
                 "description": source_des,
+                "records": miss["graph_urn_count"],
                 "report": {
-                    "missing_report": miss,
+                    "missing_report": {
+                        "date": miss["date"],
+                        "sitemap_count": miss["sitemap_count"],
+                        "summoned_count": miss["summoned_count"],
+                        "missing_sitemap_summon_count": miss["missing_sitemap_summon_count"],
+                        "graph_urn_count": miss["graph_urn_count"],
+                        "missing_summon_graph_count": miss["missing_summon_graph_count"],
+                    },
                     "graph_stats": graph
                 }
             }
