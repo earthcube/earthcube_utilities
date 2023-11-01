@@ -229,7 +229,7 @@ def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, ou
     log.info(f"s3server: {s3server} bucket:{bucket} graph:{graphendpoint}")
     s3Minio = s3.MinioDatastore(s3server, {})
 
-    report = generateReportStats(url, bucket, s3Minio, graphendpoint)
+    report = generateReportStats(url, bucket, s3Minio)
 
     if upload:
         s3Minio.putReportFile(bucket, "all", "report_stats.json", report)

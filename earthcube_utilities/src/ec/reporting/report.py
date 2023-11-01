@@ -326,7 +326,7 @@ def readSourceCSV(csv_url):
     data_list = list(csv_reader)
     return data_list
 
-def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint):
+def generateReportStats(url, bucket, datastore: bucketDatastore):
     sources = readSourceCSV(url)
     sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
 
@@ -337,18 +337,17 @@ def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint):
         source_name = i.get('Name')
         source_proper_name = i.get('ProperName')
         source_des = i.get('Description')
-        count = ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, {"repo": source_name})
 
         try:
             sm = Sitemap(source_url)
             if not sm.validUrl():
                 logging.error(f"Invalid or unreachable URL: {source_url} ")
 
-            graph = datastore.s3client.get_object(bucket, f"reports/{source_name}/latest/graph_stats.json")
-            miss = datastore.s3client.get_object(bucket, f"reports/{source_name}/latest/missing_report_graph.json")
+            obj_graph = datastore.s3client.get_object(bucket, f"reports/{source_name}/latest/graph_stats.json")
+            obj_miss = datastore.s3client.get_object(bucket, f"reports/{source_name}/latest/missing_report_graph.json")
 
-            graph = json.loads(graph.data.decode("utf-8").replace("'", '"'))
-            miss = json.loads(miss.data.decode("utf-8").replace("'", '"'))
+            graph = json.loads(obj_graph.data.decode("utf-8").replace("'", '"'))
+            miss = json.loads(obj_miss.data.decode("utf-8").replace("'", '"'))
 
             dictionary = {
                 "source": source_name,
@@ -357,7 +356,6 @@ def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint):
                 "sitemap": source_url,
                 "image": f"{source_name}.png",
                 "description": source_des,
-                "record_count": count,
                 "report": {
                     "missing_report": miss,
                     "graph_stats": graph
@@ -368,11 +366,11 @@ def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint):
 
         except Exception as e:
             logging.error(
-                f"could not write missing report for {source_name} to s3server:{datastore.s3client}:{bucket} error:{str(e)}")
+                f"could not write report stats for {source_name} {bucket} error:{str(e)}")
 
-    report = json.dumps(report, indent=4)
+    report_json = json.dumps(report, indent=4)
 
-    return report
+    return report_json
 
 
 
