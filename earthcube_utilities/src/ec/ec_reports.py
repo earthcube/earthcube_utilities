@@ -11,7 +11,6 @@ from ec.reporting.report import generateGraphReportsRepo, reportTypes, missingRe
 from ec.datastore import s3
 from ec.logger import config_app
 from ec.sitemap import Sitemap
-import pandas as pd
 
 log = config_app()
 class EcConfig(object):
@@ -217,12 +216,10 @@ def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
     return
 
 @cli.command()
-@click.option('--source', help='One or more repositories (--source a --source b)', multiple=True)
+@click.option('--url', help='URL of the source CSV file', required=True)
 @common_params
-def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, source):
-    # name missing-report
+def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
-    output = ctx.output
     upload = ctx.upload
     bucket = ctx.bucket
     s3server = ctx.s3server
@@ -231,66 +228,11 @@ def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, ou
 
     log.info(f"s3server: {s3server} bucket:{bucket} graph:{graphendpoint}")
     s3Minio = s3.MinioDatastore(s3server, {})
-    #sources = getSitemapSourcesFromGleaner(cfgfile)
-    #sources = list(filter(lambda source: source.get('active'), sources))
 
-    url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTt_45dYd5LMFK9Qm_lCg6P7YxG-ae0GZEtrHMZmNbI-y5tVDd8ZLqnEeIAa-SVTSztejfZeN6xmRZF/pub?gid=1340502269&single=true&output=csv'
+    report = generateReportStats(url, bucket, s3Minio, graphendpoint)
 
-    import csv
-    from urllib import request
-
-    def read_csv_url_to_list(csv_url):
-        response = request.urlopen(csv_url)
-        csv_reader = csv.DictReader(response.read().decode('utf-8').splitlines())
-
-        # Convert the CSV data to a list of dictionaries
-        data_list = list(csv_reader)
-
-        return data_list
-
-    # Example usage:
-    #url = "https://example.com/your_csv_file.csv"
-    csv_data = read_csv_url_to_list(url)
-
-    sources = list(filter(lambda source: source.get('Active')=="TRUE", csv_data))
-    sources_to_run = source  # optional if null, run all
-
-    if is_empty(sources_to_run):
-        report = []
-        for i in sources:
-            source_url = i.get('URL')
-            source_name = i.get('Name')
-            source_propername = i.get('ProperName')
-            source_des = i.get('Description')
-            count = s3Minio.countPath(ctx.bucket, f"summoned/{source_name}/")
-
-            try:
-                sm = Sitemap(source_url)
-                if not sm.validUrl():
-                    log.error(f"Invalid or unreachable URL: {source_url} ")
-                    #break
-
-                dictionary = {
-                    "title": source_propername,
-                    "website": source_url,
-                    "image": f"{source_name}.png",
-                    "description": source_des,
-                    "record_count": count
-                }
-
-                report.append(dictionary)
-
-            except Exception as e:
-                log.error(f"could not write missing report for {source_name} to s3server:{s3server}:{bucket} error:{str(e)}")
-        report_json = json.dumps(report, indent=4)
-        if output:  # just append the json files to one file, for now.
-            log.info(f"report for all sources appended to file")
-            output.write(bytes(report_json, 'utf-8'))
-        if upload:
-            s3Minio.putReportFile(bucket, "all", "report_stats.json", report_json)
-    else:
-        print("Not all")
-
+    if upload:
+        s3Minio.putReportFile(bucket, "all", "report_stats.json", report)
     return
 
 
