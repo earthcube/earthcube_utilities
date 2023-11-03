@@ -49,7 +49,7 @@ class bucketDatastore():
     def listPath(self, bucket, path, include_user_meta=False):
         pass
     def countPath(self, bucket, path):
-        count = len(list(self.listPath(bucket,path)))
+        count = len(list(self.listPath(bucket, path)))
         return count
 
     def DataframeFromPath(self, bucket, path, include_user_meta=False):

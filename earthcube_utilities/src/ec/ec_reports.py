@@ -6,7 +6,8 @@ import sys
 from pydash.collections import find
 from pydash import is_empty
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
-from ec.reporting.report import generateGraphReportsRepo, reportTypes, missingReport, generateIdentifierRepo
+from ec.reporting.report import generateGraphReportsRepo, reportTypes, missingReport, generateIdentifierRepo, \
+    generateReportStats
 from ec.datastore import s3
 from ec.logger import config_app
 from ec.sitemap import Sitemap
@@ -213,6 +214,27 @@ def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
         except Exception as e:
             logging.info('Missing keys: ', e)
     return
+
+@cli.command()
+@click.option('--url', help='URL of the source CSV file', required=True)
+@common_params
+def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
+    ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
+    upload = ctx.upload
+    bucket = ctx.bucket
+    s3server = ctx.s3server
+    graphendpoint = ctx.graphendpoint  # not in gleaner file
+    ctx.hasS3()
+
+    log.info(f"s3server: {s3server} bucket:{bucket} graph:{graphendpoint}")
+    s3Minio = s3.MinioDatastore(s3server, {})
+
+    report = generateReportStats(url, bucket, s3Minio)
+
+    if upload:
+        s3Minio.putReportFile(bucket, "all", "report_stats.json", report)
+    return
+
 
 # @cli.command()
 # # @click.option('--cfgfile', help='gleaner config file', default='gleaner', type=click.Path(exists=True))

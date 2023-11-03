@@ -11,7 +11,11 @@ import ec.sitemap
 from ec.graph.release_graph import ReleaseGraph
 from ec.graph.sparql_query import queryWithSparql
 
-from ec.datastore.s3 import MinioDatastore, bucketDatastore
+from ec.datastore.s3 import bucketDatastore
+from ec.sitemap import Sitemap
+
+import csv
+from urllib import request
 
 
 """
@@ -313,6 +317,54 @@ def generateIdentifierRepo(repo, bucket, datastore: bucketDatastore):
     identifier_stats = df.groupby(['Source', 'Identifiertype', 'Matchedpath'], group_keys=True, dropna=False) \
         .agg({'Uniqueid': 'count', 'Example': lambda x: x.iloc[0:5].tolist()}).reset_index()
     return identifier_stats
+
+# Example of CSV URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTt_45dYd5LMFK9Qm_lCg6P7YxG-ae0GZEtrHMZmNbI-y5tVDd
+# 8ZLqnEeIAa-SVTSztejfZeN6xmRZF/pub?gid=1340502269&single=true&output=csv'
+def readSourceCSV(csv_url):
+    response = request.urlopen(csv_url)
+    csv_reader = csv.DictReader(response.read().decode('utf-8').splitlines())
+    data_list = list(csv_reader)
+    return data_list
+
+def generateReportStats(url, bucket, datastore: bucketDatastore):
+    sources = readSourceCSV(url)
+    sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
+
+    report = []
+    for i in sources:
+        source_url = i.get('URL')
+        source_landing_page = i.get('Domain')
+        source_name = i.get('Name')
+        source_proper_name = i.get('ProperName')
+        source_des = i.get('Description')
+
+        try:
+            sm = Sitemap(source_url)
+            if not sm.validUrl():
+                logging.error(f"Invalid or unreachable URL: {source_url} ")
+
+            obj_miss = datastore.s3client.get_object(bucket, f"reports/{source_name}/latest/missing_report_graph.json")
+            miss = json.loads(obj_miss.data.decode("utf-8").replace("'", '"'))
+
+            dictionary = {
+                "source": source_name,
+                "title": source_proper_name,
+                "website": source_landing_page,
+                "sitemap": source_url,
+                "image": f"{source_name}.png",
+                "description": source_des,
+                "records": miss["graph_urn_count"]
+            }
+
+            report.append(dictionary)
+
+        except Exception as e:
+            logging.error(
+                f"could not write report stats for {source_name} {bucket} error:{str(e)}")
+
+    report_json = json.dumps(report, indent=4)
+
+    return report_json
 
 
 
