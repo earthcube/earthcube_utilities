@@ -136,7 +136,7 @@ def graph_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug
         sources = source
     else:
         sources = getSitemapSourcesFromGleaner(cfgfile)
-        sources = list(filter(lambda s: s.get('active'), sources))
+        sources = list(filter(lambda source: source.get('active'), sources))
         sources = list(map(lambda r: r.get('name'), sources))
 ### more work needed before detailed works
     if "all" in source:
@@ -156,12 +156,10 @@ def graph_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, debug
             else:
                 report_json = generateGraphReportsRepo(s, graphendpoint, reportList=reportTypes["repo"])
             if output:  # just append the json files to one filem, for now.
-                output.write(bytes(report_json, 'utf-8'))
                 log.info(f" report for {s} appended to file")
+                output.write(bytes(report_json, 'utf-8'))
             if upload:
-                report_json = json.dumps(report_json, indent=4)
                 bucketname, objectname = s3Minio.putReportFile(s3bucket, s, "graph_report.json", report_json)
-                log.info(f"Upload report {s} to s3 bucket")
     return
 
 @cli.command()

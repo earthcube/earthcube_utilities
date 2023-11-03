@@ -17,7 +17,6 @@ from ec.sitemap import Sitemap
 import csv
 from urllib import request
 
-from pydash import is_empty
 
 """
 reports
@@ -273,7 +272,6 @@ def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"])
 
 def generateAGraphReportsRepo(repo, r, graphendpoint, reportList) -> Any:
     #queryWithSparql("repo_count_types", release_file)
-    repo = "null" if is_empty(repo) else repo
     parameters = {"repo": repo}
     try:
         t = time.time()
