@@ -230,7 +230,11 @@ def _get_report_type(reports, code) -> str:
     report = pydash.find(reports, lambda r: r["code"] == code)
     return report["name"]
 
-def generateGraphReportsRelease(repo,  release_file, reportList=reportTypes["all"]) -> Any:
+# this is a sinlge repo...
+# was reportTypes["all"]
+# really don't even need to do the filers, but
+# repo works best for now
+def generateGraphReportsRelease(repo,  release_file, reportList=reportTypes["repo"]) -> Any:
     #queryWithSparql("repo_count_types", release_file)
     parameters = {"repo": repo}
     current_dateTime = datetime.now().strftime("%Y-%m-%d")
@@ -242,7 +246,8 @@ def generateGraphReportsRelease(repo,  release_file, reportList=reportTypes["all
             t = time.time()
             result =  rg.query_release(template_name=report["name"],parameters=parameters)
             elapsed_time = time.time() - t
-            data = result.to_dict('records')
+            data = result.dropna()
+            data = data.to_dict('records')
             reports.append(  {"report": report["code"],
                      "processing_time": elapsed_time,
                      "length": len(data),
@@ -277,11 +282,13 @@ def generateAGraphReportsRepo(repo, r, graphendpoint, reportList) -> Any:
         t = time.time()
         report =   queryWithSparql(_get_report_type(reportList, r['code']), graphendpoint, parameters=parameters)
         elapsed_time = time.time() - t
-        data = report.to_dict('records')
+        data = report.dropna()
+        data = data.to_dict('records')
+
         return  {"report": r["code"],
                  "processing_time": elapsed_time,
                  "length": len(data),
-         "data": report.to_dict('records')
+         "data": data
          }
     except Exception as ex:
         logging.error(f"query with sparql failed: report:{r['code']}  repo:{repo}   {ex}")

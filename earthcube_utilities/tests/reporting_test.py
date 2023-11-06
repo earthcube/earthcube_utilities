@@ -26,12 +26,12 @@ class ReportingTestCase(unittest.TestCase):
 
     def setUp(self) -> None:
         self.bucket = "gleaner"
-        self.endpoint = "oss.geocodes-dev.earthcube.org"
+        self.endpoint = "oss.geocodes-aws-dev.earthcube.org"
         self.repo = "opentopography"
         self.date = "latest"
         self.s3client = MinioDatastore(self.endpoint, None)
         self.sitemapurl="https://opentopography.org/sitemap.xml"
-        self.graphendpoint="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"
+        self.graphendpoint="https://graph.geocodes-aws-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"
 
     def test_generate_a_graph_repo(self):
         report = generateAGraphReportsRepo("opentopography","triple_count" , self.graphendpoint)
