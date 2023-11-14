@@ -343,6 +343,7 @@ def generateReportStats(url, bucket, datastore: bucketDatastore):
         source_landing_page = i.get('Domain')
         source_name = i.get('Name')
         source_proper_name = i.get('ProperName')
+        source_community = i.get('Community')
         source_des = i.get('Description')
 
         try:
@@ -359,6 +360,7 @@ def generateReportStats(url, bucket, datastore: bucketDatastore):
                 "website": source_landing_page,
                 "sitemap": source_url,
                 "image": f"{source_name}.png",
+                "community": source_community,
                 "description": source_des,
                 "records": miss["graph_urn_count"]
             }
