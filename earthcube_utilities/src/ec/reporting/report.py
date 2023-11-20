@@ -335,9 +335,10 @@ def readSourceCSV(csv_url):
 
 def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, community):
     sources = readSourceCSV(url)
-    #sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
     if community != "all":
         sources = list(filter(lambda source: source.get('Community') == community, sources))
+    else:
+        sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
 
     report = []
     for i in sources:
