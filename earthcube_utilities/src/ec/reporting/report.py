@@ -355,11 +355,13 @@ def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, 
 
             parameters = {"repo": source_name}
             df = queryWithSparql("repo_count_graphs", graphendpoint, parameters)
+            source_records = 0
             if df.empty:
                 logging.info(f"Repo is empty in graph: {source_name} ")
-                continue
+            else:
+                source_records = df.at[0, "graphs"]
 
-            dictionary = {
+            dict = {
                 "source": source_name,
                 "title": source_proper_name,
                 "website": source_landing_page,
@@ -367,10 +369,10 @@ def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, 
                 "image": f"{source_name}.png",
                 "community": source_community,
                 "description": source_des,
-                "records": df.at[0, "graphs"]
+                "records": source_records
             }
 
-            report.append(dictionary)
+            report.append(dict)
 
         except Exception as e:
             logging.error(
