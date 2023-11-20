@@ -333,9 +333,11 @@ def readSourceCSV(csv_url):
     data_list = list(csv_reader)
     return data_list
 
-def generateReportStats(url, bucket, datastore: bucketDatastore):
+def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, community):
     sources = readSourceCSV(url)
-    sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
+    #sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
+    if community != "all":
+        sources = list(filter(lambda source: source.get('Community') == community, sources))
 
     report = []
     for i in sources:
@@ -351,8 +353,11 @@ def generateReportStats(url, bucket, datastore: bucketDatastore):
             if not sm.validUrl():
                 logging.error(f"Invalid or unreachable URL: {source_url} ")
 
-            obj_miss = datastore.s3client.get_object(bucket, f"reports/{source_name}/latest/missing_report_graph.json")
-            miss = json.loads(obj_miss.data.decode("utf-8").replace("'", '"'))
+            parameters = {"repo": source_name}
+            df = queryWithSparql("repo_count_graphs", graphendpoint, parameters)
+            if df.empty:
+                logging.info(f"Repo is empty in graph: {source_name} ")
+                continue
 
             dictionary = {
                 "source": source_name,
@@ -362,7 +367,7 @@ def generateReportStats(url, bucket, datastore: bucketDatastore):
                 "image": f"{source_name}.png",
                 "community": source_community,
                 "description": source_des,
-                "records": miss["graph_urn_count"]
+                "records": df.at[0, "graphs"]
             }
 
             report.append(dictionary)
