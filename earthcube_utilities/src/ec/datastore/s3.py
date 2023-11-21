@@ -165,7 +165,7 @@ class bucketDatastore():
 
     def getLatestRelaseUrl(self, bucket, source, extension='nq'):
         urls = self.getLatestRelaseUrls(bucket)
-        url = pydash.find( urls, lambda x: source in x.get("object_name") and x.get("object_name").endswith(extension) )
+        url = pydash.find( urls, lambda x: source in x.get("object_name") and "_release" in x.get("object_name")  and x.get("object_name").endswith(extension) )
         return url.get('url')
 
     def getLatestRelaseUrls(self, bucket):
