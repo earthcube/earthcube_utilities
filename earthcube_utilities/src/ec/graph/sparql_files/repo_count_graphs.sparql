@@ -3,7 +3,7 @@ WHERE {
   GRAPH ?g {
       ?s ?p ?o .
        bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):" ,"" ), ":\\w+$$" , "")   as ?repo )
-       FILTER( CONTAINS(str(?g), "${repo}") )
+       FILTER( CONTAINS(str(?g), ":${repo}:") )
    }
 }
 group by ?repo
