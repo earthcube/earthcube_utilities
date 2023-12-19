@@ -218,6 +218,7 @@ def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
 @cli.command()
 @click.option('--url', help='URL of the source CSV file', required=True)
 @click.option('--community', help='Community', required=False)
+@click.option('--graphendpoint', help='Graph endpoint of summary', required=True)
 @common_params
 def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url, community):
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
@@ -233,6 +234,7 @@ def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, ou
 
     if is_empty(community):
         community = 'all'
+    # graphendpoint needs to be summary
     report = generateReportStats(url, bucket, s3Minio, graphendpoint, community)
 
     if upload:

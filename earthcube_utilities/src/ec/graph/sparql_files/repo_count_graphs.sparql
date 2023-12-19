@@ -1,9 +1,5 @@
-SELECT ?repo (COUNT(distinct ?g) as ?graphs) (COUNT(*) as ?triples)
+SELECT (COUNT(distinct ?s) AS ?graphs)
 WHERE {
-  GRAPH ?g {
-      ?s ?p ?o .
-       bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):" ,"" ), ":\\w+$$" , "")   as ?repo )
-       FILTER( CONTAINS(str(?g), ":${repo}:") )
-   }
+  ?s ?p ?o .
+  FILTER( CONTAINS(str(?s), ":${repo}:") )
 }
-group by ?repo

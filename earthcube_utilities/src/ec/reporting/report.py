@@ -354,13 +354,15 @@ def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, 
             if not sm.validUrl():
                 logging.error(f"Invalid or unreachable URL: {source_url} ")
 
+            # graphendpoint needs to be summary for this sparql
             parameters = {"repo": source_name}
             df = queryWithSparql("repo_count_graphs", graphendpoint, parameters)
+
             source_records = 0
             if df.empty:
                 logging.info(f"Repo is empty in graph: {source_name} ")
             else:
-                source_records = df.at[0, "graphs"]
+                source_records = df["graphs"].values[0]
 
             dict = {
                 "source": source_name,
