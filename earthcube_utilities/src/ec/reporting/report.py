@@ -356,7 +356,7 @@ def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, 
 
             # graphendpoint needs to be summary for this sparql
             parameters = {"repo": source_name}
-            df = queryWithSparql("repo_count_graphs", graphendpoint, parameters)
+            df = queryWithSparql("repo_count_graphs_summary", graphendpoint, parameters)
 
             source_records = 0
             if df.empty:
