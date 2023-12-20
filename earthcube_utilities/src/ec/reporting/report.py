@@ -333,9 +333,12 @@ def readSourceCSV(csv_url):
     data_list = list(csv_reader)
     return data_list
 
-def generateReportStats(url, bucket, datastore: bucketDatastore):
+def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, community):
     sources = readSourceCSV(url)
-    sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
+    if community != "all":
+        sources = list(filter(lambda source: source.get('Community') == community, sources))
+    else:
+        sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
 
     report = []
     for i in sources:
@@ -351,10 +354,17 @@ def generateReportStats(url, bucket, datastore: bucketDatastore):
             if not sm.validUrl():
                 logging.error(f"Invalid or unreachable URL: {source_url} ")
 
-            obj_miss = datastore.s3client.get_object(bucket, f"reports/{source_name}/latest/missing_report_graph.json")
-            miss = json.loads(obj_miss.data.decode("utf-8").replace("'", '"'))
+            # graphendpoint needs to be summary for this sparql
+            parameters = {"repo": source_name}
+            df = queryWithSparql("repo_count_graphs_summary", graphendpoint, parameters)
 
-            dictionary = {
+            source_records = 0
+            if df.empty:
+                logging.info(f"Repo is empty in graph: {source_name} ")
+            else:
+                source_records = df["graphs"].values[0]
+
+            dict = {
                 "source": source_name,
                 "title": source_proper_name,
                 "website": source_landing_page,
@@ -362,10 +372,10 @@ def generateReportStats(url, bucket, datastore: bucketDatastore):
                 "image": f"{source_name}.png",
                 "community": source_community,
                 "description": source_des,
-                "records": miss["graph_urn_count"]
+                "records": source_records
             }
 
-            report.append(dictionary)
+            report.append(dict)
 
         except Exception as e:
             logging.error(

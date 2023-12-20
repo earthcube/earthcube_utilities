@@ -217,22 +217,28 @@ def identifier_stats(cfgfile,s3server, s3bucket, graphendpoint, upload, output, 
 
 @cli.command()
 @click.option('--url', help='URL of the source CSV file', required=True)
+@click.option('--community', help='Community', required=False)
+@click.option('--graphendpoint', help='Graph endpoint of summary', required=True)
 @common_params
-def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url):
+def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug, url, community):
     ctx = EcConfig(cfgfile, s3server, s3bucket, graphendpoint, upload, output, debug)
     upload = ctx.upload
     bucket = ctx.bucket
     s3server = ctx.s3server
     graphendpoint = ctx.graphendpoint  # not in gleaner file
     ctx.hasS3()
+    ctx.hasGraphendpoint(message=" must provide graphendpoint")
 
     log.info(f"s3server: {s3server} bucket:{bucket} graph:{graphendpoint}")
     s3Minio = s3.MinioDatastore(s3server, {})
 
-    report = generateReportStats(url, bucket, s3Minio)
+    if is_empty(community):
+        community = 'all'
+    # graphendpoint needs to be summary
+    report = generateReportStats(url, bucket, s3Minio, graphendpoint, community)
 
     if upload:
-        s3Minio.putReportFile(bucket, "all", "report_stats.json", report)
+        s3Minio.putReportFile(bucket, "all", f"report_{community}_stats.json", report)
     return
 
 
