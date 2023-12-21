@@ -1,6 +1,6 @@
 
 pandas==1.5.3
-rdflib==6.2.0
+rdflib==7.0.0
 requests==2.28.2
 simplejson==3.18.3
 sparqldataframe==0.1.0
@@ -15,3 +15,10 @@ jsonschema
 pydash
 advertools
 pandarallel
+# these dependencies are only needed for the notebook.
+# kglab causes issues with buildling containers in scheduler
+#kglab # this uses JPyPe1 which is abandoned
+# reportlab
+# seaborn
+# Notebook
+

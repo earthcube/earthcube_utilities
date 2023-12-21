@@ -1,3 +1,0 @@
-argparse
-rdflib
-earthcube_utilities

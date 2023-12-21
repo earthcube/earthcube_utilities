@@ -1,16 +1,17 @@
 [project]
 name = "earthcube_utilities"
-version = "0.1.14"
+version = "0.1.21"
 dynamic = ["dependencies"]
 description = "A package of utilities for NSF Earthcube Geocodes Project"
 readme =  "README.md"
 
 authors = [
     {name = "Mike Bobak", email = "mbobak@illinois.edu"},
-    {name= "David Valentine", email="dwvalentine@ucsd.edu"}
+    {name= "David Valentine", email="dwvalentine@ucsd.edu"},
+    {name = "Ya-Lan Yang", email = "ylyang@illinois.edu"}
 ]
 maintainers = [
-    {name = "Mike Bobak", email = "mbobak@illinois.edu"},
+    {name = "Ya-Lan Yang", email = "ylyang@illinois.edu"},
     {name= "David Valentine", email="dwvalentine@ucsd.edu"}
 ]
 
@@ -37,6 +38,9 @@ generategraphstats = "ec.generate_graph_stats:start"
 check_sitemap = "ec.check_sitemap:start"
 query_graph = "ec.query_graph:start"
 missing_report = "ec.missing_report:start"
+summarize_identifier_metadata = "ec.summarize_identifier_metadata:start"
+ec_reports = "ec.ec_reports:start"
+bucketutil = "ec.bucketutil:start"
 
 [tool.setuptools]
 # If there are data files included in your packages that need to be

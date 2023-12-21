@@ -12,7 +12,6 @@ from pandas import DataFrame
 import requests, sys, os
 import yaml
 from pandas.core.arrays import ExtensionArray
-from tqdm import tqdm
 
 def _urlExists(sitemapurl):
     try:
@@ -44,9 +43,9 @@ class Sitemap():
     sitemapurl = None
     _validSitemap = True
     sitemap_df = pandas.DataFrame()
-    errors=[]
     _checkedUrls=False
     def __init__(self, sitemapurl, repoName="", no_progress_bar=False):
+        self.errors=[]
         self.sitemapurl = sitemapurl
         self.no_progress_bar = no_progress_bar
         if _urlExists(sitemapurl):
@@ -54,6 +53,7 @@ class Sitemap():
             self._validSitemap = True
         else:
             self.errors.append(f"sitemap url invalid: {sitemapurl}")
+            self._validSitemap = False
             # the other option is to return None.
 
     def validUrl(self) -> bool:

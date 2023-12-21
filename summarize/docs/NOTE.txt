@@ -1,2 +1,0 @@
-Docs are in the top level docs directory
-

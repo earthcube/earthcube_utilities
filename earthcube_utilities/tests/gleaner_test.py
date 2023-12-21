@@ -57,7 +57,7 @@ class MyTestCase(unittest.TestCase):
          self.assertFalse("ERROR"  in result )
     def test_sitemapFromGleaner(self):
         sitemaps = getSitemapSourcesFromGleaner("../resources/testing/gleaner")
-        self.assertEqual(len(sitemaps), 1)
+        self.assertEqual(len(sitemaps), 4)
 
 if __name__ == '__main__':
     unittest.main()

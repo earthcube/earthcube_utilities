@@ -2,5 +2,5 @@ SELECT distinct ?g
 WHERE     {
      GRAPH ?g {?s ?p ?o .}
     # FILTER( CONTAINS(str(?g), "${repo}") )
-    FILTER( STRSTARTS(str(?g), "urn:gleaner:summoned:${repo}"))
+    FILTER( CONTAINS(str(?g), "${repo}"))
 }

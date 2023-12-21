@@ -19,7 +19,7 @@ class MyTestCase(unittest.TestCase):
         json_data = json.loads(testdata)
         validates,message = validateJson2Schema(json_data)
         self.assertEqual(True, validates)  # add assertion here
-        self.assertEqual("Given JSONLD data is Valid", message)
+        self.assertEqual("Given JSON data is Valid", message)
 
 
 if __name__ == '__main__':
