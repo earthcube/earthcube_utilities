@@ -1,5 +1,5 @@
-SELECT (COUNT(distinct ?s) AS ?graphs)
+SELECT ?g
 WHERE {
-  ?s ?p ?o .
-  FILTER( CONTAINS(str(?s), ":${repo}:") )
+  GRAPH ?g {
+  }
 }
