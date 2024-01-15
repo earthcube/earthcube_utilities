@@ -356,16 +356,17 @@ def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, 
         source_community = i.get('Community')
         source_des = i.get('Description')
 
+        df_repo = df[df["repo"] == source_name]
         try:
             sm = Sitemap(source_url)
             if not sm.validUrl():
                 logging.error(f"Invalid or unreachable URL: {source_url} ")
 
             source_records = 0
-            if df.empty:
+            if df_repo.empty:
                 logging.info(f"Repo is empty in graph: {source_name} ")
             else:
-                source_records = df[df["repo"] == source_name]["DistinctCount"].values[0].astype(str)
+                source_records = df_repo["DistinctCount"].values[0].astype(str)
 
             dict = {
                 "source": source_name,
