@@ -1,0 +1,8 @@
+# template substitute ${urn}
+SELECT ?s ?p ?o ?g
+WHERE     {
+    GRAPH <${urn}> {?s ?p ?o .
+    bind(<${urn}> as ?g)
+}
+
+}
