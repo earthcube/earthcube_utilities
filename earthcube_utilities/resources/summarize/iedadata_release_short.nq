@@ -1,0 +1,669 @@
+<doi:10.26022/IEDA/320551> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PropertyValue> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<doi:10.26022/IEDA/320551> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Identifier" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<doi:10.26022/IEDA/320551> <https://schema.org/additionalType> "http://purl.org/spar/datacite/Identifier" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<doi:10.26022/IEDA/320551> <https://schema.org/propertyID> "http://purl.org/spar/datacite/doi" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<doi:10.26022/IEDA/320551> <https://schema.org/url> "http://dx.doi.org/10.26022/IEDA/320551" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<doi:10.26022/IEDA/320551> <https://schema.org/value> "10.26022/IEDA/320551" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s30> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ContactPoint> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s30> <https://schema.org/contactType> "Information" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s30> <https://schema.org/email> "info@iedadata.org" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s30> <https://schema.org/name> "Information Desk" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s30> <https://schema.org/url> "https://www.iedadata.org/contact/" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://dx.doi.org/10.13039/100000001> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/alternateName> "NSF" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/legalName> "National Science Foundation" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DigitalDocument> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/additionalType> "gdx:Protocol-License" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/description> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/name> "Dataset Usage License" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/url> "https://creativecommons.org/licenses/by-nc-sa/3.0/us/" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s3g> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s3g> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s3g> <https://schema.org/familyName> "McLain" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s3g> <https://schema.org/givenName> "Kevin" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s3g> <https://schema.org/name> "McLain, Kevin" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s40> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s40> <http://www.w3.org/ns/dcat#accessURL> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=20551" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s40> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s40> <https://schema.org/encodingFormat> "application/octet-stream" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s40> <https://schema.org/name> "URL" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s40> <https://schema.org/url> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=20551" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://www.iedadata.org/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://www.iedadata.org/> <https://schema.org/contactPoint> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s30> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://www.iedadata.org/> <https://schema.org/description> "The IEDA data facility mission is to support, sustain, and advance the geosciences by providing data services for observational geoscience data from the Ocean, Earth, and Polar Sciences. IEDA systems serve as primary community data collections for global geochemistry and marine geoscience research and support the preservation, discovery, retrieval, and analysis of a wide range of observational field and analytical data types. Our tools and services are designed to facilitate data discovery and reuse for focused disciplinary research and to support interdisciplinary research and data integration." <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://www.iedadata.org/> <https://schema.org/funder> <http://dx.doi.org/10.13039/100000085> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://www.iedadata.org/> <https://schema.org/logo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s4g> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://www.iedadata.org/> <https://schema.org/name> "Interdisciplinary Earth Data Alliance (IEDA)" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://www.iedadata.org/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/142992181/> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://www.iedadata.org/> <https://schema.org/publishingPrinciples> <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://www.iedadata.org/> <https://schema.org/url> "https://www.iedadata.org/" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s50> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Place> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s50> <https://schema.org/geo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s5g> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://viaf.org/viaf/142992181/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/address> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s60> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/name> "Lamont-Doherty Earth Observatory" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/156836332/> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/url> "http://www.ldeo.columbia.edu/" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s60> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PostalAddress> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s60> <https://schema.org/addressCountry> "USA" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s60> <https://schema.org/addressLocality> "Palisades" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s60> <https://schema.org/addressRegion> "NY" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s60> <https://schema.org/postalCode> "10964-1000" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s60> <https://schema.org/streetAddress> "61 Route 9W" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://viaf.org/viaf/156836332/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/legalName> "Columbia University" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/url> "http://www.columbia.edu/" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Dataset" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/additionalType> "http://vivoweb.org/ontology/core#Dataset" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/citation> "McLain, Kevin (2013), Processed ship-based Multibeam Sonar Data (version 2) acquired in the western Atlantic Ocean during the Knorr expedition KN205 (2012). Interdisciplinary Earth Data Alliance (IEDA). doi:10.26022/IEDA/320551" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s3g> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/dateCreated> "2013-10-04" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/datePublished> "2013" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/description> "Abstract: This data set was acquired with a ship-based SeaBeam 3012-P1 Multibeam Sonar system during Knorr expedition KN205 conducted in 2012 (Chief Scientist: Dr. Craig Lee). These data files are of MBSystem format and include Acoustic Backscatter, Sidescan, and Swath Bathymetry data and were processed by the GMRT Team using the open source MB-System multibeam sonar processing software as part of the GMRT Synthesis effort. These data are included in the GMRT Synthesis, version 2.5. Data were acquired as part of the project(s): Scalable Lateral Mixing and Coherent Turbulence (LatMix)." <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s6g> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s40> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/identifier> <doi:10.26022/IEDA/320551> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/inLanguage> "en" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/keywords> "Backscatter:Acoustic" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/keywords> "Bathymetry:Swath" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/keywords> "Sidescan" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/license> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/name> "Processed ship-based Multibeam Sonar Data (version 2) acquired in the western Atlantic Ocean during the Knorr expedition KN205 (2012)" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/provider> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/publisher> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/spatialCoverage> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s50> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<DOI:10.26022/IEDA/320551> <https://schema.org/version> "1" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s4g> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ImageObject> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s4g> <https://schema.org/url> "http://app.iedadata.org/images/ieda_maplogo.png" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s5g> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoShape> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s5g> <https://schema.org/box> "-68.892981, 37.453197 -59.668614, 40.24909" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s6g> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s6g> <http://www.w3.org/ns/dcat#accessURL> "http://dx.doi.org/10.26022/IEDA/320551" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s6g> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s6g> <https://schema.org/encodingFormat> "application/octet-stream" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s6g> <https://schema.org/name> "DOI landing page" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s6g> <https://schema.org/url> "http://dx.doi.org/10.26022/IEDA/320551" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://dx.doi.org/10.13039/100000085> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/alternateName> "NSF-GEO" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/legalName> "Directorate for Geosciences" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/parentOrganization> <http://dx.doi.org/10.13039/100000001> <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s70> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PostalAddress> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s70> <https://schema.org/addressCountry> "USA" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s70> <https://schema.org/addressLocality> "Palisades" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s70> <https://schema.org/addressRegion> "NY" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s70> <https://schema.org/postalCode> "10964-1000" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s70> <https://schema.org/streetAddress> "61 Route 9W" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://viaf.org/viaf/156836332/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/legalName> "Columbia University" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/url> "http://www.columbia.edu/" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://viaf.org/viaf/142992181/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/address> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s70> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/name> "Lamont-Doherty Earth Observatory" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/156836332/> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/url> "http://www.ldeo.columbia.edu/" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s7g> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoShape> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s7g> <https://schema.org/box> "-73.197090115516, 40.9628376666447 -72.950428841623, 41.19890316494" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s80> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s80> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s80> <https://schema.org/familyName> "McHugh" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s80> <https://schema.org/givenName> "Cecilia" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s80> <https://schema.org/name> "McHugh, Cecilia" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s8g> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s8g> <http://www.w3.org/ns/dcat#accessURL> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=21698" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s8g> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s8g> <https://schema.org/encodingFormat> "image/geotiff" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s8g> <https://schema.org/name> "URL" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s8g> <https://schema.org/url> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=21698" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<doi:10.1594/IEDA/321698> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PropertyValue> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<doi:10.1594/IEDA/321698> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Identifier" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<doi:10.1594/IEDA/321698> <https://schema.org/additionalType> "http://purl.org/spar/datacite/Identifier" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<doi:10.1594/IEDA/321698> <https://schema.org/propertyID> "http://purl.org/spar/datacite/doi" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<doi:10.1594/IEDA/321698> <https://schema.org/url> "http://dx.doi.org/10.1594/IEDA/321698" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<doi:10.1594/IEDA/321698> <https://schema.org/value> "10.1594/IEDA/321698" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://dx.doi.org/10.13039/100000085> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/alternateName> "NSF-GEO" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/legalName> "Directorate for Geosciences" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/parentOrganization> <http://dx.doi.org/10.13039/100000001> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s90> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ImageObject> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s90> <https://schema.org/url> "http://app.iedadata.org/images/ieda_maplogo.png" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://www.iedadata.org/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://www.iedadata.org/> <https://schema.org/contactPoint> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s9g> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://www.iedadata.org/> <https://schema.org/description> "The IEDA data facility mission is to support, sustain, and advance the geosciences by providing data services for observational geoscience data from the Ocean, Earth, and Polar Sciences. IEDA systems serve as primary community data collections for global geochemistry and marine geoscience research and support the preservation, discovery, retrieval, and analysis of a wide range of observational field and analytical data types. Our tools and services are designed to facilitate data discovery and reuse for focused disciplinary research and to support interdisciplinary research and data integration." <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://www.iedadata.org/> <https://schema.org/funder> <http://dx.doi.org/10.13039/100000085> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://www.iedadata.org/> <https://schema.org/logo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s90> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://www.iedadata.org/> <https://schema.org/name> "Interdisciplinary Earth Data Alliance (IEDA)" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://www.iedadata.org/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/142992181/> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://www.iedadata.org/> <https://schema.org/publishingPrinciples> <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://www.iedadata.org/> <https://schema.org/url> "https://www.iedadata.org/" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DigitalDocument> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/additionalType> "gdx:Protocol-License" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/description> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/name> "Dataset Usage License" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/url> "https://creativecommons.org/licenses/by-nc-sa/3.0/us/" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sa0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Place> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sa0> <https://schema.org/geo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s7g> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://dx.doi.org/10.13039/100000001> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/alternateName> "NSF" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/legalName> "National Science Foundation" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Dataset" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/additionalType> "http://vivoweb.org/ontology/core#Dataset" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/citation> "Kenna, Timothy, McHugh, Cecilia, Nitsche, Frank (2014), Geologic Interpretation Rasters (GEOTIFF format) from the Long Island Sound Estuary assembled as part of the Long Island Sound Cable Fund Pilot Seafloor Mapping Project. Interdisciplinary Earth Data Alliance (IEDA). doi:10.1594/IEDA/321698" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sag> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s80> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sb0> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/dateCreated> "2014-11-19" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/datePublished> "2014" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/description> "Abstract: This data set was acquired with a Van Veen Grab Sediment Sampler and Pentapyc 5200 pycnometer assembled as part of the LIS:Sediments data compilation (Chief Scientist: Dr. Frank Nitsche; Investigator(s): Dr. Timothy Kenna, Dr. Cecilia McHugh, and Dr. Frank Nitsche). These data files are of GeoTIFF (Raster) format and include Geologic Interpretation data and were processed after data collection. ." <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sbg> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1s8g> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/identifier> <doi:10.1594/IEDA/321698> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/inLanguage> "en" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/keywords> "Interpretation:Geologic" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/license> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/name> "Geologic Interpretation Rasters (GEOTIFF format) from the Long Island Sound Estuary assembled as part of the Long Island Sound Cable Fund Pilot Seafloor Mapping Project" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/provider> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/publisher> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/spatialCoverage> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sa0> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<DOI:10.1594/IEDA/321698> <https://schema.org/version> "1" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sag> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sag> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sag> <https://schema.org/familyName> "Kenna" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sag> <https://schema.org/givenName> "Timothy" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sag> <https://schema.org/name> "Kenna, Timothy" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sb0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sb0> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sb0> <https://schema.org/familyName> "Nitsche" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sb0> <https://schema.org/givenName> "Frank" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sb0> <https://schema.org/name> "Nitsche, Frank" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sbg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sbg> <http://www.w3.org/ns/dcat#accessURL> "http://dx.doi.org/10.1594/IEDA/321698" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sbg> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sbg> <https://schema.org/encodingFormat> "image/geotiff" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sbg> <https://schema.org/name> "DOI landing page" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sbg> <https://schema.org/url> "http://dx.doi.org/10.1594/IEDA/321698" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s9g> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ContactPoint> <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s9g> <https://schema.org/contactType> "Information" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s9g> <https://schema.org/email> "info@iedadata.org" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s9g> <https://schema.org/name> "Information Desk" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1s9g> <https://schema.org/url> "https://www.iedadata.org/contact/" <urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sc0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ContactPoint> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sc0> <https://schema.org/contactType> "Information" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sc0> <https://schema.org/email> "info@iedadata.org" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sc0> <https://schema.org/name> "Information Desk" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sc0> <https://schema.org/url> "https://www.iedadata.org/contact/" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://dx.doi.org/10.13039/100000085> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/alternateName> "NSF-GEO" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/legalName> "Directorate for Geosciences" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/parentOrganization> <http://dx.doi.org/10.13039/100000001> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://dx.doi.org/10.13039/100000001> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/alternateName> "NSF" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/legalName> "National Science Foundation" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1scg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1scg> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1scg> <https://schema.org/familyName> "Lee" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1scg> <https://schema.org/givenName> "Raymond" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1scg> <https://schema.org/name> "Lee, Raymond" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sd0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sd0> <http://www.w3.org/ns/dcat#accessURL> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=17703" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sd0> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sd0> <https://schema.org/encodingFormat> "text/plain" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sd0> <https://schema.org/name> "URL" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sd0> <https://schema.org/url> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=17703" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://www.iedadata.org/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://www.iedadata.org/> <https://schema.org/contactPoint> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sc0> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://www.iedadata.org/> <https://schema.org/description> "The IEDA data facility mission is to support, sustain, and advance the geosciences by providing data services for observational geoscience data from the Ocean, Earth, and Polar Sciences. IEDA systems serve as primary community data collections for global geochemistry and marine geoscience research and support the preservation, discovery, retrieval, and analysis of a wide range of observational field and analytical data types. Our tools and services are designed to facilitate data discovery and reuse for focused disciplinary research and to support interdisciplinary research and data integration." <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://www.iedadata.org/> <https://schema.org/funder> <http://dx.doi.org/10.13039/100000085> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://www.iedadata.org/> <https://schema.org/logo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sdg> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://www.iedadata.org/> <https://schema.org/name> "Interdisciplinary Earth Data Alliance (IEDA)" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://www.iedadata.org/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/142992181/> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://www.iedadata.org/> <https://schema.org/publishingPrinciples> <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://www.iedadata.org/> <https://schema.org/url> "https://www.iedadata.org/" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sdg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ImageObject> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sdg> <https://schema.org/url> "http://app.iedadata.org/images/ieda_maplogo.png" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://viaf.org/viaf/142992181/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/address> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1se0> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/name> "Lamont-Doherty Earth Observatory" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/156836332/> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/url> "http://www.ldeo.columbia.edu/" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1se0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PostalAddress> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1se0> <https://schema.org/addressCountry> "USA" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1se0> <https://schema.org/addressLocality> "Palisades" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1se0> <https://schema.org/addressRegion> "NY" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1se0> <https://schema.org/postalCode> "10964-1000" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1se0> <https://schema.org/streetAddress> "61 Route 9W" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://viaf.org/viaf/156836332/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/legalName> "Columbia University" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/url> "http://www.columbia.edu/" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1seg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoShape> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1seg> <https://schema.org/box> "-129.289217, 46.187432 -123.858847, 48.465152" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<doi:10.1594/IEDA/317703> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PropertyValue> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<doi:10.1594/IEDA/317703> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Identifier" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<doi:10.1594/IEDA/317703> <https://schema.org/additionalType> "http://purl.org/spar/datacite/Identifier" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<doi:10.1594/IEDA/317703> <https://schema.org/propertyID> "http://purl.org/spar/datacite/doi" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<doi:10.1594/IEDA/317703> <https://schema.org/url> "http://dx.doi.org/10.1594/IEDA/317703" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<doi:10.1594/IEDA/317703> <https://schema.org/value> "10.1594/IEDA/317703" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://www.nsf.gov/awardsearch/showAward.do?AwardNumber=0623554> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/CreativeWork> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://www.nsf.gov/awardsearch/showAward.do?AwardNumber=0623554> <https://schema.org/additionalType> "https://library.ucar.edu/earthcollab/schema#Project" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://www.nsf.gov/awardsearch/showAward.do?AwardNumber=0623554> <https://schema.org/name> "Collaborative Research: Thermal biology of hydrothermal vent paralvinellid worms" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DigitalDocument> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/additionalType> "gdx:Protocol-License" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/description> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/name> "Dataset Usage License" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/url> "https://creativecommons.org/licenses/by-nc-sa/3.0/us/" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sf0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Place> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sf0> <https://schema.org/geo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1seg> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Dataset" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/additionalType> "http://vivoweb.org/ontology/core#Dataset" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/citation> "Lee, Raymond (2011), Processed ship-based Navigation Data from the Juan de Fuca: Endeavour Spreading Center Segment acquired during the Atlantis expedition AT15-22 (2007). Interdisciplinary Earth Data Alliance (IEDA). doi:10.1594/IEDA/317703" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1scg> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/dateCreated> "2011-11-04" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/datePublished> "2011" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/description> "Abstract: This data set was acquired with a ship-based Navigation system during Atlantis expedition AT15-22 conducted in 2007 (Chief Scientist: Dr. Raymond Lee). These data files are of Text File (ASCII) format and include Navigation data and were processed after data collection. Funding was provided by NSF grant(s): OCE06-23554." <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sfg> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sd0> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/identifier> <doi:10.1594/IEDA/317703> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/inLanguage> "en" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/isPartOf> <http://www.nsf.gov/awardsearch/showAward.do?AwardNumber=0623554> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/keywords> "Navigation:Primary" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/license> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/name> "Processed ship-based Navigation Data from the Juan de Fuca: Endeavour Spreading Center Segment acquired during the Atlantis expedition AT15-22 (2007)" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/provider> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/publisher> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/spatialCoverage> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sf0> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<DOI:10.1594/IEDA/317703> <https://schema.org/version> "1" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sfg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sfg> <http://www.w3.org/ns/dcat#accessURL> "http://dx.doi.org/10.1594/IEDA/317703" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sfg> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sfg> <https://schema.org/encodingFormat> "text/plain" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sfg> <https://schema.org/name> "DOI landing page" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sfg> <https://schema.org/url> "http://dx.doi.org/10.1594/IEDA/317703" <urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3> .
+<http://dx.doi.org/10.13039/100000001> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/alternateName> "NSF" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/legalName> "National Science Foundation" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://viaf.org/viaf/142992181/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/address> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sg0> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/name> "Lamont-Doherty Earth Observatory" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/156836332/> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/url> "http://www.ldeo.columbia.edu/" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DigitalDocument> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/additionalType> "gdx:Protocol-License" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/description> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/name> "Dataset Usage License" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/url> "https://creativecommons.org/licenses/by-nc-sa/3.0/us/" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sgg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Place> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sgg> <https://schema.org/geo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sh0> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sh0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoShape> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sh0> <https://schema.org/box> "-135.16, 70.8 -135.06, 70.85" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1shg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1shg> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1shg> <https://schema.org/familyName> "Paull" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1shg> <https://schema.org/givenName> "Charles" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1shg> <https://schema.org/name> "Paull, Charles" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1si0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ContactPoint> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1si0> <https://schema.org/contactType> "Information" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1si0> <https://schema.org/email> "info@iedadata.org" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1si0> <https://schema.org/name> "Information Desk" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1si0> <https://schema.org/url> "https://www.iedadata.org/contact/" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sig> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sig> <http://www.w3.org/ns/dcat#accessURL> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=30234" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sig> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sig> <https://schema.org/encodingFormat> "image/jpeg" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sig> <https://schema.org/name> "URL" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sig> <https://schema.org/url> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=30234" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<doi:10.26022/IEDA/330234> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PropertyValue> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<doi:10.26022/IEDA/330234> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Identifier" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<doi:10.26022/IEDA/330234> <https://schema.org/additionalType> "http://purl.org/spar/datacite/Identifier" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<doi:10.26022/IEDA/330234> <https://schema.org/propertyID> "http://purl.org/spar/datacite/doi" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<doi:10.26022/IEDA/330234> <https://schema.org/url> "http://dx.doi.org/10.26022/IEDA/330234" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<doi:10.26022/IEDA/330234> <https://schema.org/value> "10.26022/IEDA/330234" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://dx.doi.org/10.13039/100000085> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/alternateName> "NSF-GEO" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/legalName> "Directorate for Geosciences" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/parentOrganization> <http://dx.doi.org/10.13039/100000001> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sg0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PostalAddress> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sg0> <https://schema.org/addressCountry> "USA" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sg0> <https://schema.org/addressLocality> "Palisades" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sg0> <https://schema.org/addressRegion> "NY" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sg0> <https://schema.org/postalCode> "10964-1000" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sg0> <https://schema.org/streetAddress> "61 Route 9W" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Dataset" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/additionalType> "http://vivoweb.org/ontology/core#Dataset" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/citation> "Jin, YoungKeun, Paull, Charles, Caress, David (2021), Processed sub-bottom profiles acquired near-bottom in 2017 from the continental slope of the Canadian Beaufort Sea with MBARI mapping AUV on mission 20170910m1. Interdisciplinary Earth Data Alliance (IEDA). doi:10.26022/IEDA/330234" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sj0> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1shg> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sjg> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/dateCreated> "2021-07-06" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/datePublished> "2021" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/description> "Abstract: This sub-bottom data set was collected with an Edgetech 2205 sonar/sub-bottom system on MBARI Mapping AUV mission 20170910m1 in 2017. The data files are in JPEG format and contain processed sub-bottom data. The AUV survey mission was conducted during the 2017 KOPRI R/V Araon cruise ARA08C in the Beaufort Sea (Cruise Chief Scientist - Young Keun Jin, KOPRI; project PI - Charlie Paull and investigators: David Caress and Eve Lundsten, MBARI). Data were acquired as part of a collaborative research project between MBARI, KOPRI, the Geological Survey of Canada, and Department of Fisheries and Oceans Canada to understand slope stability. Funding for the AUV mapping was provided from the David and Lucile Packard Foundation." <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sk0> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sig> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/identifier> <doi:10.26022/IEDA/330234> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/inLanguage> "en" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/keywords> "Seismic:Active:Subbottom" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/license> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/name> "Processed sub-bottom profiles acquired near-bottom in 2017 from the continental slope of the Canadian Beaufort Sea with MBARI mapping AUV on mission 20170910m1" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/provider> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/publisher> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/spatialCoverage> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sgg> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.26022/IEDA/330234> <https://schema.org/version> "1" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sj0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sj0> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sj0> <https://schema.org/familyName> "Jin" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sj0> <https://schema.org/givenName> "YoungKeun" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sj0> <https://schema.org/name> "Jin, YoungKeun" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://www.iedadata.org/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://www.iedadata.org/> <https://schema.org/contactPoint> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1si0> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://www.iedadata.org/> <https://schema.org/description> "The IEDA data facility mission is to support, sustain, and advance the geosciences by providing data services for observational geoscience data from the Ocean, Earth, and Polar Sciences. IEDA systems serve as primary community data collections for global geochemistry and marine geoscience research and support the preservation, discovery, retrieval, and analysis of a wide range of observational field and analytical data types. Our tools and services are designed to facilitate data discovery and reuse for focused disciplinary research and to support interdisciplinary research and data integration." <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://www.iedadata.org/> <https://schema.org/funder> <http://dx.doi.org/10.13039/100000085> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://www.iedadata.org/> <https://schema.org/logo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1skg> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://www.iedadata.org/> <https://schema.org/name> "Interdisciplinary Earth Data Alliance (IEDA)" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://www.iedadata.org/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/142992181/> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://www.iedadata.org/> <https://schema.org/publishingPrinciples> <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://www.iedadata.org/> <https://schema.org/url> "https://www.iedadata.org/" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1skg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ImageObject> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1skg> <https://schema.org/url> "http://app.iedadata.org/images/ieda_maplogo.png" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://viaf.org/viaf/156836332/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/legalName> "Columbia University" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/url> "http://www.columbia.edu/" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sjg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sjg> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sjg> <https://schema.org/familyName> "Caress" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sjg> <https://schema.org/givenName> "David" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sjg> <https://schema.org/name> "Caress, David" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sk0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sk0> <http://www.w3.org/ns/dcat#accessURL> "http://dx.doi.org/10.26022/IEDA/330234" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sk0> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sk0> <https://schema.org/encodingFormat> "image/jpeg" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sk0> <https://schema.org/name> "DOI landing page" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sk0> <https://schema.org/url> "http://dx.doi.org/10.26022/IEDA/330234" <urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543> .
+<DOI:10.1594/IEDA/313633> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Dataset" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/additionalType> "http://vivoweb.org/ontology/core#Dataset" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/citation> "Swift, Jim (2009), Processed ship-based Navigation Data acquired during the Thomas Washington expedition TUNE02WT (1991). Interdisciplinary Earth Data Alliance (IEDA). doi:10.1594/IEDA/313633" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sl0> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/dateCreated> "2009-10-08" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/datePublished> "2009" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/description> "Abstract: This data set was acquired with a ship-based Navigation system during Thomas Washington expedition TUNE02WT conducted in 1991 (Chief Scientist: Dr. Jim Swift). These data files are of Text File (ASCII) format and include Navigation data and were processed after data collection." <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1slg> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sm0> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/identifier> <doi:10.1594/IEDA/313633> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/inLanguage> "en" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/keywords> "Navigation:Primary" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/license> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/name> "Processed ship-based Navigation Data acquired during the Thomas Washington expedition TUNE02WT (1991)" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/provider> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/publisher> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/spatialCoverage> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1smg> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<DOI:10.1594/IEDA/313633> <https://schema.org/version> "1" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sl0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sl0> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sl0> <https://schema.org/familyName> "Swift" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sl0> <https://schema.org/givenName> "Jim" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sl0> <https://schema.org/name> "Swift, Jim" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://www.iedadata.org/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://www.iedadata.org/> <https://schema.org/contactPoint> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sn0> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://www.iedadata.org/> <https://schema.org/description> "The IEDA data facility mission is to support, sustain, and advance the geosciences by providing data services for observational geoscience data from the Ocean, Earth, and Polar Sciences. IEDA systems serve as primary community data collections for global geochemistry and marine geoscience research and support the preservation, discovery, retrieval, and analysis of a wide range of observational field and analytical data types. Our tools and services are designed to facilitate data discovery and reuse for focused disciplinary research and to support interdisciplinary research and data integration." <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://www.iedadata.org/> <https://schema.org/funder> <http://dx.doi.org/10.13039/100000085> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://www.iedadata.org/> <https://schema.org/logo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sng> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://www.iedadata.org/> <https://schema.org/name> "Interdisciplinary Earth Data Alliance (IEDA)" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://www.iedadata.org/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/142992181/> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://www.iedadata.org/> <https://schema.org/publishingPrinciples> <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://www.iedadata.org/> <https://schema.org/url> "https://www.iedadata.org/" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sm0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sm0> <http://www.w3.org/ns/dcat#accessURL> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=13633" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sm0> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sm0> <https://schema.org/encodingFormat> "text/plain" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sm0> <https://schema.org/name> "URL" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sm0> <https://schema.org/url> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=13633" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sng> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ImageObject> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sng> <https://schema.org/url> "http://app.iedadata.org/images/ieda_maplogo.png" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1so0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PostalAddress> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1so0> <https://schema.org/addressCountry> "USA" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1so0> <https://schema.org/addressLocality> "Palisades" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1so0> <https://schema.org/addressRegion> "NY" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1so0> <https://schema.org/postalCode> "10964-1000" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1so0> <https://schema.org/streetAddress> "61 Route 9W" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1smg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Place> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1smg> <https://schema.org/geo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sog> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1slg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1slg> <http://www.w3.org/ns/dcat#accessURL> "http://dx.doi.org/10.1594/IEDA/313633" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1slg> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1slg> <https://schema.org/encodingFormat> "text/plain" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1slg> <https://schema.org/name> "DOI landing page" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1slg> <https://schema.org/url> "http://dx.doi.org/10.1594/IEDA/313633" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<doi:10.1594/IEDA/313633> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PropertyValue> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<doi:10.1594/IEDA/313633> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Identifier" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<doi:10.1594/IEDA/313633> <https://schema.org/additionalType> "http://purl.org/spar/datacite/Identifier" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<doi:10.1594/IEDA/313633> <https://schema.org/propertyID> "http://purl.org/spar/datacite/doi" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<doi:10.1594/IEDA/313633> <https://schema.org/url> "http://dx.doi.org/10.1594/IEDA/313633" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<doi:10.1594/IEDA/313633> <https://schema.org/value> "10.1594/IEDA/313633" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sn0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ContactPoint> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sn0> <https://schema.org/contactType> "Information" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sn0> <https://schema.org/email> "info@iedadata.org" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sn0> <https://schema.org/name> "Information Desk" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sn0> <https://schema.org/url> "https://www.iedadata.org/contact/" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://dx.doi.org/10.13039/100000085> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/alternateName> "NSF-GEO" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/legalName> "Directorate for Geosciences" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/parentOrganization> <http://dx.doi.org/10.13039/100000001> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://dx.doi.org/10.13039/100000001> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/alternateName> "NSF" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/legalName> "National Science Foundation" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://viaf.org/viaf/156836332/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/legalName> "Columbia University" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/url> "http://www.columbia.edu/" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DigitalDocument> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/additionalType> "gdx:Protocol-License" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/description> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/name> "Dataset Usage License" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/url> "https://creativecommons.org/licenses/by-nc-sa/3.0/us/" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sog> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoShape> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sog> <https://schema.org/box> "-150.56132, -37.5409 -132.29953, -6.00157" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://viaf.org/viaf/142992181/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/address> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1so0> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/name> "Lamont-Doherty Earth Observatory" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/156836332/> <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/url> "http://www.ldeo.columbia.edu/" <urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sp0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sp0> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sp0> <https://schema.org/name> "Gulick, Sean" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://dx.doi.org/10.13039/100000001> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/alternateName> "NSF" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/legalName> "National Science Foundation" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://viaf.org/viaf/156836332/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/legalName> "Columbia University" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/url> "http://www.columbia.edu/" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DigitalDocument> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/additionalType> "gdx:Protocol-License" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/description> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/name> "Dataset Usage License" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/url> "https://creativecommons.org/licenses/by-nc-sa/3.0/us/" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1spg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Place> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1spg> <https://schema.org/geo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sq0> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sqg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sqg> <http://www.w3.org/ns/dcat#accessURL> "http://dx.doi.org/10.1594/IEDA/500054" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sqg> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sqg> <https://schema.org/encodingFormat> "application/seismic-segy, text/plain, image/gif" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sqg> <https://schema.org/name> "DOI landing page" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sqg> <https://schema.org/url> "http://dx.doi.org/10.1594/IEDA/500054" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<doi:10.1594/IEDA/500054> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PropertyValue> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<doi:10.1594/IEDA/500054> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Identifier" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<doi:10.1594/IEDA/500054> <https://schema.org/additionalType> "http://purl.org/spar/datacite/Identifier" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<doi:10.1594/IEDA/500054> <https://schema.org/propertyID> "http://purl.org/spar/datacite/doi" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<doi:10.1594/IEDA/500054> <https://schema.org/url> "http://dx.doi.org/10.1594/IEDA/500054" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<doi:10.1594/IEDA/500054> <https://schema.org/value> "10.1594/IEDA/500054" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://dx.doi.org/10.13039/100000085> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/alternateName> "NSF-GEO" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/legalName> "Directorate for Geosciences" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/parentOrganization> <http://dx.doi.org/10.13039/100000001> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sr0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ImageObject> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sr0> <https://schema.org/url> "http://app.iedadata.org/images/ieda_maplogo.png" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1srg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1srg> <http://www.w3.org/ns/dcat#accessURL> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=28662" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1srg> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1srg> <https://schema.org/encodingFormat> "application/seismic-segy, text/plain, image/gif" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1srg> <https://schema.org/name> "URL" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1srg> <https://schema.org/url> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=28662" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://www.iedadata.org/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://www.iedadata.org/> <https://schema.org/contactPoint> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1ss0> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://www.iedadata.org/> <https://schema.org/description> "The IEDA data facility mission is to support, sustain, and advance the geosciences by providing data services for observational geoscience data from the Ocean, Earth, and Polar Sciences. IEDA systems serve as primary community data collections for global geochemistry and marine geoscience research and support the preservation, discovery, retrieval, and analysis of a wide range of observational field and analytical data types. Our tools and services are designed to facilitate data discovery and reuse for focused disciplinary research and to support interdisciplinary research and data integration." <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://www.iedadata.org/> <https://schema.org/funder> <http://dx.doi.org/10.13039/100000085> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://www.iedadata.org/> <https://schema.org/logo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sr0> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://www.iedadata.org/> <https://schema.org/name> "Interdisciplinary Earth Data Alliance (IEDA)" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://www.iedadata.org/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/142992181/> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://www.iedadata.org/> <https://schema.org/publishingPrinciples> <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://www.iedadata.org/> <https://schema.org/url> "https://www.iedadata.org/" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1ss0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ContactPoint> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1ss0> <https://schema.org/contactType> "Information" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1ss0> <https://schema.org/email> "info@iedadata.org" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1ss0> <https://schema.org/name> "Information Desk" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1ss0> <https://schema.org/url> "https://www.iedadata.org/contact/" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sq0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoShape> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sq0> <https://schema.org/box> "-152.130000, 53.620000 -138.260000, 56.500000" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://viaf.org/viaf/142992181/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/address> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1ssg> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/name> "Lamont-Doherty Earth Observatory" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/156836332/> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/url> "http://www.ldeo.columbia.edu/" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1ssg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PostalAddress> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1ssg> <https://schema.org/addressCountry> "USA" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1ssg> <https://schema.org/addressLocality> "Palisades" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1ssg> <https://schema.org/addressRegion> "NY" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1ssg> <https://schema.org/postalCode> "10964-1000" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1ssg> <https://schema.org/streetAddress> "61 Route 9W" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Dataset" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/additionalType> "http://vivoweb.org/ontology/core#Dataset" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/citation> "Sliter, Ray, Reece, Robert, Gulick, Sean, Barth, Ginger (2018), Multi-channel seismic data in the Gulf of Alaska acquired during R/V Marcus G. Langseth expedition MGL1109 (2011), re-processed in 2015. Interdisciplinary Earth Data Alliance (IEDA). doi:10.1594/IEDA/500054" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1st0> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1stg> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sp0> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1su0> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/dateCreated> "2015-10-07" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/datePublished> "2018" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/description> "Abstract: This R/V Langseth expedition to the Gulf of Alaska was funded through the USGS by the United States Extended Continental Shelf program to assess potential US claims under the Convention on the Law of the Sea. The survey objectives were to investigate the thickness of the sediments in the distal Surveyor and Baranof fans. Funded by the United States Geological Survey." <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sqg> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1srg> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/identifier> <doi:10.1594/IEDA/500054> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/inLanguage> "en" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/license> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/name> "Multi-channel seismic data in the Gulf of Alaska acquired during R/V Marcus G. Langseth expedition MGL1109 (2011), re-processed in 2015" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/provider> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/publisher> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/spatialCoverage> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1spg> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<DOI:10.1594/IEDA/500054> <https://schema.org/version> "1" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1st0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1st0> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1st0> <https://schema.org/name> "Sliter, Ray" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1stg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1stg> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1stg> <https://schema.org/name> "Reece, Robert" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1su0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1su0> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1su0> <https://schema.org/name> "Barth, Ginger" <urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc> .
+<https://viaf.org/viaf/156836332/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/legalName> "Columbia University" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://viaf.org/viaf/156836332/> <https://schema.org/url> "http://www.columbia.edu/" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DigitalDocument> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/additionalType> "gdx:Protocol-License" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/description> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/name> "Dataset Usage License" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <https://schema.org/url> "https://creativecommons.org/licenses/by-nc-sa/3.0/us/" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sug> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sug> <http://www.w3.org/ns/dcat#accessURL> "http://dx.doi.org/10.1594/IEDA/311188" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sug> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sug> <https://schema.org/encodingFormat> "text/plain" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sug> <https://schema.org/name> "DOI landing page" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sug> <https://schema.org/url> "http://dx.doi.org/10.1594/IEDA/311188" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sv0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ContactPoint> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sv0> <https://schema.org/contactType> "Information" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sv0> <https://schema.org/email> "info@iedadata.org" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sv0> <https://schema.org/name> "Information Desk" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1sv0> <https://schema.org/url> "https://www.iedadata.org/contact/" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://viaf.org/viaf/142992181/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/address> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1svg> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/name> "Lamont-Doherty Earth Observatory" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/156836332/> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://viaf.org/viaf/142992181/> <https://schema.org/url> "http://www.ldeo.columbia.edu/" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1svg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PostalAddress> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1svg> <https://schema.org/addressCountry> "USA" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1svg> <https://schema.org/addressLocality> "Palisades" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1svg> <https://schema.org/addressRegion> "NY" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1svg> <https://schema.org/postalCode> "10964-1000" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1svg> <https://schema.org/streetAddress> "61 Route 9W" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t00> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Person> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t00> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Person" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t00> <https://schema.org/familyName> "Smith" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t00> <https://schema.org/givenName> "Philip" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t00> <https://schema.org/name> "Smith, Philip" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<doi:10.1594/IEDA/311188> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/PropertyValue> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<doi:10.1594/IEDA/311188> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Identifier" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<doi:10.1594/IEDA/311188> <https://schema.org/additionalType> "http://purl.org/spar/datacite/Identifier" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<doi:10.1594/IEDA/311188> <https://schema.org/propertyID> "http://purl.org/spar/datacite/doi" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<doi:10.1594/IEDA/311188> <https://schema.org/url> "http://dx.doi.org/10.1594/IEDA/311188" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<doi:10.1594/IEDA/311188> <https://schema.org/value> "10.1594/IEDA/311188" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t0g> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Place> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t0g> <https://schema.org/geo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1t10> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t10> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/GeoShape> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t10> <https://schema.org/box> "158.383331, -59.06667 179.583312, -36.39999" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://www.iedadata.org/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://www.iedadata.org/> <https://schema.org/contactPoint> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sv0> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://www.iedadata.org/> <https://schema.org/description> "The IEDA data facility mission is to support, sustain, and advance the geosciences by providing data services for observational geoscience data from the Ocean, Earth, and Polar Sciences. IEDA systems serve as primary community data collections for global geochemistry and marine geoscience research and support the preservation, discovery, retrieval, and analysis of a wide range of observational field and analytical data types. Our tools and services are designed to facilitate data discovery and reuse for focused disciplinary research and to support interdisciplinary research and data integration." <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://www.iedadata.org/> <https://schema.org/funder> <http://dx.doi.org/10.13039/100000085> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://www.iedadata.org/> <https://schema.org/logo> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1t1g> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://www.iedadata.org/> <https://schema.org/name> "Interdisciplinary Earth Data Alliance (IEDA)" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://www.iedadata.org/> <https://schema.org/parentOrganization> <https://viaf.org/viaf/142992181/> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://www.iedadata.org/> <https://schema.org/publishingPrinciples> <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://www.iedadata.org/> <https://schema.org/url> "https://www.iedadata.org/" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t1g> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/ImageObject> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t1g> <https://schema.org/url> "http://app.iedadata.org/images/ieda_maplogo.png" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Dataset> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/additionalType> "http://schema.geolink.org/1.0/base/main#Dataset" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/additionalType> "http://vivoweb.org/ontology/core#Dataset" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/citation> "Smith, Philip (2009), Processed ship-based Navigation Data acquired during the Eltanin expedition ELT16 (1965). Interdisciplinary Earth Data Alliance (IEDA). doi:10.1594/IEDA/311188" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/creator> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1t00> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/dateCreated> "2009-10-07" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/datePublished> "2009" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/description> "Abstract: This data set was acquired with a ship-based Navigation system during Eltanin expedition ELT16 conducted in 1965 (Chief Scientist: Dr. Philip M. Smith). These data files are of Text File (ASCII) format and include Navigation data and were processed after data collection." <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1sug> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/distribution> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1t20> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/identifier> <doi:10.1594/IEDA/311188> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/inLanguage> "en" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/keywords> "Navigation:Primary" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/license> "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/name> "Processed ship-based Navigation Data acquired during the Eltanin expedition ELT16 (1965)" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/provider> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/publisher> <https://www.iedadata.org/> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/spatialCoverage> <https://gleaner.io/xid/genid/cnua7igjo11s73ba1t0g> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<DOI:10.1594/IEDA/311188> <https://schema.org/version> "1" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t20> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/DataDownload> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t20> <http://www.w3.org/ns/dcat#accessURL> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=11188" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t20> <https://schema.org/additionalType> "http://www.w3.org/ns/dcat#distribution" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t20> <https://schema.org/encodingFormat> "text/plain" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t20> <https://schema.org/name> "URL" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<https://gleaner.io/xid/genid/cnua7igjo11s73ba1t20> <https://schema.org/url> "http://www.marine-geo.org/tools/search/Files.php?data_set_uid=11188" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://dx.doi.org/10.13039/100000085> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/alternateName> "NSF-GEO" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/legalName> "Directorate for Geosciences" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/parentOrganization> <http://dx.doi.org/10.13039/100000001> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://dx.doi.org/10.13039/100000085> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://dx.doi.org/10.13039/100000001> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org/Organization> <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/alternateName> "NSF" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/legalName> "National Science Foundation" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
+<http://dx.doi.org/10.13039/100000001> <https://schema.org/url> "http://www.nsf.gov" <urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f> .
