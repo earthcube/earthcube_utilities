@@ -68,6 +68,7 @@ def summarizeReleaseOnly():
     except Exception as ex:
         logging.error(f"error {ex}")
         print(f"Error: {ex}")
+     #   print(f"Pyoxigraph errors can be obsurce with some sparql eg.: Error: error at 63:6: expected OPTIONAL")
         return 1
     # finally:
     #     # need to figure out is this is run after return, I think it is.

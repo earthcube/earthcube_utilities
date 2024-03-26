@@ -1,7 +1,8 @@
 prefix schema: <https://schema.org/>
 SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
-        (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw) ?datep ?sosType
+        (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw)
+        ?datep ?sosType
         #(GROUP_CONCAT(DISTINCT ?url; SEPARATOR=", ") AS ?disurl)
         WHERE {
           graph ?g {
@@ -14,14 +15,15 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
             }
 
            #  ?subj a ?sosType .
-            Minus {?subj a schema:Person } .
- BIND (IF (exists {?subj a schema:Dataset .} ||exists{?subj a schema:DataCatalog .} , "data", "tool") AS ?resourceType).
 
-            optional {?subj schema:distribution/schema:url|schema:subjectOf/schema:url ?url .}
+            BIND (IF (exists {?subj a schema:Dataset .} ||exists{?subj a schema:DataCatalog .} , "data", "tool") AS ?resourceType).
+
+            OPTIONAL {?subj schema:distribution/schema:url|schema:subjectOf/schema:url ?url .}
             OPTIONAL {?subj schema:datePublished ?date_p .}
             OPTIONAL {?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name .}
             OPTIONAL {?subj schema:spatialCoverage/schema:name ?place_name .}
             OPTIONAL {?subj schema:keywords ?kwu .}
+
            # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
             # UI Date Select failed, because it expects an actual date
            # BIND ( IF ( BOUND(?date_p), ?date_p, "No datePublished") as ?datep ) .
