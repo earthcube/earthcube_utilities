@@ -1,7 +1,7 @@
 
 pandas==1.5.3
 rdflib==6.3.2
-oxrdflib==3.3.6
+oxrdflib==0.3.6
 requests==2.28.2
 simplejson==3.18.3
 sparqldataframe==0.1.0
