@@ -333,9 +333,19 @@ def readSourceCSV(csv_url):
     data_list = list(csv_reader)
     return data_list
 
-def generateReportStats(url, bucket, datastore: bucketDatastore):
+def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, community):
     sources = readSourceCSV(url)
-    sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
+    if community != "all":
+        sources = list(filter(lambda source: community in source.get('Community'), sources))
+    else:
+        sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
+
+    # graphendpoint needs to be summary for this sparql
+    df = queryWithSparql("repo_count_graphs_summary", graphendpoint)
+    # dropping null value columns to avoid errors
+    df.dropna(inplace=True)
+    df["repo"] = df["g"].str.split(":", n=-1, expand=True)[3]
+    df = df.groupby(["repo"])["g"].nunique().reset_index(name='DistinctCount')
 
     report = []
     for i in sources:
@@ -346,15 +356,19 @@ def generateReportStats(url, bucket, datastore: bucketDatastore):
         source_community = i.get('Community')
         source_des = i.get('Description')
 
+        df_repo = df[df["repo"] == source_name]
         try:
             sm = Sitemap(source_url)
             if not sm.validUrl():
                 logging.error(f"Invalid or unreachable URL: {source_url} ")
 
-            obj_miss = datastore.s3client.get_object(bucket, f"reports/{source_name}/latest/missing_report_graph.json")
-            miss = json.loads(obj_miss.data.decode("utf-8").replace("'", '"'))
+            source_records = 0
+            if df_repo.empty:
+                logging.info(f"Repo is empty in graph: {source_name} ")
+            else:
+                source_records = df_repo["DistinctCount"].values[0].astype(str)
 
-            dictionary = {
+            dict = {
                 "source": source_name,
                 "title": source_proper_name,
                 "website": source_landing_page,
@@ -362,10 +376,10 @@ def generateReportStats(url, bucket, datastore: bucketDatastore):
                 "image": f"{source_name}.png",
                 "community": source_community,
                 "description": source_des,
-                "records": miss["graph_urn_count"]
+                "records": source_records
             }
 
-            report.append(dictionary)
+            report.append(dict)
 
         except Exception as e:
             logging.error(
