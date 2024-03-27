@@ -1,0 +1,61 @@
+prefix schema: <https://schema.org/>
+
+# v2  produces multiple rows for wam resource type..
+# move sosType up, and agrgate?
+
+SELECT ?subj ?g ?resourceType ?name ?description
+      ?pubname
+        (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
+        (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw) ?datep
+        #(GROUP_CONCAT(DISTINCT ?url; SEPARATOR=", ") AS ?disurl)
+         (GROUP_CONCAT(DISTINCT ?sos; SEPARATOR=", ") AS ?sosType)
+WHERE {
+    graph  ?g {
+        values ?sos {
+                   schema:Dataset
+                   schema:DataCatalog
+                   schema:SoftwareApplication
+                   schema:ResearchProject
+                   }
+       # optional { ?subj schema:distribution/schema:url|schema:subjectOf/schema:url ?url . }
+        OPTIONAL { ?subj schema:datePublished ?date_p . }
+        OPTIONAL { ?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name . }
+        OPTIONAL { ?subj schema:spatialCoverage/schema:name ?place_name . }
+        OPTIONAL { ?subj schema:keywords ?kwu . }
+        # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
+        # UI Date Select failed, because it expects an actual date
+        # BIND ( IF ( BOUND(?date_p), ?date_p, "No datePublished") as ?datep ) .
+        BIND (IF (BOUND(?date_p), ?date_p, "1900-01-01") as ?datep) .
+        BIND (IF (BOUND(?pub_name), ?pub_name, "No Publisher") as ?pubname) .
+        BIND (IF (BOUND(?place_name), ?place_name, "No spatialCoverage") as ?placename) .
+
+    }
+    {
+    SELECT distinct ?subj ?g ?resourceType  ?name ?description
+    WHERE {
+          graph ?g {
+                   ?subj schema:name ?name .
+                   ?subj schema:description ?description .
+
+                       #     ?subj a ?sosType .
+
+                                                       #BIND (IF (exists {?subj a schema:Dataset .} ||exists{?subj a schema:DataCatalog .} , "data", "tool") AS ?resourceType).
+                                                   values (?type ?resourceType) {
+                                                                                (schema:Dataset "data")
+                                                                                (schema:ResearchProject "researchProject") #BCODMO- project
+                                                                                (schema:SoftwareApplication "tool")
+                                                                                                            (schema:Person "person") #BCODMO- Person
+                                                                                                            (schema:Event "event") #BCODMO- deployment
+                                                                                                                                   (schema:Award "award") #BCODMO- Award
+                                                                                                                                   (schema:DataCatalog "DataCatalog")
+
+                                                                                    #(UNDEF "other")  # assume it's data. At least we should get  name.
+                                                                                }
+                   ?subj a ?type .
+                   Minus { ?subj a schema:Person } .
+                   }
+          }
+    }
+}
+GROUP BY ?subj ?g ?resourceType  ?name ?description ?sosType ?pubname ?placenames ?kw ?datep
+

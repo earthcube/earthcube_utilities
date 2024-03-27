@@ -1,0 +1,73 @@
+iedadata.ttlPREFIX ecsummary: <https://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+<urn:gleaner.io::iedadata:data:00085ae430f07f3c116286a4202f0f77ebd185ef>
+    a ecsummary:Dataset ;
+    ecsummary:description "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" ;
+    ecsummary:keywords "NaN"^^xsd:double ;
+    ecsummary:name "Dataset Usage License" ;
+    ecsummary:place "No spatialCoverage" ;
+    ecsummary:publisher "iedadata" ;
+    ecsummary:subjectOf <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> ;
+.
+
+<urn:gleaner.io::iedadata:data:0015351f00b94ca1e16673684eeb1888a5804de8>
+    a ecsummary:Dataset ;
+    ecsummary:description "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" ;
+    ecsummary:keywords "NaN"^^xsd:double ;
+    ecsummary:name "Dataset Usage License" ;
+    ecsummary:place "No spatialCoverage" ;
+    ecsummary:publisher "iedadata" ;
+    ecsummary:subjectOf <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> ;
+.
+
+<urn:gleaner.io::iedadata:data:00158fc125330bea8d33a1b52e9131ee48f837d3>
+    a ecsummary:Dataset ;
+    ecsummary:description "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" ;
+    ecsummary:keywords "NaN"^^xsd:double ;
+    ecsummary:name "Dataset Usage License" ;
+    ecsummary:place "No spatialCoverage" ;
+    ecsummary:publisher "iedadata" ;
+    ecsummary:subjectOf <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> ;
+.
+
+<urn:gleaner.io::iedadata:data:001757b57cf28d776757a5e55059603310650543>
+    a ecsummary:Dataset ;
+    ecsummary:description "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" ;
+    ecsummary:keywords "NaN"^^xsd:double ;
+    ecsummary:name "Dataset Usage License" ;
+    ecsummary:place "No spatialCoverage" ;
+    ecsummary:publisher "iedadata" ;
+    ecsummary:subjectOf <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> ;
+.
+
+<urn:gleaner.io::iedadata:data:001d70612ab6eb5cc3c56dd88c43422be4c8dc90>
+    a ecsummary:Dataset ;
+    ecsummary:description "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" ;
+    ecsummary:keywords "NaN"^^xsd:double ;
+    ecsummary:name "Dataset Usage License" ;
+    ecsummary:place "No spatialCoverage" ;
+    ecsummary:publisher "iedadata" ;
+    ecsummary:subjectOf <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> ;
+.
+
+<urn:gleaner.io::iedadata:data:0022f345918e28b37a5d7fee9d37ae7853bd80fc>
+    a ecsummary:Dataset ;
+    ecsummary:description "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" ;
+    ecsummary:keywords "NaN"^^xsd:double ;
+    ecsummary:name "Dataset Usage License" ;
+    ecsummary:place "No spatialCoverage" ;
+    ecsummary:publisher "iedadata" ;
+    ecsummary:subjectOf <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> ;
+.
+
+<urn:gleaner.io::iedadata:data:003d121100e146d75ffcdca52c50ba7ba7ba258f>
+    a ecsummary:Dataset ;
+    ecsummary:description "Creative Commons Attribution-NonCommercial-Share Alike 3.0 United States [CC BY-NC-SA 3.0]" ;
+    ecsummary:keywords "NaN"^^xsd:double ;
+    ecsummary:name "Dataset Usage License" ;
+    ecsummary:place "No spatialCoverage" ;
+    ecsummary:publisher "iedadata" ;
+    ecsummary:subjectOf <http://creativecommons.org/licenses/by-nc-sa/3.0/us/> ;
+.
+

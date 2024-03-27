@@ -5,13 +5,14 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         #(GROUP_CONCAT(DISTINCT ?url; SEPARATOR=", ") AS ?disurl)
         WHERE {
           graph ?g {
+             ?subj a schema:Dataset .
              ?subj schema:name ?name .
              ?subj schema:description ?description .
                          values ?sosType {
                schema:Dataset
 #               schema:DataCatalog
             }
-            #?subj a schema:Dataset .
+
            #  ?subj a ?sosType .
             Minus {?subj a schema:Person } .
  BIND (IF (exists {?subj a schema:Dataset .} ||exists{?subj a schema:DataCatalog .} , "data", "tool") AS ?resourceType).
