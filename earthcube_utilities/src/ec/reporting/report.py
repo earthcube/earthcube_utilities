@@ -74,7 +74,8 @@ def get_url_from_sha_list(shas: list,  bucket, repo, datastore: bucketDatastore)
     """if a repo has issues with milling or loading to a graph, then get the summoned file"""
 
     pass
-
+def finddupe(a,b):
+    return a.get("url") == b
 def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore, graphendpoint, milled=True, summon=False):
     today = date.today().strftime("%Y-%m-%d")
     response = {"source":repo,"graph":graphendpoint,"sitemap":valid_sitemap_url,
@@ -93,12 +94,15 @@ def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatast
     summoned_urls = list(map(lambda s: s.get("url"), summoned_list))
     dif_sm_summon = pydash.arrays.difference(sitemap_urls, summoned_urls)
     dif_summon_sm = pydash.arrays.difference( summoned_urls, sitemap_urls)
+    dup_summon = pydash.arrays.duplicates(summoned_list, "url" )
     response["sitemap_count"] = sitemap_count
     response["summoned_count"] = summoned_count
     response["missing_sitemap_summon_count"] = len(dif_sm_summon)
     response["missing_sitemap_summon"] = dif_sm_summon
     response["extra_in_summon_count"] = len(dif_summon_sm)
     response["extra_in_summon"] = dif_summon_sm
+    response["duplicates_in_summon_count"] = len(dup_summon)
+    response["duplicates_in_summon"] = dup_summon
     if summon:
         return response
     ##### summmon to graph
