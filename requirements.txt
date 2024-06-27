@@ -1,6 +1,6 @@
 mkdocstrings-python
 mkdocs-material
-pandas~=2.1.2
+pandas~=2.0.3
 requests~=2.31.0
 sparqldataframe~=0.1.0
 pydash~=7.0.6
