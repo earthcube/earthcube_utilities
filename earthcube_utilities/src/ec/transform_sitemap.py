@@ -1,5 +1,5 @@
 import csv
-from io import StringIO
+import click
 from urllib import request
 
 from ec.sitemap.sitemap import Sitemap
@@ -22,7 +22,10 @@ def convert_gsheet_csv_to_sitemap(gsheet_csv_url):
     sources = readSourceCSV(gsheet_csv_url)
     return sources
 
-def start():
+
+@click.command()
+@click.option('--url', help='URL of the source CSV file', required=True)
+def start(url):
     """
         Run the sitemap_checker program.
         Sitemap checker. Default option  checks if url is sitemap exist.
@@ -32,11 +35,8 @@ def start():
             result of check as csv.
 
     """
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--url", help='URL of the source CSV file', default=True)
-    args = parser.parse_args()
 
-    result = convert_gsheet_csv_to_sitemap(args.url)
+    result = convert_gsheet_csv_to_sitemap(url)
     print(result)
 
 if __name__ == '__main__':
