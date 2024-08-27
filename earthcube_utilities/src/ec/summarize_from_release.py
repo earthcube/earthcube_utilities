@@ -4,11 +4,12 @@ import argparse
 import logging
 import os
 from ec.graph.manageGraph import ManageBlazegraph as mg
+from ec.graph.sparql_query import _getSparqlFileFromResources
 from ec.summarize.summarize_materializedview import summaryDF2ttl, get_summary4graph,get_summary4repoSubset
 from ec.gleanerio.gleaner import endpointUpdateNamespace,getNabu, reviseNabuConfGraph, runNabu
-from rdflib import Dataset
+from rdflib import Dataset, Namespace
 from urllib.parse import urlparse
-
+from ec.graph.release_graph import ReleaseGraph
 
 def isValidURL(toValidate):
     o = urlparse(toValidate)
@@ -58,16 +59,27 @@ def summarizeReleaseOnly():
         summary = f"{repo}_summary"
     endpoint= args.graphendpoint
     graphendpoint = mg.graphFromEndpoint(endpoint)
+    SCHEMAORG_http = Namespace("http://schema.org/")
+    SCHEMAORG_https = Namespace("https://schema.org/")
+    g =   Dataset(default_union=True)
+    g.bind('schema_http',SCHEMAORG_http)
+    g.bind('schema', SCHEMAORG_https)
 
-    g = Dataset()
+
     g.parse(args.url, format='nquads')
     ## HOW TO SUMMARIZE from RDF QUadss?
     # this will need to be modularlized, ad reqworked.
 
-    file = '../resources/sparql/all_summary_query.sparql'
-    with open(file, 'r') as f:
-        lines = f.read()
-    sumresults = g.query(lines)
+    # file = '../resources/sparql/all_summary_query.sparql'
+    # with open(file, 'r') as f:
+    #     lines = f.read()
+    # sumresults = g.query(lines)
+    sum_query = _getSparqlFileFromResources("all_summary_query")
+    sumresults = g.query(sum_query, result='sparql', initNs={'schema_old': SCHEMAORG_http, 'schema': SCHEMAORG_https})
+    if len(sumresults) == 0:
+        print("No result. Issue with RDF lib... use a triplestore")
+        exit(1)
+    r = sumresults.serialize(format="csv")
 ## this returns no rows.
     # WE CAN USE BLAZEGRAPH, so no use going direct
 
@@ -76,7 +88,7 @@ def summarizeReleaseOnly():
         # created = tempnsgraph.createNamespace()
         # if ( created=='Failed'):
         #     logging.fatal("coould not create namespace")
-        sumnsgraph = mg(graphendpoint, summary)
+ #       sumnsgraph = mg(graphendpoint, summary)
         # created = sumnsgraph.createNamespace()
         # if ( created=='Failed'):
         #     logging.fatal("coould not create summary namespace")
