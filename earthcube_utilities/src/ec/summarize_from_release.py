@@ -62,43 +62,11 @@ def summarizeReleaseOnly():
     SCHEMAORG_http = Namespace("http://schema.org/")
     SCHEMAORG_https = Namespace("https://schema.org/")
 
+    try:
 
-
-    # g =   Dataset(default_union=True)
-    # g.bind('schema_http',SCHEMAORG_http)
-    # g.bind('schema', SCHEMAORG_https)
-    #
-    #
-    # g.parse(args.url, format='nquads')
-    # ## HOW TO SUMMARIZE from RDF QUadss?
-    # # this will need to be modularlized, ad reqworked.
-    #
-    # # file = '../resources/sparql/all_summary_query.sparql'
-    # # with open(file, 'r') as f:
-    # #     lines = f.read()
-    # # sumresults = g.query(lines)
-    # sum_query = _getSparqlFileFromResources("all_summary_query")
-    # sumresults = g.query(sum_query, result='sparql', initNs={'schema_old': SCHEMAORG_http, 'schema': SCHEMAORG_https})
-
-## this returns no rows.
-    # WE CAN USE BLAZEGRAPH, so no use going direct
-
-
-    try:  # temp has been created
-        # created = tempnsgraph.createNamespace()
-        # if ( created=='Failed'):
-        #     logging.fatal("coould not create namespace")
         sumnsgraph = mg(graphendpoint, summary)
-        # created = sumnsgraph.createNamespace()
-        # if ( created=='Failed'):
-        #     logging.fatal("coould not create summary namespace")
-        # endpoints for file
-        # tempendpoint =endpointUpdateNamespace(endpoint,f"{repo}_temp")
 
         summaryendpoint =endpointUpdateNamespace(endpoint,summary)
-
-        # newNabucfg = reviseNabuConf(cfg,tempendpoint )
-        # runNabu(newNabucfg,repo, args.glcon )
 
         rg = ReleaseGraph()
         rg.load_release(args.url)
