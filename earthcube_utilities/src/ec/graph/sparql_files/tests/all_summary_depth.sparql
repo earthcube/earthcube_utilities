@@ -2,37 +2,34 @@ prefix schema: <https://schema.org/>
 SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
         (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw) ?datep ?sosType
-        ?maxdepth ?minDepth
+         ?maxdepth ?minDepth
         #(GROUP_CONCAT(DISTINCT ?url; SEPARATOR=", ") AS ?disurl)
         WHERE {
           graph ?g {
-            values ?sosType {
+           values ?sosType {
                schema:Dataset
 #               schema:DataCatalog
             }
               ?subj    a    ?sosType .
              ?subj schema:name ?name .
              ?subj schema:description ?description .
-
-            #?subj a schema:Dataset .
-           #  ?subj a ?sosType .
             Minus {?subj a schema:Person } .
  BIND (IF (exists {?subj a schema:Dataset .} ||exists{?subj a schema:DataCatalog .} , "data", "tool") AS ?resourceType).
 
- optional {?subj schema:distribution/schema:url|schema:subjectOf/schema:url ?url1 .}
+            optional {?subj schema:distribution/schema:url|schema:subjectOf/schema:url ?url1 .}
             OPTIONAL {?subj schema:datePublished ?date_p .}
             OPTIONAL {?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name .}
             OPTIONAL {?subj schema:spatialCoverage/schema:name ?place_name .}
             OPTIONAL {?subj schema:keywords ?kw1 .}
-            OPTIONAL {?subj schema:variableMeasured ?vm .
-               ?vm a  schema:PropertyValue  .
-               ?vm schema:name "depth" .
-                    ?vm schema:maxValue ?maxdepth .
-                  ?vm schema:minValue ?minDepth
-           }
             # need these to get rdflib to work
             bind ( COALESCE(?kw1, "") As ?kwu)
             bind ( COALESCE(?url1, "") As ?url)
+           OPTIONAL {?subj schema:variableMeasured ?vm .
+           ?vm a  schema:PropertyValue  .
+           ?vm schema:name "depth" .
+                ?vm schema:maxValue ?maxdepth .
+              ?vm schema:minValue ?minDepth
+           }
            # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
             # UI Date Select failed, because it expects an actual date
            # BIND ( IF ( BOUND(?date_p), ?date_p, "No datePublished") as ?datep ) .
@@ -40,6 +37,5 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
             BIND ( IF ( BOUND(?pub_name), ?pub_name, "No Publisher") as ?pubname ) .
             BIND ( IF ( BOUND(?place_name), ?place_name, "No spatialCoverage") as ?placename ) .
              }
-        FILTER( CONTAINS(str(?g), "${repo}") )
         }
-        GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?sosType ?maxdepth ?minDepth ?g
+        GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?sosType  ?maxdepth ?minDepth ?g
