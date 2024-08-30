@@ -61,25 +61,25 @@ def summarizeReleaseOnly():
     graphendpoint = mg.graphFromEndpoint(endpoint)
     SCHEMAORG_http = Namespace("http://schema.org/")
     SCHEMAORG_https = Namespace("https://schema.org/")
-    g =   Dataset(default_union=True)
-    g.bind('schema_http',SCHEMAORG_http)
-    g.bind('schema', SCHEMAORG_https)
 
 
-    g.parse(args.url, format='nquads')
-    ## HOW TO SUMMARIZE from RDF QUadss?
-    # this will need to be modularlized, ad reqworked.
 
-    # file = '../resources/sparql/all_summary_query.sparql'
-    # with open(file, 'r') as f:
-    #     lines = f.read()
-    # sumresults = g.query(lines)
-    sum_query = _getSparqlFileFromResources("all_summary_query")
-    sumresults = g.query(sum_query, result='sparql', initNs={'schema_old': SCHEMAORG_http, 'schema': SCHEMAORG_https})
-    if len(sumresults) == 0:
-        print("No result. Issue with RDF lib... use a triplestore")
-        exit(1)
-    r = sumresults.serialize(format="csv")
+    # g =   Dataset(default_union=True)
+    # g.bind('schema_http',SCHEMAORG_http)
+    # g.bind('schema', SCHEMAORG_https)
+    #
+    #
+    # g.parse(args.url, format='nquads')
+    # ## HOW TO SUMMARIZE from RDF QUadss?
+    # # this will need to be modularlized, ad reqworked.
+    #
+    # # file = '../resources/sparql/all_summary_query.sparql'
+    # # with open(file, 'r') as f:
+    # #     lines = f.read()
+    # # sumresults = g.query(lines)
+    # sum_query = _getSparqlFileFromResources("all_summary_query")
+    # sumresults = g.query(sum_query, result='sparql', initNs={'schema_old': SCHEMAORG_http, 'schema': SCHEMAORG_https})
+
 ## this returns no rows.
     # WE CAN USE BLAZEGRAPH, so no use going direct
 
@@ -88,7 +88,7 @@ def summarizeReleaseOnly():
         # created = tempnsgraph.createNamespace()
         # if ( created=='Failed'):
         #     logging.fatal("coould not create namespace")
- #       sumnsgraph = mg(graphendpoint, summary)
+        sumnsgraph = mg(graphendpoint, summary)
         # created = sumnsgraph.createNamespace()
         # if ( created=='Failed'):
         #     logging.fatal("coould not create summary namespace")
@@ -100,12 +100,12 @@ def summarizeReleaseOnly():
         # newNabucfg = reviseNabuConf(cfg,tempendpoint )
         # runNabu(newNabucfg,repo, args.glcon )
 
-        if repo is not None:
-            summarydf = get_summary4repoSubset(endpoint, repo)
-        else:
-            # this really needs to be paged ;)
-            summarydf = get_summary4graph(endpoint)
-            repo = ""
+        rg = ReleaseGraph()
+        rg.load_release(args.url)
+        summarydf = rg.summarize()
+        if len(summarydf) == 0:
+            print("No result. Issue with RDF lib... use a triplestore")
+            exit(1)
 
         nt,g = summaryDF2ttl(summarydf,repo) # let's try the new generator
 

@@ -23,6 +23,9 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
             OPTIONAL {?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name .}
             OPTIONAL {?subj schema:spatialCoverage/schema:name ?place_name .}
             OPTIONAL {?subj schema:keywords ?kwu .}
+            # need these to get rdflib to work
+            bind ( COALESCE(?kw1, "") As ?kwu)
+            bind ( COALESCE(?url1, "") As ?url)
            # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
             # UI Date Select failed, because it expects an actual date
            # BIND ( IF ( BOUND(?date_p), ?date_p, "No datePublished") as ?datep ) .
