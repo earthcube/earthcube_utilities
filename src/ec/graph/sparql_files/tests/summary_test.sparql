@@ -1,0 +1,12 @@
+    prefix schema: <https://schema.org/>
+    SELECt *  WHERE {
+          graph ?g {
+           values ?sosType {
+               schema:Dataset
+#               schema:DataCatalog
+            }
+              ?subj    a    ?sosType .
+             ?subj schema:name ?name .
+             ?subj schema:description ?description
+             }
+             }

@@ -1,0 +1,16 @@
+prefix schema: <https://schema.org/>
+# use urn_triples_for_a_graph (urn_triples_for_a_graph.sparql)
+# to get the triples for an org graphorg_all_org_triples.sparql
+SELECT ?g ?s ?p ?o
+  where  {
+    GRAPH ?g { ?s ?p  ?o .}
+  {
+   select ?g  where {
+
+      GRAPH ?g {?s ?p <https://schema.org/PropertyValue>  .
+                ?s schema:name "depth" .
+
+     }
+   }
+}
+}

@@ -1,0 +1,16 @@
+prefix schema: <https://schema.org/>
+SELECT ?g ?name ?sitemap ?identifier ?id_description ?id_propertyid ?id_url
+WHERE   {
+  GRAPH ?g   {
+    ?s a <https://schema.org/Organization> .
+    ?s schema:name ?name .
+    ?s schema:url ?sitemap .
+    OPTIONAL {
+      ?s schema:identifier ?identifier .
+      ?s schema:identifier/schema:description ?id_description .
+      ?s schema:identifier/schema:propertyID ?id_propertyid .
+      ?s schema:identifier/schema:url ?id_url .
+      }
+  }
+ FILTER( CONTAINS(STRSTARTS(?s), "https://gleaner.io/id/org/") )
+        }
