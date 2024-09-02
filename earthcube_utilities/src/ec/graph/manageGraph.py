@@ -92,7 +92,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         elif  r.status_code==409:
             return "Exists"
         else:
-            raise Exception("Create Failed.")
+            raise Exception(f"Create Failed. Status code: {r.status_code} {r.reason}")
 
 
     def deleteNamespace(self):
@@ -126,7 +126,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
             return True
         else:
             return False
-        
+
     #have upload methods here
     #have graph instance:<manageGraph.ManageBlazegraph object at ..>, for url:https://graph.geocodes.ncsa.illinois.edu/blazegraph
     #tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql'

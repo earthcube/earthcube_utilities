@@ -1,6 +1,7 @@
 /summarize/src/gleaner.db
 /summarize/src/logs/*
 gleaner.db
+/earthcube_utilities/output/
 
 ### JupyterNotebooks template
 # gitignore template for Jupyter Notebooks

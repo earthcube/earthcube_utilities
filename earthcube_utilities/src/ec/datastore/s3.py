@@ -174,6 +174,17 @@ class bucketDatastore():
         urls = map(lambda f: { "object_name": f.object_name,
                                "url": f"https://{self.endpoint}/{f.bucket_name}/{f.object_name}" }, urls)
         return list(urls)
+    def getLatestSummaryUrl(self, bucket, source, extension='ttl'):
+        urls = self.getLatestRelaseUrls(bucket)
+        url = pydash.find( urls, lambda x: source in x.get("object_name") and "_release" in x.get("object_name")  and x.get("object_name").endswith(extension) )
+        return url.get('url')
+
+    def getLatestSummaryUrls(self, bucket):
+        path = f"{self.paths['release']}/summary/"
+        urls = self.listPath(bucket,path)
+        urls = map(lambda f: { "object_name": f.object_name,
+                               "url": f"https://{self.endpoint}/{f.bucket_name}/{f.object_name}" }, urls)
+        return list(urls)
 
     def getRoCrateFile(self, filename, bucket="gleaner", user="public"):
         path = f"{self.paths['crate']}/{user}/{filename}"

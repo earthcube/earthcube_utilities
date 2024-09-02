@@ -336,9 +336,16 @@ def readSourceCSV(csv_url):
 def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, community):
     sources = readSourceCSV(url)
     if community != "all":
-        sources = list(filter(lambda source: source.get('Community') == community, sources))
+        sources = list(filter(lambda source: community in source.get('Community'), sources))
     else:
         sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
+
+    # graphendpoint needs to be summary for this sparql
+    df = queryWithSparql("repo_count_graphs_summary", graphendpoint)
+    # dropping null value columns to avoid errors
+    df.dropna(inplace=True)
+    df["repo"] = df["g"].str.split(":", n=-1, expand=True)[3]
+    df = df.groupby(["repo"])["g"].nunique().reset_index(name='DistinctCount')
 
     report = []
     for i in sources:
@@ -349,20 +356,17 @@ def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, 
         source_community = i.get('Community')
         source_des = i.get('Description')
 
+        df_repo = df[df["repo"] == source_name]
         try:
             sm = Sitemap(source_url)
             if not sm.validUrl():
                 logging.error(f"Invalid or unreachable URL: {source_url} ")
 
-            # graphendpoint needs to be summary for this sparql
-            parameters = {"repo": source_name}
-            df = queryWithSparql("repo_count_graphs_summary", graphendpoint, parameters)
-
             source_records = 0
-            if df.empty:
+            if df_repo.empty:
                 logging.info(f"Repo is empty in graph: {source_name} ")
             else:
-                source_records = df["graphs"].values[0]
+                source_records = df_repo["DistinctCount"].values[0].astype(str)
 
             dict = {
                 "source": source_name,
