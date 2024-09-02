@@ -1,0 +1,26 @@
+prefix schema: <https://schema.org/>
+# use urn_triples_for_a_graph (urn_triples_for_a_graph.sparql)
+# to get the triples for an org graphorg_all_org_triples.sparql
+
+#{
+#        "@type": "Place",
+#        "geo": {
+#            "@type": "GeoShape",
+#            "polygon": "-97.639 18.836,-97.639 30.111,-79.618 30.111,-79.618 18.836,-97.639 18.836"
+#        },
+
+   select * where {
+
+      GRAPH ?g { ?s ?a schema:Place .
+                ?s  schema:geo ?o.
+                ?o ?a schema:GeoShape .
+                OPTIONAL {
+                  ?o schema:polygon ?polygon }
+                 OPTIONAL { ?o schema:box ?box .}
+
+
+
+               }
+
+
+   }
