@@ -206,6 +206,12 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
         #incl original subj, just in case for now
         #lat/lon not in present ui, but in earlier version
 
+        mindepth = row['minDepth']
+        maxdepth = row['maxDepth']
+        if is_str(mindepth):
+            g.add((graph_subject, ecsummary.minDepth, Literal(mindepth)))
+        if is_str(maxdepth):
+            g.add((graph_subject, ecsummary.maxDepth, Literal(maxdepth)))
         #### end for ####
     return g.serialize(format='longturtle'), g
 # g is an RDF graph that can be dumped using

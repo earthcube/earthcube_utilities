@@ -24,12 +24,14 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
             OPTIONAL {?subj schema:variableMeasured ?vm .
                ?vm a  schema:PropertyValue  .
                ?vm schema:name "depth" .
-                    ?vm schema:maxValue ?maxDepth .
-                  ?vm schema:minValue ?minDepth
+                    ?vm schema:maxValue ?maxDepth1 .
+                  ?vm schema:minValue ?minDepth1
            }
             # need these to get rdflib to work
             bind ( COALESCE(?kw1, "") As ?kwu)
             bind ( COALESCE(?url1, "") As ?url)
+            bind ( COALESCE(?maxDepth1, 0.0) As ?maxDepth)
+            bind ( COALESCE(?minDepth1, 0.0) As ?minDepth)
            # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
             # UI Date Select failed, because it expects an actual date
            # BIND ( IF ( BOUND(?date_p), ?date_p, "No datePublished") as ?datep ) .
