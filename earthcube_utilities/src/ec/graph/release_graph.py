@@ -16,8 +16,8 @@ from ec.datastore.s3 import MinioDatastore
 SCHEMAORG_http = Namespace("http://schema.org/")
 SCHEMAORG_https = Namespace("https://schema.org/")
 class ReleaseGraph:
-    dataset = Dataset(default_union=True,store="Oxigraph")
-  #  dataset = Dataset(default_union=True)
+   # dataset = Dataset(default_union=True,store="Oxigraph")
+    dataset = Dataset(default_union=True)
     dataset.bind('schema_http',SCHEMAORG_http)
     dataset.bind('schema', SCHEMAORG_https)
     #dataset = ConjunctiveGraph()
