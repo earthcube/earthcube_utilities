@@ -120,6 +120,6 @@ if __name__ == '__main__':
     #
     # graph endpoint,
 
-
+    print("This is not reliable. The RDF lib does not reliably generate the same reaults at Blazegraph")
     exitcode= summarizeReleaseOnly()
     exit(exitcode)

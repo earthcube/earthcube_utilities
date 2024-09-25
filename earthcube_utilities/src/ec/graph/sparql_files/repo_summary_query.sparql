@@ -2,7 +2,7 @@ prefix schema: <https://schema.org/>
 SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
         (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw) ?datep ?sosType
-        ?maxdepth ?minDepth
+        ?maxDepth ?minDepth
         #(GROUP_CONCAT(DISTINCT ?url; SEPARATOR=", ") AS ?disurl)
         WHERE {
           graph ?g {
@@ -27,7 +27,7 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
             OPTIONAL {?subj schema:variableMeasured ?vm .
                ?vm a  schema:PropertyValue  .
                ?vm schema:name "depth" .
-                    ?vm schema:maxValue ?maxdepth .
+                    ?vm schema:maxValue ?maxDepth .
                   ?vm schema:minValue ?minDepth
            }
             # need these to get rdflib to work
@@ -42,4 +42,4 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
              }
         FILTER( CONTAINS(str(?g), "${repo}") )
         }
-        GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?sosType ?maxdepth ?minDepth ?g
+        GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?sosType ?maxDepth ?minDepth ?g

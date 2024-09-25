@@ -16,6 +16,8 @@ jsonschema
 pydash
 advertools
 pandarallel
+pyoxigraph
+oxrdflib
 # these dependencies are only needed for the notebook.
 # kglab causes issues with buildling containers in scheduler
 #kglab # this uses JPyPe1 which is abandoned
