@@ -238,7 +238,7 @@ def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, ou
     report = generateReportStats(url, bucket, s3Minio, graphendpoint, community)
 
     if upload:
-        s3Minio.putReportFile(bucket, "all", f"report_{community}_stats.json", report)
+        s3Minio.putReportFile(bucket, "tenant", f"report_{community}_stats.json", report)
     return
 
 
