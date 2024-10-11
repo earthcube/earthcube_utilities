@@ -1,0 +1,1269 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.5.40" name="generator"/>
+<title>Earthcube Utilities Queries - Earthcube Utilities</title>
+<link href="../../assets/stylesheets/main.8c3ca2c6.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../assets/_mkdocstrings.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#earthcube-utilities-queries">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Earthcube Utilities" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Earthcube Utilities">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Earthcube Utilities
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Earthcube Utilities Queries
+            
+          </span>
+</div>
+</div>
+</div>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/earthcube/earthcube_utilities" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../notebook_proxy/">
+        
+  
+    
+  
+  Notebook Proxy
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../">
+          
+  
+  Earthcube Utilities
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../earthcube_utilities_code/">
+          
+  
+  Code Reference
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Earthcube Utilities" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Earthcube Utilities">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Earthcube Utilities
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/earthcube/earthcube_utilities" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../notebook_proxy/">
+<span class="md-ellipsis">
+    Notebook Proxy
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    Earthcube Utilities
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            Earthcube Utilities
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    Documentation
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../earthcube_utilities_scripts/">
+<span class="md-ellipsis">
+    Scripts
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../reporting/">
+<span class="md-ellipsis">
+    Reporting
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../summarize/">
+<span class="md-ellipsis">
+    Summarize
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    Code Reference
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            Code Reference
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../earthcube_utilities_code/">
+<span class="md-ellipsis">
+    Earthcube Utilites
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#query_graph">
+<span class="md-ellipsis">
+      query_graph
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sparql-resources">
+<span class="md-ellipsis">
+      SPARQL RESOURCES
+    </span>
+</a>
+<nav aria-label="SPARQL RESOURCES" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#basic-queries">
+<span class="md-ellipsis">
+      Basic Queries
+    </span>
+</a>
+<nav aria-label="Basic Queries" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#select_one">
+<span class="md-ellipsis">
+      select_one
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#urn_triples_for_a_graph">
+<span class="md-ellipsis">
+      urn_triples_for_a_graph
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#information-about-the-overall-graph">
+<span class="md-ellipsis">
+      Information about the overall graph
+    </span>
+</a>
+<nav aria-label="Information about the overall graph" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#top-level-types">
+<span class="md-ellipsis">
+      Top Level types
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_count_types_top_level">
+<span class="md-ellipsis">
+      all_count_types_top_level
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_count_types_top_level">
+<span class="md-ellipsis">
+      repo_count_types_top_level
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_urn_w_types_toplevel">
+<span class="md-ellipsis">
+      repo_urn_w_types_toplevel
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_urn_w_types_toplevel">
+<span class="md-ellipsis">
+      all_urn_w_types_toplevel
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_count_datasets">
+<span class="md-ellipsis">
+      all_count_datasets
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_count_keywords">
+<span class="md-ellipsis">
+      all_count_keywords
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_count_multiple_versioned_datasets">
+<span class="md-ellipsis">
+      all_count_multiple_versioned_datasets
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_count_triples">
+<span class="md-ellipsis">
+      all_count_triples
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_graph_sizes">
+<span class="md-ellipsis">
+      all_graph_sizes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_count_types">
+<span class="md-ellipsis">
+      all_count_types
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_count_variablename">
+<span class="md-ellipsis">
+      all_count_variablename
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_repo_count_datasets">
+<span class="md-ellipsis">
+      all_repo_count_datasets
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_repo_count_graphs">
+<span class="md-ellipsis">
+      all_repo_count_graphs
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_repo_count_keywords">
+<span class="md-ellipsis">
+      all_repo_count_keywords
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_repo_count_versioned_datasets">
+<span class="md-ellipsis">
+      all_repo_count_versioned_datasets
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_repo_with_keywords">
+<span class="md-ellipsis">
+      all_repo_with_keywords
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_select_datasets">
+<span class="md-ellipsis">
+      all_select_datasets
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_select_graphs">
+<span class="md-ellipsis">
+      all_select_graphs
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_summary_query">
+<span class="md-ellipsis">
+      all_summary_query
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#all_versioned_datasets_multiple_versions">
+<span class="md-ellipsis">
+      all_versioned_datasets_multiple_versions
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#information-for-an-individual-repository">
+<span class="md-ellipsis">
+      Information for an individual repository
+    </span>
+</a>
+<nav aria-label="Information for an individual repository" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_count_datasets">
+<span class="md-ellipsis">
+      repo_count_datasets
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_count_triples_by_graph">
+<span class="md-ellipsis">
+      repo_count_triples_by_graph
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_graph_sizes">
+<span class="md-ellipsis">
+      repo_graph_sizes
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_count_graphs">
+<span class="md-ellipsis">
+      repo_count_graphs
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_count_keywords">
+<span class="md-ellipsis">
+      repo_count_keywords
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_count_multi_versioned_datasets">
+<span class="md-ellipsis">
+      repo_count_multi_versioned_datasets
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_count_triples">
+<span class="md-ellipsis">
+      repo_count_triples
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_count_types">
+<span class="md-ellipsis">
+      repo_count_types
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_count_variablename">
+<span class="md-ellipsis">
+      repo_count_variablename
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_graphs_startwith">
+<span class="md-ellipsis">
+      repo_graphs_startwith
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_select_datasets">
+<span class="md-ellipsis">
+      repo_select_datasets
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_select_graphs">
+<span class="md-ellipsis">
+      repo_select_graphs
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#repo_summary_query">
+<span class="md-ellipsis">
+      repo_summary_query
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#code">
+<span class="md-ellipsis">
+      Code
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ec.generate_graph_stats">
+<span class="md-ellipsis">
+      generate_graph_stats
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ec.generate_graph_stats.graphStats">
+<span class="md-ellipsis">
+      graphStats
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ec.generate_graph_stats.start">
+<span class="md-ellipsis">
+      start
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/earthcube/earthcube_utilities/edit/docs/docs/earthcube_utilities/earthcube_utilities_graph_query_sparql.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+</a>
+<a class="md-content__button md-icon" href="https://github.com/earthcube/earthcube_utilities/raw/docs/docs/earthcube_utilities/earthcube_utilities_graph_query_sparql.md" title="View source of this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"></path></svg>
+</a>
+<h1 id="earthcube-utilities-queries">Earthcube Utilities Queries<a class="headerlink" href="#earthcube-utilities-queries" title="Permanent link"></a></h1>
+<h2 id="query_graph"><strong>query_graph</strong><a class="headerlink" href="#query_graph" title="Permanent link"></a></h2>
+<p><code>query_graph SPARQL_RESOURCE --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/</code></p>
+<pre class="highlight"><code>usage: query_graph.py [-h] [--graphendpoint GRAPHENDPOINT] [--output OUTPUT]
+                      query
+
+A tool to use the queries in the earthcube utilities
+
+positional arguments:
+  query                 select_one
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --graphendpoint GRAPHENDPOINT
+                        graph endpoint
+  --output OUTPUT       output file
+
+Queries 
+all_count_datasets 
+all_count_keywords
+all_count_multiple_versioned_datasets 
+all_count_triples all_count_types
+all_count_variablename 
+all_repo_count_datasets 
+all_repo_count_graphs
+all_repo_count_keywords 
+all_repo_count_versioned_datasets
+all_repo_with_keywords 
+all_select_datasets 
+all_select_graphs 
+all_summary_query
+all_versioned_datasets_multiple_versions 
+get_triples_for_a_graph
+repo_count_datasets 
+repo_count_graph_triples 
+repo_count_graphs
+repo_count_keywords 
+repo_count_multi_versioned_datasets 
+repo_count_triples
+repo_count_types 
+repo_count_variablename 
+repo_graphs_startwith
+repo_select_datasets 
+repo_select_graphs 
+repo_summary_query 
+select_one</code></pre>
+<h2 id="sparql-resources">SPARQL RESOURCES<a class="headerlink" href="#sparql-resources" title="Permanent link"></a></h2>
+<p>The naming pattern is if the query starts with all_ then it applies to the overall graph store, and requires no parameters</p>
+<p>if the naming pattern includes a repo or a urn then those are the parameters</p>
+<pre class="highlight"><code class="language-python"></code></pre>
+<h3 id="basic-queries">Basic Queries<a class="headerlink" href="#basic-queries" title="Permanent link"></a></h3>
+<h4 id="select_one">select_one<a class="headerlink" href="#select_one" title="Permanent link"></a></h4>
+<p>test query, returns one triple
+<pre class="highlight"><code class="language-sparql">SELECT * { ?s ?p ?o } LIMIT 1</code></pre></p>
+<h4 id="urn_triples_for_a_graph">urn_triples_for_a_graph<a class="headerlink" href="#urn_triples_for_a_graph" title="Permanent link"></a></h4>
+<p>parameter:
+ urn - the urn identifier of the graph to be retrieved.</p>
+<p>returns a list of triples which represents one JSONLD file, aka graph
+<pre class="highlight"><code class="language-sparql"># template substitute ${urn}
+SELECT ?s ?p ?o ?g
+WHERE     {
+    GRAPH &lt;${urn}&gt; {?s ?p ?o .
+    bind(&lt;${urn}&gt; as ?g)
+}
+
+}</code></pre></p>
+<h3 id="information-about-the-overall-graph">Information about the overall graph<a class="headerlink" href="#information-about-the-overall-graph" title="Permanent link"></a></h3>
+<p>These may be used to collect information on the overall graph.</p>
+<p>In addition, when onboarding a community, these can be used to assess the evaluation
+the information for  repository containing a single communities data.</p>
+<h4 id="top-level-types">Top Level types<a class="headerlink" href="#top-level-types" title="Permanent link"></a></h4>
+<h4 id="all_count_types_top_level">all_count_types_top_level<a class="headerlink" href="#all_count_types_top_level" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql"># returns count of top level types
+
+prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?type  (count(distinct ?s ) as ?scount)
+WHERE {
+Graph ?g {
+
+       ?s a ?type .
+FILTER ( !isBLANK(?s) )  .
+       }
+}
+
+GROUP By ?type
+ORDER By DESC(?scount)
+</code></pre>
+<h4 id="repo_count_types_top_level">repo_count_types_top_level<a class="headerlink" href="#repo_count_types_top_level" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql"># returns count of top level types for repo
+
+prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?type  (count(distinct ?s ) as ?scount)
+WHERE {
+Graph ?g {
+
+       ?s a ?type .
+FILTER ( !isBLANK(?s) )  .
+FILTER( CONTAINS(str(?g), "${repo}"))
+       }
+}
+
+GROUP By ?type
+ORDER By DESC(?scount)
+</code></pre>
+<h4 id="repo_urn_w_types_toplevel">repo_urn_w_types_toplevel<a class="headerlink" href="#repo_urn_w_types_toplevel" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql"># this returns the URN's and the types of non blank nodes
+prefix schema: &lt;https://schema.org/&gt;
+SELECT ?s ?type
+WHERE {
+Graph ?g {
+
+       ?s a ?type .
+        ?s schema:identifier ?id .
+FILTER ( !isBLANK(?s) )  .
+FILTER( CONTAINS(str(?g), "${repo}"))
+       }
+}
+
+GROUP By ?type ?s
+ORDER By DESC(?scount)
+</code></pre>
+<h4 id="all_urn_w_types_toplevel">all_urn_w_types_toplevel<a class="headerlink" href="#all_urn_w_types_toplevel" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql"># returns the urn and the type of the
+prefix schema: &lt;https://schema.org/&gt;
+SELECT ?s ?type
+WHERE {
+Graph ?g {
+       ?s a ?type .
+        FILTER ( !isBLANK(?s) )  .
+
+       }
+}
+
+GROUP By ?type ?s
+</code></pre>
+<h4 id="all_count_datasets">all_count_datasets<a class="headerlink" href="#all_count_datasets" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql">SELECT (count(?g ) as ?datasetcount)
+WHERE     {     GRAPH ?g {?s a &lt;https://schema.org/Dataset&gt;}}</code></pre>
+<h4 id="all_count_keywords">all_count_keywords<a class="headerlink" href="#all_count_keywords" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql"># needs work... keywords can be an array.
+prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?keyword (count(distinct ?s) as ?scount)
+WHERE {
+  {
+    ?s schema:keywords ?keyword .
+   }
+}
+GROUP By ?keyword
+ORDER By DESC(?scount)</code></pre>
+<h4 id="all_count_multiple_versioned_datasets">all_count_multiple_versioned_datasets<a class="headerlink" href="#all_count_multiple_versioned_datasets" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql">prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?version (count(distinct ?s) as ?scount)
+WHERE {
+  {
+
+       ?s schema:version ?version .
+
+       }
+}
+GROUP By ?version
+HAVING(count(distinct ?s) &gt;1)
+ORDER By DESC(?scount)</code></pre>
+<h4 id="all_count_triples">all_count_triples<a class="headerlink" href="#all_count_triples" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql">SELECT (count(*) as ?tripelcount) { ?s ?p ?o }</code></pre>
+<h4 id="all_graph_sizes">all_graph_sizes<a class="headerlink" href="#all_graph_sizes" title="Permanent link"></a></h4>
+<p>Returns aggregate of the size of the generated  triples for each loaded JSON-LD objects,</p>
+<p>High triple counts for a triple size may indicate a conversion issue</p>
+<pre class="highlight"><code class="language-sparql">## WARNING Not bad performance for all
+## if the SAME TRIPLE COUNT APPEARS it may be a loading issue
+
+SELECT  ?triple_per_jsonld (count(?triplesize) as ?count)
+WHERE     {
+    SELECT  ?g (count(?s) as ?triple_per_jsonld)
+    WHERE     {
+         GRAPH ?g {?s ?p ?o .}
+
+    }
+    GROUP BY ?g
+         }
+GROUP BY ?triple_per_jsonld
+ORDER BY DESC(?count)
+</code></pre>
+<h4 id="all_count_types">all_count_types<a class="headerlink" href="#all_count_types" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql">prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?type  (count(distinct ?s ) as ?scount)
+WHERE {
+{
+
+       ?s a ?type .
+
+       }
+}
+
+GROUP By ?type
+ORDER By DESC(?scount)</code></pre>
+<h4 id="all_count_variablename">all_count_variablename<a class="headerlink" href="#all_count_variablename" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql">prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?variableName (count(distinct ?s) as ?scount)
+WHERE {
+  {
+
+       ?s schema:variableMeasured ?variableMeasured .
+    ?variableMeasured schema:name ?variableName
+
+       }
+}
+GROUP By ?variableName
+ORDER By DESC(?scount)</code></pre>
+<h4 id="all_repo_count_datasets">all_repo_count_datasets<a class="headerlink" href="#all_repo_count_datasets" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql">## Graphs do not always equal datasets. Especially in non-Earthcube graph stores
+## double dollar signes are to escape to a single dollar sign when using string template
+
+SELECT   ?repo (COUNT(distinct ?g) as ?graphs) (COUNT(*) as ?datasets)
+WHERE     {
+  GRAPH ?g {
+      ?s a &lt;https://schema.org/Dataset&gt; .
+      bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):" ,"" ), ":\\w+$$" , "")   as ?repo )
+   }
+}
+group by ?repo
+
+</code></pre>
+<h4 id="all_repo_count_graphs">all_repo_count_graphs<a class="headerlink" href="#all_repo_count_graphs" title="Permanent link"></a></h4>
+<p>returns a count of inserted JSON-LD files, where each graph is a file.
+<pre class="highlight"><code class="language-sparql">## double dollar signes are to escape to a single dollar sign when using string template
+## Graphs do not always equal datasets. Especially in non-Earthcube graph stores
+SELECT   ?repo (COUNT(distinct ?g) as ?graphs) (COUNT(*) as ?triples)
+WHERE     {
+  GRAPH ?g {
+      ?s ?p ?o .
+       bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):" ,"" ), ":\\w+$$" , "")   as ?repo )
+   }
+}
+group by ?repo
+
+## the regesx replace grabs the first portioon, replaces it with nothing,
+## then grabs the last part and replaces it with nothing,
+## NOTE: double \\ the escape sequeqnce akd \w+ becomes \\w+
+#((\w+):(\w+))$$
+#(?2)(:(\w+))
+
+##&lt;urn:gleaner:summoned:opentopography:0024e35144d902d8b413ffd400ede6a27efe2146&gt;
+# urn:\w+:summoned:(\w+)
+#urn:(?:\w+):summoned:(\w+)
+</code></pre></p>
+<h4 id="all_repo_count_keywords">all_repo_count_keywords<a class="headerlink" href="#all_repo_count_keywords" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql"># needs work... keywords can be an array.
+## double dollar signes are to escape to a single dollar sign when using string template
+prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?keyword (count(distinct ?s) as ?scount) ?repo
+WHERE {
+ GRAPH ?g {
+           ?s schema:keywords ?keyword .
+           bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):" ,"" ), ":\\w+$$" , "")   as ?repo ) .
+           }
+      }
+GROUP By ?keyword ?repo
+ORDER By DESC(?scount)
+</code></pre>
+<h4 id="all_repo_count_versioned_datasets">all_repo_count_versioned_datasets<a class="headerlink" href="#all_repo_count_versioned_datasets" title="Permanent link"></a></h4>
+<p>returns a count of graphs including the version field.
+<pre class="highlight"><code class="language-sparql">## double dollar signes are to escape to a single dollar sign when using string template
+prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?repo (count(distinct ?s) as ?versionscount)
+WHERE {
+  GRAPH ?g {
+
+       ?s schema:version ?version .
+
+       } bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):" ,"" ), ":\\w+$$" , "")   as ?repo ) .
+}
+GROUP By ?repo
+ORDER By DESC(?versionscount)
+</code></pre></p>
+<h4 id="all_repo_with_keywords">all_repo_with_keywords<a class="headerlink" href="#all_repo_with_keywords" title="Permanent link"></a></h4>
+<p>Returns rows with a repo brief name, and the count of the keywords in that repo
+<pre class="highlight"><code class="language-sparql"># needs work... keywords can be an array.
+## double dollar signes are to escape to a single dollar sign when using string template
+prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?repo (count(distinct ?s) as ?kwcount)
+WHERE {
+ GRAPH ?g {
+           ?s schema:keywords ?keyword .
+           bind(  REPLACE(REPLACE( STR(?g) ,"urn:(?:\\w+):" ,"" ), ":\\w+$$" , "")  as ?repo ) .
+           }
+      }
+GROUP By  ?repo
+ORDER By DESC(?kwcount)
+</code></pre></p>
+<h4 id="all_select_datasets">all_select_datasets<a class="headerlink" href="#all_select_datasets" title="Permanent link"></a></h4>
+<p>returns a list of Schema.org/Dataset
+<pre class="highlight"><code class="language-sparql">SELECT ?g
+WHERE     {     GRAPH ?g {?s a &lt;https://schema.org/Dataset&gt;}}</code></pre></p>
+<h4 id="all_select_graphs">all_select_graphs<a class="headerlink" href="#all_select_graphs" title="Permanent link"></a></h4>
+<p>returns a list of graphs, which are the urn's of the JSONLD files
+<pre class="highlight"><code class="language-sparql">SELECT distinct ?g
+WHERE     {     GRAPH ?g {?s ?p ?o} }
+
+</code></pre></p>
+<h4 id="all_summary_query">all_summary_query<a class="headerlink" href="#all_summary_query" title="Permanent link"></a></h4>
+<p>Return records with the fields as a 'summary ' which is used to materialize a view for performance</p>
+<p>this will need to be rewritten to use a LIMIT and OFFSET
+<pre class="highlight"><code class="language-sparql">prefix schema: &lt;https://schema.org/&gt;
+SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
+        (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
+        (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw) ?datep ?sosType
+        ?maxdepth ?minDepth
+        #(GROUP_CONCAT(DISTINCT ?url; SEPARATOR=", ") AS ?disurl)
+        WHERE {
+          graph ?g {
+           values ?sosType {
+               schema:Dataset
+#               schema:DataCatalog
+            }
+              ?subj    a    ?sosType .
+             ?subj schema:name ?name .
+             ?subj schema:description ?description .
+            Minus {?subj a schema:Person } .
+ BIND (IF (exists {?subj a schema:Dataset .} ||exists{?subj a schema:DataCatalog .} , "data", "tool") AS ?resourceType).
+
+            optional {?subj schema:distribution/schema:url|schema:subjectOf/schema:url ?url1 .}
+            OPTIONAL {?subj schema:datePublished ?date_p .}
+            OPTIONAL {?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name .}
+            OPTIONAL {?subj schema:spatialCoverage/schema:name ?place_name .}
+            OPTIONAL {?subj schema:keywords ?kw1 .}
+            OPTIONAL {?subj schema:variableMeasured ?vm .
+               ?vm a  schema:PropertyValue  .
+               ?vm schema:name "depth" .
+                    ?vm schema:maxValue ?maxdepth .
+                  ?vm schema:minValue ?minDepth
+           }
+            # need these to get rdflib to work
+            bind ( COALESCE(?kw1, "") As ?kwu)
+            bind ( COALESCE(?url1, "") As ?url)
+           # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
+            # UI Date Select failed, because it expects an actual date
+           # BIND ( IF ( BOUND(?date_p), ?date_p, "No datePublished") as ?datep ) .
+             BIND ( IF ( BOUND(?date_p), ?date_p, "1900-01-01") as ?datep ) .
+            BIND ( IF ( BOUND(?pub_name), ?pub_name, "No Publisher") as ?pubname ) .
+            BIND ( IF ( BOUND(?place_name), ?place_name, "No spatialCoverage") as ?placename ) .
+             }
+        }
+        GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?sosType ?maxdepth ?minDepth ?g
+</code></pre></p>
+<h4 id="all_versioned_datasets_multiple_versions">all_versioned_datasets_multiple_versions<a class="headerlink" href="#all_versioned_datasets_multiple_versions" title="Permanent link"></a></h4>
+<p>returns Schema.org/Dataset with more than one version.</p>
+<p>this might need to be a UNION with using SameAs, or another field... someone uses a different pattern
+<pre class="highlight"><code class="language-sparql">prefix schema: &lt;http://schema.org/&gt;
+prefix sschema: &lt;https://schema.org/&gt;
+SELECT distinct ?subj ?sameAs ?version ?url where {
+    {SELECT distinct  ?sameAs (MAX(?version2) as ?version  )
+    where {
+       ?subj schema:sameAs|sschema:sameAs ?sameAs .
+        ?subj schema:version|sschema:version ?version2 .
+    filter (?version2 &gt;1)
+    }
+        GROUP BY ?sameAs
+}
+        ?subj schema:identifier|sschema:identifier ?url .
+        ?subj schema:version|sschema:version ?version .
+        ?subj schema:sameAs|sschema:sameAs ?sameAs .
+    }
+    GROUP BY ?sameAs ?version  ?subj  ?url
+order by ?sameAs ?version
+</code></pre></p>
+<h3 id="information-for-an-individual-repository">Information for an individual repository<a class="headerlink" href="#information-for-an-individual-repository" title="Permanent link"></a></h3>
+<p>These queries take a parameter 'repo'</p>
+<h4 id="repo_count_datasets">repo_count_datasets<a class="headerlink" href="#repo_count_datasets" title="Permanent link"></a></h4>
+<p>Returns count of Schema.org/Dataset
+<pre class="highlight"><code class="language-sparql">SELECT (count(?g ) as ?datasetcount)
+WHERE     {
+   GRAPH ?g {?s a &lt;https://schema.org/Dataset&gt;}
+    FILTER( CONTAINS(str(?g), "${repo}") )
+}</code></pre></p>
+<h4 id="repo_count_triples_by_graph">repo_count_triples_by_graph<a class="headerlink" href="#repo_count_triples_by_graph" title="Permanent link"></a></h4>
+<p>Returns count of triples for each loaded JSON-LD objects,</p>
+<p>If the count is small, and the same number, then it is possible that the conversion from JSON-LD to RDF
+is broken for this repository.</p>
+<pre class="highlight"><code class="language-sparql">## WARNING THIS IS  A SLOW QUERY
+SELECT  ?g (count(?s) as ?count)
+WHERE     {
+     GRAPH ?g {?s ?p ?o .}
+    FILTER( CONTAINS(str(?g), "${repo}") )
+}
+GROUP BY ?g</code></pre>
+<h4 id="repo_graph_sizes">repo_graph_sizes<a class="headerlink" href="#repo_graph_sizes" title="Permanent link"></a></h4>
+<p>Returns aggregate of the size of the generated  triples for each loaded JSON-LD objects,</p>
+<p>If the count is small, and the same number, then it is possible that the conversion from JSON-LD to RDF
+is broken for this repository.
+<pre class="highlight"><code class="language-sparql">## WARNING SLOW FOR A REPO...
+## if the SAME TRIPLE COUNT APPEARS it may be a loading issue
+
+SELECT  ?triple_per_jsonld (count(?triple_per_jsonld) as ?count)
+WHERE     {
+    SELECT  ?g (count(?s) as ?triple_per_jsonld)
+    WHERE     {
+         GRAPH ?g {?s ?p ?o .}
+         FILTER( CONTAINS(str(?g), "${repo}") )
+    }
+    GROUP BY ?g
+         }
+GROUP BY ?triple_per_jsonld
+ORDER BY DESC(?count)
+</code></pre></p>
+<h4 id="repo_count_graphs">repo_count_graphs<a class="headerlink" href="#repo_count_graphs" title="Permanent link"></a></h4>
+<p>Count of loaded JSON-LD files
+<pre class="highlight"><code class="language-sparql">SELECT ?repo (count(distinct ?g) as ?graphcount)
+WHERE     {
+     GRAPH ?g {?s ?p ?o .}
+    FILTER( CONTAINS(str(?g), "${repo}") )
+}</code></pre></p>
+<h4 id="repo_count_keywords">repo_count_keywords<a class="headerlink" href="#repo_count_keywords" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql"># needs work... keywords can be an array.
+prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?keyword (count(distinct ?s) as ?scount)
+WHERE {
+    GRAPH ?g {?s schema:keywords ?keyword . }
+     FILTER( CONTAINS(str(?g), "${repo}") )
+}
+GROUP By ?keyword
+ORDER By DESC(?scount)</code></pre>
+<h4 id="repo_count_multi_versioned_datasets">repo_count_multi_versioned_datasets<a class="headerlink" href="#repo_count_multi_versioned_datasets" title="Permanent link"></a></h4>
+<p>Does this repo have multiple dataset versions, if so, what is the count.</p>
+<pre class="highlight"><code class="language-sparql">## double dollar signes are to escape to a single dollar sign when using string template
+prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?g (count(distinct ?s) as ?versionscount)
+WHERE {
+  GRAPH ?g {
+
+       ?s schema:version ?version .
+
+       }  FILTER( CONTAINS(str(?g), "${repo}")) .
+}
+GROUP By ?g
+HAVING(count(distinct ?s) &gt;1 )
+ORDER By DESC(?versionscount)
+</code></pre>
+<h4 id="repo_count_triples">repo_count_triples<a class="headerlink" href="#repo_count_triples" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql">SELECT (count(*) as ?tripelcount)
+WHERE     {
+     GRAPH ?g {?s ?p ?o .}
+    FILTER( CONTAINS(str(?g), "${repo}") )
+}</code></pre>
+<h4 id="repo_count_types">repo_count_types<a class="headerlink" href="#repo_count_types" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql">prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?type  (count(distinct ?s ) as ?scount)
+WHERE {
+GRAPH ?g  {
+
+       ?s a ?type .
+
+       }
+       FILTER( CONTAINS(str(?g), "${repo}"))
+}
+
+GROUP By ?type
+ORDER By DESC(?scount)
+</code></pre>
+<h4 id="repo_count_variablename">repo_count_variablename<a class="headerlink" href="#repo_count_variablename" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql">prefix schema: &lt;https://schema.org/&gt;
+SELECT  ?variableName (count(distinct ?s) as ?scount)
+WHERE {
+  {
+
+       ?s schema:variableMeasured ?variableMeasured .
+    ?variableMeasured schema:name ?variableName
+
+       } FILTER( CONTAINS(str(?g), "${repo}"))
+}
+GROUP By ?variableName
+ORDER By DESC(?scount)
+</code></pre>
+<h4 id="repo_graphs_startwith">repo_graphs_startwith<a class="headerlink" href="#repo_graphs_startwith" title="Permanent link"></a></h4>
+<pre class="highlight"><code class="language-sparql">SELECT distinct ?g
+WHERE     {
+     GRAPH ?g {?s ?p ?o .}
+    FILTER( CONTAINS(str(?g), "${repo}") )
+}
+</code></pre>
+<h4 id="repo_select_datasets">repo_select_datasets<a class="headerlink" href="#repo_select_datasets" title="Permanent link"></a></h4>
+<p>return urns/graph of Schema.org/Dataset
+<pre class="highlight"><code class="language-sparql">SELECT ?g
+WHERE     {
+GRAPH ?g {?s a &lt;https://schema.org/Dataset&gt;}
+ #FILTER( CONTAINS(str(?g), "${repo}") )
+ FILTER( CONTAINS(str(?g), "${repo}"))
+}
+</code></pre></p>
+<h4 id="repo_select_graphs">repo_select_graphs<a class="headerlink" href="#repo_select_graphs" title="Permanent link"></a></h4>
+<p>return urns/graph of all loaded information
+<pre class="highlight"><code class="language-sparql">SELECT distinct ?g
+WHERE     {
+     GRAPH ?g {?s ?p ?o .}
+    # FILTER( CONTAINS(str(?g), "${repo}") )
+    FILTER( CONTAINS(str(?g), "${repo}"))
+}
+</code></pre></p>
+<h4 id="repo_summary_query">repo_summary_query<a class="headerlink" href="#repo_summary_query" title="Permanent link"></a></h4>
+<p>Return records with the fields as a 'summary ' which is used to materialize a view for performance</p>
+<p>this will need to be rewritten to use a LIMIT and OFFSET
+<pre class="highlight"><code class="language-sparql">prefix schema: &lt;https://schema.org/&gt;
+SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
+        (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
+        (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw) ?datep ?sosType
+        ?maxdepth ?minDepth
+        #(GROUP_CONCAT(DISTINCT ?url; SEPARATOR=", ") AS ?disurl)
+        WHERE {
+          graph ?g {
+            values ?sosType {
+               schema:Dataset
+#               schema:DataCatalog
+            }
+              ?subj    a    ?sosType .
+             ?subj schema:name ?name .
+             ?subj schema:description ?description .
+
+            #?subj a schema:Dataset .
+           #  ?subj a ?sosType .
+            Minus {?subj a schema:Person } .
+ BIND (IF (exists {?subj a schema:Dataset .} ||exists{?subj a schema:DataCatalog .} , "data", "tool") AS ?resourceType).
+
+ optional {?subj schema:distribution/schema:url|schema:subjectOf/schema:url ?url1 .}
+            OPTIONAL {?subj schema:datePublished ?date_p .}
+            OPTIONAL {?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name .}
+            OPTIONAL {?subj schema:spatialCoverage/schema:name ?place_name .}
+            OPTIONAL {?subj schema:keywords ?kw1 .}
+            OPTIONAL {?subj schema:variableMeasured ?vm .
+               ?vm a  schema:PropertyValue  .
+               ?vm schema:name "depth" .
+                    ?vm schema:maxValue ?maxdepth .
+                  ?vm schema:minValue ?minDepth
+           }
+            # need these to get rdflib to work
+            bind ( COALESCE(?kw1, "") As ?kwu)
+            bind ( COALESCE(?url1, "") As ?url)
+           # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
+            # UI Date Select failed, because it expects an actual date
+           # BIND ( IF ( BOUND(?date_p), ?date_p, "No datePublished") as ?datep ) .
+             BIND ( IF ( BOUND(?date_p), ?date_p, "1900-01-01") as ?datep ) .
+            BIND ( IF ( BOUND(?pub_name), ?pub_name, "No Publisher") as ?pubname ) .
+            BIND ( IF ( BOUND(?place_name), ?place_name, "No spatialCoverage") as ?placename ) .
+             }
+        FILTER( CONTAINS(str(?g), "${repo}") )
+        }
+        GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?sosType ?maxdepth ?minDepth ?g
+</code></pre></p>
+<h2 id="code">Code<a class="headerlink" href="#code" title="Permanent link"></a></h2>
+<div class="doc doc-object doc-module">
+<a id="ec.generate_graph_stats"></a>
+<div class="doc doc-contents first">
+<div class="doc doc-children">
+<div class="doc doc-object doc-function">
+<h2 class="doc doc-heading" id="ec.generate_graph_stats.graphStats">
+<code class="highlight language-python">graphStats(args)</code>
+<a class="headerlink" href="#ec.generate_graph_stats.graphStats" title="Permanent link"></a></h2>
+<div class="doc doc-contents">
+<p>query an endpoint, store results as a json file in an s3 store</p>
+<details class="quote">
+<summary>Source code in <code>earthcube_utilities/src/ec/generate_graph_stats.py</code></summary>
+<pre class="highlight"><code class="language-python">def graphStats(args):
+    """query an endpoint, store results as a json file in an s3 store"""
+    if args.release is not None:
+        log.info(f"Using  {args.release} for graph statisitcs  ")
+        if (args.detailed):
+            report_json = generateGraphReportsRelease(args.source, args.release,reportList=reportTypes["repo_detailed"] )
+        else:
+            report_json = generateGraphReportsRelease(args.source,
+                                                       args.release, reportList=reportTypes["repo"] )
+    else:
+        log.info(f"Querying {args.graphendpoint} for graph statisitcs  ")
+    ### more work needed before detailed works
+        if args.source == "all":
+             # report_json = generateGraphReportsRepo("all",
+             #      args.graphendpoint, reportTypes=reportTypes)
+
+            if (args.detailed):
+                report_json = generateGraphReportsRepo("all", args.graphendpoint, reportList=reportTypes["all_detailed"] )
+            else:
+                report_json = generateGraphReportsRepo("all",
+                                                           args.graphendpoint,reportList=reportTypes["all"])
+        else:
+            # report_json = generateGraphReportsRepo(args.repo,
+            #   args.graphendpoint,reportTypes=reportTypes)
+
+            if (args.detailed):
+                report_json = generateGraphReportsRepo(args.source, args.graphendpoint,reportList=reportTypes["repo_detailed"] )
+            else:
+                report_json = generateGraphReportsRepo(args.source,
+                                                           args.graphendpoint, reportList=reportTypes["repo"] )
+
+    #data = f.getvalue()
+
+    if (args.output):  # just append the json files to one filem, for now.
+        logging.info(f" report for {args.source} appended to file")
+        args.output.write(report_json)
+    if not args.no_upload:
+        s3Minio = s3.MinioDatastore(args.s3server, None)
+        bucketname, objectname = s3Minio.putReportFile(args.s3bucket,args.source,"graph_stats.json",report_json)
+    return 0</code></pre>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h2 class="doc doc-heading" id="ec.generate_graph_stats.start">
+<code class="highlight language-python">start()</code>
+<a class="headerlink" href="#ec.generate_graph_stats.start" title="Permanent link"></a></h2>
+<div class="doc doc-contents">
+<p>Run the generate_repo_stats program.
+query an endpoint, store results as a json file in an s3 store.
+Arguments:
+    args: Arguments passed from the command line.
+Returns:
+    An exit code.</p>
+<details class="quote">
+<summary>Source code in <code>earthcube_utilities/src/ec/generate_graph_stats.py</code></summary>
+<pre class="highlight"><code class="language-python">def start():
+    """
+        Run the generate_repo_stats program.
+        query an endpoint, store results as a json file in an s3 store.
+        Arguments:
+            args: Arguments passed from the command line.
+        Returns:
+            An exit code.
+
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--release', dest='release',
+                        help='run over release file: try: https://oss.geocodes-aws.earthcube.org/earthcube/graphs/latest/iris_release.nq'
+
+                        )
+
+    parser.add_argument('--graphendpoint', dest='graphendpoint',
+                        help='graph endpoint' ,default="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/")
+    parser.add_argument('--s3', dest='s3server',
+                        help='s3 server address (localhost:9000)', default='localhost:9000')
+    parser.add_argument('--s3bucket', dest='s3bucket',
+                        help='s3 server address (localhost:9000)', default='gleaner')
+    parser.add_argument('--source', dest='source',
+                        help='repository', default='all')
+
+    parser.add_argument("--detailed",action='store_true',
+                        dest="detailed" ,help='run the detailed version of the reports', default=False)
+    parser.add_argument('--no-upload', dest = 'no_upload',action='store_true', default=False,
+                        help = 'do not upload to s3 bucket ')
+    parser.add_argument('--output',  type=argparse.FileType('w'), dest="output", help="dump to file")
+
+    args = parser.parse_args()
+
+    exitcode = graphStats(args)
+    exit(exitcode)</code></pre>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../..", "features": ["content.action.view", "content.action.edit", "content.code.annotate", "navigation.sections", "navigation.tabs", "navigation.path"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</body>
+</html>

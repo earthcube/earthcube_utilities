@@ -1,0 +1,501 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.5.40" name="generator"/>
+<title>earthcube_utliites wiki - Earthcube Utilities</title>
+<link href="../../../assets/stylesheets/main.8c3ca2c6.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../assets/_mkdocstrings.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#earthcube_utliites-wiki">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Earthcube Utilities" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Earthcube Utilities">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Earthcube Utilities
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              earthcube_utliites wiki
+            
+          </span>
+</div>
+</div>
+</div>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/earthcube/earthcube_utilities" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../notebook_proxy/">
+        
+  
+    
+  
+  Notebook Proxy
+
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../">
+          
+  
+  Earthcube Utilities
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../earthcube_utilities_code/">
+          
+  
+  Code Reference
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Earthcube Utilities" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Earthcube Utilities">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Earthcube Utilities
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/earthcube/earthcube_utilities" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../notebook_proxy/">
+<span class="md-ellipsis">
+    Notebook Proxy
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    Earthcube Utilities
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            Earthcube Utilities
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../">
+<span class="md-ellipsis">
+    Documentation
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../earthcube_utilities_scripts/">
+<span class="md-ellipsis">
+    Scripts
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../reporting/">
+<span class="md-ellipsis">
+    Reporting
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../summarize/">
+<span class="md-ellipsis">
+    Summarize
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    Code Reference
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            Code Reference
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../earthcube_utilities_code/">
+<span class="md-ellipsis">
+    Earthcube Utilites
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#earthcube_utilities-breakdown">
+<span class="md-ellipsis">
+      earthcube_utilities breakdown
+    </span>
+</a>
+<nav aria-label="earthcube_utilities breakdown" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#minibase">
+<span class="md-ellipsis">
+      Minibase
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#query">
+<span class="md-ellipsis">
+      Query
+    </span>
+</a>
+<nav aria-label="Query" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#usages">
+<span class="md-ellipsis">
+      Usages:
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#rdf-to-triples">
+<span class="md-ellipsis">
+      RDF to triples
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ro-crate-creation">
+<span class="md-ellipsis">
+      RO-CRATE creation
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#misc-notes">
+<span class="md-ellipsis">
+      Misc notes:
+    </span>
+</a>
+<nav aria-label="Misc notes:" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#could-be-loading">
+<span class="md-ellipsis">
+      Could be loading:
+    </span>
+</a>
+<nav aria-label="Could be loading:" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#related-data-using-sklearn-here">
+<span class="md-ellipsis">
+      related-data using sklearn here
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ro-crate-metadata-creation-that-dv-asked-for">
+<span class="md-ellipsis">
+      RO-CRATE metadata creation, that dv asked for
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/earthcube/earthcube_utilities/edit/docs/docs/earthcube_utilities/design/breakdown.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+</a>
+<a class="md-content__button md-icon" href="https://github.com/earthcube/earthcube_utilities/raw/docs/docs/earthcube_utilities/design/breakdown.md" title="View source of this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"></path></svg>
+</a>
+<h1 id="earthcube_utliites-wiki">earthcube_utliites <a href="https://github.com/earthcube/earthcube_utilities/wiki">wiki</a><a class="headerlink" href="#earthcube_utliites-wiki" title="Permanent link"></a></h1>
+<p>Originally used for notebooks only, but getting more reuse in the rest of the workflow
+ this lead to a natural breakdown of submodules, driven by need, in the processing pipeline</p>
+<pre class="mermaid"><code>flowchart TD;
+EC[ec.py] -- broke_out --&gt; T[testing:1475];
+EC -- leaving --&gt; ec2[ec main:2248];
+ec2 -- back2early --&gt; U[earthcube_utilities:518]  -- has --&gt; R[a bit for opening data in notebooks];
+U -- loads --&gt; TR[the rest]
+TR -- import --&gt; MB[min-base:690];
+TR -- import --&gt; query[SPARQL queries from git:175];
+TR -- import --&gt; R2[rdf2nq:146];
+U -- could_load --&gt; TR2[more];
+TR2 ----&gt; RD[related datasets:145];
+TR2 ----&gt; RC[RO-CRATE creation:107];
+TR2 -- leaving --&gt; o[other:718]
+</code></pre>
+<p>This is more how the functionality has been broken down, to help with the ec_utils plan, a more simple <a href="https://github.com/earthcube/earthcube_utilities/blob/dcm/earthcube_utilities/docs/sm.md">view</a> can be further devloped to 
+better show a potiential user about the <strong>Functionality</strong> of the  libraries modules</p>
+<h2 id="earthcube_utilities-breakdown"><em><strong>earthcube_utilities</strong> breakdown</em><a class="headerlink" href="#earthcube_utilities-breakdown" title="Permanent link"></a></h2>
+<p>the file itself can keep some of the notebook specific code or that can go into a notebook/data_download sub modules</p>
+<p><em>If it can be that is good, but this is about clean coding. So how does importing a single undocumented 
+module help a user utilize it.</em></p>
+<p>Functionality:
+* mini-base
+* query
+* rdf to triples
+* RO-Crate
+* Additional Modules</p>
+<h3 id="minibase">Minibase<a class="headerlink" href="#minibase" title="Permanent link"></a></h3>
+<p><ins><strong>mb.py</strong> mini-base small util functions</ins> that sometimes end up getting copied into the other places they are needed now
+ <strong>some of this could be replaced by libs like: <a href="https://github.com/dgilland/pydash">pydash</a></strong></p>
+<h3 id="query">Query<a class="headerlink" href="#query" title="Permanent link"></a></h3>
+<p><ins><strong>query.py</strong> </ins> is can do all the SPARQL queries the UI can do.</p>
+<p>Query returns a pandas dataframe using the sparqldataframe library. A set of queries based
+on the the <a href="https://github.com/earthcube/facetsearch/tree/master/client/src/sparql_blaze">facetserch UI sparql queries</a>
+and other queries utilized for data exploration and data validation are included.</p>
+<p>LIST QUERIES: This is the detailed functionality</p>
+<p>(I am going to suggest that a list of queries, and functionality, and some details be incorporated into an assets
+list. The list should probably be a file in YAML or JSON format in the resources directory.)</p>
+<table>
+<thead>
+<tr>
+<th>short_name</th>
+<th>file</th>
+<th>detailed description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>summary</td>
+<td>./resources/sparql/summary.txt</td>
+<td>takes query term, <code>q</code>, and returns a summary of the matched resoruces</td>
+</tr>
+<tr>
+<td>sbj2urn</td>
+<td>./resources/sparql/sbj2urn.txt</td>
+<td>returns the urn of the graph  for a given graph <code>g</code></td>
+</tr>
+</tbody>
+</table>
+<p><em>This is the proposed implementation stratedgy...</em> 
+it is setup to add one get_{qry_name}_txt  function to get the txt of the query, usually from raw git 
+then a function: {qry_name} that calls one fuction with {qry_name} as the arg, and maybe a variable
+it will get the txt from the 1st function, and replace the var w/in the template txt, run the query and return a DF</p>
+<p>(<strong>above  reads  like a possible security hole</strong> I am going to run a method with a dynamically defined name.
+Implementation seems overly complex, </p>
+<p>Suggest that queries be embedded in resources. which would make things clearer than many courtesy methods.
+something simpler, like:</p>
+<pre class="highlight"><code>def QUERY(endpoint)
+# validate that endpoint exists.
+def listQueries() 
+# return list of queries
+def query(self, short_name=summary, options)
+# where options would be an object containing passed parameters {"q":"steens"}
+def queryFromURL(self, url="https://raw.githubusercontent.com/MBcode/ec/master/NoteBook/sparql-query.txt", options)</code></pre>
+<pre class="highlight"><code class="language-python">q = QUERY("http:example.com")
+dataframe = q.query("sub2urn",options={"g":"somegraph"} )
+dataframe2 = q.queryFromURL( url="https://raw.githubusercontent.com/MBcode/ec/master/NoteBook/sparql-query.txt", options={"q":"steens"})
+</code></pre>
+<h4 id="usages">Usages:<a class="headerlink" href="#usages" title="Permanent link"></a></h4>
+<p>many. 
+* It can be used to get information to validated informaiton from the graph,
+* it can be used in notebooks to run queries.</p>
+<p>Also, suggest jinja2, or the <a href="https://docs.python.org/3.4/library/string.html#template-strings">standard python3 templates</a> for replacing parameters in templates.</p>
+<h3 id="rdf-to-triples">RDF to triples<a class="headerlink" href="#rdf-to-triples" title="Permanent link"></a></h3>
+<p>At present, gleaner generates triples, and nabu loads them into the graph as quads.
+The summary code needs to know the expected <code>graph</code> so this module creates quads from gleaner/milled
+Basically, <ins><strong>rdf2nq.py</strong> takes one form of rdf triples, 
+and adds the filename of the file as the last column in its nquads<ins> output
+* if it is .ntriples, then you just add a column
+* if it is another format like jsonld, then it runs jena's riot RDF I/O technology (RIOT) on it, right now
+<pre class="highlight"><code class="language-shell">rdf2nq.py nabuconfig repository --path (default=milled)</code></pre>
+The config contains the service secrets, and more importantly the source 'repository' will be in the file.
+<pre class="highlight"><code class="language-python">def s3client(config)
+def s3GetFile(s3client, file )
+def read_files(s3client, bucket, repo)
+def triplesToQuads(triples, graphname)
+def appeandToOutput(quads)
+def pathToUrn(file) 
+   # the path should be summoned/repo/urn.jsonld
+   # remove json or jsonld from s3 path
+   # returns urn in for urn:repo:file sans extenstion
+def __main__
+  s3 = s3Client(config)
+  files = read_files(s3, config.s3.bucket, repo)
+  foreach file in files:
+     urn = pathToUrn(file)
+     data = s3GetFile(s3client, file.path) # whatever it needs
+     quads = triplesToQuads(data, urn)
+     appendToOutput(quads)
+  outputfile.write() </code></pre></ins></ins></p>
+<p><em>Some related could probably be handled by <a href="https://derwen.ai/docs/kgl/ex4_0/">kglab</a> now</em></p>
+<h3 id="ro-crate-creation">RO-CRATE creation<a class="headerlink" href="#ro-crate-creation" title="Permanent link"></a></h3>
+<p><a href="https://github.com/earthcube/earthcube_utilities/issues/15">RO-Crate issue</a> decribes some of the steps needed</p>
+<p>The <a href="https://docs.google.com/document/d/1dIusvhpbJuN7HC8smPPGbn9HIWJGsN7iZafKTRTc42I/edit#heading=h.1izdmil74wk6">Notebook Dispatch</a> describes the possible functionality </p>
+<p>The <a href="https://docs.google.com/document/d/1PSPPp3M3OJFUbLPr3zW1Xnt4uQuo-Oruwuh2LqN2yxE/edit#heading=h.muip1py2h08a">Decoder Sprint Document</a> includes a diagram of how we might immplement RO-Crate workflows</p>
+<pre class="highlight"><code class="language-python">def s3client() # public bucket
+def s3getFile(s3client, path to rocrate)
+def s3PathToRoctate(roCrateQueryParameter)
+def roCrateRender(rocrate)
+</code></pre>
+<pre class="highlight"><code class="language-python">roCrateQueryParameter = request.params.rocrate
+s3 = s3client()
+pathToCrate = s3PathToRocrate(roCrateQueryParameter)
+rocrate = s3getFile(s3,pathToCrate)
+print(roCrateRender(rocrate))</code></pre>
+<h2 id="misc-notes">Misc notes:<a class="headerlink" href="#misc-notes" title="Permanent link"></a></h2>
+<p>could be integrated with the new <a href="https://github.com/search?q=org%3Agleanerio+logging&amp;type=code">gleaner-logging</a>.worklfow.</p>
+<h3 id="could-be-loading"><ins>Could</ins> be <ins>load</ins>ing:<a class="headerlink" href="#could-be-loading" title="Permanent link"></a></h3>
+<h5 id="related-data-using-sklearn-here"><ins>related-data</ins> using sklearn <a href="https://github.com/MBcode/ec/blob/master/qry/rec.py">here</a><a class="headerlink" href="#related-data-using-sklearn-here" title="Permanent link"></a></h5>
+<h5 id="ro-crate-metadata-creation-that-dv-asked-for"><ins>RO-CRATE metadata creation</ins>, that dv asked for<a class="headerlink" href="#ro-crate-metadata-creation-that-dv-asked-for" title="Permanent link"></a></h5>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.view", "content.action.edit", "content.code.annotate", "navigation.sections", "navigation.tabs", "navigation.path"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../../../assets/javascripts/bundle.525ec568.min.js"></script>
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+<script>window.mermaidConfig = {default: {
+    startOnLoad: false
+}};</script></body>
+</html>
