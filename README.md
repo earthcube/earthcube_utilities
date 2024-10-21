@@ -37,6 +37,14 @@ https://pypi.org/project/earthcube-utilities/
 
 python3 -m pip install earthcube-utilities
 
+for [local development](https://earthcube.github.io/earthcube_utilities/earthcube_utilities/#local-development-mode)
+
+```shell
+cd earthcube_utlities
+pip install -e  '.[dev]'
+```
+
+
 [Code Documentation](https://earthcube.github.io/earthcube_utilities/)
 
 ### Earthcube Utility Summarize:
