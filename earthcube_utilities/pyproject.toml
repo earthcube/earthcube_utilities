@@ -79,8 +79,8 @@ where = ["src"]
 [tool.setuptools.package-data]
 "*" = ["*.txt", "*.sparql"]
 #package-data = { "ec"=["graph/resources/sparql/*.sparql"]}
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
+#[tool.setuptools.dynamic]
+#dependencies = {file = ["requirements.txt"]}
 [build-system]
 requires = [
     "setuptools>=42",
