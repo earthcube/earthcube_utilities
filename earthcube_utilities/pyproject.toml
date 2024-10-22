@@ -1,7 +1,7 @@
 [project]
 name = "earthcube_utilities"
 version = "0.1.27"
-dynamic = ["dependencies"]
+#dynamic = ["dependencies"]
 description = "A package of utilities for NSF Earthcube Geocodes Project"
 readme =  "README.md"
 
