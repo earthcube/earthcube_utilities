@@ -1,11 +1,13 @@
 import csv
-import click
+import re
+from datetime import datetime
 from urllib import request
 
-from ec.sitemap.sitemap import Sitemap
-import argparse
-
+import click
+import requests
 from ec.logger import config_app
+
+from ec.datastore import s3
 
 log = config_app()
 
@@ -17,26 +19,84 @@ def readSourceCSV(gsheet_csv_url):
     data_list = list(csv_reader)
     return data_list
 
+def readCommunityItemsCSV(gsheet_csv_url):
+    response = request.urlopen(gsheet_csv_url)
+    csv_reader = csv.DictReader(response.read().decode('utf-8').splitlines())
 
-def convert_gsheet_csv_to_sitemap(gsheet_csv_url):
-    sources = readSourceCSV(gsheet_csv_url)
-    return sources
+    data_list = [
+        row for row in csv_reader
+        if row.get('Type') == 'Dataset'
+    ]
+    return data_list
+
+
+def check_url_for_jsonld(url):
+    try:
+        # Fetch the content of the URL
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an error for bad status codes
+
+        # Search for <script> tags with type="application/ld+json" using a regular expression
+        pattern = r'<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>'
+        matches = re.findall(pattern, response.text, re.DOTALL)
+
+        if matches:
+            # Return True if JSON-LD data is found
+            return True
+        else:
+            # Return False if no JSON-LD data is found
+            return False
+    except requests.RequestException as e:
+        print(f"An error occurred while trying to fetch the URL: {e}")
+        return False
+
+def generate_sitemap(gsheet_csv_url):
+    data_list = readCommunityItemsCSV(gsheet_csv_url)
+
+    sitemap_entries = []
+    for data in data_list:
+        url = data['Dataset Webpage URL']
+
+        if check_url_for_jsonld(url):
+            entry = f"""
+    <url>
+        <loc>{url}</loc>
+    </url>"""
+            sitemap_entries.append(entry)
+        else:
+            print(f"No JSON-LD data found for {url}.")
+
+    sitemap_xml = f"""<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{''.join(sitemap_entries)}
+</urlset>"""
+
+    return sitemap_xml
+
+
+def convert_gsheet_csv_to_sitemap(url_groups, url_items):
+    s3server = ""
+    #s3Minio = s3.MinioDatastore(s3server, None)
+    #groups = readSourceCSV(url_groups)
+    sitemap = generate_sitemap(url_items)
+    return sitemap
 
 
 @click.command()
-@click.option('--url', help='URL of the source CSV file', required=True)
-def start(url):
+@click.option('--url_groups', help='URL for Groups of the source CSV file', required=True)
+@click.option('--url_items', help='URL for Community Items of the source CSV file', required=True)
+def start(url_groups, url_items):
     """
         Run the sitemap_checker program.
         Sitemap checker. Default option  checks if url is sitemap exist.
         Arguments:
             args: Arguments passed from the command line.
         Returns:
-            result of check as csv.
+            result of check as csv.ls
+
 
     """
 
-    result = convert_gsheet_csv_to_sitemap(url)
+    result = convert_gsheet_csv_to_sitemap(url_groups, url_items)
     print(result)
 
 if __name__ == '__main__':
