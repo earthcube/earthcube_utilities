@@ -1,16 +1,12 @@
 import csv
 import re
-from datetime import datetime
 from urllib import request
-
 import click
 import requests
 from ec.logger import config_app
-
 from ec.datastore import s3
 
 log = config_app()
-
 
 # Example of CSV URL: 'https://docs.google.com/spreadsheets/d/1pqZpMWqQFwUrleHXPbvXqXX59Xcj1Yrtqt2nJTh1reM/pub?output=csv'
 def readSourceCSV(gsheet_csv_url):
@@ -72,32 +68,28 @@ def generate_sitemap(gsheet_csv_url):
 
     return sitemap_xml
 
-
-def convert_gsheet_csv_to_sitemap(url_groups, url_items):
-    s3server = ""
-    #s3Minio = s3.MinioDatastore(s3server, None)
-    #groups = readSourceCSV(url_groups)
-    sitemap = generate_sitemap(url_items)
-    return sitemap
-
-
 @click.command()
 @click.option('--url_groups', help='URL for Groups of the source CSV file', required=True)
 @click.option('--url_items', help='URL for Community Items of the source CSV file', required=True)
-def start(url_groups, url_items):
+@click.option('--s3server', help='s3 server address')
+@click.option('--s3bucket', help='s3 bucket')
+def convert_gsheet_csv_to_sitemap(url_groups, url_items, s3server, s3bucket):
+    s3Minio = s3.MinioDatastore(s3server, None)
+    sitemap = generate_sitemap(url_items)
+    # upload the generated sitemap to s3 bucket
+    s3Minio.putSitemapFile(s3bucket, "geochemistry_custom_sitemap.xml", sitemap)
+    return sitemap
+
+def start():
     """
-        Run the sitemap_checker program.
-        Sitemap checker. Default option  checks if url is sitemap exist.
+        Read datasets from the google sheet and convert them to a sitemap
         Arguments:
             args: Arguments passed from the command line.
         Returns:
-            result of check as csv.ls
-
+            a sitemap
 
     """
-
-    result = convert_gsheet_csv_to_sitemap(url_groups, url_items)
-    print(result)
+    result = convert_gsheet_csv_to_sitemap()
 
 if __name__ == '__main__':
 
