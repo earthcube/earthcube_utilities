@@ -63,11 +63,10 @@ def generate_sitemap(gsheet_csv_url):
     return sitemap_xml
 
 @click.command()
-@click.option('--url_groups', help='URL for Groups of the source CSV file', required=True)
 @click.option('--url_items', help='URL for Community Items of the source CSV file', required=True)
 @click.option('--s3server', help='s3 server address')
 @click.option('--s3bucket', help='s3 bucket')
-def convert_gsheet_csv_to_sitemap(url_groups, url_items, s3server, s3bucket):
+def convert_gsheet_csv_to_sitemap(url_items, s3server, s3bucket):
     s3Minio = s3.MinioDatastore(s3server, None)
     sitemap = generate_sitemap(url_items)
     # upload the generated sitemap to s3 bucket
