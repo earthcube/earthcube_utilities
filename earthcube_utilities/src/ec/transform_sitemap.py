@@ -9,13 +9,7 @@ from ec.datastore import s3
 log = config_app()
 
 # Example of CSV URL: 'https://docs.google.com/spreadsheets/d/1pqZpMWqQFwUrleHXPbvXqXX59Xcj1Yrtqt2nJTh1reM/pub?output=csv'
-def readSourceCSV(gsheet_csv_url):
-    response = request.urlopen(gsheet_csv_url)
-    csv_reader = csv.DictReader(response.read().decode('utf-8').splitlines())
-    data_list = list(csv_reader)
-    return data_list
-
-def readCommunityItemsCSV(gsheet_csv_url):
+def read_community_items_CSV(gsheet_csv_url):
     response = request.urlopen(gsheet_csv_url)
     csv_reader = csv.DictReader(response.read().decode('utf-8').splitlines())
 
@@ -47,7 +41,7 @@ def check_url_for_jsonld(url):
         return False
 
 def generate_sitemap(gsheet_csv_url):
-    data_list = readCommunityItemsCSV(gsheet_csv_url)
+    data_list = read_community_items_CSV(gsheet_csv_url)
 
     sitemap_entries = []
     for data in data_list:
