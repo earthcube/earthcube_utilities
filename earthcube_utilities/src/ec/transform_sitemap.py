@@ -77,7 +77,7 @@ def convert_gsheet_csv_to_sitemap(url_groups, url_items, s3server, s3bucket):
     s3Minio = s3.MinioDatastore(s3server, None)
     sitemap = generate_sitemap(url_items)
     # upload the generated sitemap to s3 bucket
-    s3Minio.putSitemapFile(s3bucket, "geochemistry_custom_sitemap.xml", sitemap)
+    s3Minio.putSitemapFile(s3bucket, "geochemistry_sitemap.xml", sitemap)
     return sitemap
 
 def start():
