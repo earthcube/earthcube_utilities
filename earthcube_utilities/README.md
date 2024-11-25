@@ -6,11 +6,13 @@
 ### Earthcube Utilities:
 https://pypi.org/project/earthcube-utilities/
 
+
 ### scripts
 When installed via pip:
 
 * [Reporting](https://earthcube.github.io/earthcube_utilities/earthcube_utilities/reporting/)
 * [Summarize a namespace](https://earthcube.github.io/earthcube_utilities/earthcube_utilities/summarize/)
+
 
 ### Manual Install
 `python3 -m pip install  earthcube-utilities`
