@@ -337,6 +337,8 @@ def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, 
     sources = readSourceCSV(url)
     if community != "all":
         sources = list(filter(lambda source: community in source.get('Community'), sources))
+        if len(sources) == 0:
+            return None
     else:
         sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
 
