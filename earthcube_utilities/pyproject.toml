@@ -1,6 +1,6 @@
 [project]
 name = "earthcube_utilities"
-version = "0.1.28"
+version = "0.1.29"
 #dynamic = ["dependencies"]
 description = "A package of utilities for NSF Earthcube Geocodes Project"
 readme =  "README.md"
@@ -42,8 +42,9 @@ dependencies=[
 "pydash",
 "advertools",
 "pandarallel",
-"pyoxigraph",
-"oxrdflib"
+    # pyoxigraph needs RUST... cannot use easily in docker hub builds
+#"pyoxigraph",
+#"oxrdflib"
 ]
 #pip install -e '.[dev]'
 [project.optional-dependencies]
