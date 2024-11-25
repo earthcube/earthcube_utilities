@@ -20,7 +20,8 @@ Creates parameterized NoteBook gists (from a [template](./notebook_proxy/templat
 **Please try the**  [search](https://geocodes.earthcube.org/) & click on its' feedback, incl for use-case that we can try to attain 
 
 ## Summarize
-[Summarize](./summarize/) is  tool to materialize a set of triples that are used to improve search performance.
+[Summarize](./summarize/) is merged into the earthcube utilties package.
+It materializes a set of triples that are used to improve search performance.
 
 ## Artifacts
 ### Notebook Proxy:
@@ -33,17 +34,21 @@ See [README.md](./notebook_proxy/) in src/notebook_proxy
 
 
 ### Earthcube Utilties:
+[documentation](https://earthcube.github.io/earthcube_utilities/earthcube_utilities/]
+
 https://pypi.org/project/earthcube-utilities/
 
 python3 -m pip install earthcube-utilities
 
+for [local development](https://earthcube.github.io/earthcube_utilities/earthcube_utilities/#local-development-mode)
+
+```shell
+cd earthcube_utlities
+pip install -e  '.[dev]'
+```
+
+
 [Code Documentation](https://earthcube.github.io/earthcube_utilities/)
 
-### Earthcube Utility Summarize:
-https://test.pypi.org/project/earthcube-summarize/
-
-python3 -m pip install --index-url https://test.pypi.org/simple/ earthcube_summarize
-
-[Documentation](https://earthcube.github.io/earthcube_utilities/summarize/)
 
 

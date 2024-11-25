@@ -5,7 +5,14 @@
 
 ### Earthcube Utilities:
 https://pypi.org/project/earthcube-utilities/
- 
+
+
+### scripts
+When installed via pip:
+
+* [Reporting](https://earthcube.github.io/earthcube_utilities/earthcube_utilities/reporting/)
+* [Summarize a namespace](https://earthcube.github.io/earthcube_utilities/earthcube_utilities/summarize/)
+
 
 ### Manual Install
 `python3 -m pip install  earthcube-utilities`
@@ -13,16 +20,6 @@ https://pypi.org/project/earthcube-utilities/
 
 
 ## Developers
-
-### scripts
-When installed via pip:
-
-`query_graph SPARQL_FILE --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ `
-
-`check_sitemap SITEMAP_URL --output FILE --no-check-url  `
-
-`generategraphstats --graphendpoint https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/ -s3 localhost:9000 --s3bucket gleaner`
-
 
 from [console scripts](https://setuptools.pypa.io/en/latest/userguide/entry_point.html#console-scripts)
 

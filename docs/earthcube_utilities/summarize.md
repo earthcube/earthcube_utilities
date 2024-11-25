@@ -201,13 +201,13 @@ create a virutal env
 use editable install
 
 ```shell
-cd summarize
+cd earthcube_utilities
 pip3 install -e .
 ```
 
 If you edit the pyproject.toml and want to test an added script, 
 ```shell
-cd summarize
-pip3 uninstall -e earthcube-summarize
+cd earthcube_utilities
+pip3 uninstall -e earthcube-utilities
 pip3 install -e .
 ```

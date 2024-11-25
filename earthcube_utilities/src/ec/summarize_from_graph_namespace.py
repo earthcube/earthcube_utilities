@@ -11,6 +11,8 @@ from urllib.parse import urlparse
 
 
 def dumpToFile(repo,summaryttl ):
+    if repo is None or repo == '':
+        repo = 'pass_repo_flag'
     filename = os.path.join("output", f"{repo}.ttl")
     if not os.path.exists(os.path.dirname(filename)):
         try:

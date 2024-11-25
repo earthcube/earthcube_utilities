@@ -1,7 +1,7 @@
 [project]
 name = "earthcube_utilities"
 version = "0.1.27"
-dynamic = ["dependencies"]
+#dynamic = ["dependencies"]
 description = "A package of utilities for NSF Earthcube Geocodes Project"
 readme =  "README.md"
 
@@ -25,6 +25,35 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent"
 ]
+dependencies=[
+   "pandas==2.2.2",
+"rdflib==7.0.0",
+"requests==2.28.2",
+"simplejson==3.18.3",
+"sparqldataframe==0.1.0",
+"numpy>=2.0.0",
+"minio",
+"pyld",
+"rocrate",
+"rocrateValidator",
+"uuid",
+"logconfig",
+"jsonschema",
+"pydash",
+"advertools",
+"pandarallel",
+"pyoxigraph",
+"oxrdflib"
+]
+#pip install -e '.[dev]'
+[project.optional-dependencies]
+dev=["approvaltests",
+"kglab",
+"reportlab",
+"seaborn",
+"jupyterlab"
+]
+
 [project.urls]  # Optional
 "Homepage" = "https://www.earthcube.org/"
 "Bug Tracker" = "https://github.com/earthcube/earthcube_utilities/issues"
@@ -50,8 +79,8 @@ where = ["src"]
 [tool.setuptools.package-data]
 "*" = ["*.txt", "*.sparql"]
 #package-data = { "ec"=["graph/resources/sparql/*.sparql"]}
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
+#[tool.setuptools.dynamic]
+#dependencies = {file = ["requirements.txt"]}
 [build-system]
 requires = [
     "setuptools>=42",
