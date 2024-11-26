@@ -85,7 +85,9 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
         if not urns.get(gu):
             urns[gu]=1
         else:
-            #print(f'already:{there},so would break loop')
+            # this could be a fatal error. should not happen
+            urns[gu] = urns[gu] + 1
+            logging.error(f'duplicate urn in a summary: {gu} count:{urns[gu] }')
             continue #from loop
 
 
