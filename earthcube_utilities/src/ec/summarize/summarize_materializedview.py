@@ -2,7 +2,7 @@ import logging
 from io import StringIO
 from string import Template
 from typing import Union
-
+from dateutil import parser
 import pandas
 import sparqldataframe
 from rdflib import URIRef, BNode, Literal, Graph,Namespace, RDF
@@ -181,7 +181,14 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
             # UI Date Select failed, because it expects an actual date
             #   Empty values might be handled in the UI...,
             #   or the repository valiation reporting
-            g.add((graph_subject, ecsummary.date, Literal(datep)))
+            try:
+                valid_date=parser.parse(datep)
+                g.add((graph_subject, ecsummary.date, Literal(valid_date.strftime('%Y-%m-%d'))))
+                g.add((graph_subject, ecsummary.year, Literal(valid_date.year)))
+                # lets add for a seasonal component
+                g.add((graph_subject, ecsummary.month, Literal(valid_date.month)))
+            except:
+                logging.info(f"Unable to parse date {datep}")
 # ecsummary subjectOf
         g.add((graph_subject, ecsummary.subjectOf, URIRef(s)))
 
