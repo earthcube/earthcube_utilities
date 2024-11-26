@@ -54,7 +54,10 @@ def get_summary4repoSubset(endpoint: str, repo : str) -> pandas.DataFrame:
     #
     # df = sparqldataframe.query(endpoint,thsGraphQuery)
     # return df
-
+def fix_keywords(keywords):
+    keywords = keywords.replace('"','')
+    keywords = keywords.replace(';', ',')
+    return keywords
 ###
 # from dataframe
 
@@ -112,9 +115,12 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
 # keywords
         kw_=row['kw']
         if is_str(kw_):
+            kw_ = fix_keywords(kw_)
+            kw=f'{kw_}'
+        elif ( pandas.notnull(kw_) ) :
             kw=json.dumps(kw_)
         else:
-            kw=f'"{kw_}"'
+            kw=None
 # publisher
         pubname=row['pubname']
         if   pandas.isna(pubname) or  pubname=="No Publisher":
@@ -168,7 +174,8 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
         g.add((graph_subject, ecsummary.description, Literal(description)))
 
 # ecsummary.keywords
-        g.add((graph_subject, ecsummary.keywords, Literal(kw_)))
+        if (kw is not None):
+            g.add((graph_subject, ecsummary.keywords, Literal(kw)))
 # ecsummary.publisher
         if pandas.notna(pubname):
             g.add((graph_subject, ecsummary.publisher, Literal(pubname)))
