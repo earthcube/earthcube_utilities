@@ -31,17 +31,22 @@ class ManageGraph( ABC): #really a manage graph namespace, bc a graph has severa
     @abstractmethod
     def createNamespace(self, quads=True):
         """ create a new namespace"""
-        pass
+        return NotImplemented
 
     @abstractmethod
     def deleteNamespace(self):
         """delete a namespace"""
-        pass
+        return NotImplemented
+
+    @abstractmethod
+    def loadReleaseFromUrl(self, url=None, source=None, namespace=None):
+        return NotImplemented
 
     # insert is private, i think
     @abstractmethod
     def insert(self, data, content_type="text/x-nquads"):
-        pass
+        return NotImplemented
+
     def upload_file(self, filename, content_type="text/x-nquads"):
         "to temp namespace or final one if given"
         log.debug(f'upload_file:{filename}')
@@ -144,6 +149,35 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         else:
             raise Exception("Delete Failed.")
 
+    def loadReleaseFromUrl(self, url=None, source=None, namespace=None):
+        if url is None:
+            raise ValueError("url must be provided")
+        else:
+            release_url = url
+        if namespace is None:
+            graphendpoint = self.GraphEndpoint()
+        else:
+            graphendpoint = self.GraphEndpoint(namespace=namespace)
+
+        url = f"{graphendpoint}"  # f"{os.environ.get('GLEANER_GRAPH_URL')}/namespace/{os.environ.get('GLEANER_GRAPH_NAMESPACE')}/sparql?uri={release_url}"
+        log.info(f'graph: insert "{source}" to {url} ')
+        loadfrom = {'update': f'LOAD <{release_url}>'}
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        r = requests.post(url, headers=headers, data=loadfrom)
+        log.debug(f' status:{r.status_code}')  # status:404
+        log.info(f'graph: LOAD from {release_url}: status:{r.status_code}')
+        if r.status_code == 200:
+            log.info(f'graph load response: {str(r.text)} ')
+            # '<?xml version="1.0"?><data modified="0" milliseconds="7"/>'
+            if 'mutationCount=0' in r.text:
+                log.info(f'graph: no data inserted ')
+                # raise Exception("No Data Added: " + r.text)
+            return True
+        else:
+            log.info(f'graph: error {str(r.text)}')
+            raise Exception(f' graph: failed,  LOAD from {release_url}: status:{r.status_code}')
 
     def insert(self, data, content_type="text/x-nquads"):
         """inserts data into a blazegraph namespace"""
@@ -335,9 +369,56 @@ class ManageGraphdb(ManageGraph):
         else:
             raise Exception("Delete Failed.")
 
+    def loadReleaseFromUrl(self, url=None, source=None, namespace=None):
+        return NotImplemented
 
     def insert(self, data, content_type="text/x-nquads"):
         """inserts data into a blazegraph namespace"""
+
+        #http://132.249.238.155/repositories/eco_quads
+        #content-type:application/x-www-form-urlencoded;charset=UTF-8
+        # ACCEPT: application/x-sparqlstar-results+json, application/sparql-results+json;q=0.9, */*;q=0.8
+        # post formdata to the above url
+        # PREFIX
+        # geof: < http: // www.opengis.net /
+        #
+        # def /function / geosparql / >
+        #
+        # PREFIX
+        # unit: < http: // www.opengis.net /
+        #
+        # def /uom / OGC / 1.0 / >
+        #
+        # PREFIX
+        # schema: < https: // schema.org / >
+        # PREFIX
+        # rdfs: < http: // www.w3.org / 2000 / 01 / rdf - schema  # >
+        #
+        # SELECT ?observationDate ?depth ?s(?o as ?ufokn) ?building  ?impact_name ?impact_id
+        # WHERE
+        # {
+        # ?s
+        # a < https: // schema.org / Observation >.
+        # ?s < https: // schema.org / measuredProperty > ?mpb.
+        # ?mpb < https: // schema.org / identifier > "https://www.wikidata.org/wiki/Q8068".
+        # ?s < https: // schema.org / value > "true".
+        # ?s < https: // schema.org / observationAbout > ?o.
+        # ?s < https: // schema.org / observationDate > ?observationDate.
+        # ?o < https: // schema.org / identifier > ?building.
+        # ?s < https: // schema.org / variableMeasured > ?vmb.
+        # ?s < https: // schema.org / measuredProperty > ?mpb.
+        # ?vmb < https: // schema.org / value > ?depth.
+        # ?vmb < https: // schema.org / unitCode > ?depth_units.
+        #
+        # ?mpb < https: // schema.org / identifier > ?impact_id.
+        # ?mpb < https: // schema.org / name > ?impact_name
+        #
+        # } limit
+        # 5
+        # infer: true
+        # sameAs: true
+        # limit: 1001
+        # offset: 0
         # rdf datatypes: https://github.com/blazegraph/database/wiki/REST_API#rdf-data
         # insert: https://github.com/blazegraph/database/wiki/REST_API#insert
        #url = f"{self.baseurl}/namespace/{self.namespace}{self.sparql}"
@@ -356,8 +437,5 @@ class ManageGraphdb(ManageGraph):
         else:
             return False
 
-    #have upload methods here
-    #have graph instance:<manageGraph.ManageBlazegraph object at ..>, for url:https://graph.geocodes.ncsa.illinois.edu/blazegraph
-    #tmp_endpoint=f'https://graph.geocodes.ncsa.illinois.edu/blazegraph/namespace/{repo}/sparql'
 
 
