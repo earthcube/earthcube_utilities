@@ -233,12 +233,16 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
                  g.add((graph_subject, ecsummary.minDepth, Literal(mindepth)))
         except ValueError:
             logging.info(f"{s} non-numeric depth {mindepth}")
+        except Exception as e:
+            logging.error(f"Unable to parse minDepth {mindepth}")
         try:
             maxdepth = Decimal(maxdepth)
             if not maxdepth.is_nan():
                 g.add((graph_subject, ecsummary.maxDepth, Literal(maxdepth)))
         except ValueError:
             logging.info(f"{s} non-numeric depth {maxdepth}")
+        except Exception as e:
+            logging.error(f"Unable to parse maxDepth {maxdepth}")
 
         #### end for ####
     return g.serialize(format='longturtle'), g
