@@ -5,7 +5,7 @@ and few helpers to basic queries
 """
 import pandas
 from  pydash import  ends_with, replace_end, sort
-import sparqldataframe
+from .sparqldataframe import query as sparqlquery
 from string import Template
 try:
     import importlib.resources as pkg_resources
@@ -36,7 +36,8 @@ def queryWithSparql( template_name : str, endpoint : str,parameters:object={}) -
     query = _getSparqlFileFromResources(f"{template_name}")
     q_template = Template(query)
     thsGraphQuery = q_template.substitute(parameters)
-    q_df = sparqldataframe.query(endpoint, thsGraphQuery)
+    #q_df = sparqldataframe.query(endpoint, thsGraphQuery)
+    q_df = sparqlquery(endpoint, thsGraphQuery)
     return q_df
 
 ## this will need to be done to package specifications.
@@ -64,6 +65,6 @@ def getAGraph(  g, endpoint: str) -> pandas.DataFrame:
     query = _getSparqlFileFromResources('urn_triples_for_a_graph')
     q_template = Template(query)
     thsGraphQuery = q_template.substitute(urn=g)
-    g_df = sparqldataframe.query(endpoint, thsGraphQuery)
-
+    #g_df = sparqldataframe.query(endpoint, thsGraphQuery)
+    g_df = sparqlquery(endpoint, thsGraphQuery)
     return g_df
