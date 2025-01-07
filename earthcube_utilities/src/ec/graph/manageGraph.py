@@ -39,7 +39,7 @@ class ManageGraph( ABC): #really a manage graph namespace, bc a graph has severa
         return NotImplemented
 
     @abstractmethod
-    def loadReleaseFromUrl(self, url=None, source=None, namespace=None):
+    def loadReleaseFromUrl(self, url=None, source=None, namespace=None, suffix='release'):
         return NotImplemented
 
     # insert is private, i think
@@ -149,7 +149,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
         else:
             raise Exception("Delete Failed.")
 
-    def loadReleaseFromUrl(self, url=None, source=None, namespace=None):
+    def loadReleaseFromUrl(self, url=None, source=None, namespace=None, suffix='release'):
         if url is None:
             raise ValueError("url must be provided")
         else:
@@ -369,7 +369,7 @@ class ManageGraphdb(ManageGraph):
         else:
             raise Exception("Delete Failed.")
 
-    def loadReleaseFromUrl(self, url=None, source=None, namespace=None):
+    def loadReleaseFromUrl(self, url=None, source=None, namespace=None, suffix='release'):
         return NotImplemented
 
     def insert(self, data, content_type="text/x-nquads"):
