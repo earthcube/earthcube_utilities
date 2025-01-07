@@ -107,6 +107,9 @@ com.bigdata.journal.Journal.groupCommit=false
 com.bigdata.rdf.store.AbstractTripleStore.geoSpatial=false
 com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
 """
+    def GraphEndpoint(self, namespace):
+        url = f"{self.baseurl}/namespace/{namespace}/sparql"
+        return url
     #init w/namespace
     def graphFromEndpoint(endpoint: str) -> str:
         paths = endpoint.split('/')
@@ -316,6 +319,10 @@ class ManageGraphdb(ManageGraph):
         paths = paths[0:len(paths) -3]
         newurl = '/'.join(paths)
         return newurl
+
+    def GraphEndpoint(self, namespace):
+        url = f"{self.baseurl}/namespace/{namespace}/sparql"
+        return url
     def createNamespace(self, quads=True):
         """ Creates a new namespace"""
         # POST / rest / repositories

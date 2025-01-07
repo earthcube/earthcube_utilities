@@ -1,7 +1,7 @@
 import pandas as pd
 from simplejson import JSONDecodeError
 import requests
-
+import logging as log
 
 def dbpedia_query(sparql_query):
     url = 'http://dbpedia.org/sparql'
@@ -17,9 +17,13 @@ def query(url, sparql_query):
     try:
         headers = {'accept': 'application/sparql-results+json'}
         r = requests.get(url,headers=headers, params={'format': 'json', 'query': sparql_query})
-        data = r.json()
+        if r.status_code == 200:
+            data = r.json()
+        else:
+            raise Exception(f'sparqldataframe status {r.status_code} bad endpoint? {url} reason {r.reason}')
     except JSONDecodeError as e:
-        print(r.content)
+        #print(r.content)
+        log.error(f'sparqldataframe: query to {url}  response:  "{r.content}"  ')
         raise Exception(f'Invalid query or bad decoding {e}')
 
     if ('results' in data) and ('bindings' in data['results']):
