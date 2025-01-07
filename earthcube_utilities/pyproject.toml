@@ -32,7 +32,7 @@ dependencies=[
 "simplejson==3.18.3",
 #"sparqldataframe==0.1.0",
 # numpy>=2.0.0 issue with dagster
-     "numpynumpy==1.21.6",
+     "numpynumpy<2",
     # "numpy>=2.0.0",
     "python-dateutil",
 "minio",
