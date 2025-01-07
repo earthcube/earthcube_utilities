@@ -179,7 +179,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
                 # raise Exception("No Data Added: " + r.text)
             return True
         else:
-            log.info(f'graph: error {str(r.text)}')
+            log.info(f'graph: error {str(r.text)} stauscode {r.status_code} {r.reason}')
             raise Exception(f' graph: failed,  LOAD from {release_url}: status:{r.status_code}')
 
     def insert(self, data, content_type="text/x-nquads"):
