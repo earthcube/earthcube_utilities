@@ -11,6 +11,7 @@ from ec.reporting.report import generateGraphReportsRepo, reportTypes, missingRe
 from ec.datastore import s3
 from ec.logger import config_app
 from ec.sitemap import Sitemap
+from urllib.parse import urlparse
 
 log = config_app()
 class EcConfig(object):
@@ -50,8 +51,27 @@ class EcConfig(object):
              raise Exception(message)
          return True
 
+
+class PathOrURL(click.ParamType):
+    name = 'path_or_url'
+
+    def convert(self, value, param, ctx):
+        # Check if the value is a valid URL
+        parsed = urlparse(value)
+        if parsed.scheme in ('http', 'https') and parsed.netloc:
+            return value
+
+        # Check if the value is a valid file path
+        if os.path.exists(value):
+            return value
+
+        self.fail(f"{value!r} is not a valid path or URL", param, ctx)
+
+# Define your custom type
+path_or_url = PathOrURL()
+
 def common_params(func):
-    @click.option('--cfgfile', help='gleaner config file', type=click.Path(exists=True))
+    @click.option('--cfgfile', help='gleaner config file', type=path_or_url)
     @click.option('--s3server', help='s3 server address')
     @click.option('--s3bucket', help='s3 bucket')
     @click.option('--graphendpoint', help='graph endpoint')
@@ -238,7 +258,7 @@ def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, ou
     report = generateReportStats(url, bucket, s3Minio, graphendpoint, community)
 
     if upload:
-        s3Minio.putReportFile(bucket, "tenant", f"report_{community}_stats.json", report)
+        s3Minio.putReportFile(bucket, f"tenant/{community}", f"report_stats.json", report)
     return
 
 
