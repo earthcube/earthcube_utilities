@@ -1,4 +1,5 @@
 import requests
+from string import Template
 from abc import ABC, abstractmethod
 import logging as log  #have some dgb prints, that will go to logs soon/but I find it slow to have to cat the small logs everytime
 log.basicConfig(filename='mgraph.log', encoding='utf-8', level=log.DEBUG,
@@ -7,6 +8,12 @@ log.basicConfig(filename='mgraph.log', encoding='utf-8', level=log.DEBUG,
 """
 Goal of manage graph is to allow for the creation deletion of namespaces, and the insertion of data
 This is not a class to handle querying.
+
+DEVELOPERS: 
+USE TESTS... REPEAT USE TESTS.
+in the tests folders, there is a managedgraph_test.py
+
+REPEAT USE TESTS.
 """
 class ManageGraph( ABC): #really a manage graph namespace, bc a graph has several of them, &this represents only one
     """ Abstract class for managing a Graph Store
@@ -16,12 +23,22 @@ class ManageGraph( ABC): #really a manage graph namespace, bc a graph has severa
     namespace = "temp_summary"
     path = "namespace"
     sparql = "/sparql" # blazegraph uses sparql after namespace, but let's not assume this
-
-    def __init__(self, graphurl: str, namespace :str) :
+    username=None
+    password=None
+    authorization=None
+    def __init__(self, graphurl: str, namespace :str, username:str=None, password:str=None):
         """initialize a class for a namespace"""
         self.baseurl = graphurl
         self.namespace = namespace
 
+        self.username = username
+        self.password = password
+        if self.username is not None and self.password is not None:
+            self.authenticate(username, password)
+
+    @abstractmethod
+    def authenticate(self, username: str, password: str) -> bool:
+        return NotImplemented
     @abstractmethod
     def graphFromEndpoint(endpoint: str) -> str:
         paths = endpoint.split('/')
@@ -107,6 +124,10 @@ com.bigdata.journal.Journal.groupCommit=false
 com.bigdata.rdf.store.AbstractTripleStore.geoSpatial=false
 com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
 """
+
+    def authenticate(self, username: str, password: str) -> bool:
+        return NotImplemented
+
     def GraphEndpoint(self, namespace):
         url = f"{self.baseurl}/namespace/{namespace}/sparql"
         return url
@@ -222,7 +243,7 @@ class ManageGraphdb(ManageGraph):
 @prefix graphdb: <http://www.ontotext.com/config/graphdb#>.
 
 [] a rep:Repository ;
-    rep:repositoryID "{{REPO}}" ;
+    rep:repositoryID "$REPO" ;
     rdfs:label "" ;
     rep:repositoryImpl [
         rep:repositoryType "graphdb:SailRepository" ;
@@ -273,7 +294,7 @@ class ManageGraphdb(ManageGraph):
 @prefix graphdb: <http://www.ontotext.com/config/graphdb#>.
 
 [] a rep:Repository ;
-    rep:repositoryID "{{REPO}}" ;
+    rep:repositoryID "$REPO" ;
     rdfs:label "" ;
     rep:repositoryImpl [
         rep:repositoryType "graphdb:SailRepository" ;
@@ -319,9 +340,30 @@ class ManageGraphdb(ManageGraph):
         paths = paths[0:len(paths) -3]
         newurl = '/'.join(paths)
         return newurl
+    def authenticate(self, username: str, password: str) -> bool:
+         """
+
+       POST /rest/login/**
+Example:
+
+curl <base_url>/rest/login/<username> -X POST -H 'X-GraphDB-Password: <password>'
+"""
+         url = f"{self.baseurl}rest/login/{username}"
+         headers = {"X-GraphDB-Password": f"{password}"}
+
+         r = requests.post(url, headers=headers)
+         if r.status_code == 200:
+             self.authorization = r.headers['Authorization']
+             return True
+         else:
+             raise Exception(f"failed to login. Status code: {r.status_code} {r.reason}")
+
 
     def GraphEndpoint(self, namespace):
-        url = f"{self.baseurl}/namespace/{namespace}/sparql"
+        if namespace is None or namespace == '' :
+            url = f"{self.baseurl}repositories/{self.namespace}/"
+        else:
+            url = f"{self.baseurl}repositories/{namespace}/"
         return url
     def createNamespace(self, quads=True):
         """ Creates a new namespace"""
@@ -339,19 +381,25 @@ class ManageGraphdb(ManageGraph):
        # add this to the createTemplates
         # # com.bigdata.rdf.sail.namespace = {namespace}
         if quads:
-            template = self.createTemplateQuad
+            template = Template(self.createTemplateQuad)
         else:
-            template = self.createTemplateTriples
-        template = template + f"com.bigdata.rdf.sail.namespace = {self.namespace}\n"
-        url = f"{self.baseurl}/namespace"
-        headers = {"Content-Type": "text/plain"}
-        r = requests.post(url,data=template, headers=headers)
+            template = Template(self.createTemplateTriples)
+        template = template.safe_substitute(REPO=self.namespace)
+        url = f"{self.baseurl}rest/repositories/"
+        if self.authorization is  None:
+            raise Exception("Autenticate")
+        headers = {"Content-Type": "multipart/form-data", "Authorization": self.authorization}
+        headers = {"Authorization": self.authorization}
+        data = {"config":template}
+        #r = requests.post(url,data=data, headers=headers)
+        r = requests.post(url,files=data, headers=headers)
+
         if r.status_code==201:
             return "Created"
-        elif  r.status_code==409:
+        elif  r.status_code==400:
             return "Exists"
         else:
-            raise Exception(f"Create Failed. Status code: {r.status_code} {r.reason}")
+            raise Exception(f"Create Failed. Status code: {r.status_code} {r.text} {r.reason}")
 
 
     def deleteNamespace(self):
@@ -368,8 +416,10 @@ class ManageGraphdb(ManageGraph):
         #
         # curl - X
         # DELETE < base_url > / rest / repositories / < repo_id >?location = < encoded_location_uri >
-        url = f"{self.baseurl}/namespace/{self.namespace}"
-        headers = {"Content-Type": "text/plain"}
+        url = f"{self.baseurl}rest/repositories/{self.namespace}"
+        headers = {"Content-Type": "text/plain", "Authorization": self.authorization}
+        if self.authorization is  None:
+            raise Exception("Autenticate")
         r = requests.delete(url, headers=headers)
         if r.status_code == 200:
             return "Deleted"
@@ -377,7 +427,37 @@ class ManageGraphdb(ManageGraph):
             raise Exception("Delete Failed.")
 
     def loadReleaseFromUrl(self, url=None, source=None, namespace=None, suffix='release'):
-        return NotImplemented
+        if url is None:
+            raise ValueError("url must be provided")
+        else:
+            release_url = url
+        if namespace is None:
+            graphendpoint = self.GraphEndpoint(None)
+        else:
+            graphendpoint = self.GraphEndpoint(namespace=namespace)
+
+        url = f"{graphendpoint}statements"  # f"{os.environ.get('GLEANER_GRAPH_URL')}/namespace/{os.environ.get('GLEANER_GRAPH_NAMESPACE')}/sparql?uri={release_url}"
+        log.info(f'graph: insert "{source}" to {url} ')
+        loadfrom = {'update': f'LOAD <{release_url}>',
+                    'infer': 'true',
+                    'sameAs': 'true'
+                    }
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+           # 'Content-Type': 'application/x-turtle',
+           # 'Content-Type': 'application/n-quads',
+            "Authorization": self.authorization
+        }
+        r = requests.post(url, headers=headers, data=loadfrom)
+        log.debug(f' status:{r.status_code}')  # status:404
+        log.info(f'graph: LOAD from {release_url}: status:{r.status_code}')
+        if r.status_code == 204:
+            log.info(f'graph load response: {str(r.text)} ')
+
+            return True
+        else:
+            log.info(f'graph: error {str(r.text)} stauscode {r.status_code} {r.reason}')
+            raise Exception(f' graph: failed,  LOAD from {release_url}: status:{r.status_code}')
 
     def insert(self, data, content_type="text/x-nquads"):
         """inserts data into a blazegraph namespace"""
@@ -430,16 +510,13 @@ class ManageGraphdb(ManageGraph):
         # insert: https://github.com/blazegraph/database/wiki/REST_API#insert
        #url = f"{self.baseurl}/namespace/{self.namespace}{self.sparql}"
        #could call insure final slash
-        url = f"{self.baseurl}/namespace/{self.namespace}/{self.sparql}"
+        url = f"{self.baseurl}repositories/{self.namespace}/statements"
         log.info(f'insert to {url} ')
-        headers = {"Content-Type": f"{content_type}"}
+        headers = {"Content-Type": f"{content_type}", "Authorization": self.authorization}
         r = requests.post(url,data=data, headers=headers)
         log.debug(f' status:{r.status_code}') #status:404
         log.info(f' status:{r.status_code}') #status:404
-        if r.status_code == 200:
-            # '<?xml version="1.0"?><data modified="0" milliseconds="7"/>'
-            if 'data modified="0"'  in r.text:
-                raise Exception("No Data Added: " + r.text)
+        if r.status_code == 200 or r.status_code == 204:
             return True
         else:
             return False
