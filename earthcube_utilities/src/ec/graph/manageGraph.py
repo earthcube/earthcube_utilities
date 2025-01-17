@@ -361,9 +361,9 @@ curl <base_url>/rest/login/<username> -X POST -H 'X-GraphDB-Password: <password>
 
     def GraphEndpoint(self, namespace):
         if namespace is None or namespace == '' :
-            url = f"{self.baseurl}repositories/{self.namespace}/"
+            url = f"{self.baseurl}repositories/{self.namespace}"
         else:
-            url = f"{self.baseurl}repositories/{namespace}/"
+            url = f"{self.baseurl}repositories/{namespace}"
         return url
     def createNamespace(self, quads=True):
         """ Creates a new namespace"""
@@ -436,7 +436,7 @@ curl <base_url>/rest/login/<username> -X POST -H 'X-GraphDB-Password: <password>
         else:
             graphendpoint = self.GraphEndpoint(namespace=namespace)
 
-        url = f"{graphendpoint}statements"  # f"{os.environ.get('GLEANER_GRAPH_URL')}/namespace/{os.environ.get('GLEANER_GRAPH_NAMESPACE')}/sparql?uri={release_url}"
+        url = f"{graphendpoint}/statements"  # f"{os.environ.get('GLEANER_GRAPH_URL')}/namespace/{os.environ.get('GLEANER_GRAPH_NAMESPACE')}/sparql?uri={release_url}"
         log.info(f'graph: insert "{source}" to {url} ')
         loadfrom = {'update': f'LOAD <{release_url}>',
                     'infer': 'true',

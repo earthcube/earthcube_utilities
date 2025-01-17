@@ -20,7 +20,7 @@ def query(url, sparql_query):
         if r.status_code == 200:
             data = r.json()
         else:
-            raise Exception(f'sparqldataframe status {r.status_code} bad endpoint? {url} reason {r.reason}')
+            raise Exception(f'sparqldataframe status {r.status_code} bad endpoint? {url} reason {r.reason} {r.text}')
     except JSONDecodeError as e:
         #print(r.content)
         log.error(f'sparqldataframe: query to {url}  response:  "{r.content}"  ')
