@@ -8,7 +8,7 @@ import sparqldataframe
 from rdflib import URIRef, BNode, Literal, Graph,Namespace, RDF
 import rdflib
 import json
-
+from decimal import *
 from  ec.graph.sparql_query import queryWithSparql
 
 HTTPS_SCHEMA_ORG = "https://schema.org/"
@@ -227,10 +227,25 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
 
         mindepth = row['minDepth']
         maxdepth = row['maxDepth']
-        if pandas.notnull(mindepth) and mindepth != 'nan':
-            g.add((graph_subject, ecsummary.minDepth, Literal(mindepth)))
-        if pandas.notnull(maxdepth) and mindepth != 'nan':
-            g.add((graph_subject, ecsummary.maxDepth, Literal(maxdepth)))
+
+        try:
+            mindepth=Decimal(mindepth)
+            if not mindepth.is_nan():
+                 g.add((graph_subject, ecsummary.minDepth, Literal(mindepth)))
+        except ValueError:
+            logging.info(f"{s} non-numeric depth {mindepth}")
+        except Exception as e:
+            logging.error(f"Unable to parse minDepth {mindepth}")
+        try:
+            maxdepth = Decimal(maxdepth)
+            if not maxdepth.is_nan():
+                g.add((graph_subject, ecsummary.maxDepth, Literal(maxdepth)))
+        except ValueError:
+            logging.info(f"{s} non-numeric depth {maxdepth}")
+        except Exception as e:
+            logging.error(f"Unable to parse maxDepth {maxdepth}")
+
+
         #### end for ####
     return g.serialize(format='longturtle'), g
 # g is an RDF graph that can be dumped using

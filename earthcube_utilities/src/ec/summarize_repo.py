@@ -6,7 +6,9 @@ import errno
 import logging
 import os
 
-from ec.graph.manageGraph import ManageBlazegraph as mg
+
+from ec.graph.manageGraph import ManageBlazegraph as mgblaze
+from ec.graph.manageGraph import ManageGraphdb as mggraphdb
 from ec.summarize.summarize_materializedview import summaryDF2ttl, get_summary4repo
 from ec.gleanerio.gleaner import endpointUpdateNamespace, getNabu, reviseNabuConfGraph, runNabu, getNabuFromFile
 from urllib.parse import urlparse
@@ -52,6 +54,10 @@ def summarizeRepo():
                         help='nabu configuration file')
     parser.add_argument('--graphendpoint', dest='graphendpoint',
                         help='use this endpoint (full url:https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"). overrides nabu endpoint')
+    parser.add_argument('--graphserver', dest='graphserver',
+                        help='type of graph server (blazegraph, graphdb [future:qlever])',
+                        default="blazegraph"
+                        )
     parser.add_argument('--glcon', dest='glcon',
                         help='override path to glcon', default="~/indexing/glcon")
     parser.add_argument('--nographsummary', action='store_true', dest='nographsummary',
@@ -74,13 +80,35 @@ def summarizeRepo():
         summary = f"{repo}__temp_summary"
     nabucfg = args.nabufile
     endpoint, cfg = getNabuFromFile(nabucfg)
-    graphendpoint = mg.graphFromEndpoint(endpoint)
-    tempnsgraph = mg(graphendpoint, f'{repo}_temp')
+
+    #tempnsgraph = mg(graphendpoint, f'{repo}_temp')
+    match args.graphserver:
+
+        case 'blazegraph':
+            graphendpoint = mgblaze.graphFromEndpoint(endpoint)
+            tempnsgraph = mgblaze(graphendpoint, f'{repo}_temp')
+        case 'graphdb':
+            graphendpoint = mggraphdb.graphFromEndpoint(endpoint)
+            tempnsgraph = mggraphdb(graphendpoint, f'{repo}_temp')
+        case 'qlever':
+            raise NotImplemented
+
+
     try:  # temp has been created
         created = tempnsgraph.createNamespace()
         if ( created=='Failed'):
             logging.fatal("coould not create namespace")
-        sumnsgraph = mg(graphendpoint, summary)
+        #sumnsgraph = mg(graphendpoint, summary)
+        match args.graphserver:
+
+            case 'blazegraph':
+                graphendpoint = mgblaze.graphFromEndpoint(endpoint)
+                sumnsgraph = mgblaze(graphendpoint, summary)
+            case 'graphdb':
+                graphendpoint = mggraphdb.graphFromEndpoint(endpoint)
+                sumnsgraph = mggraphdb(graphendpoint, summary)
+            case 'qlever':
+                raise NotImplemented
         created = sumnsgraph.createNamespace()
         if ( created=='Failed'):
             logging.fatal("coould not create summary namespace")

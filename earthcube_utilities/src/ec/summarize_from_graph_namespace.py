@@ -4,7 +4,8 @@ import argparse
 import logging
 import os
 import errno
-from ec.graph.manageGraph import ManageBlazegraph as mg
+from ec.graph.manageGraph import ManageBlazegraph as mgblaze
+from ec.graph.manageGraph import ManageGraphdb as mggraphdb
 from ec.summarize import summaryDF2ttl, get_summary4graph,get_summary4repoSubset
 from ec.gleanerio.gleaner import endpointUpdateNamespace,getNabu, reviseNabuConfGraph, runNabu
 from urllib.parse import urlparse
@@ -50,7 +51,10 @@ def summarizeGraphOnly():
                         help='graph endpoint with namespace',
                         default="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql"
                         , required=True)
-
+    parser.add_argument('--graphserver', dest='graphserver',
+                        help='type of graph server (blazegraph, graphdb [future:qlever])',
+                        default="blazegraph"
+                        )
     parser.add_argument('--nographsummary', action='store_true', dest='nographsummary',
                         help='send triples to file', default=False)
     parser.add_argument('--summary_namespace', dest='summary_namespace',
@@ -70,11 +74,17 @@ def summarizeGraphOnly():
         summary = f"{repo}_summary"
 
     endpoint= args.graphendpoint
-    graphendpoint = mg.graphFromEndpoint(endpoint)
+    graphendpoint = mgblaze.graphFromEndpoint(endpoint)
 
     try:
+        match args.graphserver:
+            case 'blazegraph':
+                 sumnsgraph = mgblaze(graphendpoint, summary)
+            case 'graphdb':
+                 sumnsgraph = mggraphdb(graphendpoint, summary)
+            case 'qlever':
+                raise NotImplemented
 
-        sumnsgraph = mg(graphendpoint, summary)
 
         summaryendpoint =endpointUpdateNamespace(endpoint,summary)
 

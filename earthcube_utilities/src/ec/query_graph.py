@@ -47,6 +47,7 @@ def start():
     parser.add_argument("query", help='select_one')
     parser.add_argument('--graphendpoint', dest='graphendpoint',
                         help='graph endpoint' ,default="https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/")
+# server type does not matter... just the endpoint is needed
     parser.add_argument("--output", type=argparse.FileType('w'), help='output file')
     parser.add_argument("--repo", dest="repo", help='value to pass to a repo_ query')
     parser.add_argument("--urn", dest="urn", help='urn/graph identidier to urn_  query')
