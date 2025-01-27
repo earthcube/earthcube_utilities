@@ -227,6 +227,7 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
 
         mindepth = row['minDepth']
         maxdepth = row['maxDepth']
+
         try:
             mindepth=Decimal(mindepth)
             if not mindepth.is_nan():
@@ -243,6 +244,7 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
             logging.info(f"{s} non-numeric depth {maxdepth}")
         except Exception as e:
             logging.error(f"Unable to parse maxDepth {maxdepth}")
+
 
         #### end for ####
     return g.serialize(format='longturtle'), g
