@@ -227,9 +227,9 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
 
         mindepth = row['minDepth']
         maxdepth = row['maxDepth']
-        if is_str(mindepth):
+        if pandas.notnull(mindepth) and mindepth != 'nan':
             g.add((graph_subject, ecsummary.minDepth, Literal(mindepth)))
-        if is_str(maxdepth):
+        if pandas.notnull(maxdepth) and mindepth != 'nan':
             g.add((graph_subject, ecsummary.maxDepth, Literal(maxdepth)))
         #### end for ####
     return g.serialize(format='longturtle'), g
