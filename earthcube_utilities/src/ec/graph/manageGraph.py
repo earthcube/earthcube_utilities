@@ -211,7 +211,7 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
        #could call insure final slash
         url = f"{self.baseurl}/namespace/{self.namespace}/{self.sparql}"
         log.info(f'insert to {url} ')
-        headers = {"Content-Type": f"{content_type}; application/x-www-form-urlencoded; charset=UTF-8"}
+        headers = {"Content-Type": f"{content_type}; charset=UTF-8"}
         r = requests.post(url,data=data, headers=headers)
         log.debug(f' status:{r.status_code}') #status:404
         log.info(f' status:{r.status_code}') #status:404
