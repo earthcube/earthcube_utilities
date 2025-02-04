@@ -1,3 +1,5 @@
+import unicodedata
+
 import requests
 from string import Template
 from abc import ABC, abstractmethod
@@ -211,16 +213,29 @@ com.bigdata.rdf.store.AbstractTripleStore.statementIdentifiers=false
        #could call insure final slash
         url = f"{self.baseurl}/namespace/{self.namespace}/{self.sparql}"
         log.info(f'insert to {url} ')
+        # 1️⃣ Ensure data is a string before encoding
+        if isinstance(data, bytes):
+            data = data.decode("utf-8", errors="replace")  # Convert bytes to string
+
+        # 2️⃣ Normalize Unicode to prevent encoding issues
+        data = unicodedata.normalize("NFC", data)  # Normalize to NFC
+
+        # 3️⃣ Convert all special characters to Unicode escape sequences
+        def escape_unicode(text):
+            return ''.join(f'\\u{ord(c):04X}' if ord(c) > 127 else c for c in text)
+
+        data = escape_unicode(data)
+
         headers = {"Content-Type": f"{content_type}; charset=UTF-8"}
-        r = requests.post(url,data=data, headers=headers)
-        log.debug(f' status:{r.status_code}') #status:404
-        log.info(f' status:{r.status_code}') #status:404
+        r = requests.post(url, data=data, headers=headers)
+        log.debug(f' status:{r.status_code}')
+        log.info(f' status:{r.status_code}')
         if r.status_code == 200:
-            # '<?xml version="1.0"?><data modified="0" milliseconds="7"/>'
-            if 'data modified="0"'  in r.text:
+            if 'data modified="0"' in r.text:
                 raise Exception("No Data Added: " + r.text)
             return True
         else:
+            log.error(f"Error {r.status_code}: {r.text}")
             return False
 
     #have upload methods here
