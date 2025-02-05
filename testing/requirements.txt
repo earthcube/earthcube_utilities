@@ -3,7 +3,6 @@ rdflib
 rdflib-jsonld
 networkx
 extruct
-sparqldataframe
 simplejson
 
 matplotlib

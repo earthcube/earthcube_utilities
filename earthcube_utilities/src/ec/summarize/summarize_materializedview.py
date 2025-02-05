@@ -4,7 +4,6 @@ from string import Template
 from typing import Union
 from dateutil import parser
 import pandas
-import sparqldataframe
 from rdflib import URIRef, BNode, Literal, Graph,Namespace, RDF
 import rdflib
 import json
