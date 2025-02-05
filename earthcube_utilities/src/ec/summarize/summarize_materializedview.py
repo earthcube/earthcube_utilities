@@ -136,8 +136,9 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
         if datep == "No datePublished":
             datep=pandas.NA
         else:
-            # Truncate to year
-            datep = datep.split('-')[0]
+            # Check if `datep` contains '-' before splitting
+            if '-' in datep:
+                datep = datep.split('-')[0]  # Extract the year part
         # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
         # UI Date Select failed, because it expects an actual date
         #   Empty values might be handled in the UI...,
