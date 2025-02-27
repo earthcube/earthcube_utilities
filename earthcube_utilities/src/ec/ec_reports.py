@@ -12,6 +12,7 @@ from ec.datastore import s3
 from ec.logger import config_app
 from ec.sitemap import Sitemap
 from urllib.parse import urlparse
+import os
 
 log = config_app()
 class EcConfig(object):
