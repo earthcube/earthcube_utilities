@@ -332,3 +332,5 @@ Temporary Items
 .apdisk
 
 
+earthcube_utilities/resources/testing/gleaner_aws
+earthcube_utilities/resources/testing/gleaner_prod
