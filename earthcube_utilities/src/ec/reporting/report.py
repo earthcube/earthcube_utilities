@@ -248,6 +248,7 @@ def generateGraphReportsRelease(repo,  release_file, reportList=reportTypes["rep
             elapsed_time = time.time() - t
             data = result.dropna()
             data = data.to_dict('records')
+            logging.info(f"competed: report:{report['code']}  repo:{repo}   processing_time: {elapsed_time}")
             reports.append(  {"report": report["code"],
                      "processing_time": elapsed_time,
                      "length": len(data),
@@ -266,12 +267,33 @@ def generateGraphReportsRelease(repo,  release_file, reportList=reportTypes["rep
 ##  for the 'object reports, we should have a set.these could probably be make a set of methos with (ObjectType[triples,keywords, types, authors, etc], repo, endpoint/datastore)
 def generateGraphReportsRepo(repo, graphendpoint, reportList=reportTypes["all"]) -> str:
     current_dateTime = datetime.now().strftime("%Y-%m-%d")
-    reports = map (lambda r:    generateAGraphReportsRepo(repo, r,
+    # reports = map (lambda r:    generateAGraphReportsRepo(repo, r,
+    #                              graphendpoint, reportList)
+    #                                   ,
+    #                             reportList)
+    #
+    # reports = list(reports)
+    reports = []
+    for report in reportList:
+        try:
+            t = time.time()
+           # result =  rg.query_release(template_name=report["name"],
+            # parameters=parameters)
+            result =  generateAGraphReportsRepo(repo, report,
                                  graphendpoint, reportList)
-                                      ,
-                                reportList)
-
-    reports = list(reports)
+            elapsed_time = time.time() - t
+            # data = result.dropna()
+            # data = data.to_dict('records')
+            logging.info(f"competed: report:{report['code']}  repo:{repo}   processing_time: {elapsed_time}")
+            reports.append(result)
+        except Exception as ex:
+            logging.error(f"query with sparql against release failed: report:{report['code']}  repo:{repo}   {ex}")
+            elapsed_time = time.time() - t
+            reports.append({"report": report["code"],
+                            "errpr": f"{ex}",
+                            "processing_time": elapsed_time,
+                            "data": []
+                            })
     return json.dumps({"version": 0, "repo": repo, "date": current_dateTime, "reports": reports }, indent=4)
 
 
@@ -280,10 +302,12 @@ def generateAGraphReportsRepo(repo, r, graphendpoint, reportList) -> Any:
     parameters = {"repo": repo}
     try:
         t = time.time()
-        report =   queryWithSparql(_get_report_type(reportList, r['code']), graphendpoint, parameters=parameters)
+       # report =   queryWithSparql(_get_report_type(reportList, r['code']), graphendpoint, parameters=parameters)
+        report =   queryWithSparql(r['name'], graphendpoint, parameters=parameters)
         elapsed_time = time.time() - t
         data = report.dropna()
         data = data.to_dict('records')
+        logging.info(f"competed: report:{r['code']}  repo:{repo}   processing_time: {elapsed_time}")
 
         return  {"report": r["code"],
                  "processing_time": elapsed_time,
