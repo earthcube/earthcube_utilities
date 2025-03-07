@@ -1,6 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="graph-stats  noupload gecodesdemo" type="PythonConfigurationType" factoryName="Python" folderName="reports">
     <module name="earthcube_utilities" />
+    <option name="ENV_FILES" value="" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
@@ -23,7 +24,7 @@
       </ENTRIES>
     </EXTENSION>
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/earthcube_utilities/src/ec/ec_reports.py" />
-    <option name="PARAMETERS" value="graph-stats --s3server oss.geocodes-dev.earthcube.org --s3bucket gleaner --graphendpoint &quot;https://graph.geocodes-dev.earthcube.org/blazegraph/namespace/earthcube/sparql&quot; --source geocodes-demo-datasets --detailed" />
+    <option name="PARAMETERS" value="graph-stats --s3server oss.geocodes-aws-dev.earthcube.org --s3bucket test --graphendpoint &quot;https://graph.geocodes-aws-dev.earthcube.org/blazegraph/namespace/test/sparql&quot; --source geocodes_demo_datasets --detailed" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />
