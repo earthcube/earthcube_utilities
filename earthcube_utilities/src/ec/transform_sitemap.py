@@ -95,21 +95,17 @@ def generate_upload_webpage(s3Minio, s3bucket, data):
             "xsd": "http://www.w3.org/2001/XMLSchema#"
         },
         "@type": "Dataset",
+        "additionalType": "WebPage",
         "isAccessibleForFree": True,
-        "contentUrl": url,
         "creator": name,
         "description": description,
-        "distribution": {
-            "@type": "DataDownload",
-            "contentUrl": url
-        },
+        "relatedLink": url,
         "datePublished": "2010-01-01",
         "keywords": [group, name],
         "name": name,
         "provider": name,
         "publisher": name,
         "temporalCoverage": "2010-01-01",
-        "url": file_path,
         "version": 1
     }
 
