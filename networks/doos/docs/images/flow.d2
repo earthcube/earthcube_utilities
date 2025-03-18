@@ -1,0 +1,23 @@
+direction: right
+
+llm: LLM (agents)
+ont: Ontology
+bcodmo: BCO-DMO
+arxiv: Eartharxiv
+oih: Ocean InfoHub
+doos: DOOS
+user: User
+q: Query
+
+user -> q
+
+q -> llm
+
+ont <-> llm
+
+llm -> bcodmo
+llm -> arxiv
+llm -> oih
+llm -> doos
+
+

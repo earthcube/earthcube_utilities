@@ -1,0 +1,14 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT DISTINCT* WHERE {
+
+  ?s rdf:type <https://schema.org/Dataset> .
+  ?s <https://schema.org/identifier> ?identifier .
+  ?s <https://schema.org/variableMeasured> ?variablemeasured .
+
+  ?variablemeasured <https://schema.org/description> ?description .
+   ?variablemeasured <https://schema.org/propertyID> ?propID .
+  FILTER regex(?description, "depth", "i")
+    OPTIONAL {?variablemeasured <https://schema.org/maxValue> ?maxvalue .}
+   OPTIONAL {?variablemeasured <https://schema.org/value> ?value .}
+  OPTIONAL {?variablemeasured <https://schema.org/minValue> ?minvalue .}
+}
