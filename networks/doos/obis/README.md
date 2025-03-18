@@ -1,4 +1,12 @@
+# README
 
+## Code
+
+### 
+
+
+
+## Old notes
 
 I had a chance to chat more with Pieter this morning.
 
@@ -18,12 +26,14 @@ Pieter doesn't have time to work on this right away, but it might be easy for us
 "auxiliary" graph that we can test with and also share with Pieter.  In the hopes it helps
 him integrate the values into the production service. 
 
+```sql
  SELECT *
 · FROM read_json('./obis/*.jsonld',
 ·                format = 'auto',
 ‣                columns = {url: 'VARCHAR',
 ·                           name: 'VARCHAR'});
 
+```
 
 Can take the vale from the parquet, duck search the json and build the new
 variableMeasure entries.   
