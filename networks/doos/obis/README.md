@@ -2,8 +2,11 @@
 
 ## Code
 
-### 
 
+* obisParquet.ipynb: Explore different ways to work with the OBIS parquet file downloaded in memory efficient manners
+* obisParquet2MinMax_ibis.py:  IBIS only apporach to generating the min max set
+* obisDepthTriples.ipynb:  This is the notebook where I developed out the conversion fro the parquet file to triples.
+* obisDepthTriples.py: The start of recoding the above into just a simple script
 
 
 ## Old notes
