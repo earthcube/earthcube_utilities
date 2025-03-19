@@ -1,23 +1,61 @@
 direction: right
 
-llm: LLM (agents)
-ont: Ontology
-bcodmo: BCO-DMO
-arxiv: Eartharxiv
-oih: Ocean InfoHub
-doos: DOOS
-user: User
-q: Query
+classes: {
+    coreclass: {
+            width: 200
+               style: {
+                     stroke-width: 0
+                    fill: "#44C7B1"
+                    shadow: true
+                    border-radius: 5
+               }
+      }
+    propclass: {
+            width: 200
+               style: {
+                     stroke-width: 0
+                     fill: honeydew
+                    shadow: true
+                    border-radius: 5
+               }
+      }
+}
 
-user -> q
+*.class: coreclass
+p.class: propclass
+rs.class: propclass
 
-q -> llm
+p: providers {
+    obis
+    emodnet
+    bcodmo
+    wod
+    cchdo
+    *.class: coreclass
 
-ont <-> llm
+}
 
-llm -> bcodmo
-llm -> arxiv
-llm -> oih
-llm -> doos
+s: Summoned Set
 
+rs: Reasoning Set {
+    f: frames
+    sh: SHACL AF
+    voc: Vocabulary of Instances
+    gc: Graph generating\n analysis (ex: OBIS)
+    *.class: coreclass
+
+}
+
+rt: Reasoned Triples
+dg: DOOS Graph {
+note: |md
+Has a known set of triples by type and property for products and facets workflow.
+|
+}
+
+p -> s: gleaner et al
+rs -> rt: via pyld and pyshacl
+
+rt -> dg
+s -> dg
 
