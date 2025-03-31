@@ -99,13 +99,12 @@ def generate_upload_webpage(s3Minio, s3bucket, data):
         "isAccessibleForFree": True,
         "creator": name,
         "description": description,
-        "relatedLink": url,
+        "url": url,
         "datePublished": "2010-01-01",
         "keywords": [group, name],
         "name": name,
         "provider": name,
         "publisher": name,
-        "temporalCoverage": "2010-01-01",
         "version": 1
     }
 
