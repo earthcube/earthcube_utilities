@@ -20,3 +20,9 @@ pytz~=2023.3
 tqdm~=4.66.1
 pytest~=7.4.0
 approvaltests~=8.4.1
+duckdb
+polars
+polars-u64-idx
+ibis-framework[duckdb,datafusion]
+plotly
+

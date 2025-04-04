@@ -3,8 +3,6 @@
 * Move examples for the graphs into: https://github.com/earthcube/GeoCODES-Metadata/tree/main/metadata/Dataset
 * https://github.com/earthcube/earthcube_utilities/tree/main   doos branch
 
-
-
 * merge obis repo with this on into the https://github.com/earthcube/deepoceans
 * pull in the elements of the archetype I need to use (for test indexing)
 * Dave asked that sample data be in the gecodes repo

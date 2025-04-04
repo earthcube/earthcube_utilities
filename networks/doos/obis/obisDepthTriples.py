@@ -2,7 +2,7 @@ import pandas as pd
 import duckdb
 
 # make sure to replace 'file.parquet' with your file path
-df = pd.read_parquet('idMinMaxDepth.parquet')
+df = pd.read_parquet('./data/idMinMaxDepth.parquet')
 # df = df.head(10)
 
 # use the values in the dataset_id to search via
@@ -18,5 +18,8 @@ def search_duckdb(x):
 df['docid'] = df['dataset_id'].apply(lambda x: search_duckdb(x))
 
 df = df.explode('docid')
+
+# ------------   the rest is still in the notebook version
+
 
 print(df.head)
