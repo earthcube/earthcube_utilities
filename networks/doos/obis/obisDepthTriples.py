@@ -1,6 +1,7 @@
 import pandas as pd
 import duckdb
 
+
 # make sure to replace 'file.parquet' with your file path
 df = pd.read_parquet('./data/idMinMaxDepth.parquet')
 # df = df.head(10)
@@ -10,6 +11,7 @@ df = pd.read_parquet('./data/idMinMaxDepth.parquet')
 
 # This section needs the OBIS JSON-LD in a directory at ./josnld/obis
 # Should be able to do this against the minio S3 bucket
+# this can take 5 to 10 minutes to run
 def search_duckdb(x):
     x = duckdb.sql(f"SELECT url FROM read_json('./jsonld/obis/*.jsonld') WHERE url like '%{x}%'").fetchall()    # directly query a JSON file
     xs = ", ".join(str(item[0]) for item in x)
