@@ -7,7 +7,7 @@ print("Connected to duckdb using duckdb.connect()")
 
 # Path to the parquet file
 # data = "/home/fils/scratch/data/obis_20240625.parquet"  # very big....  put somewhere local
-data = "/home/fils/scratch/data/obis_20250318_parquet/occurrence/*.parquet"
+data = "/Users/ylyang/Documents/obis_20250318_parquet/occurrence/*.parquet"
 print(f"Reading parquet file: {data}")
 
 sql_query = f"""
