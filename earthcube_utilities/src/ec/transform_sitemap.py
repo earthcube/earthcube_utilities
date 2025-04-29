@@ -84,7 +84,15 @@ def generate_upload_webpage(s3Minio, s3bucket, data):
     name = data.get('Dataset Name')
     description = data.get('Description')
     group = data.get('Group')
-    file_path = f"https://{s3Minio.endpoint}/{s3bucket}/community_resources/geochemistry/{name}.jsonld"
+    creator = data.get('Creator')
+    provider = data.get('Provider')
+    publisher = data.get('Publisher')
+    keywords = data.get('Keywords')
+    # split on semicolons, trim whitespace, and drop empty fragments
+    keywords_list = [kw.strip() for kw in keywords.split(';') if kw.strip()]
+
+    file_name = re.sub(r'[^A-Za-z0-9]+', '-', name.strip()).strip('-').lower()
+    file_path = f"https://{s3Minio.endpoint}/{s3bucket}/community_resources/geochemistry/{file_name}.jsonld"
 
     jsonld = {
         "@context": {
@@ -97,18 +105,18 @@ def generate_upload_webpage(s3Minio, s3bucket, data):
         "@type": "Dataset",
         "additionalType": "WebPage",
         "isAccessibleForFree": True,
-        "creator": name,
+        "creator": creator,
         "description": description,
         "url": url,
         "datePublished": "2010-01-01",
-        "keywords": [group, name],
+        "keywords": keywords_list,
         "name": name,
-        "provider": name,
-        "publisher": name,
+        "provider": provider,
+        "publisher": publisher,
         "version": 1
     }
 
-    s3Minio.putCommunityResourceFile(s3bucket, "geochemistry", f"{name}.jsonld", json.dumps(jsonld, indent=4))
+    s3Minio.putCommunityResourceFile(s3bucket, "geochemistry", f"{file_name}.jsonld", json.dumps(jsonld, indent=4))
 
     return file_path
 
