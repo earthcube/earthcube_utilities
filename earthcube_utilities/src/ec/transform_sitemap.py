@@ -105,14 +105,23 @@ def generate_upload_webpage(s3Minio, s3bucket, data):
         "@type": "Dataset",
         "additionalType": "WebPage",
         "isAccessibleForFree": True,
-        "creator": creator,
+        "creator": {
+            "@type": "Organization",
+            "name": creator
+        },
         "description": description,
         "url": url,
         "datePublished": "2010-01-01",
         "keywords": keywords_list,
         "name": name,
-        "provider": provider,
-        "publisher": publisher,
+        "provider": {
+            "@type": "Organization",
+            "name": provider
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": publisher
+        },
         "version": 1
     }
 
