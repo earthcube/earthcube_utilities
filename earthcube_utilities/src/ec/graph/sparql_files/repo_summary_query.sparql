@@ -2,7 +2,7 @@ prefix schema: <https://schema.org/>
 SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
         (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
         (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw) ?datep ?sosType
-        ?maxdepth ?minDepth
+        ?maxdepth ?minDepth ?temporalCoverage ?spatialCoverage
         #(GROUP_CONCAT(DISTINCT ?url; SEPARATOR=", ") AS ?disurl)
         WHERE {
           graph ?g {
@@ -30,6 +30,8 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
                     ?vm schema:maxValue ?maxdepth .
                   ?vm schema:minValue ?minDepth
            }
+           OPTIONAL {?subj schema:temporalCoverage ?temporalCoverage .}
+           OPTIONAL {?subj schema:spatialCoverage ?spatialCoverage .}
             # need these to get rdflib to work
             bind ( COALESCE(?kw1, "") As ?kwu)
             bind ( COALESCE(?url1, "") As ?url)
@@ -38,8 +40,8 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
            # BIND ( IF ( BOUND(?date_p), ?date_p, "No datePublished") as ?datep ) .
              BIND ( IF ( BOUND(?date_p), ?date_p, "1900-01-01") as ?datep ) .
             BIND ( IF ( BOUND(?pub_name), ?pub_name, "No Publisher") as ?pubname ) .
-            BIND ( IF ( BOUND(?place_name), ?place_name, "No spatialCoverage") as ?placename ) .
+            #BIND ( IF ( BOUND(?place_name), ?place_name, "No spatialCoverage") as ?placename ) .
              }
         FILTER( CONTAINS(str(?g), "${repo}") )
         }
-        GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?sosType ?maxdepth ?minDepth ?g
+        GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?sosType ?maxdepth ?minDepth ?g ?temporalCoverage ?spatialCoverage
