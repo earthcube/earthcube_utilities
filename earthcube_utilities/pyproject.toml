@@ -27,7 +27,7 @@ classifiers = [
 ]
 dependencies=[
    "pandas==2.2.3",
-"rdflib==7.0.0",
+"rdflib>=7.1.0",
 "requests==2.28.2",
 "simplejson==3.18.3",
 #"sparqldataframe==0.1.0",
