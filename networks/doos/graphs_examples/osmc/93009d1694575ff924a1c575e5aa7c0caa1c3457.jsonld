@@ -1,0 +1,629 @@
+
+{
+  "@context": "http://schema.org",
+  "@type": "Dataset",
+  "name": "OceanOPS Operational Platform Metadata",
+  "headline": "OceanOPS_platform_metadata",
+  "description": "OceanOPS Operational Platform Metadata\ncdm_data_type=Other\nConventions=COARDS, CF-1.10, ACDD-1.3\ninfoUrl=https://www.ocean-ops.org/board\ninstitution=OceanOPS\nsourceUrl=(local files)\nstandard_name_vocabulary=CF Standard Name Table v70\nsubsetVariables=PTF_FAMILY, PROGRAM, PTF_TYPE\ntestOutOfDate=now-10days\ntime_coverage_end=2025-07-01T00:00:00Z\ntime_coverage_start=1846-01-01T00:00:00Z",
+  "url": "https://osmc.noaa.gov/erddap/tabledap/OceanOPS_platform_metadata.html",
+  "includedInDataCatalog": {
+    "@type": "DataCatalog",
+    "name": "ERDDAP Data Server at OSMC",
+    "sameAs": "https://osmc.noaa.gov/erddap"
+  },
+  "keywords": [
+    "age",
+    "agencies",
+    "AGENCIES_REF",
+    "country",
+    "cruise",
+    "CRUISE_NAME",
+    "data",
+    "date",
+    "depl",
+    "DEPL_LAT",
+    "DEPL_LON",
+    "ending",
+    "ENDING_DATE",
+    "family",
+    "LAST_LOC_DATE",
+    "LAST_LOC_LAT",
+    "LAST_LOC_LON",
+    "LAST_OBS_DATE",
+    "loc",
+    "metadata",
+    "meteorological",
+    "model",
+    "name",
+    "num",
+    "obs",
+    "observations",
+    "oceanops",
+    "operational",
+    "organisation",
+    "platform",
+    "program",
+    "ptf",
+    "PTF_FAMILY",
+    "PTF_ID",
+    "PTF_MODEL",
+    "PTF_TYPE",
+    "ref",
+    "sensor",
+    "SENSOR_MODEL",
+    "SENSOR_TYPE",
+    "ship",
+    "SHIP_NAME",
+    "SHIP_REF",
+    "status",
+    "telecom",
+    "TELECOM_NUM",
+    "TELECOM_TYPE",
+    "time",
+    "type",
+    "wmo",
+    "world"
+  ],
+  "license": "The data may be used and redistributed for free but is not intended\nfor legal use, since it may contain inaccuracies. Neither the data\nContributor, ERD, NOAA, nor the United States Government, nor any\nof their employees or contractors, makes any warranty, express or\nimplied, including warranties of merchantability and fitness for a\nparticular purpose, or assumes any legal liability for the accuracy,\ncompleteness, or usefulness, of this information.",
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "PTF_ID",
+      "alternateName": "PTF ID",
+      "description": "PTF ID",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 2.147483647E9
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "PTF ID"
+        }
+      ],
+      "maxValue": 1237177,
+      "minValue": 215684
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "REF",
+      "alternateName": "REF",
+      "description": "REF",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "REF"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "TELECOM_NUM",
+      "alternateName": "TELECOM NUM",
+      "description": "TELECOM NUM",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "TELECOM NUM"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "TELECOM_TYPE",
+      "alternateName": "TELECOM TYPE",
+      "description": "TELECOM TYPE",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "TELECOM TYPE"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "WMO",
+      "alternateName": "WMO",
+      "description": "WMO",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "WMO"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "time",
+      "alternateName": "DEPL DATE",
+      "description": "DEPL DATE",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_CoordinateAxisType",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "axis",
+          "value": "T"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "DEPL DATE"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "source_name",
+          "value": "DEPL_DATE"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_origin",
+          "value": "01-JAN-1970 00:00:00"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_precision",
+          "value": "1970-01-01T00:00:00Z"
+        }
+      ],
+      "maxValue": "2025-07-01T00:00:00Z",
+      "minValue": "1846-01-01T00:00:00Z",
+      "propertyID": "time"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "DEPL_LAT",
+      "alternateName": "DEPL LAT",
+      "description": "DEPL LAT",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": null
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "DEPL LAT"
+        }
+      ],
+      "maxValue": 89.9498,
+      "minValue": -77.9937
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "DEPL_LON",
+      "alternateName": "DEPL LON",
+      "description": "DEPL LON",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": null
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "DEPL LON"
+        }
+      ],
+      "maxValue": 180,
+      "minValue": -180
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "SHIP_NAME",
+      "alternateName": "SHIP NAME",
+      "description": "SHIP NAME",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "SHIP NAME"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "SHIP_REF",
+      "alternateName": "SHIP REF",
+      "description": "SHIP REF",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "SHIP REF"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "CRUISE_NAME",
+      "alternateName": "CRUISE NAME",
+      "description": "CRUISE NAME",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "CRUISE NAME"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "ENDING_DATE",
+      "alternateName": "ENDING DATE",
+      "description": "ENDING DATE",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "ENDING DATE"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_origin",
+          "value": "01-JAN-1970 00:00:00"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_precision",
+          "value": "1970-01-01T00:00:00Z"
+        }
+      ],
+      "maxValue": 1.7750016E9,
+      "minValue": 1.3239936E9,
+      "propertyID": "time",
+      "unitText": "seconds since 1970-01-01T00:00:00Z"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "STATUS",
+      "alternateName": "STATUS",
+      "description": "STATUS",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "STATUS"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "PTF_MODEL",
+      "alternateName": "PTF MODEL",
+      "description": "PTF MODEL",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "PTF MODEL"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "PTF_TYPE",
+      "alternateName": "PTF TYPE",
+      "description": "PTF TYPE",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "PTF TYPE"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "PTF_FAMILY",
+      "alternateName": "PTF FAMILY",
+      "description": "PTF FAMILY",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "PTF FAMILY"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "PROGRAM",
+      "alternateName": "PROGRAM",
+      "description": "PROGRAM",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "PROGRAM"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "COUNTRY",
+      "alternateName": "COUNTRY",
+      "description": "COUNTRY",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "COUNTRY"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "AGENCIES_REF",
+      "alternateName": "AGENCIES REF",
+      "description": "AGENCIES REF",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "AGENCIES REF"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "SENSOR_MODEL",
+      "alternateName": "SENSOR MODEL",
+      "description": "SENSOR MODEL",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "SENSOR MODEL"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "SENSOR_TYPE",
+      "alternateName": "SENSOR TYPE",
+      "description": "SENSOR TYPE",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "SENSOR TYPE"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "LAST_LOC_LAT",
+      "alternateName": "LAST LOC LAT",
+      "description": "LAST LOC LAT",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "LAST LOC LAT"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "LAST_LOC_LON",
+      "alternateName": "LAST LOC LON",
+      "description": "LAST LOC LON",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "LAST LOC LON"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "LAST_LOC_DATE",
+      "alternateName": "LAST LOC DATE",
+      "description": "LAST LOC DATE",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "LAST LOC DATE"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "LAST_OBS_DATE",
+      "alternateName": "LAST OBS DATE",
+      "description": "LAST OBS DATE",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "LAST OBS DATE"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "AGE",
+      "alternateName": "AGE",
+      "description": "AGE",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "AGE"
+        }
+      ],
+      "maxValue": 16106.3269,
+      "minValue": -1
+    }
+  ],
+  "creator": {
+    "@type": "Organization",
+    "name": "OceanOPS"
+  },
+  "identifier": "OceanOPS_platform_metadata",
+  "temporalCoverage": "1846-01-01T00:00:00Z/2025-07-01T00:00:00Z"
+}
