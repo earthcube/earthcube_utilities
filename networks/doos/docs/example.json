@@ -10,6 +10,15 @@
     "name": "ERDDAP Data Server at OSMC",
     "sameAs": "https://osmc.noaa.gov/erddap"
   },
+  "additionalProperty": [
+     {
+            "@type": "PropertyValue",
+            "additionalType": "NC_GLOBAL",
+            "name": "cdm_altitude_proxy",
+            "propertyID": "https://example.org/cdm_altitude_proxy",
+            "value": "PRES"
+      }
+    ],
   "keywords": [
     "available",
     "calibration",
