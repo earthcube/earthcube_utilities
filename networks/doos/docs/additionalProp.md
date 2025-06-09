@@ -1,6 +1,6 @@
 # additionalProperty for Dataset
 
-## The use of additionalProperty for NV_GLOBAL
+## The use of additionalProperty for NC_GLOBAL
 
 When reviewing the variable and attribute values at  https://osmc.noaa.gov/erddap/info/MEOP_profiles/index.html for inclusion in the
 JSON-LD representation for a page we can note a few things.
@@ -8,7 +8,7 @@ JSON-LD representation for a page we can note a few things.
 1) the use of additionalProperty is not in the domain of Thing
 2) however, GitHub issue https://github.com/schemaorg/schemaorg/issues/3540 notes that this is being discussed.
 
-Based on that we can see that putting
+Also of note is that we can see that putting
 
 ```json
 {
