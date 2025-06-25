@@ -1,0 +1,725 @@
+
+{
+  "@context": "http://schema.org",
+  "@type": "Dataset",
+  "name": "AniBOS Platform Metadata",
+  "headline": "anibos_metadata",
+  "description": "Platform metadata for AniBOS. AniBOS data from a local source.\ncdm_data_type=Other\nConventions=COARDS, CF-1.10, ACDD-1.3, NCCSV-1.1\ninfoUrl=https://anibos.com/\ninstitution=AniBOS\nsourceUrl=(local files)\nstandard_name_vocabulary=CF Standard Name Table v70\nsubsetVariables=network, program, country,header,node, wigos_station_identifer, instrument_manufacturer, instrument_model, source,  creator_name, creator_role, creator_institution, creator_country, program_role\ntime_coverage_end=2025-02-20T00:00:00Z\ntime_coverage_start=2019-12-20T00:00:00Z",
+  "url": "https://osmc.noaa.gov/erddap/tabledap/anibos_metadata.html",
+  "includedInDataCatalog": {
+    "@type": "DataCatalog",
+    "name": "ERDDAP Data Server at OSMC",
+    "sameAs": "https://osmc.noaa.gov/erddap"
+  },
+  "keywords": [
+    "anibos",
+    "code",
+    "comment",
+    "country",
+    "creator",
+    "creator_country",
+    "creator_email",
+    "creator_institution",
+    "creator_name",
+    "creator_role",
+    "creator_title",
+    "data",
+    "datetime",
+    "deployment",
+    "deployment_end_datetime",
+    "deployment_lat",
+    "deployment_lon",
+    "email",
+    "end",
+    "header",
+    "identifer",
+    "institution",
+    "instrument",
+    "instrument_manufacturer",
+    "instrument_model",
+    "instrument_ptt_id",
+    "instrument_sensor_type",
+    "instrument_serial_number",
+    "manufacturer",
+    "manufacturer_id",
+    "metadata",
+    "meteorological",
+    "model",
+    "name",
+    "network",
+    "node",
+    "number",
+    "organisation",
+    "platform",
+    "platform_type",
+    "program",
+    "program_role",
+    "ptt",
+    "role",
+    "sensor",
+    "serial",
+    "source",
+    "start",
+    "station",
+    "time",
+    "title",
+    "type",
+    "wigos",
+    "wigos_station_identifer",
+    "wmo",
+    "wmo_platform_code",
+    "world"
+  ],
+  "license": "These data were produced by NOAA and are not subject to copyright protection in the United States. NOAA waives any potential copyright and related rights in these data worldwide through the Creative Commons Zero 1.0 Universal Public Domain Dedication (CC0-1.0).",
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "network",
+      "alternateName": "Network",
+      "description": "Network",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Network"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "program",
+      "alternateName": "Program",
+      "description": "Program",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Program"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "country",
+      "alternateName": "Country",
+      "description": "Country",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Country"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "header",
+      "alternateName": "Header",
+      "description": "Header",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Header"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "node",
+      "alternateName": "Node",
+      "description": "Node",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Node"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "platform",
+      "alternateName": "Platform",
+      "description": "Platform",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Platform"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "platform_type",
+      "alternateName": "Platform Type",
+      "description": "Platform Type",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Platform Type"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "wmo_platform_code",
+      "alternateName": "Wmo Platform Code",
+      "description": "Wmo Platform Code",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 2.147483647E9
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Wmo Platform Code"
+        }
+      ],
+      "maxValue": 9902112,
+      "minValue": 9901290
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "wigos_station_identifer",
+      "alternateName": "Wigos Station Identifer",
+      "description": "Wigos Station Identifer",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Wigos Station Identifer"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "manufacturer_id",
+      "alternateName": "Manufacturer Id",
+      "description": "Manufacturer Id",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Manufacturer Id"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "instrument_manufacturer",
+      "alternateName": "Instrument Manufacturer",
+      "description": "Instrument Manufacturer",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Instrument Manufacturer"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "instrument_model",
+      "alternateName": "Instrument Model",
+      "description": "Instrument Model",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Instrument Model"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "instrument_ptt_id",
+      "alternateName": "Instrument Ptt Id",
+      "description": "Instrument Ptt Id",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 2.147483647E9
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Instrument Ptt Id"
+        }
+      ],
+      "maxValue": 265876,
+      "minValue": 28993
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "instrument_serial_number",
+      "alternateName": "Instrument Serial Number",
+      "description": "Instrument Serial Number",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 32767
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 100
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Instrument Serial Number"
+        }
+      ],
+      "maxValue": 20520,
+      "minValue": 10763
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "instrument_sensor_type",
+      "alternateName": "Instrument Sensor Type",
+      "description": "Instrument Sensor Type",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Instrument Sensor Type"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "source",
+      "alternateName": "Source",
+      "description": "Source",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Source"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "time",
+      "alternateName": "Deployment Start Datetime",
+      "description": "Deployment Start Datetime",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_CoordinateAxisType",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "axis",
+          "value": "T"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Deployment Start Datetime"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "source_name",
+          "value": "deployment_start_datetime"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_origin",
+          "value": "01-JAN-1970 00:00:00"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_precision",
+          "value": "1970-01-01T00:00:00Z"
+        }
+      ],
+      "maxValue": "2025-02-20T00:00:00Z",
+      "minValue": "2019-12-20T00:00:00Z",
+      "propertyID": "time"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "deployment_end_datetime",
+      "alternateName": "Deployment End Datetime",
+      "description": "Deployment End Datetime",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Deployment End Datetime"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_origin",
+          "value": "01-JAN-1970 00:00:00"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_precision",
+          "value": "1970-01-01T00:00:00Z"
+        }
+      ],
+      "minValue": 1.61638536E9,
+      "propertyID": "time",
+      "unitText": "seconds since 1970-01-01T00:00:00Z"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "deployment_lat",
+      "alternateName": "Deployment Lat",
+      "description": "Deployment Lat",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Deployment Lat"
+        }
+      ],
+      "maxValue": 37.1164,
+      "minValue": -77.90472
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "deployment_lon",
+      "alternateName": "Deployment Lon",
+      "description": "Deployment Lon",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Deployment Lon"
+        }
+      ],
+      "maxValue": 166.85596,
+      "minValue": -123.33231
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "creator_name",
+      "alternateName": "Creator Name",
+      "description": "Creator Name",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Creator Name"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "creator_role",
+      "alternateName": "Creator Role",
+      "description": "Creator Role",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Creator Role"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "creator_email",
+      "alternateName": "Creator Email",
+      "description": "Creator Email",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Creator Email"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "creator_title",
+      "alternateName": "Creator Title",
+      "description": "Creator Title",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Creator Title"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "creator_institution",
+      "alternateName": "Creator Institution",
+      "description": "Creator Institution",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Creator Institution"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "creator_country",
+      "alternateName": "Creator Country",
+      "description": "Creator Country",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Creator Country"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "program_role",
+      "alternateName": "Program Role",
+      "description": "Program Role",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Program Role"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "metadata_update_date",
+      "alternateName": "Metadata Update Date",
+      "description": "Metadata Update Date",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Metadata Update Date"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_origin",
+          "value": "01-JAN-1970 00:00:00"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_precision",
+          "value": "1970-01-01"
+        }
+      ],
+      "maxValue": 1.7419104E9,
+      "minValue": 1.7001792E9,
+      "propertyID": "time",
+      "unitText": "seconds since 1970-01-01T00:00:00Z"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "comment",
+      "alternateName": "Comment",
+      "description": "Comment",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Comment"
+        }
+      ]
+    }
+  ],
+  "creator": {
+    "@type": "Organization",
+    "name": "AniBOS",
+    "sameAs": "https://anibos.com/"
+  },
+  "identifier": "anibos_metadata",
+  "temporalCoverage": "2019-12-20T00:00:00Z/2025-02-20T00:00:00Z"
+}

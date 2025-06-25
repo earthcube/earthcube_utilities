@@ -1,0 +1,2426 @@
+
+{
+  "@context": "http://schema.org",
+  "@type": "Dataset",
+  "name": "Argo Float Measurements",
+  "headline": "ArgoFloats",
+  "description": "Argo float vertical profiles from Coriolis Global Data Assembly Centres\n(GDAC). Argo is an international collaboration that collects high-quality\ntemperature and salinity profiles from the upper 2000m of the ice-free\nglobal ocean and currents from intermediate depths. The data come from\nbattery-powered autonomous floats that spend most of their life drifting\nat depth where they are stabilised by being neutrally buoyant at the\n\"parking depth\" pressure by having a density equal to the ambient pressure\nand a compressibility that is less than that of sea water. At present there\nare several models of profiling float used in Argo. All work in a similar\nfashion but differ somewhat in their design characteristics. At typically\n10-day intervals, the floats pump fluid into an external bladder and rise\nto the surface over about 6 hours while measuring temperature and salinity.\nSatellites or GPS determine the position of the floats when they surface,\nand the floats transmit their data to the satellites. The bladder then\ndeflates and the float returns to its original density and sinks to drift\nuntil the cycle is repeated. Floats are designed to make about 150 such\ncycles.\nData Management URL: http://www.argodatamgt.org/Documentation\ncdm_altitude_proxy=pres\ncdm_data_type=TrajectoryProfile\ncdm_profile_variables=cycle_number, data_type, format_version, handbook_version, reference_date_time, date_creation, date_update, direction, data_center, dc_reference, data_state_indicator, data_mode, firmware_version, wmo_inst_type, time, time_qc, time_location, latitude, longitude, position_qc, positioning_system, profile_pres_qc, profile_temp_qc, profile_psal_qc, vertical_sampling_scheme\ncdm_trajectory_variables=platform_number, project_name, pi_name, platform_type, float_serial_no\nConventions=Argo-3.1, CF-1.6, COARDS, ACDD-1.3, NCCSV-1.2\ndefaultGraphQuery=longitude%2Clatitude%2Ctemp&time>=now-2d&time<=now&pres>=0&pres<=5&.draw=markers&.marker=5|5&.color=0x000000&.colorBar=|||||&.bgColor=0xffccccff\nEasternmost_Easting=180.0\nfeatureType=TrajectoryProfile\ngeospatial_lat_max=89.97058333333334\ngeospatial_lat_min=-99.999\ngeospatial_lat_units=degrees_north\ngeospatial_lon_max=180.0\ngeospatial_lon_min=-179.9998\ngeospatial_lon_units=degrees_east\ninfoUrl=https://argo.ucsd.edu/\ninstitution=Argo\nkeywords_vocabulary=GCMD Science Keywords\nNorthernmost_Northing=89.97058333333334\nreferences=http://www.argodatamgt.org/Documentation\nsource=Argo float\nsourceUrl=(local files)\nSouthernmost_Northing=-99.999\nstandard_name_vocabulary=CF Standard Name Table v29\ntime_coverage_end=2026-12-27T14:48:20Z\ntime_coverage_start=1997-07-28T20:26:20Z\nuser_manual_version=3.1\nWesternmost_Easting=-179.9998",
+  "url": "https://osmc.noaa.gov/erddap/tabledap/ArgoFloats.html",
+  "includedInDataCatalog": {
+    "@type": "DataCatalog",
+    "name": "ERDDAP Data Server at OSMC",
+    "sameAs": "https://osmc.noaa.gov/erddap"
+  },
+  "keywords": [
+    "adjusted",
+    "argo",
+    "array",
+    "assembly",
+    "best",
+    "centre",
+    "centres",
+    "charge",
+    "coded",
+    "CONFIG_MISSION_NUMBER",
+    "contains",
+    "coriolis",
+    "creation",
+    "currents",
+    "cycle",
+    "CYCLE_NUMBER",
+    "data",
+    "DATA_CENTRE",
+    "DATA_MODE",
+    "DATA_STATE_INDICATOR",
+    "DATA_TYPE",
+    "date",
+    "DATE_CREATION",
+    "DATE_UPDATE",
+    "day",
+    "days",
+    "DC_REFERENCE",
+    "degree",
+    "delayed",
+    "denoting",
+    "density",
+    "determined",
+    "direction",
+    "Earth Science > Oceans > Ocean Pressure > Water Pressure",
+    "Earth Science > Oceans > Ocean Temperature > Water Temperature",
+    "Earth Science > Oceans > Salinity/Density > Salinity",
+    "equals",
+    "error",
+    "estimate",
+    "file",
+    "firmware",
+    "FIRMWARE_VERSION",
+    "flag",
+    "float",
+    "FLOAT_SERIAL_NO",
+    "format",
+    "FORMAT_VERSION",
+    "gdac",
+    "geostrophic",
+    "global",
+    "handbook",
+    "HANDBOOK_VERSION",
+    "have",
+    "identifier",
+    "in-situ",
+    "instrument",
+    "investigator",
+    "its",
+    "its-90",
+    "JULD",
+    "JULD_LOCATION",
+    "JULD_QC",
+    "julian",
+    "latitude",
+    "level",
+    "longitude",
+    "missions",
+    "mode",
+    "name",
+    "number",
+    "ocean",
+    "oceanography",
+    "oceans",
+    "passed",
+    "performed",
+    "PI_NAME",
+    "PLATFORM_NUMBER",
+    "PLATFORM_TYPE",
+    "position",
+    "POSITION_QC",
+    "positioning",
+    "POSITIONING_SYSTEM",
+    "practical",
+    "pres",
+    "PRES_ADJUSTED",
+    "PRES_ADJUSTED_ERROR",
+    "PRES_ADJUSTED_QC",
+    "PRES_QC",
+    "pressure",
+    "principal",
+    "process",
+    "processing",
+    "profile",
+    "PROFILE_PRES_QC",
+    "PROFILE_PSAL_QC",
+    "PROFILE_TEMP_QC",
+    "profiles",
+    "project",
+    "PROJECT_NAME",
+    "psal",
+    "PSAL_ADJUSTED",
+    "PSAL_ADJUSTED_ERROR",
+    "PSAL_ADJUSTED_QC",
+    "PSAL_QC",
+    "quality",
+    "rdac",
+    "real",
+    "real time",
+    "real-time",
+    "realtime",
+    "reference",
+    "REFERENCE_DATE_TIME",
+    "regional",
+    "relative",
+    "salinity",
+    "sampling",
+    "scale",
+    "scheme",
+    "sea",
+    "sea level",
+    "sea-level",
+    "sea_water_practical_salinity",
+    "sea_water_pressure",
+    "sea_water_temperature",
+    "seawater",
+    "serial",
+    "situ",
+    "station",
+    "statistics",
+    "system",
+    "TEMP",
+    "TEMP_ADJUSTED",
+    "TEMP_ADJUSTED_ERROR",
+    "TEMP_ADJUSTED_QC",
+    "TEMP_QC",
+    "temperature",
+    "through",
+    "time",
+    "type",
+    "unique",
+    "update",
+    "values",
+    "version",
+    "vertical",
+    "VERTICAL_SAMPLING_SCHEME",
+    "water",
+    "WMO_INST_TYPE"
+  ],
+  "license": "falsestandard]",
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "fileNumber",
+      "alternateName": "File Number",
+      "description": "File Number",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Identifier"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "File Number"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "data_type",
+      "alternateName": "Data type",
+      "description": "Data type",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 1"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Unknown"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Data type"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "format_version",
+      "alternateName": "File format version",
+      "description": "File format version",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Unknown"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "File format version"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "handbook_version",
+      "alternateName": "Data handbook version",
+      "description": "Data handbook version",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Unknown"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Data handbook version"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "reference_date_time",
+      "alternateName": "Date of reference for Julian days",
+      "description": "Date of reference for Julian days",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Date of reference for Julian days"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_origin",
+          "value": "01-JAN-1970 00:00:00"
+        }
+      ],
+      "maxValue": -6.31152E8,
+      "minValue": -6.31152E8,
+      "unitText": "seconds since 1970-01-01T00:00:00Z"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "date_creation",
+      "alternateName": "Date of file creation",
+      "description": "Date of file creation",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Date of file creation"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_origin",
+          "value": "01-JAN-1970 00:00:00"
+        }
+      ],
+      "maxValue": 1.749063941E9,
+      "minValue": 1.076437173E9,
+      "unitText": "seconds since 1970-01-01T00:00:00Z"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "date_update",
+      "alternateName": "Date of update of this file",
+      "description": "Date of update of this file",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Date of update of this file"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_origin",
+          "value": "01-JAN-1970 00:00:00"
+        }
+      ],
+      "maxValue": 1.749132128E9,
+      "minValue": 1.523152396E9,
+      "unitText": "seconds since 1970-01-01T00:00:00Z"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "platform_number",
+      "alternateName": "Float unique identifier",
+      "description": "Float unique identifier",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "cf_role",
+          "value": "trajectory_id"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "WMO float identifier : A9IIIII"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Identifier"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Float unique identifier"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "project_name",
+      "alternateName": "Name of the project",
+      "description": "Name of the project",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Identifier"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Name of the project"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "pi_name",
+      "alternateName": "Name of the principal investigator",
+      "description": "Name of the principal investigator",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Identifier"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Name of the principal investigator"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "cycle_number",
+      "alternateName": "Float cycle number",
+      "description": "Float cycle number",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "cf_role",
+          "value": "profile_id"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 200
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "0...N, 0 : launch cycle (if exists), 1 : first complete cycle"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Statistics"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Float cycle number"
+        }
+      ],
+      "maxValue": 3253,
+      "minValue": 0
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "direction",
+      "alternateName": "Direction of the station profiles",
+      "description": "Direction of the station profiles",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 360
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "A: ascending profiles, D: descending profiles"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Currents"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Direction of the station profiles"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "data_center",
+      "alternateName": "Data centre in charge of float data processing",
+      "description": "Data centre in charge of float data processing",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 4"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Unknown"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Data centre in charge of float data processing"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "dc_reference",
+      "alternateName": "Station unique identifier in data centre",
+      "description": "Station unique identifier in data centre",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Data centre convention"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Identifier"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Station unique identifier in data centre"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "data_state_indicator",
+      "alternateName": "Degree of processing the data have passed through",
+      "description": "Degree of processing the data have passed through",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 6"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Location"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Degree of processing the data have passed through"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "data_mode",
+      "alternateName": "Delayed mode or real time data",
+      "description": "Delayed mode or real time data",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "R : real time; D : delayed mode; A : real time with adjustment"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Delayed mode or real time data"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "platform_type",
+      "alternateName": "Type of float",
+      "description": "Type of float",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 23"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Unknown"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Type of float"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "float_serial_no",
+      "alternateName": "Serial number of the float",
+      "description": "Serial number of the float",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 100
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Statistics"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Serial number of the float"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "firmware_version",
+      "alternateName": "Instrument firmware version",
+      "description": "Instrument firmware version",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Unknown"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Instrument firmware version"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "wmo_inst_type",
+      "alternateName": "Coded instrument type",
+      "description": "Coded instrument type",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 8"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Unknown"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Coded instrument type"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "time",
+      "alternateName": "Julian day (UTC) of the station relative to REFERENCE_DATE_TIME",
+      "description": "Julian day (UTC) of the station relative to REFERENCE_DATE_TIME",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_CoordinateAxisType",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "axis",
+          "value": "T"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Julian day (UTC) of the station relative to REFERENCE_DATE_TIME"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_origin",
+          "value": "01-JAN-1970 00:00:00"
+        }
+      ],
+      "maxValue": "2026-12-27T14:48:20Z",
+      "minValue": "1997-07-28T20:26:20Z",
+      "propertyID": "time"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "time_qc",
+      "alternateName": "Quality on date and time",
+      "description": "Quality on date and time",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 2"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Quality on date and time"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "time_location",
+      "alternateName": "Julian day (UTC) of the location relative to REFERENCE_DATE_TIME",
+      "description": "Julian day (UTC) of the location relative to REFERENCE_DATE_TIME",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Julian day (UTC) of the location relative to REFERENCE_DATE_TIME"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "time_origin",
+          "value": "01-JAN-1970 00:00:00"
+        }
+      ],
+      "maxValue": 1.798383866E9,
+      "minValue": -5.81172992E8,
+      "propertyID": "time",
+      "unitText": "seconds since 1970-01-01T00:00:00Z"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "latitude",
+      "alternateName": "Latitude of the station, best estimate",
+      "description": "Latitude of the station, best estimate",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_CoordinateAxisType",
+          "value": "Lat"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "axis",
+          "value": "Y"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 90
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": -90
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Location"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Latitude of the station, best estimate"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "latitude"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_max",
+          "value": 90
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_min",
+          "value": -90
+        }
+      ],
+      "maxValue": 89.97058333333334,
+      "minValue": -99.999,
+      "propertyID": "latitude",
+      "unitText": "degrees_north"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "longitude",
+      "alternateName": "Longitude of the station, best estimate",
+      "description": "Longitude of the station, best estimate",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_CoordinateAxisType",
+          "value": "Lon"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "axis",
+          "value": "X"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 180
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": -180
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Location"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Longitude of the station, best estimate"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "longitude"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_max",
+          "value": 180
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_min",
+          "value": -180
+        }
+      ],
+      "maxValue": 180,
+      "minValue": -179.9998,
+      "propertyID": "longitude",
+      "unitText": "degrees_east"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "position_qc",
+      "alternateName": "Quality on position (latitude and longitude)",
+      "description": "Quality on position (latitude and longitude)",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 2"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Quality on position (latitude and longitude)"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "positioning_system",
+      "alternateName": "Positioning system",
+      "description": "Positioning system",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Unknown"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Positioning system"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "profile_pres_qc",
+      "alternateName": "Global quality flag of PRES profile",
+      "description": "Global quality flag of PRES profile",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 2a"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Global quality flag of PRES profile"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "profile_temp_qc",
+      "alternateName": "Global quality flag of TEMP profile",
+      "description": "Global quality flag of TEMP profile",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 2a"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Global quality flag of TEMP profile"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "profile_psal_qc",
+      "alternateName": "Global quality flag of PSAL profile",
+      "description": "Global quality flag of PSAL profile",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 2a"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Global quality flag of PSAL profile"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vertical_sampling_scheme",
+      "alternateName": "Vertical sampling scheme",
+      "description": "Vertical sampling scheme",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 16"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Unknown"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Vertical sampling scheme"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "config_mission_number",
+      "alternateName": "Unique number denoting the missions performed by the float",
+      "description": "Unique number denoting the missions performed by the float",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 100
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "1...N, 1 : first complete mission"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Statistics"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Unique number denoting the missions performed by the float"
+        }
+      ],
+      "maxValue": 1.768910368E9,
+      "minValue": -2.147483648E9
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "pres",
+      "alternateName": "Sea water pressure, equals 0 at sea-level",
+      "description": "Sea water pressure, equals 0 at sea-level",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_CoordinateAxisType",
+          "value": "Height"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "axis",
+          "value": "Z"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "C_format",
+          "value": "%7.1f"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 5000
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "FORTRAN_format",
+          "value": "F7.1"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Sea Level"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Sea water pressure, equals 0 at sea-level"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "sdn_parameter_urn",
+          "value": "SDN:P01::PRESPR01"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "sea_water_pressure"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_max",
+          "value": 12000
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_min",
+          "value": 0
+        }
+      ],
+      "maxValue": 1.327014E12,
+      "minValue": -1.701412E38,
+      "propertyID": "sea_water_pressure",
+      "unitText": "decibar"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "pres_qc",
+      "alternateName": "quality flag",
+      "description": "quality flag",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 2"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "quality flag"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "pres_adjusted",
+      "alternateName": "Sea water pressure, equals 0 at sea-level",
+      "description": "Sea water pressure, equals 0 at sea-level",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "axis",
+          "value": "Z"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "C_format",
+          "value": "%7.1f"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 5000
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "FORTRAN_format",
+          "value": "F7.1"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Sea Level"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Sea water pressure, equals 0 at sea-level"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "sea_water_pressure"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_max",
+          "value": 12000
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_min",
+          "value": 0
+        }
+      ],
+      "maxValue": 99996.8,
+      "minValue": -3276.8,
+      "propertyID": "sea_water_pressure",
+      "unitText": "decibar"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "pres_adjusted_qc",
+      "alternateName": "quality flag",
+      "description": "quality flag",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 2"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "quality flag"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "pres_adjusted_error",
+      "alternateName": "Contains the error on the adjusted values as determined by the delayed mode QC process",
+      "description": "Contains the error on the adjusted values as determined by the delayed mode QC process",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "C_format",
+          "value": "%7.1f"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 50
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "FORTRAN_format",
+          "value": "F7.1"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Statistics"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Contains the error on the adjusted values as determined by the delayed mode QC process"
+        }
+      ],
+      "maxValue": 100001.4,
+      "minValue": 0,
+      "unitText": "decibar"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "temp",
+      "alternateName": "Sea temperature in-situ ITS-90 scale",
+      "description": "Sea temperature in-situ ITS-90 scale",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "C_format",
+          "value": "%9.3f"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 32
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "FORTRAN_format",
+          "value": "F9.3"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Temperature"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Sea temperature in-situ ITS-90 scale"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "sdn_parameter_urn",
+          "value": "SDN:P01::TEMPST01"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "sea_water_temperature"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_max",
+          "value": 40
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_min",
+          "value": -2.5
+        }
+      ],
+      "maxValue": 9999,
+      "minValue": -160.168,
+      "propertyID": "sea_water_temperature",
+      "unitText": "degree_Celsius"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "temp_qc",
+      "alternateName": "quality flag",
+      "description": "quality flag",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 2"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "quality flag"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "temp_adjusted",
+      "alternateName": "Sea temperature in-situ ITS-90 scale",
+      "description": "Sea temperature in-situ ITS-90 scale",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "C_format",
+          "value": "%9.3f"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 32
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "FORTRAN_format",
+          "value": "F9.3"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Temperature"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Sea temperature in-situ ITS-90 scale"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "sea_water_temperature"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_max",
+          "value": 40
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_min",
+          "value": -2.5
+        }
+      ],
+      "maxValue": 99.999,
+      "minValue": -9,
+      "propertyID": "sea_water_temperature",
+      "unitText": "degree_Celsius"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "temp_adjusted_qc",
+      "alternateName": "quality flag",
+      "description": "quality flag",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 2"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "quality flag"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "temp_adjusted_error",
+      "alternateName": "Contains the error on the adjusted values as determined by the delayed mode QC process",
+      "description": "Contains the error on the adjusted values as determined by the delayed mode QC process",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "C_format",
+          "value": "%9.3f"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 1
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "FORTRAN_format",
+          "value": "F9.3"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Statistics"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Contains the error on the adjusted values as determined by the delayed mode QC process"
+        }
+      ],
+      "maxValue": 26.578,
+      "minValue": 0,
+      "unitText": "degree_Celsius"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "psal",
+      "alternateName": "Practical salinity",
+      "description": "Practical salinity",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "C_format",
+          "value": "%9.3f"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 37
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 32
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "FORTRAN_format",
+          "value": "F9.3"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Salinity"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Practical salinity"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "sdn_parameter_urn",
+          "value": "SDN:P01::PSALST01"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "sea_water_practical_salinity"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_max",
+          "value": 41
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_min",
+          "value": 2
+        }
+      ],
+      "maxValue": 9999,
+      "minValue": -1.701412E38,
+      "propertyID": "sea_water_practical_salinity",
+      "unitText": "PSU"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "psal_qc",
+      "alternateName": "quality flag",
+      "description": "quality flag",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 2"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "quality flag"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "psal_adjusted",
+      "alternateName": "Practical salinity",
+      "description": "Practical salinity",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "C_format",
+          "value": "%9.3f"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 37
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 32
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "FORTRAN_format",
+          "value": "F9.3"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Salinity"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Practical salinity"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "sea_water_practical_salinity"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_max",
+          "value": 41
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "valid_min",
+          "value": 2
+        }
+      ],
+      "maxValue": 171521.4,
+      "minValue": -1.701412E38,
+      "propertyID": "sea_water_practical_salinity",
+      "unitText": "PSU"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "psal_adjusted_qc",
+      "alternateName": "quality flag",
+      "description": "quality flag",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "conventions",
+          "value": "Argo reference table 2"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "quality flag"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "psal_adjusted_error",
+      "alternateName": "Contains the error on the adjusted values as determined by the delayed mode QC process",
+      "description": "Contains the error on the adjusted values as determined by the delayed mode QC process",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "_FillValue",
+          "value": 99999
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "C_format",
+          "value": "%9.3f"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 1
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "FORTRAN_format",
+          "value": "F9.3"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Statistics"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "long_name",
+          "value": "Contains the error on the adjusted values as determined by the delayed mode QC process"
+        }
+      ],
+      "maxValue": 8.499573E31,
+      "minValue": -99992.94,
+      "unitText": "psu"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "doxy",
+      "alternateName": "moles_of_oxygen_per_unit_mass_in_sea_water",
+      "description": "moles_of_oxygen_per_unit_mass_in_sea_water",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 600
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": -5
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "sdn_parameter_urn",
+          "value": "SDN:P01::DOXMZZXX"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "moles_of_oxygen_per_unit_mass_in_sea_water"
+        }
+      ],
+      "propertyID": "moles_of_oxygen_per_unit_mass_in_sea_water",
+      "unitText": "micromole/kg"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "doxy_qc",
+      "alternateName": "doxy_qc",
+      "description": "doxy_qc",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "temp_doxy",
+      "alternateName": "temperature_of_sensor_for_oxygen_in_sea_water",
+      "description": "temperature_of_sensor_for_oxygen_in_sea_water",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 40
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": -2
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "sdn_parameter_urn",
+          "value": "SDN:P01::OXYTAAOP"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "temperature_of_sensor_for_oxygen_in_sea_water"
+        }
+      ],
+      "propertyID": "temperature_of_sensor_for_oxygen_in_sea_water",
+      "unitText": "degree_Celsius"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "temp_doxy_qc",
+      "alternateName": "temp_doxy_qc",
+      "description": "temp_doxy_qc",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "molar_doxy",
+      "alternateName": "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water",
+      "description": "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 650
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "sdn_parameter_urn",
+          "value": "SDN:P01::DOXYMMOP"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water"
+        }
+      ],
+      "propertyID": "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water",
+      "unitText": "micromole/l"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "molar_doxy_qc",
+      "alternateName": "molar_doxy_qc",
+      "description": "molar_doxy_qc",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "turbidity",
+      "alternateName": "sea_water_turbidity",
+      "description": "sea_water_turbidity",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "sdn_parameter_urn",
+          "value": "SDN:P01::TURBXXXX"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "sea_water_turbidity"
+        }
+      ],
+      "propertyID": "sea_water_turbidity",
+      "unitText": "ntu"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "turbidity_qc",
+      "alternateName": "turbidity_qc",
+      "description": "turbidity_qc",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "chla",
+      "alternateName": "mass_concentration_of_chlorophyll_a_in_sea_water",
+      "description": "mass_concentration_of_chlorophyll_a_in_sea_water",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "sdn_parameter_urn",
+          "value": "SDN:P01::CPHLPR01"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "mass_concentration_of_chlorophyll_a_in_sea_water"
+        }
+      ],
+      "propertyID": "mass_concentration_of_chlorophyll_a_in_sea_water",
+      "unitText": "mg/m3"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "chla_qc",
+      "alternateName": "chla_qc",
+      "description": "chla_qc",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "nitrate",
+      "alternateName": "moles_of_nitrate_per_unit_mass_in_sea_water",
+      "description": "moles_of_nitrate_per_unit_mass_in_sea_water",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "sdn_parameter_urn",
+          "value": "SDN:P01::MDMAP005"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "standard_name",
+          "value": "moles_of_nitrate_per_unit_mass_in_sea_water"
+        }
+      ],
+      "propertyID": "moles_of_nitrate_per_unit_mass_in_sea_water",
+      "unitText": "micromole/kg"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "nitrate_qc",
+      "alternateName": "nitrate_qc",
+      "description": "nitrate_qc",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "axisOrDataVariable",
+          "value": "data"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMaximum",
+          "value": 150
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "colorBarMinimum",
+          "value": 0
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ioos_category",
+          "value": "Quality"
+        }
+      ]
+    }
+  ],
+  "creator": {
+    "@type": "Organization",
+    "name": "Argo",
+    "email": "support@argo.net",
+    "sameAs": "https://argo.ucsd.edu/"
+  },
+  "identifier": "ArgoFloats",
+  "temporalCoverage": "1997-07-28T20:26:20Z/2026-12-27T14:48:20Z",
+  "spatialCoverage": {
+    "@type": "Place",
+    "geo": {
+      "@type": "GeoShape",
+      "box": "-99.999 -179.9998 89.97058333333334 180"
+    }
+  }
+}
