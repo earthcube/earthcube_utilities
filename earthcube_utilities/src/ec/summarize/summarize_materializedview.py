@@ -206,6 +206,22 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
         #incl original subj, just in case for now
         #lat/lon not in present ui, but in earlier version
 
+        minDepth = row.get('minDepth') or row.get('mindepth')
+        if pandas.notna(minDepth):
+            g.add((graph_subject, ecsummary.minDepth, Literal(minDepth)))
+
+        maxDepth = row.get('maxDepth') or row.get('maxdepth')
+        if pandas.notna(maxDepth):
+            g.add((graph_subject, ecsummary.maxDepth, Literal(maxDepth)))
+
+        temporalCoverage = row.get('temporalCoverage')
+        if pandas.notna(temporalCoverage):
+            g.add((graph_subject, ecsummary.temporalCoverage, Literal(temporalCoverage)))
+
+        spatialCoverage = row.get('spatialCoverage')
+        if pandas.notna(spatialCoverage):
+            g.add((graph_subject, ecsummary.spatialCoverage, Literal(spatialCoverage)))
+
         #### end for ####
     return g.serialize(format='longturtle'), g
 # g is an RDF graph that can be dumped using
