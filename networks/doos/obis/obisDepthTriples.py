@@ -36,9 +36,12 @@ merged = pd.merge(df,
                   how="inner") \
            .dropna(subset=["min_depth", "max_depth"], how="any")
 
+# Filter out placeholder depth values
+merged = merged[merged["min_depth"] != -9999]
+
 # 4) Prepare MinIO client
-#s3_client = s3.MinioDatastore("oss.geocodes-aws.earthcube.org", None)
-s3_client = s3.MinioDatastore("oss.geocodes.ncsa.illinois.edu", None)
+s3_client = s3.MinioDatastore("oss.geocodes-aws.earthcube.org", None)
+#s3_client = s3.MinioDatastore("oss.geocodes.ncsa.illinois.edu", None)
 
 # 5) Prepare output dirs
 jsonld_out = "./jsonld/output_strict/"
@@ -82,8 +85,8 @@ for _, row in merged.iterrows():
         object_name,
         json.dumps(data)
     )
-    #url = f"https://oss.geocodes-aws.earthcube.org/decoder/community_resources/deepoceans/obis_depth/{object_name}"
-    url = f"https://oss.geocodes.ncsa.illinois.edu/decoder/community_resources/deepoceans/obis_depth/{object_name}"
+    url = f"https://oss.geocodes-aws.earthcube.org/decoder/community_resources/deepoceans/obis_depth/{object_name}"
+    #url = f"https://oss.geocodes.ncsa.illinois.edu/decoder/community_resources/deepoceans/obis_depth/{object_name}"
     uploaded_urls.append(url)
     print(f"✅  uploaded {object_name}")
 
@@ -111,8 +114,8 @@ print(f"✅  wrote sitemap to {sitemap_local}")
 
 # upload sitemap to decoder/sitemaps/obis_depth_sitemap.xml
 s3_client.putSitemapFile(
-    "decoder",
-    "obis_depth_sitemap.xml",
-    sitemap_str
+    data=sitemap_str,
+    filename="obis_depth_sitemap.xml",
+    bucket="decoder"
 )
 print("✅  uploaded sitemap to decoder/sitemaps/obis_depth_sitemap.xml")

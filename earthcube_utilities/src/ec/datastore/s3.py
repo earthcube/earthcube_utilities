@@ -38,7 +38,8 @@ class bucketDatastore():
              "release":"graphs",
              "archive":"archive",
              "collection":"collections",
-             "sitemap":"sitemaps"
+             "sitemap":"sitemaps",
+             "community_resources":"community_resources"
     }
 
     def __init__(self, s3endpoint, options, default_bucket="gleaner"):
@@ -63,7 +64,7 @@ class bucketDatastore():
         f = BytesIO()
         length = f.write(bytes(data, 'utf-8'))
         f.seek(0)
-        resp = self.s3client.put_object(s3ObjectInfo.bucket_name, s3ObjectInfo.object_name, f,length=length)
+        resp = self.s3client.put_object(s3ObjectInfo["bucket_name"], s3ObjectInfo["object_name"], f, length=length)
         return resp.bucket_name, resp.object_name
     def copyObject(self,s3ObjectInfoToCopy, ObjectPath ):
         ''' Server Side Copy, eg upload report to latest, make copy to today'''
@@ -311,6 +312,19 @@ class MinioDatastore(bucketDatastore):
             today_str = datetime.now().strftime("%Y%m%d")
             path = f"{self.paths['report']}/{repo}/{today_str}/{filename}"
             self.copyObject(resp,path)
+        return resp.bucket_name, resp.object_name
+
+    def putSitemapFile(self,data: str,filename: str, bucket="gleaner"):
+        path = f"{self.paths['sitemap']}/{filename}"
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        return self.putTextFileToStore(data, s3ObjectInfo)
+
+    def putCommunityResourceFile(self, bucket, repo, filename, json_str, date="latest", copy_to_date=True):
+        path = f"{self.paths['community_resources']}/{repo}/{filename}"
+        f = BytesIO()
+        length = f.write(bytes(json_str, 'utf-8'))
+        f.seek(0)
+        resp = self.s3client.put_object(bucket, path, f,length=length)
         return resp.bucket_name, resp.object_name
 
     def getReportFile(self, bucket, repo, filename):
