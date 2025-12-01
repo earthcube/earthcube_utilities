@@ -22,12 +22,26 @@ SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
             OPTIONAL {?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name .}
             OPTIONAL {?subj schema:spatialCoverage/schema:name ?place_name .}
             OPTIONAL {?subj schema:keywords ?kw1 .}
-            OPTIONAL {?subj schema:variableMeasured ?vm .
-               ?vm a  schema:PropertyValue  .
-               ?vm schema:name "depth" .
-                    ?vm schema:maxValue ?maxDepth1 .
-                  ?vm schema:minValue ?minDepth1
-           }
+            OPTIONAL {
+              ?subj schema:variableMeasured ?vm .
+              ?vm a schema:PropertyValue .
+
+              OPTIONAL { ?vm schema:name ?vmName . }
+              OPTIONAL { ?vm schema:propertyID ?propId . }
+
+              # Match "package_depth" (your JSON-LD) OR anything whose standard_name is depth
+              FILTER (
+                LCASE(STR(COALESCE(?vmName, ""))) IN ("package_depth", "depth")
+                || STR(COALESCE(?propId, "")) = "http://vocab.nerc.ac.uk/standard_name/depth"
+              )
+
+              OPTIONAL { ?vm schema:maxValue ?maxDepthRaw . }
+              OPTIONAL { ?vm schema:minValue ?minDepthRaw . }
+
+              # Cast so MAX/MIN behaves numerically (not lexicographically)
+              BIND(xsd:decimal(?maxDepthRaw) AS ?maxDepth1)
+              BIND(xsd:decimal(?minDepthRaw) AS ?minDepth1)
+            }
             # need these to get rdflib to work
             bind ( COALESCE(?kw1, "") As ?kwu) .
             bind ( COALESCE(?url1, "") As ?url) .
