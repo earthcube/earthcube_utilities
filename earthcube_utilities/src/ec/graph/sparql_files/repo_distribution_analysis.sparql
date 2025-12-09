@@ -1,0 +1,33 @@
+prefix schema: <https://schema.org/>
+
+# Analyze distributions for a specific repo: landing pages vs directly accessible, @type, encodingFormat, and name
+SELECT DISTINCT ?dataset ?g ?dist ?distType ?distName ?encodingFormat 
+       ?landingPageUrl ?directAccessUrl
+WHERE {
+  GRAPH ?g {
+    ?dataset a schema:Dataset .
+    ?dataset schema:distribution ?dist .
+    
+    # Get distribution type
+    OPTIONAL { ?dist a ?distType . }
+    
+    # Get distribution name
+    OPTIONAL { ?dist schema:name ?distName . }
+    
+    # Get encoding format
+    OPTIONAL { ?dist schema:encodingFormat ?encodingFormat . }
+    
+    # Check for landing page URL (schema:url)
+    OPTIONAL { 
+      ?dist schema:url ?landingPageUrl .
+    }
+    
+    # Check for direct access URL (schema:contentUrl)
+    OPTIONAL { 
+      ?dist schema:contentUrl ?directAccessUrl .
+    }
+  }
+  FILTER( CONTAINS(str(?g), "${repo}") )
+}
+ORDER BY ?dataset ?dist
+

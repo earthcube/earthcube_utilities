@@ -1,0 +1,25 @@
+prefix schema: <https://schema.org/>
+
+# Query for service endpoints (potentialAction) for a specific repo
+SELECT DISTINCT ?dataset ?g ?action ?actionType ?actionName ?targetUrl ?resultFormat
+WHERE {
+  GRAPH ?g {
+    ?dataset a schema:Dataset .
+    ?dataset schema:potentialAction ?action .
+    
+    # Get action type
+    OPTIONAL { ?action a ?actionType . }
+    
+    # Get action name
+    OPTIONAL { ?action schema:name ?actionName . }
+    
+    # Get target URL (service endpoint)
+    OPTIONAL { ?action schema:target/schema:urlTemplate|schema:target/schema:url ?targetUrl . }
+    
+    # Get result format
+    OPTIONAL { ?action schema:result/schema:encodingFormat ?resultFormat . }
+  }
+  FILTER( CONTAINS(str(?g), "${repo}") )
+}
+ORDER BY ?dataset ?action
+

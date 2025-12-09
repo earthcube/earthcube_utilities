@@ -1,0 +1,21 @@
+prefix schema: <https://schema.org/>
+
+# Analyze encodingFormat and name in distributions
+SELECT DISTINCT ?dataset ?g ?dist ?distName ?encodingFormat ?distType
+WHERE {
+  GRAPH ?g {
+    ?dataset a schema:Dataset .
+    ?dataset schema:distribution ?dist .
+    
+    # Get distribution type
+    OPTIONAL { ?dist a ?distType . }
+    
+    # Get distribution name
+    OPTIONAL { ?dist schema:name ?distName . }
+    
+    # Get encoding format (can be a single value or array)
+    OPTIONAL { ?dist schema:encodingFormat ?encodingFormat . }
+  }
+}
+ORDER BY ?dataset ?dist
+

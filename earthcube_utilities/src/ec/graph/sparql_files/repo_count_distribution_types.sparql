@@ -1,0 +1,15 @@
+prefix schema: <https://schema.org/>
+
+# Count distribution @type values for a specific repo (are there any besides DataDownload?)
+SELECT ?distType (COUNT(DISTINCT ?dist) as ?count)
+WHERE {
+  GRAPH ?g {
+    ?dataset a schema:Dataset .
+    ?dataset schema:distribution ?dist .
+    ?dist a ?distType .
+  }
+  FILTER( CONTAINS(str(?g), "${repo}") )
+}
+GROUP BY ?distType
+ORDER BY DESC(?count)
+

@@ -1,0 +1,34 @@
+prefix schema: <https://schema.org/>
+
+# Count distributions by access type: landing page (url) vs direct access (contentUrl)
+SELECT 
+  (COUNT(DISTINCT ?distWithLandingPage) as ?landingPageCount)
+  (COUNT(DISTINCT ?distWithDirectAccess) as ?directAccessCount)
+  (COUNT(DISTINCT ?distWithBoth) as ?bothCount)
+  (COUNT(DISTINCT ?distAny) as ?totalDistributions)
+WHERE {
+  GRAPH ?g {
+    ?dataset a schema:Dataset .
+    ?dataset schema:distribution ?distAny .
+    
+    # Distributions with landing page (url)
+    OPTIONAL {
+      ?dataset schema:distribution ?distWithLandingPage .
+      ?distWithLandingPage schema:url ?url .
+    }
+    
+    # Distributions with direct access (contentUrl)
+    OPTIONAL {
+      ?dataset schema:distribution ?distWithDirectAccess .
+      ?distWithDirectAccess schema:contentUrl ?contentUrl .
+    }
+    
+    # Distributions with both
+    OPTIONAL {
+      ?dataset schema:distribution ?distWithBoth .
+      ?distWithBoth schema:url ?urlBoth .
+      ?distWithBoth schema:contentUrl ?contentUrlBoth .
+    }
+  }
+}
+

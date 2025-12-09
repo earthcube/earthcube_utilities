@@ -1,0 +1,13 @@
+prefix schema: <https://schema.org/>
+
+# Count datasets with service endpoints (potentialAction)
+SELECT 
+  (COUNT(DISTINCT ?dataset) as ?datasetsWithServiceEndpoints)
+  (COUNT(DISTINCT ?action) as ?totalServiceEndpoints)
+WHERE {
+  GRAPH ?g {
+    ?dataset a schema:Dataset .
+    ?dataset schema:potentialAction ?action .
+  }
+}
+
