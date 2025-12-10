@@ -1,0 +1,17 @@
+prefix schema: <https://schema.org/>
+
+# Distribution Properties by Provider for a specific repo
+# Shows what properties distributions have for the specified repo
+SELECT DISTINCT ?g ?p
+WHERE { 
+  GRAPH ?g {
+    ?dataset a schema:Dataset .
+    ?dataset schema:distribution ?distro .
+    ?distro ?p ?o .
+    FILTER NOT EXISTS { ?distro <https://www.w3.org/2000/01/rdf-schema#seeAlso> ?o }
+  }
+  FILTER( CONTAINS(str(?g), "${repo}") )
+} 
+ORDER BY ?g ?p
+
+

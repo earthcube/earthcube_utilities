@@ -1,0 +1,13 @@
+prefix schema: <https://schema.org/>
+
+# Count distributions with direct access URL (schema:contentUrl)
+# Simpler single-purpose query for better performance
+SELECT (COUNT(DISTINCT ?dist) as ?count)
+WHERE {
+  GRAPH ?g {
+    ?dataset a schema:Dataset .
+    ?dataset schema:distribution ?dist .
+    ?dist schema:contentUrl ?contentUrl .
+  }
+}
+

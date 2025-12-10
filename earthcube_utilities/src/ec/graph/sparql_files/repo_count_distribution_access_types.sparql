@@ -1,35 +1,61 @@
 prefix schema: <https://schema.org/>
 
 # Count distributions by access type for a specific repo: landing page (url) vs direct access (contentUrl)
+# This version uses separate subqueries for better performance
 SELECT 
-  (COUNT(DISTINCT ?distWithLandingPage) as ?landingPageCount)
-  (COUNT(DISTINCT ?distWithDirectAccess) as ?directAccessCount)
-  (COUNT(DISTINCT ?distWithBoth) as ?bothCount)
-  (COUNT(DISTINCT ?distAny) as ?totalDistributions)
+  ?landingPageCount ?directAccessCount ?bothCount ?totalDistributions
 WHERE {
-  GRAPH ?g {
-    ?dataset a schema:Dataset .
-    ?dataset schema:distribution ?distAny .
-    
-    # Distributions with landing page (url)
-    OPTIONAL {
-      ?dataset schema:distribution ?distWithLandingPage .
-      ?distWithLandingPage schema:url ?url .
-    }
-    
-    # Distributions with direct access (contentUrl)
-    OPTIONAL {
-      ?dataset schema:distribution ?distWithDirectAccess .
-      ?distWithDirectAccess schema:contentUrl ?contentUrl .
-    }
-    
-    # Distributions with both
-    OPTIONAL {
-      ?dataset schema:distribution ?distWithBoth .
-      ?distWithBoth schema:url ?urlBoth .
-      ?distWithBoth schema:contentUrl ?contentUrlBoth .
+  # Count total distributions
+  {
+    SELECT (COUNT(DISTINCT ?dist) as ?totalDistributions)
+    WHERE {
+      GRAPH ?g {
+        ?dataset a schema:Dataset .
+        ?dataset schema:distribution ?dist .
+      }
+      FILTER( CONTAINS(str(?g), "${repo}") )
     }
   }
-  FILTER( CONTAINS(str(?g), "${repo}") )
+  
+  # Count distributions with landing page (url)
+  {
+    SELECT (COUNT(DISTINCT ?dist) as ?landingPageCount)
+    WHERE {
+      GRAPH ?g {
+        ?dataset a schema:Dataset .
+        ?dataset schema:distribution ?dist .
+        ?dist schema:url ?url .
+      }
+      FILTER( CONTAINS(str(?g), "${repo}") )
+    }
+  }
+  
+  # Count distributions with direct access (contentUrl)
+  {
+    SELECT (COUNT(DISTINCT ?dist) as ?directAccessCount)
+    WHERE {
+      GRAPH ?g {
+        ?dataset a schema:Dataset .
+        ?dataset schema:distribution ?dist .
+        ?dist schema:contentUrl ?contentUrl .
+      }
+      FILTER( CONTAINS(str(?g), "${repo}") )
+    }
+  }
+  
+  # Count distributions with both url and contentUrl
+  {
+    SELECT (COUNT(DISTINCT ?dist) as ?bothCount)
+    WHERE {
+      GRAPH ?g {
+        ?dataset a schema:Dataset .
+        ?dataset schema:distribution ?dist .
+        ?dist schema:url ?url .
+        ?dist schema:contentUrl ?contentUrl .
+      }
+      FILTER( CONTAINS(str(?g), "${repo}") )
+    }
+  }
 }
+
 

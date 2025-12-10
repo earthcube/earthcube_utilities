@@ -12,3 +12,4 @@ WHERE {
 GROUP BY ?distType
 ORDER BY DESC(?count)
 
+
