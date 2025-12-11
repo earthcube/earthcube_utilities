@@ -87,12 +87,25 @@ def generate_upload_webpage(s3Minio, s3bucket, data):
     creator = data.get('Creator')
     provider = data.get('Provider')
     publisher = data.get('Publisher')
-    keywords = data.get('Keywords')
+    box_lon_min = data.get('box_lon_min')
+    box_lon_max = data.get('box_lon_max')
+    box_lat_min = data.get('box_lat_min')
+    box_lat_max = data.get('box_lat_max')
+
+    # Safely handle missing keywords
+    raw_keywords = data.get('Keywords') or ""
     # split on semicolons, trim whitespace, and drop empty fragments
-    keywords_list = [kw.strip() for kw in keywords.split(';') if kw.strip()]
+    keywords_list = [kw.strip() for kw in raw_keywords.split(';') if kw.strip()]
+
+    # add group to keywords if present
+    if group:
+        keywords_list.append(group.strip())
+
+    # optional: de-duplicate while preserving order
+    keywords_list = list(dict.fromkeys(keywords_list))
 
     file_name = re.sub(r'[^A-Za-z0-9]+', '-', name.strip()).strip('-').lower()
-    file_path = f"https://{s3Minio.endpoint}/{s3bucket}/community_resources/geochemistry/{file_name}.jsonld"
+    file_path = f"https://{s3Minio.endpoint}/{s3bucket}/community_resources/earthsurface/{file_name}.jsonld"
 
     jsonld = {
         "@context": {
@@ -122,10 +135,21 @@ def generate_upload_webpage(s3Minio, s3bucket, data):
             "@type": "Organization",
             "name": publisher
         },
+        "spatialCoverage": {
+            "@type":
+                "Place",
+            "geo":
+                {
+                    "@type":
+                        "GeoShape",
+                    "box":
+                        f"{box_lat_min} {box_lon_min} {box_lat_max} {box_lon_max}"
+                }
+        },
         "version": 1
     }
 
-    s3Minio.putCommunityResourceFile(s3bucket, "geochemistry", f"{file_name}.jsonld", json.dumps(jsonld, indent=4))
+    s3Minio.putCommunityResourceFile(s3bucket, "earthsurface", f"{file_name}.jsonld", json.dumps(jsonld, indent=4))
 
     return file_path
 
@@ -140,7 +164,7 @@ def convert_gsheet_csv_to_sitemap(url_items, s3server, s3bucket):
     file_paths = generate_webpages(s3Minio, s3bucket, url_items)
     sitemap = generate_sitemap(url_items, file_paths)
     # upload the generated sitemap to s3 bucket
-    s3Minio.putSitemapFile(s3bucket, "geochemistry_sitemap.xml", sitemap)
+    s3Minio.putSitemapFile(s3bucket, "earthsurface_sitemap.xml", sitemap)
     return sitemap
 
 def start():

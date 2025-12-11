@@ -317,11 +317,8 @@ class MinioDatastore(bucketDatastore):
 
     def putSitemapFile(self, bucket, filename, json_str):
         path = f"{self.paths['sitemap']}/{filename}"
-        f = BytesIO()
-        length = f.write(bytes(json_str, 'utf-8'))
-        f.seek(0)
-        resp = self.s3client.put_object(bucket, path, f, length=length)
-        return resp.bucket_name, resp.object_name
+        s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
+        return self.putTextFileToStore(json_str, s3ObjectInfo)
 
     def putCommunityResourceFile(self, bucket, community, filename, json_str):
         path = f"{self.paths['community_resource']}/{community}/{filename}"
