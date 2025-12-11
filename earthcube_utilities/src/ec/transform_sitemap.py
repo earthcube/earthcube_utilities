@@ -149,7 +149,7 @@ def generate_upload_webpage(s3Minio, s3bucket, data):
         "version": 1
     }
 
-    s3Minio.putCommunityResourceFile(s3bucket, "earthsurface", f"{file_name}.jsonld", json.dumps(jsonld, indent=4))
+    s3Minio.putCommunityResourceFile(s3bucket, "geochemistry", f"{file_name}.jsonld", json.dumps(jsonld, indent=4))
 
     return file_path
 
@@ -164,7 +164,7 @@ def convert_gsheet_csv_to_sitemap(url_items, s3server, s3bucket):
     file_paths = generate_webpages(s3Minio, s3bucket, url_items)
     sitemap = generate_sitemap(url_items, file_paths)
     # upload the generated sitemap to s3 bucket
-    s3Minio.putSitemapFile(s3bucket, "earthsurface_sitemap.xml", sitemap)
+    s3Minio.putSitemapFile(s3bucket, "geochemistry_sitemap.xml", sitemap)
     return sitemap
 
 def start():
