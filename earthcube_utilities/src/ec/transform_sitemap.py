@@ -87,6 +87,9 @@ def generate_upload_webpage(s3Minio, s3bucket, data):
     creator = data.get('Creator')
     provider = data.get('Provider')
     publisher = data.get('Publisher')
+    start_date = data.get('Start Date')
+    end_date = data.get('End Date')
+    publication_date = data.get('Publication Date')
     box_lon_min = data.get('box_lon_min')
     box_lon_max = data.get('box_lon_max')
     box_lat_min = data.get('box_lat_min')
@@ -124,9 +127,11 @@ def generate_upload_webpage(s3Minio, s3bucket, data):
         },
         "description": description,
         "url": url,
-        "datePublished": "2010-01-01",
+        "datePublished": publication_date,
         "keywords": keywords_list,
         "name": name,
+        "start_datetime": start_date,
+        "end_datetime": end_date,
         "provider": {
             "@type": "Organization",
             "name": provider
@@ -149,7 +154,7 @@ def generate_upload_webpage(s3Minio, s3bucket, data):
         "version": 1
     }
 
-    s3Minio.putCommunityResourceFile(s3bucket, "geochemistry", f"{file_name}.jsonld", json.dumps(jsonld, indent=4))
+    s3Minio.putCommunityResourceFile(s3bucket, "earthsurface", f"{file_name}.jsonld", json.dumps(jsonld, indent=4))
 
     return file_path
 
