@@ -1,5 +1,0 @@
-SELECT ?g
-WHERE {
-  GRAPH ?g {
-  }
-}

@@ -45,6 +45,9 @@ dependencies=[
 "pydash",
 "advertools",
 "pandarallel",
+"boto3==1.30.0",
+"jinja2==3.1.2",
+"PyYAML==6.0.1",
     # pyoxigraph needs RUST... cannot use easily in docker hub builds
 #"pyoxigraph",
 #"oxrdflib"
@@ -74,12 +77,11 @@ missing_report = "ec.missing_report:start"
 summarize_identifier_metadata = "ec.summarize_identifier_metadata:start"
 ec_reports = "ec.ec_reports:start"
 bucketutil = "ec.bucketutil:start"
+qleverctl = "ec.graph.cli:main"
 
 [tool.setuptools]
-# If there are data files included in your packages that need to be
-# installed, specify them here.
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["earthcube_utilities/src"]
 [tool.setuptools.package-data]
 "*" = ["*.txt", "*.sparql"]
 #package-data = { "ec"=["graph/resources/sparql/*.sparql"]}

@@ -1,0 +1,41 @@
+# prototype tennants file
+
+# prototype tennants to get report from the prod sote
+# using all as community so we can retrive
+
+tenant:
+  - community: test
+    hostname: geocodes-dev
+    landing_introduction: An interdisciplinary [geoscience subfield] data and tool search engine. 2 or 3 more sentences to describe the website.
+    description:  This text will explain what the specific component/webpage is about, in a 2-3 sentence explanation. It may contain some bullet points. The description may contain any outside links.
+    name: Geocodes Science on Schema
+    color: "#660000"
+    url: https://www.earthcube.org
+    logo: https://storage.googleapis.com/kaggle-datasets-images/180285/405369/be611f54205eff89100cd3f79172c9ab/dataset-cover.jpg?t=2019-05-02-02-32-11
+    graph:
+      main_namespace: test
+      summary_namespace: test_summary
+    sources:
+      - all
+  - community: geocodesproduction
+    hostname: geocodesproduction
+    landing_introduction: An interdisciplinary [geoscience subfield] data and tool search engine. 2 or 3 more sentences to describe the website.
+    description: GeoCodes is...
+    name: Geocodes Science on Schema
+    color: "#660000"
+    url: https://www.earthcube.org
+    logo: https://storage.googleapis.com/kaggle-datasets-images/180285/405369/be611f54205eff89100cd3f79172c9ab/dataset-cover.jpg?t=2019-05-02-02-32-11
+    graph:
+      main_namespace: geocodes
+      summary_namespace: geocodes_summary
+    sources:
+      - bcodmo
+      - hydroshare
+      - iedadata
+      - unavco
+      - linkedearth
+      - magic
+      - earthchem
+      - r2r
+      - usapdc
+
