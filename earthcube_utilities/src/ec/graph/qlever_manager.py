@@ -370,30 +370,51 @@ class PortainerClient:
 
         Returns:
             Dict with config information including the actual created name
+
+        Raises:
+            ValueError: If config name would exceed Docker's 64-character limit
         """
+        # Check name length (leave buffer for version suffix)
+        if len(name) > 60:
+            raise ValueError(f"Config name too long (>60 chars, exceeds Docker limit): {name}")
+
         existing = self.find_config(name)
 
         if existing:
             # Config exists, create new version
-            # Extract version number if it exists
-            version_match = re.search(r'-v(\d+)$', name)
+            # Extract version number if it exists (match the LAST -vN pattern)
+            version_match = re.search(r'-v(\d+)(?!.*-v\d)', name)
             if version_match:
-                version = int(version_match.group(1)) + 1
-                base_name = re.sub(r'-v\d+$', '', name)
-                new_name = f"{base_name}-v{version}"
+                current_version = int(version_match.group(1))
+                new_version = current_version + 1
+                # Replace the version number in the name
+                new_name = re.sub(r'-v\d+(?!.*-v\d)', f'-v{new_version}', name)
             else:
+                # No version yet, add -v2
                 new_name = f"{name}-v2"
 
-            logger.info(f"Config {name} exists, creating new version: {new_name}")
-            result = self.create_config(new_name, content)
-            result["_versioned_name"] = new_name
-            return result
+            # Recursively check if new version already exists (shouldn't happen in practice)
+            if self.find_config(new_name):
+                logger.info(f"Version {new_name} already exists, trying next version")
+                # Try to find the highest existing version
+                configs = self.list_configs()
+                versions = []
+                for c in configs:
+                    match = re.search(rf'^{re.escape(name)}-v(\d+)$', c.get('Name', ''))
+                    if match:
+                        versions.append(int(match.group(1)))
+                if versions:
+                    highest = max(versions)
+                    new_name = f"{name}-v{highest + 1}"
+                else:
+                    new_name = f"{name}-v2"
+
+            logger.info(f"Creating new config version: {new_name}")
+            return self.create_config(new_name, content, labels={"version": "new"})
         else:
-            # Create new config
+            # Config doesn't exist, create initial version
             logger.info(f"Creating new config: {name}")
-            result = self.create_config(name, content)
-            result["_versioned_name"] = name
-            return result
+            return self.create_config(name, content)
 
 
 def generate_for_tenant(
