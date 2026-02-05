@@ -1,5 +1,6 @@
-"""qLever manager for ec.graph package — moved copy under earthcube_utilities/src.
-This is a copy of src/ec/graph/qlever_manager.py to satisfy the requested package location.
+"""qLever manager for ec.graph package — full implementation.
+
+This implementation uses the project's MinioDatastore for S3 access (ec.datastore.s3.MinioDatastore).
 """
 from __future__ import annotations
 import os
@@ -102,7 +103,6 @@ def _get_minio_datastore() -> MinioDatastore:
         return _MINIO_DATASTORE
     if MinioDatastore is None:
         raise RuntimeError("MinioDatastore wrapper not available")
-    import os
     endpoint = os.environ.get('MINIO_ENDPOINT') or os.environ.get('S3_ENDPOINT') or 'localhost:9000'
     access = os.environ.get('MINIO_ACCESS_KEY')
     secret = os.environ.get('MINIO_SECRET_KEY')
@@ -250,66 +250,6 @@ class PortainerClient:
             return r.json()
         except Exception:
             return {"status": r.status_code}
-
-
-def generate_for_tenant(
-    tenant_path: str,
-    gleanerconfig_path: Optional[str],
-    base_release_url: Optional[str],
-    s3_release_prefix: Optional[str],
-    templates: Dict[str, str],
-    out_base: str = "build/qlever_generated",
-) -> Dict[str, Dict[str, str]]:
-    tenant_yaml = None
-    if is_s3_path(tenant_path):
-        tenant_yaml = yaml.safe_load(load_text_from_s3(tenant_path))
-    elif tenant_path.startswith("http://") or tenant_path.startswith("https://"):
-        tenant_yaml = yaml.safe_load(load_text_from_url(tenant_path))
-    else:
-        with open(tenant_path, "r", encoding="utf-8") as fh:
-            tenant_yaml = yaml.safe_load(fh)
-
-    gleaner_yaml = None
-    if gleanerconfig_path:
-        if is_s3_path(gleanerconfig_path):
-            gleaner_yaml = yaml.safe_load(load_text_from_s3(gleanerconfig_path))
-        elif gleanerconfig_path.startswith("http"):
-            gleaner_yaml = yaml.safe_load(load_text_from_url(gleanerconfig_path))
-        else:
-            with open(gleanerconfig_path, "r", encoding="utf-8") as fh:
-                gleaner_yaml = yaml.safe_load(fh)
-
-    communities = resolve_community_sources(tenant_yaml or {}, gleaner_yaml or {})
-
-    out = {}
-
-    for community, sources in communities.items():
-        release_urls = []
-        for src in sources:
-            if s3_release_prefix:
-                all_releases = list_release_files_in_s3(s3_release_prefix)
-                match = [r for r in all_releases if f"/{src}_release" in r or r.endswith(f"{src}_release.nq")]
-                if match:
-                    release_urls.extend(match)
-                else:
-                    logger.warning("No S3 release found for source %s under prefix %s", src, s3_release_prefix)
-            elif base_release_url:
-                fn = f"{src}_release.nq"
-                url = base_release_url.rstrip("/") + "/" + fn
-                release_urls.append(url)
-            else:
-                logger.warning("No release source provided for %s; skipping %s", community, src)
-
-        out_dir = os.path.join(out_base, community)
-        generated = render_qleverfile_for_community(
-            community=community,
-            release_urls=release_urls,
-            template_facetsearch_path=templates["facet"],
-            template_ui_path=templates["ui"],
-            out_dir=out_dir,
-        )
-        out[community] = generated
-    return out
 
 
 __all__ = ["generate_for_tenant", "PortainerClient"]
