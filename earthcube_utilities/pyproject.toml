@@ -1,6 +1,7 @@
 [project]
 name = "earthcube_utilities"
 version = "0.1.31"
+requires-python = ">=3.11"
 #dynamic = ["dependencies"]
 description = "A package of utilities for NSF Earthcube Geocodes Project"
 readme =  "README.md"
@@ -45,7 +46,6 @@ dependencies=[
 "pydash",
 "advertools",
 "pandarallel",
-"boto3==1.30.0",
 "jinja2==3.1.2",
 "PyYAML==6.0.1",
     # pyoxigraph needs RUST... cannot use easily in docker hub builds
@@ -81,7 +81,7 @@ qleverctl = "ec.graph.cli:main"
 
 [tool.setuptools]
 [tool.setuptools.packages.find]
-where = ["earthcube_utilities/src"]
+where = ["./src"]
 [tool.setuptools.package-data]
 "*" = ["*.txt", "*.sparql"]
 #package-data = { "ec"=["graph/resources/sparql/*.sparql"]}
