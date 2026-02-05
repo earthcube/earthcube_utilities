@@ -7,7 +7,7 @@
 
 [data]
 NAME              = {{ community }}
- SOURCES           = geocodes_examples geocodes_demo_datasets iris magic earthchem r2r opentopography iedadata wifire cchdo ssdbiodp osmc obis wodb emodnet
+ SOURCES           = {{ sources }}
  BASE_URL          = https://oss.geocodes-aws.earthcube.org/decoder/graphs/latest
  GET_DATA_CMD      = for source in ${SOURCES}; do curl -sLo $${source}_release.nq -C - ${BASE_URL}/$${source}_release.nq; done
  DESCRIPTION       = eco ${NAME} ${BASE_URL}
