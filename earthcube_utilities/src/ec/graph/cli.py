@@ -144,6 +144,7 @@ def _handle_generate(args) -> int:
             s3_release_prefix=args.s3_release_prefix,
             templates=templates,
             out_base=args.out,
+            base_url=getattr(args, "base_url", None) or args.base_release,
         )
         print("Generated files:")
         for c, paths in out.items():
@@ -154,6 +155,18 @@ def _handle_generate(args) -> int:
     except Exception as e:
         logging.error(f"Failed to generate: {e}")
         return 1
+
+
+def _derive_base_url(config_base: str) -> str:
+    """Derive base_url from config_base by stripping the scheduler path.
+
+    E.g. https://oss.geocodes-aws.earthcube.org/decoder/scheduler/configs/production
+      -> https://oss.geocodes-aws.earthcube.org/decoder
+    """
+    idx = config_base.find("/scheduler/")
+    if idx != -1:
+        return config_base[:idx].rstrip("/")
+    return config_base.rstrip("/")
 
 
 def _handle_generate_from_location(args) -> int:
@@ -168,6 +181,10 @@ def _handle_generate_from_location(args) -> int:
     try:
         _validate_template_files(args.facet_template, args.ui_template)
 
+        base_url = getattr(args, "base_url", None) or args.base_release
+        if not base_url and args.config_base:
+            base_url = _derive_base_url(args.config_base)
+
         templates = {"facet": args.facet_template, "ui": args.ui_template}
         out = generate_from_location(
             config_base=args.config_base,
@@ -176,6 +193,7 @@ def _handle_generate_from_location(args) -> int:
             out_base=args.out,
             base_release_url=args.base_release,
             s3_release_prefix=args.s3_release_prefix,
+            base_url=base_url,
         )
         print("Generated files:")
         for c, paths in out.items():
@@ -280,25 +298,36 @@ def _handle_portainer_restart(args) -> int:
         return 1
 
 
-def _build_stack_env(slug: str, env_file: Optional[str], qlever_net: Optional[str] = None) -> List[dict]:
+def _build_stack_env(slug: str, env_file: Optional[str], qlever_net: Optional[str] = None, host: Optional[str] = None) -> List[dict]:
     """Build the environment variable list for a stack deployment.
 
-    QLEVER_NET is resolved from (highest priority first):
-      1. --qlever-net CLI flag
-      2. QLEVER_NET in the --env-file
-      3. Not set (omitted from the env list)
+    Resolution order (highest priority first):
+      1. CLI flags (--host, --qlever-net)
+      2. Values from --env-file
+      3. Values from .env (loaded into os.environ via dotenv)
     """
-    env_vars = load_env_vars(env_file)
-    env_dict = {e["name"]: e["value"] for e in env_vars}
+    # Start with relevant vars from .env / os.environ as the base layer
+    _dotenv_keys = ("HOST", "QLEVER_NET", "PROJECT", "QLEVER_CONFIG", "QLEVER_CONFIG_UI", "QLEVER_VOL")
+    env_dict: dict[str, str] = {}
+    for key in _dotenv_keys:
+        val = os.environ.get(key)
+        if val:
+            env_dict[key] = val
 
-    # Defaults derived from community slug
+    # Override with --env-file values (middle priority)
+    env_vars = load_env_vars(env_file)
+    for e in env_vars:
+        env_dict[e["name"]] = e["value"]
+
+    # Defaults derived from community slug (only if not set by either layer)
     for key in ("PROJECT", "QLEVER_CONFIG", "QLEVER_CONFIG_UI", "QLEVER_VOL"):
         env_dict.setdefault(key, slug)
 
-    # QLEVER_NET: CLI flag > env-file > omit
+    # CLI flags override everything
     if qlever_net:
         env_dict["QLEVER_NET"] = qlever_net
-    # If env-file already set it, env_dict already has it; otherwise we don't add a default.
+    if host:
+        env_dict["HOST"] = host
 
     return [{"name": k, "value": v} for k, v in env_dict.items()]
 
@@ -344,7 +373,7 @@ def _handle_portainer_deploy(args) -> int:
             compose_content = f.read()
 
         # Build environment variables
-        final_env = _build_stack_env(slug, args.env_file, getattr(args, "qlever_net", None))
+        final_env = _build_stack_env(slug, args.env_file, getattr(args, "qlever_net", None), getattr(args, "host", None))
 
         if getattr(args, "dry_run", False):
             print(f"[dry-run] Would upload config: {config_name}")
@@ -429,7 +458,8 @@ def _handle_portainer_update(args) -> int:
             compose_content = f.read()
 
         # Build environment variables
-        final_env = _build_stack_env(slug, args.env_file, getattr(args, "qlever_net", None))
+
+        final_env = _build_stack_env(slug, args.env_file, getattr(args, "qlever_net", None), getattr(args, "host", None))
 
         if getattr(args, "dry_run", False):
             print(f"[dry-run] Would update config: {config_name}")
@@ -504,6 +534,10 @@ def _handle_deploy_from_tenant(args) -> int:
         _validate_template_files(args.facet_template, args.ui_template)
 
         # Generate configs
+        base_url = getattr(args, "base_url", None) or args.base_release
+        if not base_url and args.config_base:
+            base_url = _derive_base_url(args.config_base)
+
         templates = {"facet": args.facet_template, "ui": args.ui_template}
         print("Generating Qleverfiles...")
         out = generate_from_location(
@@ -513,6 +547,7 @@ def _handle_deploy_from_tenant(args) -> int:
             out_base=args.out,
             base_release_url=args.base_release,
             s3_release_prefix=args.s3_release_prefix,
+            base_url=base_url,
         )
         print(f"Generated configs for {len(out)} communities")
 
@@ -565,7 +600,7 @@ def _handle_deploy_from_tenant(args) -> int:
                 with open(args.compose_file, "r", encoding="utf-8") as f:
                     compose_content = f.read()
 
-                final_env = _build_stack_env(slug, args.env_file, getattr(args, "qlever_net", None))
+                final_env = _build_stack_env(slug, args.env_file, getattr(args, "qlever_net", None), getattr(args, "host", None))
 
                 print(f"  Deploying stack: {stack_name}")
                 client.create_or_update_stack(
@@ -601,6 +636,7 @@ def main(argv=None):
     gen.add_argument("--tenant", required=True, help="path to tenant.yaml (s3:// or http(s) or local file)")
     gen.add_argument("--gleaner", help="path to gleanerconfig.yaml")
     gen.add_argument("--base-release", help="base http URL for releases")
+    gen.add_argument("--base-url", help="base URL written into the Qleverfile BASE_URL (defaults to --base-release)")
     gen.add_argument("--s3-release-prefix", help="s3://bucket/prefix to list release files")
     gen.add_argument("--facet-template", default="earthcube_utilities/resources/qlever/catalogues/data-example/QLeverfile.facetsearch")
     gen.add_argument("--ui-template", default="earthcube_utilities/resources/qlever/catalogues/data-example/QLeverfile-ui-example.yml")
@@ -610,6 +646,7 @@ def main(argv=None):
     gfl.add_argument("--config-base", required=True, help="base location (dir, http(s) or s3://) containing tenant.yaml and gleanerconfig.yaml or a folder of config_name")
     gfl.add_argument("--config-name", help="optional subfolder name under config-base where tenant.yaml and gleanerconfig.yaml live")
     gfl.add_argument("--base-release", help="base http URL for releases")
+    gfl.add_argument("--base-url", help="base URL written into the Qleverfile BASE_URL (defaults to --base-release)")
     gfl.add_argument("--s3-release-prefix", help="s3://bucket/prefix to list release files")
     gfl.add_argument("--facet-template", default="earthcube_utilities/resources/qlever/catalogues/data-example/QLeverfile.facetsearch")
     gfl.add_argument("--ui-template", default="earthcube_utilities/resources/qlever/catalogues/data-example/QLeverfile-ui-example.yml")
@@ -640,6 +677,7 @@ def main(argv=None):
     pcreate.add_argument("--compose-file", default="earthcube_utilities/resources/qlever/deployment/qlever_namespace.yaml", help="Path to docker-compose template")
     pcreate.add_argument("--env-file", help="Optional .env file with environment variables")
     pcreate.add_argument("--qlever-net", help="Docker network name for the qLever stack (default: from env-file)")
+    pcreate.add_argument("--host", help="Hostname for the qLever stack (default: from env-file)")
     pcreate.add_argument("--endpoint-id", type=int, default=None, help="Portainer endpoint ID")
     pcreate.add_argument("--dry-run", action="store_true", help="Show what would be deployed without making API calls")
     pcreate.add_argument("--confirm", action="store_true", help="Skip interactive confirmation prompt")
@@ -653,6 +691,7 @@ def main(argv=None):
     pupdate.add_argument("--compose-file", default="earthcube_utilities/resources/qlever/deployment/qlever_namespace.yaml", help="Path to docker-compose template")
     pupdate.add_argument("--env-file", help="Optional .env file with environment variables")
     pupdate.add_argument("--qlever-net", help="Docker network name for the qLever stack (default: from env-file)")
+    pupdate.add_argument("--host", help="Hostname for the qLever stack (default: from env-file)")
     pupdate.add_argument("--restart", action="store_true", help="Restart stack after update")
     pupdate.add_argument("--endpoint-id", type=int, default=None, help="Portainer endpoint ID")
     pupdate.add_argument("--dry-run", action="store_true", help="Show what would be updated without making API calls")
@@ -669,6 +708,7 @@ def main(argv=None):
     deploy_tenant.add_argument("--config-base", required=True, help="Base location containing tenant.yaml and gleanerconfig.yaml")
     deploy_tenant.add_argument("--config-name", help="Optional subfolder name under config-base")
     deploy_tenant.add_argument("--base-release", help="Base http URL for releases")
+    deploy_tenant.add_argument("--base-url", help="base URL written into the Qleverfile BASE_URL (defaults to --base-release)")
     deploy_tenant.add_argument("--s3-release-prefix", help="s3://bucket/prefix to list release files")
     deploy_tenant.add_argument("--facet-template", default="earthcube_utilities/resources/qlever/catalogues/data-example/QLeverfile.facetsearch")
     deploy_tenant.add_argument("--ui-template", default="earthcube_utilities/resources/qlever/catalogues/data-example/QLeverfile-ui-example.yml")
@@ -677,6 +717,7 @@ def main(argv=None):
     deploy_tenant.add_argument("--stack-prefix", help="Optional prefix for stack names")
     deploy_tenant.add_argument("--env-file", help="Optional .env file")
     deploy_tenant.add_argument("--qlever-net", help="Docker network name for the qLever stack (default: from env-file)")
+    deploy_tenant.add_argument("--host", help="Hostname for the qLever stack (default: from env-file)")
     deploy_tenant.add_argument("--dry-run", action="store_true", help="Generate configs but don't deploy")
     deploy_tenant.add_argument("--confirm", action="store_true", help="Skip interactive confirmation prompt")
     deploy_tenant.add_argument("--endpoint-id", type=int,default=None, help="Portainer endpoint ID")

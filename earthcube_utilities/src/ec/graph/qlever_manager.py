@@ -74,22 +74,65 @@ def load_yaml(path_or_url: str) -> Dict:
     return yaml.safe_load(text)
 
 
+def _parse_s3_http_url(url: str) -> Tuple[str, str, str, bool]:
+    """Parse an HTTP(S) URL pointing to an S3-compatible store.
+
+    E.g. https://oss.geocodes-aws.earthcube.org/decoder/graphs/latest
+      -> endpoint='oss.geocodes-aws.earthcube.org', bucket='decoder', prefix='graphs/latest', secure=True
+
+    Returns:
+        (endpoint, bucket, prefix, secure)
+    """
+    from urllib.parse import urlparse
+    parsed = urlparse(url)
+    secure = parsed.scheme == "https"
+    endpoint = parsed.hostname or ""
+    if parsed.port:
+        endpoint = f"{endpoint}:{parsed.port}"
+    # Path: /decoder/graphs/latest -> ['decoder', 'graphs', 'latest']
+    path_parts = [p for p in parsed.path.split("/") if p]
+    bucket = path_parts[0] if path_parts else ""
+    prefix = "/".join(path_parts[1:]) if len(path_parts) > 1 else ""
+    return endpoint, bucket, prefix, secure
+
+
 def list_release_files_in_s3(prefix_or_bucket: str, maybe_prefix: Optional[str] = None) -> List[str]:
     if MinioDatastore is None:
         raise RuntimeError("MinioDatastore is required for S3 listing but is not available")
-    if is_s3_path(prefix_or_bucket):
+
+    http_base_url = None
+
+    if prefix_or_bucket.startswith("http://") or prefix_or_bucket.startswith("https://"):
+        # HTTP URL to an S3-compatible store — parse endpoint/bucket/prefix from the URL
+        endpoint, bucket, prefix, secure = _parse_s3_http_url(prefix_or_bucket)
+        scheme = "https" if secure else "http"
+        http_base_url = f"{scheme}://{endpoint}/{bucket}"
+        # Build a dedicated MinIO client for this endpoint
+        import os
+        access = os.environ.get('MINIO_ACCESS_KEY')
+        secret = os.environ.get('MINIO_SECRET_KEY')
+        opts: dict = {"secure": secure}
+        if access and secret:
+            opts["access_key"] = access
+            opts["secret_key"] = secret
+        ds = MinioDatastore(endpoint, options=opts)
+    elif is_s3_path(prefix_or_bucket):
         bucket, prefix = parse_s3_path(prefix_or_bucket)
+        ds = _get_minio_datastore()
     else:
         bucket = prefix_or_bucket
         prefix = maybe_prefix or ""
+        ds = _get_minio_datastore()
 
-    ds = _get_minio_datastore()
     objs = ds.listPath(bucket, prefix)
     results = []
     for o in objs:
         key = getattr(o, 'object_name', None) or getattr(o, 'object', None) or str(o)
         if key.endswith("_release.nq") or key.endswith("_release.nq.gz"):
-            results.append(f"s3://{bucket}/{key}")
+            if http_base_url:
+                results.append(f"{http_base_url}/{key}")
+            else:
+                results.append(f"s3://{bucket}/{key}")
     return results
 
 
@@ -124,8 +167,14 @@ def _get_minio_datastore() -> MinioDatastore:
     return _MINIO_DATASTORE
 
 
-def resolve_community_sources(tenant_yaml: Dict, gleaner_yaml: Dict) -> Dict[str, List[str]]:
+def resolve_community_sources(tenant_yaml: Dict, gleaner_yaml: Dict) -> Tuple[Dict[str, List[str]], set]:
+    """Resolve community source lists from tenant and gleaner configs.
+
+    Returns:
+        (communities dict, set of community names that used '-all')
+    """
     communities = {}
+    uses_all: set = set()
     gleaner_sources = [s for s in gleaner_yaml.get("sources", []) if s.get("active")]
     active_names = [s.get("name") for s in gleaner_sources if s.get("name")]
 
@@ -149,6 +198,7 @@ def resolve_community_sources(tenant_yaml: Dict, gleaner_yaml: Dict) -> Dict[str
             norm_low = norm.lower()
             if norm_low == "all":
                 resolved.extend(active_names)
+                uses_all.add(community)
             else:
                 resolved.append(norm)
         # deduplicate while keeping order
@@ -159,7 +209,7 @@ def resolve_community_sources(tenant_yaml: Dict, gleaner_yaml: Dict) -> Dict[str
                 dedup.append(name)
                 seen.add(name)
         communities[community] = dedup
-    return communities
+    return communities, uses_all
 
 
 def render_qleverfile_for_community(
@@ -169,6 +219,7 @@ def render_qleverfile_for_community(
     template_ui_path: str,
     out_dir: str,
     source_names: Optional[List[str]] = None,
+    base_url: Optional[str] = None,
 ) -> Dict[str, str]:
     os.makedirs(out_dir, exist_ok=True)
 
@@ -197,7 +248,8 @@ def render_qleverfile_for_community(
         "community": community,
         "slug": slug,
         "release_urls": release_urls,
-        "sources": sources_str  # space-separated string for SOURCES variable
+        "sources": sources_str,  # space-separated string for SOURCES variable
+        "base_url": (base_url or "").rstrip("/"),
     }
     try:
         facet_tpl = Template(facet_base)
@@ -540,6 +592,7 @@ def generate_for_tenant(
     s3_release_prefix: Optional[str],
     templates: Dict[str, str],
     out_base: str = "build/qlever_generated",
+    base_url: Optional[str] = None,
 ) -> Dict[str, Dict[str, str]]:
     tenant_yaml = None
     if is_s3_path(tenant_path):
@@ -560,26 +613,37 @@ def generate_for_tenant(
             with open(gleanerconfig_path, "r", encoding="utf-8") as fh:
                 gleaner_yaml = yaml.safe_load(fh)
 
-    communities = resolve_community_sources(tenant_yaml or {}, gleaner_yaml or {})
+    communities, uses_all = resolve_community_sources(tenant_yaml or {}, gleaner_yaml or {})
 
     out = {}
 
+    # When using S3, list files once for communities that use '-all'
+    all_s3_releases: Optional[List[str]] = None
+    if s3_release_prefix and uses_all:
+        all_s3_releases = list_release_files_in_s3(s3_release_prefix)
+
     for community, sources in communities.items():
-        release_urls = []
-        for src in sources:
-            if s3_release_prefix:
-                all_releases = list_release_files_in_s3(s3_release_prefix)
-                match = [r for r in all_releases if f"/{src}_release" in r or r.endswith(f"{src}_release.nq")]
-                if match:
-                    release_urls.extend(match)
+        if community in uses_all and all_s3_releases is not None:
+            # Community uses '-all': S3 is the source of truth
+            release_urls = [r for r in all_s3_releases if r.endswith("_release.nq") or r.endswith("_release.nq.gz")]
+            # Derive source names from the actual filenames
+            source_names = []
+            for url in release_urls:
+                filename = url.split('/')[-1]
+                name = re.sub(r'_release\.nq(\.gz)?$', '', filename)
+                if name:
+                    source_names.append(name)
+        else:
+            # Community has explicit sources — use config as-is
+            release_urls = []
+            source_names = sources
+            for src in sources:
+                if base_release_url:
+                    fn = f"{src}_release.nq"
+                    url = base_release_url.rstrip("/") + "/" + fn
+                    release_urls.append(url)
                 else:
-                    logger.warning("No S3 release found for source %s under prefix %s", src, s3_release_prefix)
-            elif base_release_url:
-                fn = f"{src}_release.nq"
-                url = base_release_url.rstrip("/") + "/" + fn
-                release_urls.append(url)
-            else:
-                logger.warning("No release source provided for %s; skipping %s", community, src)
+                    logger.warning("No release source provided for %s; skipping %s", community, src)
 
         out_dir = os.path.join(out_base, community)
         generated = render_qleverfile_for_community(
@@ -588,7 +652,8 @@ def generate_for_tenant(
             template_facetsearch_path=templates["facet"],
             template_ui_path=templates["ui"],
             out_dir=out_dir,
-            source_names=sources,
+            source_names=source_names,
+            base_url=base_url or base_release_url,
         )
         # write a simple sources file for each community
         try:
@@ -610,6 +675,7 @@ def generate_from_location(
     out_base: str = "build/qlever_generated",
     base_release_url: Optional[str] = None,
     s3_release_prefix: Optional[str] = None,
+    base_url: Optional[str] = None,
 ) -> Dict[str, Dict[str, str]]:
     """Read tenant.yaml and gleanerconfig.yaml from a shared location and generate qlever files.
 
@@ -638,6 +704,7 @@ def generate_from_location(
         s3_release_prefix=s3_release_prefix,
         templates=templates,
         out_base=out_base,
+        base_url=base_url,
     )
 
 
