@@ -6,6 +6,7 @@ import logging.handlers
 import os
 import re
 import sys
+from typing import List, Optional
 from ec.graph.qlever_manager import (
     generate_for_tenant,
     generate_from_location,
@@ -57,6 +58,70 @@ def _validate_template_files(facet_path: str, ui_path: str) -> None:
     for name, path in [("facet", facet_path), ("ui", ui_path)]:
         if not os.path.exists(path):
             raise FileNotFoundError(f"Template file not found ({name}): {path}")
+
+
+def _confirm_action(action_description: str, confirm_flag: bool) -> bool:
+    """Check --confirm flag or prompt interactively before a destructive action."""
+    if confirm_flag:
+        return True
+    try:
+        answer = input(f"{action_description}\nProceed? [y/N] ").strip().lower()
+        return answer in ("y", "yes")
+    except (EOFError, KeyboardInterrupt):
+        print()
+        return False
+
+
+def _handle_push_configs(args) -> int:
+    """Upload Qleverfile and UI config to Portainer/Docker configs without deploying a stack.
+
+    Args:
+        args: Parsed command-line arguments
+
+    Returns:
+        Exit code (0 for success, 1 for error)
+    """
+    try:
+        slug = slugify(args.community)
+        qleverfile_path = os.path.join(args.config_dir, f"Qleverfile.{args.community}")
+        ui_config_path = os.path.join(args.config_dir, f"Qleverfile-ui-{args.community}.yml")
+
+        if not os.path.exists(qleverfile_path):
+            logging.error(f"Qleverfile not found: {qleverfile_path}")
+            return 1
+
+        with open(qleverfile_path, "r", encoding="utf-8") as f:
+            qleverfile_content = f.read()
+
+        ui_content = ""
+        if os.path.exists(ui_config_path):
+            with open(ui_config_path, "r", encoding="utf-8") as f:
+                ui_content = f.read()
+
+        config_name = f"qlever-config-{slug}"
+        ui_config_name = f"qlever-ui-{slug}"
+
+        if getattr(args, "dry_run", False):
+            print(f"[dry-run] Would upload config: {config_name} from {qleverfile_path}")
+            if ui_content:
+                print(f"[dry-run] Would upload UI config: {ui_config_name} from {ui_config_path}")
+            return 0
+
+        client = PortainerClient(args.portainer_url)
+
+        print(f"Uploading Qleverfile as config: {config_name}")
+        config_result = client.create_or_update_config(config_name, qleverfile_content)
+        print(f"  Config created: {config_result.get('_versioned_name', config_name)}")
+
+        if ui_content:
+            print(f"Uploading UI config: {ui_config_name}")
+            ui_result = client.create_or_update_config(ui_config_name, ui_content)
+            print(f"  UI config created: {ui_result.get('_versioned_name', ui_config_name)}")
+
+        return 0
+    except Exception as e:
+        logging.error(f"Failed to push configs: {_sanitize_token(str(e))}")
+        return 1
 
 
 def _handle_generate(args) -> int:
@@ -144,6 +209,39 @@ def _handle_portainer_list(args) -> int:
         return 1
 
 
+def _handle_list_configs(args) -> int:
+    """List all Docker configs in Portainer.
+
+    Args:
+        args: Parsed command-line arguments
+
+    Returns:
+        Exit code (0 for success, 1 for error)
+    """
+    try:
+        client = PortainerClient(args.portainer_url)
+        configs = client.list_configs()
+        print(f"Found {len(configs)} configs:")
+        for c in configs:
+            spec = c.get("Spec", {})
+            name = spec.get("Name") or c.get("Name", "<unknown>")
+            created = c.get("CreatedAt", "")
+            updated = c.get("UpdatedAt", "")
+            config_id = c.get("ID", "")
+            parts = [f"  {name}"]
+            if config_id:
+                parts.append(f"(ID: {config_id[:12]})")
+            if created:
+                parts.append(f"created={created[:19]}")
+            if updated and updated != created:
+                parts.append(f"updated={updated[:19]}")
+            print(" ".join(parts))
+        return 0
+    except Exception as e:
+        logging.error(f"Failed to list configs: {_sanitize_token(str(e))}")
+        return 1
+
+
 def _handle_portainer_restart(args) -> int:
     """Restart a Portainer stack.
 
@@ -166,6 +264,13 @@ def _handle_portainer_restart(args) -> int:
             logging.error(f"Stack found but has no ID: {args.stack_name}")
             return 1
 
+        if not _confirm_action(
+            f"Restart stack '{args.stack_name}' on {args.portainer_url}",
+            getattr(args, "confirm", False),
+        ):
+            print("Aborted.")
+            return 0
+
         print(f"Restarting stack: {args.stack_name}")
         client.restart_stack(stack_id, endpoint_id=args.endpoint_id)
         print("Stack restarted successfully")
@@ -173,6 +278,29 @@ def _handle_portainer_restart(args) -> int:
     except Exception as e:
         logging.error(f"Failed to restart stack: {_sanitize_token(str(e))}")
         return 1
+
+
+def _build_stack_env(slug: str, env_file: Optional[str], qlever_net: Optional[str] = None) -> List[dict]:
+    """Build the environment variable list for a stack deployment.
+
+    QLEVER_NET is resolved from (highest priority first):
+      1. --qlever-net CLI flag
+      2. QLEVER_NET in the --env-file
+      3. Not set (omitted from the env list)
+    """
+    env_vars = load_env_vars(env_file)
+    env_dict = {e["name"]: e["value"] for e in env_vars}
+
+    # Defaults derived from community slug
+    for key in ("PROJECT", "QLEVER_CONFIG", "QLEVER_CONFIG_UI", "QLEVER_VOL"):
+        env_dict.setdefault(key, slug)
+
+    # QLEVER_NET: CLI flag > env-file > omit
+    if qlever_net:
+        env_dict["QLEVER_NET"] = qlever_net
+    # If env-file already set it, env_dict already has it; otherwise we don't add a default.
+
+    return [{"name": k, "value": v} for k, v in env_dict.items()]
 
 
 def _handle_portainer_deploy(args) -> int:
@@ -186,8 +314,6 @@ def _handle_portainer_deploy(args) -> int:
     """
     try:
         _validate_template_files(args.compose_file, args.compose_file)
-
-        client = PortainerClient(args.portainer_url)
 
         # Read Qleverfiles
         qleverfile_path = os.path.join(args.config_dir, f"Qleverfile.{args.community}")
@@ -205,19 +331,9 @@ def _handle_portainer_deploy(args) -> int:
             with open(ui_config_path, "r", encoding="utf-8") as f:
                 ui_content = f.read()
 
-        # Upload configs to Portainer
         slug = slugify(args.community)
         config_name = f"qlever-config-{slug}"
         ui_config_name = f"qlever-ui-{slug}"
-
-        print(f"Uploading Qleverfile as config: {config_name}")
-        config_result = client.create_or_update_config(config_name, qleverfile_content)
-        print(f"  Config created: {config_result.get('_versioned_name', config_name)}")
-
-        if ui_content:
-            print(f"Uploading UI config: {ui_config_name}")
-            ui_result = client.create_or_update_config(ui_config_name, ui_content)
-            print(f"  UI config created: {ui_result.get('_versioned_name', ui_config_name)}")
 
         # Read docker-compose template
         if not os.path.exists(args.compose_file):
@@ -228,18 +344,34 @@ def _handle_portainer_deploy(args) -> int:
             compose_content = f.read()
 
         # Build environment variables
-        env_vars = load_env_vars(args.env_file)
-        default_envs = [
-            {"name": "PROJECT", "value": slug},
-            {"name": "QLEVER_CONFIG", "value": slug},
-            {"name": "QLEVER_CONFIG_UI", "value": slug},
-            {"name": "QLEVER_NET", "value": slug},
-            {"name": "QLEVER_VOL", "value": slug},
-        ]
-        env_dict = {e["name"]: e["value"] for e in default_envs}
-        for e in env_vars:
-            env_dict[e["name"]] = e["value"]
-        final_env = [{"name": k, "value": v} for k, v in env_dict.items()]
+        final_env = _build_stack_env(slug, args.env_file, getattr(args, "qlever_net", None))
+
+        if getattr(args, "dry_run", False):
+            print(f"[dry-run] Would upload config: {config_name}")
+            if ui_content:
+                print(f"[dry-run] Would upload UI config: {ui_config_name}")
+            print(f"[dry-run] Would deploy stack: {args.stack_name}")
+            print(f"[dry-run] Environment variables: {[e['name'] for e in final_env]}")
+            return 0
+
+        if not _confirm_action(
+            f"Deploy stack '{args.stack_name}' to {args.portainer_url}",
+            getattr(args, "confirm", False),
+        ):
+            print("Aborted.")
+            return 0
+
+        client = PortainerClient(args.portainer_url)
+
+        # Upload configs to Portainer
+        print(f"Uploading Qleverfile as config: {config_name}")
+        config_result = client.create_or_update_config(config_name, qleverfile_content)
+        print(f"  Config created: {config_result.get('_versioned_name', config_name)}")
+
+        if ui_content:
+            print(f"Uploading UI config: {ui_config_name}")
+            ui_result = client.create_or_update_config(ui_config_name, ui_content)
+            print(f"  UI config created: {ui_result.get('_versioned_name', ui_config_name)}")
 
         # Create or update stack
         print(f"Deploying stack: {args.stack_name}")
@@ -268,8 +400,6 @@ def _handle_portainer_update(args) -> int:
     try:
         _validate_template_files(args.compose_file, args.compose_file)
 
-        client = PortainerClient(args.portainer_url)
-
         # Read Qleverfiles
         qleverfile_path = os.path.join(args.config_dir, f"Qleverfile.{args.community}")
         ui_config_path = os.path.join(args.config_dir, f"Qleverfile-ui-{args.community}.yml")
@@ -286,19 +416,9 @@ def _handle_portainer_update(args) -> int:
             with open(ui_config_path, "r", encoding="utf-8") as f:
                 ui_content = f.read()
 
-        # Upload configs
         slug = slugify(args.community)
         config_name = f"qlever-config-{slug}"
         ui_config_name = f"qlever-ui-{slug}"
-
-        print(f"Updating Qleverfile config: {config_name}")
-        client.create_or_update_config(config_name, qleverfile_content)
-        print(f"  Config updated")
-
-        if ui_content:
-            print(f"Updating UI config: {ui_config_name}")
-            client.create_or_update_config(ui_config_name, ui_content)
-            print(f"  UI config updated")
 
         # Read docker-compose template
         if not os.path.exists(args.compose_file):
@@ -309,18 +429,35 @@ def _handle_portainer_update(args) -> int:
             compose_content = f.read()
 
         # Build environment variables
-        env_vars = load_env_vars(args.env_file)
-        default_envs = [
-            {"name": "PROJECT", "value": slug},
-            {"name": "QLEVER_CONFIG", "value": slug},
-            {"name": "QLEVER_CONFIG_UI", "value": slug},
-            {"name": "QLEVER_NET", "value": slug},
-            {"name": "QLEVER_VOL", "value": slug},
-        ]
-        env_dict = {e["name"]: e["value"] for e in default_envs}
-        for e in env_vars:
-            env_dict[e["name"]] = e["value"]
-        final_env = [{"name": k, "value": v} for k, v in env_dict.items()]
+        final_env = _build_stack_env(slug, args.env_file, getattr(args, "qlever_net", None))
+
+        if getattr(args, "dry_run", False):
+            print(f"[dry-run] Would update config: {config_name}")
+            if ui_content:
+                print(f"[dry-run] Would update UI config: {ui_config_name}")
+            print(f"[dry-run] Would update stack: {args.stack_name}")
+            if args.restart:
+                print(f"[dry-run] Would restart stack: {args.stack_name}")
+            return 0
+
+        if not _confirm_action(
+            f"Update stack '{args.stack_name}' on {args.portainer_url}",
+            getattr(args, "confirm", False),
+        ):
+            print("Aborted.")
+            return 0
+
+        client = PortainerClient(args.portainer_url)
+
+        # Upload configs
+        print(f"Updating Qleverfile config: {config_name}")
+        client.create_or_update_config(config_name, qleverfile_content)
+        print(f"  Config updated")
+
+        if ui_content:
+            print(f"Updating UI config: {ui_config_name}")
+            client.create_or_update_config(ui_config_name, ui_content)
+            print(f"  UI config updated")
 
         # Update stack
         print(f"Updating stack: {args.stack_name}")
@@ -387,6 +524,13 @@ def _handle_deploy_from_tenant(args) -> int:
             return 0
 
         # Deploy each community
+        if not _confirm_action(
+            f"Deploy {len(out)} community stacks to {args.portainer_url}",
+            getattr(args, "confirm", False),
+        ):
+            print("Aborted.")
+            return 0
+
         client = PortainerClient(args.portainer_url)
         for community in out.keys():
             stack_name = f"{args.stack_prefix or ''}{community}"
@@ -421,18 +565,7 @@ def _handle_deploy_from_tenant(args) -> int:
                 with open(args.compose_file, "r", encoding="utf-8") as f:
                     compose_content = f.read()
 
-                env_vars = load_env_vars(args.env_file)
-                default_envs = [
-                    {"name": "PROJECT", "value": slug},
-                    {"name": "QLEVER_CONFIG", "value": slug},
-                    {"name": "QLEVER_CONFIG_UI", "value": slug},
-                    {"name": "QLEVER_NET", "value": slug},
-                    {"name": "QLEVER_VOL", "value": slug},
-                ]
-                env_dict = {e["name"]: e["value"] for e in default_envs}
-                for e in env_vars:
-                    env_dict[e["name"]] = e["value"]
-                final_env = [{"name": k, "value": v} for k, v in env_dict.items()]
+                final_env = _build_stack_env(slug, args.env_file, getattr(args, "qlever_net", None))
 
                 print(f"  Deploying stack: {stack_name}")
                 client.create_or_update_stack(
@@ -454,6 +587,10 @@ def _handle_deploy_from_tenant(args) -> int:
 
 
 def main(argv=None):
+    # Load .env file if present (e.g. PORTAINER_TOKEN, MINIO_ACCESS_KEY)
+    from dotenv import load_dotenv
+    load_dotenv()
+
     # Setup logging to file and console
     _setup_logging()
 
@@ -478,32 +615,55 @@ def main(argv=None):
     gfl.add_argument("--ui-template", default="earthcube_utilities/resources/qlever/catalogues/data-example/QLeverfile-ui-example.yml")
     gfl.add_argument("--out", default="build/qlever_generated")
 
-    plist = sub.add_parser("portainer-list", help="List all Portainer stacks")
-    plist.add_argument("--portainer-url", required=True, help="Portainer API base URL")
+    _portainer_url_default = os.environ.get("PORTAINER_URL")
+    _portainer_url_help = "Portainer API base URL (e.g. https://<host>/api/endpoints/<ENV_ID>/docker/). Falls back to PORTAINER_URL env var."
 
-    prestart = sub.add_parser("portainer-restart", help="Restart a Portainer stack")
-    prestart.add_argument("--portainer-url", required=True, help="Portainer API base URL")
-    prestart.add_argument("--stack-name", required=True, help="Stack name to restart")
-    prestart.add_argument("--endpoint-id", type=int, default=1, help="Portainer endpoint ID")
+    plist = sub.add_parser("list-stacks", help="List all Portainer stacks")
+    plist.add_argument("--portainer-url", default=_portainer_url_default, help=_portainer_url_help)
 
-    pdeploy = sub.add_parser("portainer-deploy", help="Deploy Qleverfiles to Portainer as a Docker stack")
-    pdeploy.add_argument("--portainer-url", required=True, help="Portainer API base URL")
-    pdeploy.add_argument("--stack-name", required=True, help="Name for the Docker stack")
-    pdeploy.add_argument("--config-dir", required=True, help="Directory containing generated Qleverfiles")
-    pdeploy.add_argument("--community", required=True, help="Community name")
-    pdeploy.add_argument("--compose-file", default="earthcube_utilities/resources/qlever/deployment/qlever_namespace.yaml", help="Path to docker-compose template")
-    pdeploy.add_argument("--env-file", help="Optional .env file with environment variables")
-    pdeploy.add_argument("--endpoint-id", type=int, default=1, help="Portainer endpoint ID")
+    pclist = sub.add_parser("list-configs", help="List all Docker configs in Portainer")
+    pclist.add_argument("--portainer-url", default=_portainer_url_default, help=_portainer_url_help)
 
-    pupdate = sub.add_parser("portainer-update", help="Update an existing Portainer stack")
-    pupdate.add_argument("--portainer-url", required=True, help="Portainer API base URL")
+    # push-configs: upload Qleverfile/UI configs to Docker without deploying a stack
+    ppush = sub.add_parser("push-configs", help="Upload Qleverfile and UI config to Portainer/Docker configs")
+    ppush.add_argument("--portainer-url", default=_portainer_url_default, help=_portainer_url_help)
+    ppush.add_argument("--config-dir", required=True, help="Directory containing generated Qleverfiles")
+    ppush.add_argument("--community", required=True, help="Community name")
+    ppush.add_argument("--dry-run", action="store_true", help="Show what would be uploaded without making API calls")
+
+    # create-stack: create or update a Portainer stack
+    pcreate = sub.add_parser("create-stack", help="Create (or update) a Portainer stack for a community")
+    pcreate.add_argument("--portainer-url", default=_portainer_url_default, help=_portainer_url_help)
+    pcreate.add_argument("--stack-name", help="Name for the Docker stack (defaults to qlever-<community>)")
+    pcreate.add_argument("--config-dir", required=True, help="Directory containing generated Qleverfiles")
+    pcreate.add_argument("--community", required=True, help="Community name")
+    pcreate.add_argument("--compose-file", default="earthcube_utilities/resources/qlever/deployment/qlever_namespace.yaml", help="Path to docker-compose template")
+    pcreate.add_argument("--env-file", help="Optional .env file with environment variables")
+    pcreate.add_argument("--qlever-net", help="Docker network name for the qLever stack (default: from env-file)")
+    pcreate.add_argument("--endpoint-id", type=int, default=None, help="Portainer endpoint ID")
+    pcreate.add_argument("--dry-run", action="store_true", help="Show what would be deployed without making API calls")
+    pcreate.add_argument("--confirm", action="store_true", help="Skip interactive confirmation prompt")
+
+    # update-stack: update an existing stack
+    pupdate = sub.add_parser("update-stack", help="Update an existing Portainer stack")
+    pupdate.add_argument("--portainer-url", default=_portainer_url_default, help=_portainer_url_help)
     pupdate.add_argument("--stack-name", required=True, help="Stack name to update")
     pupdate.add_argument("--config-dir", required=True, help="Directory containing updated Qleverfiles")
     pupdate.add_argument("--community", required=True, help="Community name")
     pupdate.add_argument("--compose-file", default="earthcube_utilities/resources/qlever/deployment/qlever_namespace.yaml", help="Path to docker-compose template")
     pupdate.add_argument("--env-file", help="Optional .env file with environment variables")
+    pupdate.add_argument("--qlever-net", help="Docker network name for the qLever stack (default: from env-file)")
     pupdate.add_argument("--restart", action="store_true", help="Restart stack after update")
-    pupdate.add_argument("--endpoint-id", type=int, default=1, help="Portainer endpoint ID")
+    pupdate.add_argument("--endpoint-id", type=int, default=None, help="Portainer endpoint ID")
+    pupdate.add_argument("--dry-run", action="store_true", help="Show what would be updated without making API calls")
+    pupdate.add_argument("--confirm", action="store_true", help="Skip interactive confirmation prompt")
+
+    # restart-stack: restart a stack
+    prestart = sub.add_parser("restart-stack", help="Restart a Portainer stack")
+    prestart.add_argument("--portainer-url", default=_portainer_url_default, help=_portainer_url_help)
+    prestart.add_argument("--stack-name", required=True, help="Stack name to restart")
+    prestart.add_argument("--endpoint-id", type=int, default=None, help="Portainer endpoint ID")
+    prestart.add_argument("--confirm", action="store_true", help="Skip interactive confirmation prompt")
 
     deploy_tenant = sub.add_parser("deploy-from-tenant", help="Complete workflow from tenant.yaml to deployed Docker stacks")
     deploy_tenant.add_argument("--config-base", required=True, help="Base location containing tenant.yaml and gleanerconfig.yaml")
@@ -513,28 +673,41 @@ def main(argv=None):
     deploy_tenant.add_argument("--facet-template", default="earthcube_utilities/resources/qlever/catalogues/data-example/QLeverfile.facetsearch")
     deploy_tenant.add_argument("--ui-template", default="earthcube_utilities/resources/qlever/catalogues/data-example/QLeverfile-ui-example.yml")
     deploy_tenant.add_argument("--compose-file", default="earthcube_utilities/resources/qlever/deployment/qlever_namespace.yaml")
-    deploy_tenant.add_argument("--portainer-url", required=True, help="Portainer API base URL")
+    deploy_tenant.add_argument("--portainer-url", default=_portainer_url_default, help=_portainer_url_help)
     deploy_tenant.add_argument("--stack-prefix", help="Optional prefix for stack names")
     deploy_tenant.add_argument("--env-file", help="Optional .env file")
+    deploy_tenant.add_argument("--qlever-net", help="Docker network name for the qLever stack (default: from env-file)")
     deploy_tenant.add_argument("--dry-run", action="store_true", help="Generate configs but don't deploy")
-    deploy_tenant.add_argument("--endpoint-id", type=int, default=1, help="Portainer endpoint ID")
+    deploy_tenant.add_argument("--confirm", action="store_true", help="Skip interactive confirmation prompt")
+    deploy_tenant.add_argument("--endpoint-id", type=int,default=None, help="Portainer endpoint ID")
     deploy_tenant.add_argument("--out", default="build/qlever_generated")
 
     args = p.parse_args(argv)
+
+    # Validate --portainer-url for commands that require it
+    _needs_portainer = {"list-stacks", "list-configs", "push-configs", "create-stack", "update-stack", "restart-stack", "deploy-from-tenant"}
+    if args.cmd in _needs_portainer and not getattr(args, "portainer_url", None):
+        p.error("--portainer-url is required (or set PORTAINER_URL in environment / .env file)")
 
     # Dispatch to handler functions
     if args.cmd == "generate":
         return _handle_generate(args)
     elif args.cmd == "generate-from-location":
         return _handle_generate_from_location(args)
-    elif args.cmd == "portainer-list":
+    elif args.cmd == "list-stacks":
         return _handle_portainer_list(args)
-    elif args.cmd == "portainer-restart":
-        return _handle_portainer_restart(args)
-    elif args.cmd == "portainer-deploy":
+    elif args.cmd == "list-configs":
+        return _handle_list_configs(args)
+    elif args.cmd == "push-configs":
+        return _handle_push_configs(args)
+    elif args.cmd == "create-stack":
+        if not getattr(args, "stack_name", None):
+            args.stack_name = f"qlever-{slugify(args.community)}"
         return _handle_portainer_deploy(args)
-    elif args.cmd == "portainer-update":
+    elif args.cmd == "update-stack":
         return _handle_portainer_update(args)
+    elif args.cmd == "restart-stack":
+        return _handle_portainer_restart(args)
     elif args.cmd == "deploy-from-tenant":
         return _handle_deploy_from_tenant(args)
     else:

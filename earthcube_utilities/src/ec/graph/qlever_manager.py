@@ -3,7 +3,6 @@ This is a copy of src/ec/graph/qlever_manager.py to satisfy the requested packag
 """
 from __future__ import annotations
 import os
-import json
 import logging
 from typing import Dict, List, Optional, Tuple
 import re
@@ -52,14 +51,22 @@ def load_text_from_s3(s3_path: str) -> str:
     data = ds.getFileFromStore({"bucket_name": bucket, "object_name": key})
     # MinioDatastore.getFileFromStore returns bytes (minio get_object().data)
     if isinstance(data, bytes):
-        return data.decode("utf-8")
-    return str(data)
+        return _sanitize_yaml_text(data.decode("utf-8"))
+    return _sanitize_yaml_text(str(data))
+
+
+def _sanitize_yaml_text(text: str) -> str:
+    """Strip C1 control characters (U+0080-U+009F) that are invalid in YAML."""
+    cleaned = re.sub(r"[\x80-\x9f]", "", text)
+    if cleaned != text:
+        logger.warning("Stripped invalid C1 control characters from YAML input")
+    return cleaned
 
 
 def load_text_from_url(url: str) -> str:
     r = requests.get(url, timeout=30)
     r.raise_for_status()
-    return r.text
+    return _sanitize_yaml_text(r.text)
 
 
 def load_yaml(path_or_url: str) -> Dict:
@@ -161,6 +168,7 @@ def render_qleverfile_for_community(
     template_facetsearch_path: str,
     template_ui_path: str,
     out_dir: str,
+    source_names: Optional[List[str]] = None,
 ) -> Dict[str, str]:
     os.makedirs(out_dir, exist_ok=True)
 
@@ -172,17 +180,14 @@ def render_qleverfile_for_community(
     # Create a normalized slug for the community to use in filenames and UI slugs
     slug = slugify(community)
 
-    # Extract source names from release URLs
-    # From URL like "https://example.com/path/bcodmo_release.nq" → extract "bcodmo"
-    # From URL like "s3://bucket/path/hydroshare_release.nq.gz" → extract "hydroshare"
-    source_names = []
-    for url in release_urls:
-        # Get the filename from the URL
-        filename = url.split('/')[-1]
-        # Remove _release.nq or _release.nq.gz suffix
-        source_name = re.sub(r'_release\.nq(\.gz)?$', '', filename)
-        if source_name:
-            source_names.append(source_name)
+    # Use explicitly provided source names, or extract from release URLs as fallback
+    if not source_names:
+        source_names = []
+        for url in release_urls:
+            filename = url.split('/')[-1]
+            name = re.sub(r'_release\.nq(\.gz)?$', '', filename)
+            if name:
+                source_names.append(name)
 
     # Create space-separated string for SOURCES variable
     sources_str = ' '.join(source_names)
@@ -261,24 +266,59 @@ class PortainerClient:
     def __init__(self, base_url: str, token: Optional[str] = None, verify_ssl: bool = True):
         """Initialize Portainer client.
 
+        Authenticates to the Portainer API by exchanging an API key for a JWT
+        via POST /api/auth. The API key is read from the ``token`` parameter
+        or the ``PORTAINER_TOKEN`` environment variable.
+
+        The ``base_url`` can be either the Portainer root
+        (e.g. ``https://portainer.example.com``) or a full Docker endpoint URL
+        (e.g. ``https://portainer.example.com/api/endpoints/2/docker``).
+        If the URL contains ``/api/endpoints/<id>/docker``, the endpoint ID is
+        extracted automatically.
+
         Args:
-            base_url: Portainer API base URL
-            token: Portainer API token. If None, reads from PORTAINER_TOKEN environment variable.
+            base_url: Portainer URL (root or endpoint-specific)
+            token: Portainer API key. If None, reads from PORTAINER_TOKEN environment variable.
             verify_ssl: Whether to verify SSL certificates
         """
-        self.base_url = base_url.rstrip("/")
         self.session = requests.Session()
-
-        # Get token from parameter or environment variable
-        api_token = token or os.environ.get("PORTAINER_TOKEN")
-        if not api_token:
-            raise ValueError("Portainer token required. Provide via token parameter or PORTAINER_TOKEN environment variable.")
-
-        self.session.headers.update({"Authorization": f"Bearer {api_token}", "Accept": "application/json"})
         self.verify_ssl = verify_ssl
 
+        # Parse the URL: extract root and optional endpoint ID
+        url = base_url.rstrip("/")
+        ep_match = re.search(r'(/api/endpoints/(\d+)(/docker)?)', url)
+        if ep_match:
+            self._root = url[:ep_match.start()]
+            self._default_endpoint_id = int(ep_match.group(2))
+        else:
+            self._root = url
+            self._default_endpoint_id = 2
+
+        api_key = token or os.environ.get("PORTAINER_TOKEN")
+        if not api_key:
+            raise ValueError("Portainer API key required. Provide via token parameter or PORTAINER_TOKEN environment variable.")
+
+        self.session.headers.update({"X-API-Key": api_key, "Accept": "application/json"})
+
+    def _authenticate(self, api_key: str) -> str:
+        """Exchange an API key for a JWT via Portainer's /api/auth endpoint."""
+        url = f"{self._root}/api/auth"
+        payload = {"apiKey": api_key}
+        r = self.session.post(url, json=payload, verify=self.verify_ssl, timeout=30)
+        r.raise_for_status()
+        jwt = r.json().get("jwt")
+        if not jwt:
+            raise ValueError("Portainer /api/auth response did not contain a jwt")
+        logger.debug("Authenticated to Portainer successfully")
+        return jwt
+
+    def _docker_url(self, path: str, endpoint_id: Optional[int] = None) -> str:
+        """Build a Docker proxy URL: /api/endpoints/{id}/docker/{path}."""
+        eid = endpoint_id or self._default_endpoint_id
+        return f"{self._root}/api/endpoints/{eid}/docker/{path.lstrip('/')}"
+
     def list_stacks(self) -> List[Dict]:
-        url = f"{self.base_url}/api/stacks"
+        url = f"{self._root}/api/stacks"
         r = self.session.get(url, verify=self.verify_ssl, timeout=30)
         r.raise_for_status()
         return r.json()
@@ -290,20 +330,50 @@ class PortainerClient:
                 return s
         return None
 
-    def create_stack(self, name: str, stackfile_content: str, env: Optional[List[Dict]] = None, endpoint_id: int = 1) -> Dict:
-        url = f"{self.base_url}/api/stacks?endpointId={endpoint_id}&method=string"
-        form = {"Name": name, "StackFileContent": stackfile_content}
+    def get_swarm_id(self, endpoint_id: Optional[int] = None) -> Optional[str]:
+        """Get the Docker Swarm ID via GET /swarm. Returns None if not in swarm mode."""
+        url = self._docker_url("swarm", endpoint_id)
+        try:
+            r = self.session.get(url, verify=self.verify_ssl, timeout=30)
+            r.raise_for_status()
+            return r.json().get("ID")
+        except Exception:
+            logger.debug("Swarm not available on this endpoint")
+            return None
+
+    def create_stack(self, name: str, stackfile_content: str, env: Optional[List[Dict]] = None,
+                     endpoint_id: Optional[int] = None) -> Dict:
+        """Create a stack via Portainer.
+
+        Auto-detects whether the endpoint runs Docker Swarm. If so, uses the
+        swarm stack endpoint; otherwise uses standalone/compose.
+        """
+        eid = endpoint_id or self._default_endpoint_id
+        payload: Dict = {"name": name, "stackFileContent": stackfile_content}
         if env:
-            form["Env"] = json.dumps(env)
-        r = self.session.post(url, data=form, verify=self.verify_ssl, timeout=60)
+            payload["env"] = env
+
+        swarm_id = self.get_swarm_id(endpoint_id=eid)
+        if swarm_id:
+            payload["swarmID"] = swarm_id
+            url = f"{self._root}/api/stacks/create/swarm/string?endpointId={eid}"
+            logger.info("Creating swarm stack %s (swarm %s)", name, swarm_id)
+        else:
+            url = f"{self._root}/api/stacks/create/standalone/string?endpointId={eid}"
+            logger.info("Creating standalone stack %s", name)
+
+        r = self.session.post(url, json=payload, verify=self.verify_ssl, timeout=60)
         r.raise_for_status()
         return r.json()
 
-    def update_stack(self, stack_id: int, stackfile_content: str, env: Optional[List[Dict]] = None, endpoint_id: int = 1) -> Dict:
-        url = f"{self.base_url}/api/stacks/{stack_id}?endpointId={endpoint_id}"
-        payload = {"StackFileContent": stackfile_content}
+    def update_stack(self, stack_id: int, stackfile_content: str, env: Optional[List[Dict]] = None,
+                     endpoint_id: Optional[int] = None) -> Dict:
+        """Update a stack via PUT /api/stacks/{id}?endpointId=N."""
+        eid = endpoint_id or self._default_endpoint_id
+        url = f"{self._root}/api/stacks/{stack_id}?endpointId={eid}"
+        payload: Dict = {"stackFileContent": stackfile_content}
         if env is not None:
-            payload["Env"] = json.dumps(env) if not isinstance(env, str) else env
+            payload["env"] = env
         r = self.session.put(url, json=payload, verify=self.verify_ssl, timeout=60)
         r.raise_for_status()
         return r.json()
@@ -320,19 +390,53 @@ class PortainerClient:
             logger.info("Creating stack %s", name)
             return self.create_stack(name, stackfile_content, env=env, endpoint_id=endpoint_id)
 
-    def restart_stack(self, stack_id: int, endpoint_id: int = 1) -> Dict:
-        url = f"{self.base_url}/api/stacks/{stack_id}/deploy?endpointId={endpoint_id}"
+    def stop_stack(self, stack_id: int, endpoint_id: Optional[int] = None) -> Dict:
+        """Stop a stack via POST /api/stacks/{id}/stop?endpointId=N."""
+        eid = endpoint_id or self._default_endpoint_id
+        url = f"{self._root}/api/stacks/{stack_id}/stop?endpointId={eid}"
         r = self.session.post(url, verify=self.verify_ssl, timeout=60)
-        if r.status_code not in (200, 204):
-            r.raise_for_status()
+        r.raise_for_status()
         try:
             return r.json()
         except Exception:
             return {"status": r.status_code}
 
-    def list_configs(self) -> List[Dict]:
-        """List all Docker configs in Portainer."""
-        url = f"{self.base_url}/api/docker/configs"
+    def start_stack(self, stack_id: int, endpoint_id: Optional[int] = None) -> Dict:
+        """Start a stack via POST /api/stacks/{id}/start?endpointId=N."""
+        eid = endpoint_id or self._default_endpoint_id
+        url = f"{self._root}/api/stacks/{stack_id}/start?endpointId={eid}"
+        r = self.session.post(url, verify=self.verify_ssl, timeout=60)
+        r.raise_for_status()
+        try:
+            return r.json()
+        except Exception:
+            return {"status": r.status_code}
+
+    def restart_stack(self, stack_id: int, endpoint_id: Optional[int] = None) -> Dict:
+        """Restart a stack by stopping then starting it."""
+        eid = endpoint_id or self._default_endpoint_id
+        try:
+            self.stop_stack(stack_id, endpoint_id=eid)
+        except Exception:
+            logger.debug("Stop failed (stack may already be stopped), proceeding with start")
+        return self.start_stack(stack_id, endpoint_id=eid)
+
+    def _set_resource_admin_ownership(self, rc_id: int) -> None:
+        """Update a Portainer resource control to Administrators ownership."""
+        url = f"{self._root}/api/resource_controls/{rc_id}"
+        payload = {
+            "administratorsOnly": False,
+            "public": True,
+            "users": [],
+            "teams": [],
+        }
+        r = self.session.put(url, json=payload, verify=self.verify_ssl, timeout=30)
+        r.raise_for_status()
+        logger.info("Set resource control %d ownership to Administrators", rc_id)
+
+    def list_configs(self, endpoint_id: Optional[int] = None) -> List[Dict]:
+        """List all Docker configs via the Portainer Docker proxy."""
+        url = self._docker_url("configs", endpoint_id)
         r = self.session.get(url, verify=self.verify_ssl, timeout=30)
         r.raise_for_status()
         return r.json()
@@ -341,22 +445,34 @@ class PortainerClient:
         """Find a Docker config by name."""
         configs = self.list_configs()
         for c in configs:
-            if c.get("Name") == name:
+            spec = c.get("Spec", {})
+            if spec.get("Name") == name or c.get("Name") == name:
                 return c
         return None
 
-    def create_config(self, name: str, content: str, labels: Optional[Dict[str, str]] = None) -> Dict:
-        """Create a new Docker config."""
-        url = f"{self.base_url}/api/docker/configs/create"
-        payload = {
+    def create_config(self, name: str, content: str, labels: Optional[Dict[str, str]] = None, endpoint_id: Optional[int] = None) -> Dict:
+        """Create a new Docker config and set ownership to Administrators."""
+        import base64
+        url = self._docker_url("configs/create", endpoint_id)
+        payload: Dict = {
             "Name": name,
-            "Data": content,
+            "Data": base64.b64encode(content.encode("utf-8")).decode("ascii"),
         }
         if labels:
             payload["Labels"] = labels
         r = self.session.post(url, json=payload, verify=self.verify_ssl, timeout=60)
         r.raise_for_status()
-        return r.json()
+        result = r.json()
+
+        # Portainer wraps the Docker response and includes a ResourceControl
+        rc_id = (result.get("Portainer", {}).get("ResourceControl", {}).get("Id"))
+        if rc_id:
+            try:
+                self._set_resource_admin_ownership(rc_id)
+            except Exception as e:
+                logger.warning("Failed to set config %s ownership to Administrators: %s", name, e)
+
+        return result
 
     def create_or_update_config(self, name: str, content: str) -> Dict:
         """Create or update a Docker config.
@@ -472,6 +588,7 @@ def generate_for_tenant(
             template_facetsearch_path=templates["facet"],
             template_ui_path=templates["ui"],
             out_dir=out_dir,
+            source_names=sources,
         )
         # write a simple sources file for each community
         try:

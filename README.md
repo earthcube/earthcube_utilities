@@ -75,18 +75,10 @@ ec_reports [options]
 # Bucket utilities
 bucketutil [options]
 
-# qLever stack management (new)
+# qLever stack management
 qleverctl [options]
-  - Generate Qleverfiles from a tenant.yaml and gleanerconfig
-  - Create, update, and restart Portainer stacks using token auth
-  Basic usage:
-  ```bash
-  # generate Qleverfiles for a tenant
-  qleverctl generate --tenant <tenant.yaml> --gleaner <gleanerconfig.yaml> --base-release <https://.../graphs/latest/> --out build/qlever
 
-  # create or update a stack in Portainer
-  qleverctl create-stack --community <name> --stack-file <stackfile> --portainer-url <https://portainer> --token $PORTAINER_TOKEN
-  ```
+See [docs/qleverctl.md](./docs/qleverctl.md) for full documentation.
 ```
 
 ## Artifacts
