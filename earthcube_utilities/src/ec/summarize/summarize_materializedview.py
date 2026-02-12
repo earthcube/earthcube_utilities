@@ -1,3 +1,4 @@
+
 import logging
 from io import StringIO
 from string import Template
@@ -245,6 +246,10 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
         except Exception as e:
             logging.error(f"Unable to parse maxDepth {maxdepth}")
 
+# ecsummary.temporalCoverage
+        temporalCov = row.get('temporalCoverage')
+        if pandas.notna(temporalCov) and temporalCov != '':
+            g.add((graph_subject, ecsummary.temporalCoverage, Literal(temporalCov)))
 
         #### end for ####
     return g.serialize(format='longturtle'), g
@@ -252,5 +257,3 @@ def summaryDF2ttl(df: pandas.DataFrame, repo: str, from_release=False) -> tuple[
 # output_string = g.serialize(format='longturtle')
 # output_string = g.serialize(format="json-ld")
 # or other formats
-
-

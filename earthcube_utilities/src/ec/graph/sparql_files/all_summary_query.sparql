@@ -1,60 +1,86 @@
-prefix schema: <https://schema.org/>
-SELECT distinct ?subj ?g ?resourceType ?name ?description  ?pubname
-        (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
-        (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw) ?datep ?sosType
-        (MAX(?maxDepth1) as ?maxDepth) (MIN(?minDepth1) as ?minDepth)
-        #(GROUP_CONCAT(DISTINCT ?url; SEPARATOR=", ") AS ?disurl)
-        WHERE {
-          graph ?g {
-           values ?sosType {
-               schema:Dataset
-#               schema:DataCatalog
-            }
-              ?subj    a    ?sosType .
-             ?subj schema:name ?name .
-             ?subj schema:description ?description .
-            Minus {?subj a schema:Person } .
- BIND (IF (exists {?subj a schema:Dataset .} ||exists{?subj a schema:DataCatalog .} , "data", "tool") AS ?resourceType).
+PREFIX schema: <https://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-            optional {?subj schema:distribution/schema:url|schema:subjectOf/schema:url ?url1 .}
-            #OPTIONAL {?subj schema:datePublished ?date_p .}
-             OPTIONAL {?subj schema:datePublished ?datep .}
-            OPTIONAL {?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name .}
-            OPTIONAL {?subj schema:spatialCoverage/schema:name ?place_name .}
-            OPTIONAL {?subj schema:keywords ?kw1 .}
-            OPTIONAL {
-              ?subj schema:variableMeasured ?vm .
-              ?vm a schema:PropertyValue .
+SELECT DISTINCT ?subj ?g ?resourceType ?name ?description ?pubname
+       (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
+       (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw)
+       ?datep ?sosType
+       (MAX(?maxDepth1) AS ?maxDepth) (MIN(?minDepth1) AS ?minDepth)
+       (SAMPLE(?temporalCoverageOut) AS ?temporalCoverage)
+WHERE {
+  GRAPH ?g {
+    VALUES ?sosType { schema:Dataset }
 
-              OPTIONAL { ?vm schema:name ?vmName . }
-              OPTIONAL { ?vm schema:propertyID ?propId . }
+    ?subj a ?sosType ;
+          schema:name ?name ;
+          schema:description ?description .
 
-              # Match "package_depth" (your JSON-LD) OR anything whose standard_name is depth
-              FILTER (
-                LCASE(STR(COALESCE(?vmName, ""))) IN ("package_depth", "depth")
-                || STR(COALESCE(?propId, "")) = "http://vocab.nerc.ac.uk/standard_name/depth"
-              )
+    MINUS { ?subj a schema:Person } .
 
-              OPTIONAL { ?vm schema:maxValue ?maxDepthRaw . }
-              OPTIONAL { ?vm schema:minValue ?minDepthRaw . }
+    BIND(
+      IF (
+        EXISTS { ?subj a schema:Dataset . } || EXISTS { ?subj a schema:DataCatalog . },
+        "data",
+        "tool"
+      ) AS ?resourceType
+    ).
 
-              # Cast so MAX/MIN behaves numerically (not lexicographically)
-              BIND(xsd:decimal(?maxDepthRaw) AS ?maxDepth1)
-              BIND(xsd:decimal(?minDepthRaw) AS ?minDepth1)
-            }
-            # need these to get rdflib to work
-            bind ( COALESCE(?kw1, "") As ?kwu) .
-            bind ( COALESCE(?url1, "") As ?url) .
-           # bind ( COALESCE(?maxDepth1, 0.0) As ?maxDepth2) .
-           # bind ( COALESCE(?minDepth1, 0.0) As ?minDepth2) .
-           # Query should not return "No datePublished" is not a valid Date "YYYY-MM-DD" so
-            # UI Date Select failed, because it expects an actual date
-           # BIND ( IF ( BOUND(?date_p), ?date_p, "No datePublished") as ?datep ) .
-            # BIND ( IF ( BOUND(?date_p), ?date_p, "1900-01-01") as ?datep ) .
-            BIND ( IF ( BOUND(?pub_name), ?pub_name, "No Publisher") as ?pubname ) .
-             }
-        }
-        #GROUP BY ?subj ?pubname ?placenames ?kw ?datep   ?name ?description  ?resourceType ?sosType ?maxDepth ?minDepth ?g
-    # oxigraph complains about SELECT overriding variables: remove them from grouping
-        GROUP BY ?subj ?pubname  ?datep   ?name ?description  ?resourceType ?sosType  ?g
+    OPTIONAL { ?subj schema:datePublished ?datep . }
+    OPTIONAL { ?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name . }
+    OPTIONAL { ?subj schema:spatialCoverage/schema:name ?place_name . }
+    OPTIONAL { ?subj schema:keywords ?kw1 . }
 
+    # ---- temporalCoverage: keep year only; if missing -> 2010 ----
+    OPTIONAL {
+      ?subj schema:temporalCoverage ?tcRaw .
+
+      # split on "/"
+      BIND(STRBEFORE(STR(?tcRaw), "/") AS ?tcStartRaw)
+      BIND(STRAFTER(STR(?tcRaw), "/")  AS ?tcEndRaw)
+
+      # if no "/", STRBEFORE gives "", so fallback to whole string
+      BIND(IF(?tcStartRaw = "", STR(?tcRaw), ?tcStartRaw) AS ?tcStart)
+      BIND(IF(?tcEndRaw   = "", STR(?tcRaw), ?tcEndRaw)   AS ?tcEnd)
+
+      # year = first 4 chars (works for "2017" and "1993-10-27")
+      BIND(SUBSTR(?tcStart, 1, 4) AS ?tcStartYear)
+      BIND(SUBSTR(?tcEnd,   1, 4) AS ?tcEndYear)
+
+      # format: "YYYY/YYYY" (or "YYYY" if start=end)
+      BIND(
+        IF(?tcStartYear = ?tcEndYear, ?tcStartYear, CONCAT(?tcStartYear, "/", ?tcEndYear))
+        AS ?temporalCoverageYear
+      )
+    }
+
+    # fallback if null
+    BIND(IF(BOUND(?temporalCoverageYear), ?temporalCoverageYear, "2010") AS ?temporalCoverageOut)
+
+    # ---- depth block ----
+    OPTIONAL {
+      ?subj schema:variableMeasured ?vm .
+      ?vm a schema:PropertyValue .
+
+      OPTIONAL { ?vm schema:name ?vmName . }
+      OPTIONAL { ?vm schema:propertyID ?propId . }
+
+      FILTER (
+        LCASE(STR(COALESCE(?vmName, ""))) IN ("package_depth", "depth")
+        || STR(COALESCE(?propId, "")) = "http://vocab.nerc.ac.uk/standard_name/depth"
+      )
+
+      OPTIONAL { ?vm schema:maxValue ?maxDepthRaw . }
+      OPTIONAL { ?vm schema:minValue ?minDepthRaw . }
+
+      # Cast so MAX/MIN behaves numerically (not lexicographically)
+      BIND(xsd:decimal(?maxDepthRaw) AS ?maxDepth1)
+      BIND(xsd:decimal(?minDepthRaw) AS ?minDepth1)
+    }
+
+    # need these to get rdflib to work
+    BIND(COALESCE(?kw1, "") AS ?kwu) .
+    BIND(IF(BOUND(?pub_name), ?pub_name, "No Publisher") AS ?pubname) .
+    BIND(COALESCE(?place_name, "") AS ?placename) .
+  }
+}
+GROUP BY ?subj ?g ?resourceType ?name ?description ?pubname ?datep ?sosType
