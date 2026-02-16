@@ -2,6 +2,77 @@
 
 CLI tool for managing qLever instances via Portainer. Reads tenant and gleaner configs (from local files, HTTP, or S3), generates per-community Qleverfiles, and manages Docker stacks through the Portainer API.
 
+## Quick start with Make
+
+The easiest way to deploy is via the Makefile in `earthcube_utilities/`. It wraps `qleverctl` with environment-specific targets and sensible defaults.
+
+### Prerequisites
+
+1. Install the package:
+   ```bash
+   pip install -e '.[dev]'
+   ```
+2. Configure `.env` (dev) and/or `.env.production` with your Portainer and S3 credentials (see [Environment variables](#environment-variables) below).
+
+### Make targets
+
+| Target | Description |
+|--------|-------------|
+| `make deploy-dev` | Deploy all tenants to dev Portainer |
+| `make deploy-prod` | Deploy all tenants to production Portainer |
+| `make dry-run-dev` | Preview dev deployment (no changes made) |
+| `make dry-run-prod` | Preview production deployment (no changes made) |
+| `make generate` | Generate Qleverfiles only (no deploy) |
+| `make list-stacks` | List current Portainer stacks |
+| `make list-configs` | List Docker configs in Portainer |
+| `make clean` | Remove generated build artifacts |
+| `make help` | Show all available targets |
+
+### Typical workflow
+
+```bash
+cd earthcube_utilities
+
+# 1. Preview what would be deployed
+make dry-run-dev
+
+# 2. Deploy all communities
+make deploy-dev
+
+# 3. Verify stacks are running
+make list-stacks
+```
+
+### Makefile variables
+
+All variables have defaults and can be overridden on the command line:
+
+```bash
+# Deploy with a different S3 bucket
+make deploy-dev QLEVER_BUCKET=decoder
+
+# Deploy with a different config source
+make deploy-dev CONFIG_BASE=https://example.com/configs/staging
+```
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `CONFIG_BASE` | `https://oss.geocodes-aws-dev.earthcube.org/geocodes/scheduler/configs/production` | Location of `tenant.yaml` and `gleanerconfig.yaml` (local path, HTTP URL, or S3) |
+| `QLEVER_BUCKET` | `geocodes` | S3 bucket containing release files |
+| `S3_RELEASE_PREFIX` | `https://oss.geocodes-aws-dev.earthcube.org/$(QLEVER_BUCKET)/graphs/latest` | Full URL to S3 release path (built from `QLEVER_BUCKET`) |
+| `OUT_DIR` | `build/qlever_generated` | Output directory for generated Qleverfiles |
+| `COMPOSE_FILE` | `resources/qlever/deployment/qlever_namespace.yaml` | Docker compose template |
+| `FACET_TEMPLATE` | `resources/qlever/catalogues/data-example/QLeverfile.facetsearch` | Qleverfile facet search template |
+| `UI_TEMPLATE` | `resources/qlever/catalogues/data-example/QLeverfile-ui-example.yml` | Qleverfile UI template |
+
+### Environment switching
+
+The Makefile uses `.env` for dev and `.env.production` for production. Each file should contain Portainer credentials (`PORTAINER_URL`, `PORTAINER_TOKEN`) and S3 credentials (`MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`). The `-dev` targets source `.env`; the `-prod` targets source `.env.production`.
+
+Stack names are automatically prefixed with `qlever_` (e.g. `qlever_test`, `qlever_geocodesproduction`).
+
+---
+
 ## Installation
 
 ```bash
@@ -242,7 +313,7 @@ qleverctl deploy-from-tenant \
 | `--base-release` | no | Base HTTP URL for release files |
 | `--base-url` | no | Base URL written into the Qleverfile `BASE_URL` (defaults to `--base-release`, then derived from `--config-base`) |
 | `--s3-release-prefix` | no | S3 path or HTTP URL to list release files (see [S3 release prefix](#s3-release-prefix)) |
-| `--stack-prefix` | no | Prefix for generated stack names |
+| `--stack-prefix` | no | Prefix for stack names (default: `qlever_`) |
 | `--env-file` | no | `.env` file with stack environment variables |
 | `--host` | no | Hostname for the stacks (overrides env-file and `.env`) |
 | `--qlever-net` | no | Docker network name (overrides env-file and `.env`) |
@@ -280,11 +351,23 @@ Communities with explicit source lists still use the tenant config as-is, regard
 
 ## Typical workflow
 
+The simplest approach is to use the Makefile (see [Quick start with Make](#quick-start-with-make)):
+
+```bash
+make dry-run-dev    # preview
+make deploy-dev     # deploy all communities
+make list-stacks    # verify
+```
+
+### Manual workflow (without Make)
+
+For finer control over individual communities:
+
 ```bash
 # 1. Generate Qleverfiles using S3 as the source of truth for release files
 qleverctl generate-from-location \
-  --config-base https://oss.geocodes-aws.earthcube.org/decoder/scheduler/configs/production \
-  --s3-release-prefix https://oss.geocodes-aws.earthcube.org/decoder/graphs/latest
+  --config-base https://oss.geocodes-aws-dev.earthcube.org/geocodes/scheduler/configs/production \
+  --s3-release-prefix https://oss.geocodes-aws-dev.earthcube.org/geocodes/graphs/latest
 
 # 2. Review generated files
 ls build/qlever_generated/
@@ -298,24 +381,25 @@ qleverctl push-configs \
 qleverctl create-stack \
   --config-dir build/qlever_generated/geocodesproduction \
   --community geocodesproduction \
-  --host geocodes-aws.earthcube.org \
+  --host geocodes-aws-dev.earthcube.org \
   --confirm
 
 # 5. Later, update and restart
 qleverctl update-stack \
-  --stack-name qlever-geocodesproduction \
+  --stack-name qlever_geocodesproduction \
   --config-dir build/qlever_generated/geocodesproduction \
   --community geocodesproduction \
   --restart --confirm
 ```
 
-Or use `deploy-from-tenant` for the full pipeline in one command:
+### Full pipeline in one command
 
 ```bash
 qleverctl deploy-from-tenant \
-  --config-base https://oss.geocodes-aws.earthcube.org/decoder/scheduler/configs/production \
-  --s3-release-prefix https://oss.geocodes-aws.earthcube.org/decoder/graphs/latest \
-  --host geocodes-aws.earthcube.org \
+  --config-base https://oss.geocodes-aws-dev.earthcube.org/geocodes/scheduler/configs/production \
+  --s3-release-prefix https://oss.geocodes-aws-dev.earthcube.org/geocodes/graphs/latest \
+  --base-release https://oss.geocodes-aws-dev.earthcube.org/geocodes/graphs/latest \
+  --host geocodes-aws-dev.earthcube.org \
   --dry-run
 ```
 
@@ -330,9 +414,12 @@ qleverctl deploy-from-tenant \
 
 ```
 earthcube_utilities/
+  Makefile                      # Make targets for deploy/dry-run/generate
+  .env                          # Dev environment (Portainer + S3 credentials)
+  .env.production               # Production environment
   src/ec/graph/
-    cli.py                  # CLI entry point (qleverctl)
-    qlever_manager.py       # Core library: config parsing, template rendering, Portainer API client
+    cli.py                      # CLI entry point (qleverctl)
+    qlever_manager.py           # Core library: config parsing, template rendering, Portainer API client
   resources/qlever/
     catalogues/data-example/
       Qleverfile.facetsearch    # Jinja2 template for facet search Qleverfile

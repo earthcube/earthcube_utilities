@@ -554,7 +554,7 @@ def _handle_deploy_from_tenant(args) -> int:
         if args.dry_run:
             print("Dry run mode - skipping deployment")
             for c in out.keys():
-                stack_name = f"{args.stack_prefix or ''}{c}"
+                stack_name = f"{args.stack_prefix}{c}"
                 print(f"  Would deploy: {stack_name}")
             return 0
 
@@ -568,7 +568,7 @@ def _handle_deploy_from_tenant(args) -> int:
 
         client = PortainerClient(args.portainer_url)
         for community in out.keys():
-            stack_name = f"{args.stack_prefix or ''}{community}"
+            stack_name = f"{args.stack_prefix}{community}"
             print(f"\nDeploying community: {community}")
 
             # Reuse deploy logic via direct call
@@ -714,7 +714,7 @@ def main(argv=None):
     deploy_tenant.add_argument("--ui-template", default="earthcube_utilities/resources/qlever/catalogues/data-example/QLeverfile-ui-example.yml")
     deploy_tenant.add_argument("--compose-file", default="earthcube_utilities/resources/qlever/deployment/qlever_namespace.yaml")
     deploy_tenant.add_argument("--portainer-url", default=_portainer_url_default, help=_portainer_url_help)
-    deploy_tenant.add_argument("--stack-prefix", help="Optional prefix for stack names")
+    deploy_tenant.add_argument("--stack-prefix", default="qlever_", help="Prefix for stack names (default: qlever_)")
     deploy_tenant.add_argument("--env-file", help="Optional .env file")
     deploy_tenant.add_argument("--qlever-net", help="Docker network name for the qLever stack (default: from env-file)")
     deploy_tenant.add_argument("--host", help="Hostname for the qLever stack (default: from env-file)")
