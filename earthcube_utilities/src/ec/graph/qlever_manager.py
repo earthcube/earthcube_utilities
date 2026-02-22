@@ -369,11 +369,12 @@ class PortainerClient:
         eid = endpoint_id or self._default_endpoint_id
         return f"{self._root}/api/endpoints/{eid}/docker/{path.lstrip('/')}"
 
-    def list_stacks(self) -> List[Dict]:
+    def list_stacks(self, endpoint_id: Optional[int] = None) -> List[Dict]:
+        eid = endpoint_id or self._default_endpoint_id
         url = f"{self._root}/api/stacks"
         r = self.session.get(url, verify=self.verify_ssl, timeout=30)
         r.raise_for_status()
-        return r.json()
+        return [s for s in r.json() if s.get("EndpointId") == eid]
 
     def find_stack(self, name: str) -> Optional[Dict]:
         stacks = self.list_stacks()
@@ -381,6 +382,17 @@ class PortainerClient:
             if s.get("Name") == name or s.get("Name", "").endswith(f"_{name}"):
                 return s
         return None
+
+    def network_exists(self, name: str, endpoint_id: Optional[int] = None) -> bool:
+        """Check if a Docker network exists on the endpoint."""
+        url = self._docker_url("networks", endpoint_id)
+        try:
+            r = self.session.get(url, verify=self.verify_ssl, timeout=30)
+            r.raise_for_status()
+            return any(n.get("Name") == name for n in r.json())
+        except Exception:
+            logger.debug("Failed to list networks on endpoint")
+            return False
 
     def get_swarm_id(self, endpoint_id: Optional[int] = None) -> Optional[str]:
         """Get the Docker Swarm ID via GET /swarm. Returns None if not in swarm mode."""
@@ -415,6 +427,8 @@ class PortainerClient:
             logger.info("Creating standalone stack %s", name)
 
         r = self.session.post(url, json=payload, verify=self.verify_ssl, timeout=60)
+        if not r.ok:
+            logger.error("Portainer create_stack failed (%s): %s", r.status_code, r.text)
         r.raise_for_status()
         return r.json()
 
@@ -430,17 +444,18 @@ class PortainerClient:
         r.raise_for_status()
         return r.json()
 
-    def create_or_update_stack(self, name: str, stackfile_content: str, env: Optional[List[Dict]] = None, endpoint_id: int = 1) -> Dict:
+    def create_or_update_stack(self, name: str, stackfile_content: str, env: Optional[List[Dict]] = None, endpoint_id: Optional[int] = None) -> Dict:
+        eid = endpoint_id or self._default_endpoint_id
         existing = self.find_stack(name)
         if existing:
             stack_id = existing.get("Id")
             if stack_id is None:
                 raise ValueError(f"Stack {name} found but has no ID")
             logger.info(f"Updating existing stack %s (id=%s)", name, stack_id)
-            return self.update_stack(stack_id, stackfile_content, env=env, endpoint_id=endpoint_id)
+            return self.update_stack(stack_id, stackfile_content, env=env, endpoint_id=eid)
         else:
             logger.info("Creating stack %s", name)
-            return self.create_stack(name, stackfile_content, env=env, endpoint_id=endpoint_id)
+            return self.create_stack(name, stackfile_content, env=env, endpoint_id=eid)
 
     def stop_stack(self, stack_id: int, endpoint_id: Optional[int] = None) -> Dict:
         """Stop a stack via POST /api/stacks/{id}/stop?endpointId=N."""
@@ -568,7 +583,8 @@ class PortainerClient:
                 configs = self.list_configs()
                 versions = []
                 for c in configs:
-                    match = re.search(rf'^{re.escape(name)}-v(\d+)$', c.get('Name', ''))
+                    cfg_name = c.get('Spec', {}).get('Name', '') or c.get('Name', '')
+                    match = re.search(rf'^{re.escape(name)}-v(\d+)$', cfg_name)
                     if match:
                         versions.append(int(match.group(1)))
                 if versions:

@@ -18,6 +18,9 @@ UI_TEMPLATE        ?= resources/qlever/catalogues/data-example/QLeverfile-ui-exa
 QLEVER_BUCKET      ?= geocodes
 S3_RELEASE_PREFIX  ?= https://oss.geocodes-aws-dev.earthcube.org/$(QLEVER_BUCKET)/graphs/latest
 
+# Stack name prefix — must be unique per environment to avoid Portainer name conflicts
+STACK_PREFIX       ?= qlever_
+
 # Environment files
 ENV_DEV  = .env
 ENV_PROD = .env.production
@@ -29,13 +32,17 @@ DEPLOY_FLAGS = --config-base $(CONFIG_BASE) \
                --ui-template $(UI_TEMPLATE) \
                --s3-release-prefix $(S3_RELEASE_PREFIX) \
                --base-release $(S3_RELEASE_PREFIX) \
+               --stack-prefix $(STACK_PREFIX) \
                --out $(OUT_DIR) \
                --confirm
 
-# Helper to source env file and run qleverctl
+# Helper to source env file and run qleverctl, passing --portainer-url explicitly
 define run_qleverctl
-	set -a && . $(1) && set +a && qleverctl $(2)
+	set -a && . $(1) && set +a && qleverctl $(2) --portainer-url "$$PORTAINER_URL"
 endef
+
+# Default environment file (override with: make list-stacks ENV_FILE=.env.production)
+ENV_FILE ?= $(ENV_DEV)
 
 .PHONY: deploy-dev deploy-prod dry-run-dev dry-run-prod \
         generate list-stacks list-configs clean help
@@ -44,6 +51,8 @@ deploy-dev:
 	@echo "==> Deploying all tenants (dev)..."
 	$(call run_qleverctl,$(ENV_DEV),deploy-from-tenant $(DEPLOY_FLAGS) --env-file $(ENV_DEV))
 
+deploy-prod: ENV_FILE = $(ENV_PROD)
+deploy-prod: STACK_PREFIX = qlever_prod_
 deploy-prod:
 	@echo "==> Deploying all tenants (production)..."
 	$(call run_qleverctl,$(ENV_PROD),deploy-from-tenant $(DEPLOY_FLAGS) --env-file $(ENV_PROD))
@@ -52,6 +61,8 @@ dry-run-dev:
 	@echo "==> Dry-run deploy (dev)..."
 	$(call run_qleverctl,$(ENV_DEV),deploy-from-tenant $(DEPLOY_FLAGS) --dry-run)
 
+dry-run-prod: ENV_FILE = $(ENV_PROD)
+dry-run-prod: STACK_PREFIX = qlever_prod_
 dry-run-prod:
 	@echo "==> Dry-run deploy (production)..."
 	$(call run_qleverctl,$(ENV_PROD),deploy-from-tenant $(DEPLOY_FLAGS) --dry-run)
@@ -63,10 +74,10 @@ generate:
 	    --out $(OUT_DIR)
 
 list-stacks:
-	$(call run_qleverctl,$(ENV_DEV),list-stacks)
+	$(call run_qleverctl,$(ENV_FILE),list-stacks)
 
 list-configs:
-	$(call run_qleverctl,$(ENV_DEV),list-configs)
+	$(call run_qleverctl,$(ENV_FILE),list-configs)
 
 clean:
 	rm -rf $(OUT_DIR)

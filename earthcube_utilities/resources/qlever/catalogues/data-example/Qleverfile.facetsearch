@@ -8,7 +8,7 @@
 [data]
 NAME              = {{ community }}
 SOURCES           = {{ sources }}
-BASE_URL          = {{ base_url }}/graphs/latest
+BASE_URL          = {{ base_url }}
 GET_DATA_CMD      = for source in ${SOURCES}; do curl -sLo $${source}_release.nq -C - ${BASE_URL}/$${source}_release.nq; done
 DESCRIPTION       = eco ${NAME} ${BASE_URL}
 TEXT_DESCRIPTION  = eco release graph for ${NAME} sources: ${SOURCES}

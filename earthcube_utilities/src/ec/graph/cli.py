@@ -304,24 +304,22 @@ def _build_stack_env(slug: str, env_file: Optional[str], qlever_net: Optional[st
     Resolution order (highest priority first):
       1. CLI flags (--host, --qlever-net)
       2. Values from --env-file
-      3. Values from .env (loaded into os.environ via dotenv)
+      3. Community slug (for per-community keys: PROJECT, QLEVER_CONFIG, QLEVER_CONFIG_UI, QLEVER_VOL)
+      4. Values from .env (loaded into os.environ via dotenv) for shared keys (HOST, QLEVER_NET)
     """
-    # Start with relevant vars from .env / os.environ as the base layer
-    _dotenv_keys = ("HOST", "QLEVER_NET", "PROJECT", "QLEVER_CONFIG", "QLEVER_CONFIG_UI", "QLEVER_VOL")
-    env_dict: dict[str, str] = {}
-    for key in _dotenv_keys:
-        val = os.environ.get(key)
-        if val:
-            env_dict[key] = val
+    # Per-community keys are always derived from the community slug
+    _per_community_keys = ("PROJECT", "QLEVER_CONFIG", "QLEVER_CONFIG_UI", "QLEVER_VOL")
 
-    # Override with --env-file values (middle priority)
+    env_dict: dict[str, str] = {}
+
+    # Load all variables from --env-file
     env_vars = load_env_vars(env_file)
     for e in env_vars:
         env_dict[e["name"]] = e["value"]
 
-    # Defaults derived from community slug (only if not set by either layer)
-    for key in ("PROJECT", "QLEVER_CONFIG", "QLEVER_CONFIG_UI", "QLEVER_VOL"):
-        env_dict.setdefault(key, slug)
+    # Per-community keys always use the slug (override any .env values)
+    for key in _per_community_keys:
+        env_dict[key] = slug
 
     # CLI flags override everything
     if qlever_net:
@@ -391,6 +389,15 @@ def _handle_portainer_deploy(args) -> int:
             return 0
 
         client = PortainerClient(args.portainer_url)
+
+        # Check required networks exist before deploying
+        qlever_net = getattr(args, "qlever_net", None) or os.environ.get("QLEVER_NET", "base")
+        required_networks = [f"qlever-network-{qlever_net}", "traefik_proxy"]
+        for net in required_networks:
+            if not client.network_exists(net):
+                logging.error(f"Required network '{net}' not found on endpoint. "
+                              f"Create it with: docker network create --driver overlay {net}")
+                return 1
 
         # Upload configs to Portainer
         print(f"Uploading Qleverfile as config: {config_name}")
@@ -567,6 +574,17 @@ def _handle_deploy_from_tenant(args) -> int:
             return 0
 
         client = PortainerClient(args.portainer_url)
+
+        # Check required networks exist before deploying
+        qlever_net = getattr(args, "qlever_net", None) or os.environ.get("QLEVER_NET", "base")
+        required_networks = [f"qlever-network-{qlever_net}", "traefik_proxy"]
+        for net in required_networks:
+            if not client.network_exists(net):
+                logging.error(f"Required network '{net}' not found on endpoint. "
+                              f"Create it with: docker network create --driver overlay {net}")
+                return 1
+        print(f"  Networks OK: {', '.join(required_networks)}")
+
         for community in out.keys():
             stack_name = f"{args.stack_prefix}{community}"
             print(f"\nDeploying community: {community}")
@@ -601,6 +619,9 @@ def _handle_deploy_from_tenant(args) -> int:
                     compose_content = f.read()
 
                 final_env = _build_stack_env(slug, args.env_file, getattr(args, "qlever_net", None), getattr(args, "host", None))
+                env_summary = {e["name"]: e["value"] for e in final_env}
+                logging.debug(f"  Stack env for {stack_name}: {env_summary}")
+                print(f"  Env: PROJECT={env_summary.get('PROJECT')} QLEVER_CONFIG={env_summary.get('QLEVER_CONFIG')} QLEVER_VOL={env_summary.get('QLEVER_VOL')}")
 
                 print(f"  Deploying stack: {stack_name}")
                 client.create_or_update_stack(
