@@ -23,6 +23,9 @@ configs:
 services:
 
  qlever-server-project:
+   # prevent continuous restarting... it may restart due to a crash
+   # withouth this a data load will run and pull data (and create a big bill)
+    restart: on-failure:3
     image: docker.io/adfreiburg/qlever:${QLEVER_CONTAINER_TAG:-latest}
     hostname: qlever.server.${PROJECT:-deepoceans}
     init: true
