@@ -1,6 +1,6 @@
 # Qleverfile for Earthcube Decoder/Geocodes, use with https://github.com/ad-freiburg/qlever-control
 #
-# qlever get-data  # downloads .zip file of size 13 MB, uncompressed to 323 MB
+# qlever get-data  # avoid since a repeat download will run up the aws bill if container fails often
 # qlever index     # takes ~10 seconds and ~1 GB RAM (on an AMD Ryzen 9 5900X)
 # qlever start     # starts the server (instant)
 # removed from ui section: UI_CONFIG = eco
@@ -16,7 +16,9 @@ FORMAT            = nq
 
 
 [index]
-INPUT_FILES     = *_release.nq
+SOURCES          = {{ sources }}
+INPUT_FILES    = echo $(printf "../release/%s " $SOURCES)
+#INPUT_FILES     = ../release/*_release.nq
 CAT_INPUT_FILES = cat ${INPUT_FILES}
 VOCABULARY_TYPE = on-disk-compressed-geo-split
 TEXT_INDEX= from_literals_and_text_records

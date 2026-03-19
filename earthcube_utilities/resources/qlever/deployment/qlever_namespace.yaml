@@ -12,7 +12,9 @@ networks:
 volumes:
   qleverflow_data:
     name: qleverflow_data_${QLEVER_VOL:-main}
-    #name: qlever
+  release_data:
+    name: release_data
+    external: true
 configs:
   qlever-config:
     name: qlever-config-${QLEVER_CONFIG:-deepoceans}
@@ -45,12 +47,15 @@ services:
       - QLEVER_IS_RUNNING_IN_CONTAINER="1"
     volumes:
       - /etc/localtime:/etc/localtime:ro
+      - type: volume
+        source: release_data
+        target: /release
     configs:
       - source: qlever-config
         target: /data/Qleverfile
     entrypoint: /qlever/docker-entrypoint.sh
     command: >
-     ' ls -l && qlever get-data  --log-level DEBUG && qlever index --text-index from_text_records_and_literals  && qlever start --use-text-index yes --run-in-foreground '
+     ' ls -l /release && qlever index --text-index from_text_records_and_literals  && qlever start --use-text-index yes --run-in-foreground '
     #restart: unless-stopped
     networks: &network
       - qlever_network
