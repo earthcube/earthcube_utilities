@@ -1,0 +1,39 @@
+CONSTRUCT {
+    ?s a schema:Dataset .
+    ?s schema:spatialCoverage ?spatialcoverage .
+    ?spatialcoverage schema:geo ?geo .
+    ?geo a schema:GeoCoordinates .
+    ?geo schema:latitude  ?lat .
+    ?geo schema:longitude ?long .
+
+    ?s geo:hasGeometry ?geometry .
+    ?geometry a sf:MultiPoint .
+    ?geometry geo:asWKT ?wkt .
+}
+WHERE {
+    ?s a schema:Dataset ;
+       schema:spatialCoverage ?spatialcoverage .
+    ?spatialcoverage schema:geo ?geo .
+    ?geo a schema:GeoCoordinates ;
+         schema:latitude  ?lat ;
+         schema:longitude ?long .
+
+    {
+        SELECT ?s
+               (IRI(CONCAT(STR(?s), "/geometry")) AS ?geometry)
+               (STRDT(
+                   CONCAT("MULTIPOINT(",
+                          GROUP_CONCAT(?pt ; SEPARATOR=", "),
+                          ")"),
+                   geo:wktLiteral) AS ?wkt)
+        WHERE {
+            ?s a schema:Dataset ;
+               schema:spatialCoverage/schema:geo ?g .
+            ?g schema:latitude  ?la ;
+               schema:longitude ?lo .
+            BIND(CONCAT("(", STR(?lo), " ", STR(?la), ")") AS ?pt)
+        }
+        GROUP BY ?s
+		
+    }
+}

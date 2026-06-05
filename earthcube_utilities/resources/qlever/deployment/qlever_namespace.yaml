@@ -73,22 +73,7 @@ services:
       - "traefik.http.routers.qlever-project-${PROJECT:-deepoceans}-secure.service=qlever-project-${PROJECT:-deepoceans}"
       - "traefik.http.services.qlever-project-${PROJECT:-deepoceans}.loadbalancer.server.port=7019"
       - "traefik.docker.network=traefik_proxy"
+      - "traefik.http.middlewares.qlever-stripprefix-${PROJECT:-deepoceans}.stripprefix.prefixes=/graphspace/${PROJECT:-deepoceans}"
+      - "traefik.http.routers.qlever-project-${PROJECT:-deepoceans}-secure.middlewares=qlever-stripprefix-${PROJECT:-deepoceans}"
 
- qlever-ui-config-namespace:
-    image: docker.io/adfreiburg/qlever-ui:latest
-    depends_on:
-      - qlever-server-project
-    volumes:
-      - type: volume
-        source: qleverflow_data
-        target: /app/db/
-    configs:
-      - source: qlever-ui
-        target: /app/Qleverfile-ui-deploy.yml
-    # ports:
-    #   - "8176:7000"
-   #    entrypoint: bash
-    command: bash -c "python manage.py copy default ${PROJECT:-geocodesexamples} && python manage.py config ${PROJECT:-geocodesexamples} /app/Qleverfile-ui-deploy.yml"
 
-    restart: on-failure:1
-    networks: *network
