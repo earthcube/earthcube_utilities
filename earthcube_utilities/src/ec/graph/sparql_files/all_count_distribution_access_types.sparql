@@ -1,0 +1,62 @@
+prefix schema: <https://schema.org/>
+
+# Count distributions by access type: landing page (url) vs direct access (contentUrl)
+# NOTE: This query may be slow on very large graphs (600k+ distributions).
+# For better performance on large graphs, use the individual count queries:
+#   - all_count_distributions_with_url.sparql
+#   - all_count_distributions_with_contenturl.sparql
+#   - all_count_distributions_with_both_urls.sparql
+#   - all_count_total_distributions.sparql
+SELECT 
+  ?landingPageCount ?directAccessCount ?bothCount ?totalDistributions
+WHERE {
+  # Count total distributions
+  {
+    SELECT (COUNT(DISTINCT ?dist) as ?totalDistributions)
+    WHERE {
+      GRAPH ?g {
+        ?dataset a schema:Dataset .
+        ?dataset schema:distribution ?dist .
+      }
+    }
+  }
+  
+  # Count distributions with landing page (url)
+  {
+    SELECT (COUNT(DISTINCT ?dist) as ?landingPageCount)
+    WHERE {
+      GRAPH ?g {
+        ?dataset a schema:Dataset .
+        ?dataset schema:distribution ?dist .
+        ?dist schema:url ?url .
+      }
+    }
+  }
+  
+  # Count distributions with direct access (contentUrl)
+  {
+    SELECT (COUNT(DISTINCT ?dist) as ?directAccessCount)
+    WHERE {
+      GRAPH ?g {
+        ?dataset a schema:Dataset .
+        ?dataset schema:distribution ?dist .
+        ?dist schema:contentUrl ?contentUrl .
+      }
+    }
+  }
+  
+  # Count distributions with both url and contentUrl
+  {
+    SELECT (COUNT(DISTINCT ?dist) as ?bothCount)
+    WHERE {
+      GRAPH ?g {
+        ?dataset a schema:Dataset .
+        ?dataset schema:distribution ?dist .
+        ?dist schema:url ?url .
+        ?dist schema:contentUrl ?contentUrl .
+      }
+    }
+  }
+}
+
+

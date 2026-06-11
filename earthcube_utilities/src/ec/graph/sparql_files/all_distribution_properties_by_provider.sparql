@@ -1,0 +1,17 @@
+prefix schema: <https://schema.org/>
+
+# Distribution Properties by Provider
+# Shows what properties distributions have, grouped by graph/provider
+# Based on: https://github.com/earthcubearchitecture-project418/assay-data/blob/master/README.md#dataset-distribution
+SELECT DISTINCT ?g ?p
+WHERE { 
+  GRAPH ?g {
+    ?dataset a schema:Dataset .
+    ?dataset schema:distribution ?distro .
+    ?distro ?p ?o .
+    FILTER NOT EXISTS { ?distro <https://www.w3.org/2000/01/rdf-schema#seeAlso> ?o }
+  }
+} 
+ORDER BY ?g ?p
+
+

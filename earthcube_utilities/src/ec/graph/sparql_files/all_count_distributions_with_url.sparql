@@ -1,0 +1,13 @@
+prefix schema: <https://schema.org/>
+
+# Count distributions with landing page URL (schema:url)
+# Simpler single-purpose query for better performance
+SELECT (COUNT(DISTINCT ?dist) as ?count)
+WHERE {
+  GRAPH ?g {
+    ?dataset a schema:Dataset .
+    ?dataset schema:distribution ?dist .
+    ?dist schema:url ?url .
+  }
+}
+

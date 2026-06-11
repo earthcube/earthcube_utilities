@@ -1,0 +1,13 @@
+prefix schema: <https://schema.org/>
+
+# Count how many JSON-LD Datasets have distribution URLs
+SELECT (COUNT(DISTINCT ?dataset) as ?datasetcount)
+WHERE {
+  GRAPH ?g {
+    ?dataset a schema:Dataset .
+    ?dataset schema:distribution ?dist .
+    ?dist schema:url|schema:contentUrl ?url .
+  }
+}
+
+
