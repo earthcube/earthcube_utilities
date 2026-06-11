@@ -1,5 +1,3 @@
-import json
-import logging
 import logging
 from datetime import datetime
 from io import BytesIO
@@ -38,7 +36,8 @@ class bucketDatastore():
              "release":"graphs",
              "archive":"archive",
              "collection":"collections",
-             "sitemap":"sitemaps"
+             "sitemap":"sitemaps",
+             "community_resource": "community_resources"
     }
 
     def __init__(self, s3endpoint, options, default_bucket="gleaner"):
@@ -210,6 +209,7 @@ class bucketDatastore():
         s3ObjectInfo = {"bucket_name": bucket, "object_name": path}
         return self.putTextFileToStore(data, s3ObjectInfo)
 
+
 """
 Basic abstraction, in case someone want to store files in a 
 different method
@@ -317,6 +317,14 @@ class MinioDatastore(bucketDatastore):
 
     def putSitemapFile(self, bucket, filename, json_str):
         path = f"{self.paths['sitemap']}/{filename}"
+        f = BytesIO()
+        length = f.write(bytes(json_str, 'utf-8'))
+        f.seek(0)
+        resp = self.s3client.put_object(bucket, path, f, length=length)
+        return resp.bucket_name, resp.object_name
+
+    def putCommunityResourceFile(self, bucket, community, filename, json_str):
+        path = f"{self.paths['community_resource']}/{community}/{filename}"
         f = BytesIO()
         length = f.write(bytes(json_str, 'utf-8'))
         f.seek(0)
