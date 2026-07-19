@@ -1,0 +1,5 @@
+{
+    "milled_count": 774,
+    "missing": [],
+    "summoned_count": 774
+}

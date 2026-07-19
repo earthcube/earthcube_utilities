@@ -1,0 +1,39 @@
+# Qleverfile for Earthcube Decoder/Geocodes, use with https://github.com/ad-freiburg/qlever-control
+#
+# qlever get-data  # avoid since a repeat download will run up the aws bill if container fails often
+# qlever index     # takes ~10 seconds and ~1 GB RAM (on an AMD Ryzen 9 5900X)
+# qlever start     # starts the server (instant)
+# removed from ui section: UI_CONFIG = eco
+
+[data]
+NAME              = {{ community }}
+SOURCES           = {{ sources }}
+BASE_URL          = {{ base_url }}
+GET_DATA_CMD      = for source in ${SOURCES}; do curl -sLo $${source}_release.nq -C - ${BASE_URL}/$${source}_release.nq; done
+DESCRIPTION       = eco ${NAME} ${BASE_URL}
+TEXT_DESCRIPTION  = eco release graph for ${NAME} sources: ${SOURCES}
+FORMAT            = nq
+
+
+[index]
+SOURCES          = {{ sources }}
+INPUT_FILES    = echo $(printf "../release/%s " $SOURCES)
+#INPUT_FILES     = ../release/*_release.nq
+CAT_INPUT_FILES = cat ${INPUT_FILES}
+VOCABULARY_TYPE = on-disk-compressed-geo-split
+TEXT_INDEX= from_literals_and_text_records
+SETTINGS_JSON   = { "num-triples-per-batch": 100000 }
+#SETTINGS_JSON   = { "add-text-index": true, "ascii-prefixes-only": false, "num-triples-per-batch": 100000, "vocabulary-type": "on-disk-compressed-geo-split" }
+[server]
+PORT               = 7019
+ACCESS_TOKEN       = ${data:NAME}_7643543846_6dMISzlPrD7i
+MEMORY_FOR_QUERIES = 16G
+CACHE_MAX_SIZE     = 16G
+TIMEOUT            = 360s
+
+[runtime]
+SYSTEM = native
+IMAGE  = docker.io/adfreiburg/qlever:latest
+
+[ui]
+UI_CONFIG = default

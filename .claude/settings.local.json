@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m ec.graph.cli:*)",
+      "WebFetch(domain:oss.geocodes-aws.earthcube.org)",
+      "Bash(qleverctl generate-from-location:*)",
+      "Bash(python -m pip install:*)",
+      "Bash(qleverctl --help:*)",
+      "Bash(qleverctl push-configs:*)",
+      "Bash(qleverctl create-stack:*)",
+      "Bash(qleverctl update-stack:*)",
+      "Bash(qleverctl restart-stack:*)",
+      "Bash(qleverctl generate --help:*)",
+      "Bash(qleverctl list-stacks:*)",
+      "Bash(qleverctl deploy-from-tenant:*)",
+      "WebFetch(domain:api.swaggerhub.com)",
+      "WebSearch",
+      "Bash(curl:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(make:*)",
+      "Bash(python3:*)",
+      "WebFetch(domain:oss.geocodes-aws-dev.earthcube.org)"
+    ]
+  }
+}

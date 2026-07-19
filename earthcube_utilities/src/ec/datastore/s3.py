@@ -226,7 +226,8 @@ class MinioDatastore(bucketDatastore):
         self.endpoint = s3endpoint
         self.options = {} if options is None else options # old code has none...
         self.default_bucket= default_bucket
-        logging.info(str(options))
+        safe_opts = {k: ("***" if "key" in k.lower() or "secret" in k.lower() or "token" in k.lower() else v) for k, v in (options or {}).items()}
+        logging.info(str(safe_opts))
         self.s3client  =minio.Minio(s3endpoint, **self.options ) # this will neeed to be fixed with authentication
 
 

@@ -1,0 +1,2 @@
+ make dry-run-prod CONFIG_BASE=https://oss.geocodes-aws.earthcube.org/decoder/scheduler/configs/production QLEVER_BUCKET=decoder S3_RELEASE_PREFIX=https://oss.geocodes-aws.earthcube.org/decoder/graphs/latest
+ make deploy-prod CONFIG_BASE=https://oss.geocodes-aws.earthcube.org/decoder/scheduler/configs/production QLEVER_BUCKET=decoder S3_RELEASE_PREFIX=https://oss.geocodes-aws.earthcube.org/decoder/graphs/latest

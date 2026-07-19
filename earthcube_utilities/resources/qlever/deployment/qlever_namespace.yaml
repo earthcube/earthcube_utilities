@@ -1,0 +1,79 @@
+version: '3.9'
+
+networks:
+  qlever_network:
+      name: qlever-network-${QLEVER_NET:-base}
+      external: true
+  traefik_proxy:
+      name: traefik_proxy
+      external: true
+#export USER_ID=$(id -u)
+#export GROUP_ID=$(id -g)
+volumes:
+  qleverflow_data:
+    name: qleverflow_data_${QLEVER_VOL:-main}
+  release_data:
+    name: release_data
+    external: true
+configs:
+  qlever-config:
+    name: qlever-config-${QLEVER_CONFIG:-deepoceans}
+    external: true
+  qlever-ui:
+    name: qlever-ui-${QLEVER_CONFIG_UI:-deepoceans}
+    external: true
+services:
+
+ qlever-server-project:
+   # prevent continuous restarting... it may restart due to a crash
+   # withouth this a data load will run and pull data (and create a big bill)
+    restart: on-failure:3
+    image: docker.io/adfreiburg/qlever:${QLEVER_CONTAINER_TAG:-latest}
+    hostname: qlever.server.${PROJECT:-deepoceans}
+    init: true
+    user: "root:root"  # Will be set via .env file
+    #user: "1000:1000"  # Will be set via .env file
+    working_dir: /data
+#    ports:
+#      - "7019:7019"
+    environment:
+      - PATH="/qlever:/qlever/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - LANG="C.UTF-8"
+      - LC_ALL="C.UTF-8"
+      - LC_CTYPE="C.UTF-8"
+      - DEBIAN_FRONTEND="noninteractive"
+      - QLEVER_PROFILE="/etc/profile.d/qlever.sh"
+      - QLEVER_ARGCOMPLETE_ENABLED="1"
+      - QLEVER_IS_RUNNING_IN_CONTAINER="1"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - type: volume
+        source: release_data
+        target: /release
+    configs:
+      - source: qlever-config
+        target: /data/Qleverfile
+    entrypoint: /qlever/docker-entrypoint.sh
+    command: >
+     ' ls -l /release && qlever index --text-index from_text_records_and_literals  && qlever start --use-text-index yes --run-in-foreground '
+    #restart: unless-stopped
+    networks: &network
+      - qlever_network
+      - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.qlever-project-${PROJECT:-deepoceans}.entrypoints=http"
+      - "traefik.http.routers.qlever-project-${PROJECT:-deepoceans}.rule=Host(`qlever.${HOST}`) && PathPrefix(`/graphspace/${PROJECT}`)"
+      - "traefik.http.middlewares.qlever-project-${PROJECT:-deepoceans}-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.qlever-project-${PROJECT:-deepoceans}.middlewares=qlever-project-${PROJECT:-deepoceans}-https-redirect"
+      - "traefik.http.routers.qlever-project-${PROJECT:-deepoceans}-secure.entrypoints=https"
+      - "traefik.http.routers.qlever-project-${PROJECT:-deepoceans}-secure.rule=Host(`qlever.${HOST}`) && PathPrefix(`/graphspace/${PROJECT}`)"
+      - "traefik.http.routers.qlever-project-${PROJECT:-deepoceans}-secure.tls=true"
+      - "traefik.http.routers.qlever-project-${PROJECT:-deepoceans}-secure.tls.certresolver=httpresolver"
+      - "traefik.http.routers.qlever-project-${PROJECT:-deepoceans}-secure.service=qlever-project-${PROJECT:-deepoceans}"
+      - "traefik.http.services.qlever-project-${PROJECT:-deepoceans}.loadbalancer.server.port=7019"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.http.middlewares.qlever-stripprefix-${PROJECT:-deepoceans}.stripprefix.prefixes=/graphspace/${PROJECT:-deepoceans}"
+      - "traefik.http.routers.qlever-project-${PROJECT:-deepoceans}-secure.middlewares=qlever-stripprefix-${PROJECT:-deepoceans}"
+
+

@@ -61,6 +61,45 @@ class ManageGraph( ABC): #really a manage graph namespace, bc a graph has severa
     def loadReleaseFromUrl(self, url=None, source=None, namespace=None, suffix='release'):
         return NotImplemented
 
+    '''
+    url= minio bucket url
+    tenant = tenant object from the tenant.yaml file. This is not the whole file, but just one object
+    source = list of source names, if a tenant is passed, or tenant.sources=all 
+    At present, this will only rebuild the main namespace'''
+    @abstractmethod
+    def rebuildNamespaceFromReleases(self, tenant=None, sources=None, namespace=None, url=None, suffix='release'):
+        if sources is  None and  tenant is not None:
+            log.error('Must include tenant object or sources array')
+            raise Exception('Must include tenant object or sources array')
+        if sources is None:
+            sources = tenant["sources"]
+            name=tenant['name']
+            if namespace is None:
+                namespace=tenant['graph']['main_namespace']
+                summary_namespace = tenant['graph']['summary_namespace']
+            else:
+                summary_namespace = f'{namespace}_summary'
+            if 'all' in sources:
+                log.error('tenant.sources=all is not supported. Must pass a list of source names')
+                raise Exception('tenant.sources=all is not supported. Must pass a list of source names')
+        self.deleteNamespace()
+        self.createNamespace()
+        if namespace is None:
+            namespace = self.namespace
+        loadedSource = []
+        failedSource = []
+        for source in sources:
+            try:
+                self.loadReleaseFromUrl(url=url, source=source, namespace=namespace, suffix=suffix)
+                log.info(f'loadReleaseFromUrl  for {source} to baseurl{self.baseurl} with namespace {namespace}')
+                loadedSource.append(source)
+            except Exception as e:
+                log.error(f'loadReleaseFromUrl failed for {source} to baseurl{self.baseurl} with namespace {namespace} exception {e}')
+                failedSource.append(source)
+                continue
+        log.info(f'loaded sources {loadedSource} failed sources {failedSource}')
+        return
+
     # insert is private, i think
     @abstractmethod
     def insert(self, data, content_type="text/x-nquads"):
@@ -537,6 +576,33 @@ curl <base_url>/rest/login/<username> -X POST -H 'X-GraphDB-Password: <password>
             return True
         else:
             return False
+
+class ManageQlever(ManageGraph):
+    """ Manages a Qlever instance for a single namespace
+    This will need to manage 'namespaces by creating containers
+    Steps:
+    * get namespace
+    * create a container
+    * Create a config, or copy config into the container
+    * start the container
+
+     """
+
+    def authenticate(self, username: str, password: str) -> bool:
+        return NotImplemented
+
+    def createNamespace(self, quads=True):
+        """ Creates a new namespace"""
+        return NotImplemented
+    def deleteNamespace(self):
+        """ deletes a blazegraph namespace"""
+        return NotImplemented
+
+    def loadReleaseFromUrl(self, url=None, source=None, namespace=None, suffix='release'):
+        return NotImplemented
+    def insert(self, data, content_type="text/x-nquads"):
+        return NotImplemented
+
 
 
 
