@@ -79,12 +79,13 @@ summarize_identifier_metadata = "ec.summarize_identifier_metadata:start"
 ec_reports = "ec.ec_reports:start"
 bucketutil = "ec.bucketutil:start"
 qleverctl = "ec.graph.cli:main"
+spatial_wkt = "ec.spatial_wkt:start"
 
 [tool.setuptools]
 [tool.setuptools.packages.find]
 where = ["./src"]
 [tool.setuptools.package-data]
-"*" = ["*.txt", "*.sparql"]
+"*" = ["*.txt", "*.sparql", "*.rq"]
 #package-data = { "ec"=["graph/resources/sparql/*.sparql"]}
 #[tool.setuptools.dynamic]
 #dependencies = {file = ["requirements.txt"]}

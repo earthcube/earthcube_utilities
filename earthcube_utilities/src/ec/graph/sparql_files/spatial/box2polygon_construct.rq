@@ -2,6 +2,7 @@ PREFIX schema: <https://schema.org/>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX sf:   <http://www.opengis.net/ont/sf#>
 
 CONSTRUCT {
     # repeat the old, for fun
@@ -10,8 +11,7 @@ CONSTRUCT {
     ?spatialcoverage schema:geo ?geo .
 
     ?geo geo:hasGeometry ?geometry .
-    ?geometry a geo:Geometry .
-    # or a <http://www.opengis.net/ont/sf#Point>    might be better
+    ?geometry a sf:Polygon .
     ?geometry geo:asWKT ?wkt .
 }
 WHERE {

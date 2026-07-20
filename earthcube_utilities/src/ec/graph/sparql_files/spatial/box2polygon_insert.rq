@@ -6,7 +6,6 @@ PREFIX sf:   <http://www.opengis.net/ont/sf#>
 INSERT {
     ?geo geo:hasGeometry ?geometry .
     ?geometry a sf:Polygon .
-    # or a <http://www.opengis.net/ont/sf#Point>    might be better
     ?geometry geo:asWKT ?wkt .
 }
 WHERE {
