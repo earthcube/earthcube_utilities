@@ -1,0 +1,14 @@
+prefix schema: <https://schema.org/>
+# use urn_triples_for_a_graph (urn_triples_for_a_graph.sparql)
+# to get the triples for an org graphorg_all_org_triples.sparql
+
+
+   select ?g  ?maxdepth  ?minDepth where {
+
+      GRAPH ?g {?s ?p <https://schema.org/PropertyValue>  .
+                ?s schema:name "depth" .
+                ?s schema:maxValue ?maxdepth .
+              ?s schema:minValue ?minDepth
+
+     }
+   }
