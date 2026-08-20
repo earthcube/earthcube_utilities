@@ -74,7 +74,16 @@ def get_url_from_sha_list(shas: list,  bucket, repo, datastore: bucketDatastore)
 
     pass
 
-def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore, graphendpoint, milled=True, summon=False):
+def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore,
+                  graphendpoint=None, milled=True, summon=False, graph_urns=None):
+    """Compare a sitemap, what was summoned, and what reached the graph.
+
+    graph_urns: the named graph urns to compare against, if the caller already
+       has them. A caller holding the release can read them straight out of it
+       -- the release is exactly the set of named graphs -- which is cheaper
+       and needs no live endpoint. When it is None the urns are queried from
+       graphendpoint, as before.
+    """
     today = date.today().strftime("%Y-%m-%d")
     response = {"source":repo,"graph":graphendpoint,"sitemap":valid_sitemap_url,
                 "date": today, "bucket": bucket, "s3store": datastore.endpoint }
@@ -105,8 +114,10 @@ def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatast
     summoned_sha_list = datastore.listSummonedSha(bucket, repo)
     response["summon_list_s3_sha_time"] = time.time() - t
     t = time.time()
-    graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, {"repo": repo})
-    graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns['g']))
+    if graph_urns is None:
+        graph_urns = ec.graph.sparql_query.queryWithSparql(
+            "repo_select_graphs", graphendpoint, {"repo": repo})['g']
+    graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns))
     response["graph_sha_urn_time"] = time.time() - t
     dif_summon_graph = pydash.arrays.difference(summoned_sha_list, graph_shas)
     response["graph_urn_count"] = pydash.collections.size(graph_shas)
