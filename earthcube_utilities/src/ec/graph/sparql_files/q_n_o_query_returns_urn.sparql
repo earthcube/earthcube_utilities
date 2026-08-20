@@ -1,0 +1,21 @@
+# this would return just graph urn's
+# which might then be retrived by urn_triples_for_a_graph.sparql, and converted.
+# or we might proxy urn_triples_for_a_graph.sparql and just use it to get the jsonld, directly.
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+ prefix schema: <https://schema.org/>
+
+
+
+    SELECT distinct ?g
+              WHERE {
+                ?p bds:search "water" .
+                ?p bds:matchAllTerms false .
+                ?p bds:relevance ?score1 .
+                #?p bds:minRelevance 0.18 .
+                Graph ?g  {}
+
+             }
+LIMIT ${n}
+OFFSET ${o}

@@ -1,0 +1,2 @@
+# this just returns the top level triples for a subject
+describe <${subj}>

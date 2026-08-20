@@ -7,7 +7,7 @@ from pydash.collections import find
 from pydash import is_empty
 from ec.gleanerio.gleaner import getSitemapSourcesFromGleaner, getGleaner
 from ec.reporting.report import generateGraphReportsRepo, reportTypes, missingReport, generateIdentifierRepo, \
-    generateReportStats
+    generateReportStats, sourcesFromCSV, countsFromSummaryEndpoint
 from ec.datastore import s3
 from ec.logger import config_app
 from ec.sitemap import Sitemap
@@ -256,9 +256,13 @@ def generate_report_stats(cfgfile, s3server, s3bucket, graphendpoint, upload, ou
     if is_empty(community):
         community = 'all'
     # graphendpoint needs to be summary
-    report = generateReportStats(url, bucket, s3Minio, graphendpoint, community)
+    sources = sourcesFromCSV(url, community)
+    counts = countsFromSummaryEndpoint(graphendpoint)
+    report = generateReportStats(sources, counts, community)
 
-    if upload:
+    # a community that matched nothing writes nothing, rather than replacing a
+    # good report with an empty one
+    if upload and sources:
         s3Minio.putReportFile(bucket, f"tenant/{community}", f"report_stats.json", report)
     return
 

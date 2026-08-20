@@ -1,0 +1,23 @@
+
+# attempt to get top level triples, and associated blank nodes.
+# at present this does not get triples that are not blank nodes
+#
+CONSTRUCT {?x ?y ?z . ?z ?w ?v . ?z ?w1 ?v1 . ?v2 ?w3 ?v3} WHERE
+  {
+    <https://portal.opentopography.org/raster?opentopoID=OTSDEM.052015.26910.1>  ?y ?z .
+    BIND(<https://portal.opentopography.org/raster?opentopoID=OTSDEM.052015.26910.1>  as ?x)
+    OPTIONAL {
+      ?z ?w ?v
+      FILTER (isBlank(?z) && !isBlank(?v))
+
+     }
+     OPTIONAL {
+      ?z ?w1 ?v1
+    }
+    OPTIONAL {
+      ?z ?w2 ?v2
+      FILTER (isBlank(?z) && isBlank(?v2))
+      ?v2 ?w3 ?v3
+     }
+
+}

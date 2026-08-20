@@ -1,0 +1,15 @@
+# this returns the URN's and the types of non blank nodes
+prefix schema: <https://schema.org/>
+SELECT ?s ?type
+WHERE {
+Graph ?g {
+
+       ?s a ?type .
+  		?s schema:identifier ?id .
+FILTER ( !isBLANK(?s) )  .
+FILTER( CONTAINS(str(?g), "${repo}"))
+       }
+}
+
+GROUP By ?type ?s
+ORDER By DESC(?scount)

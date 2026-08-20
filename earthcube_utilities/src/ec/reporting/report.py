@@ -12,7 +12,6 @@ from ec.graph.release_graph import ReleaseGraph
 from ec.graph.sparql_query import queryWithSparql
 
 from ec.datastore.s3 import bucketDatastore
-from ec.sitemap import Sitemap
 
 import csv
 from urllib import request
@@ -75,7 +74,16 @@ def get_url_from_sha_list(shas: list,  bucket, repo, datastore: bucketDatastore)
 
     pass
 
-def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore, graphendpoint, milled=True, summon=False):
+def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatastore,
+                  graphendpoint=None, milled=True, summon=False, graph_urns=None):
+    """Compare a sitemap, what was summoned, and what reached the graph.
+
+    graph_urns: the named graph urns to compare against, if the caller already
+       has them. A caller holding the release can read them straight out of it
+       -- the release is exactly the set of named graphs -- which is cheaper
+       and needs no live endpoint. When it is None the urns are queried from
+       graphendpoint, as before.
+    """
     today = date.today().strftime("%Y-%m-%d")
     response = {"source":repo,"graph":graphendpoint,"sitemap":valid_sitemap_url,
                 "date": today, "bucket": bucket, "s3store": datastore.endpoint }
@@ -106,8 +114,10 @@ def missingReport(valid_sitemap_url :str , bucket, repo, datastore: bucketDatast
     summoned_sha_list = datastore.listSummonedSha(bucket, repo)
     response["summon_list_s3_sha_time"] = time.time() - t
     t = time.time()
-    graph_urns = ec.graph.sparql_query.queryWithSparql("repo_select_graphs", graphendpoint, {"repo": repo})
-    graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns['g']))
+    if graph_urns is None:
+        graph_urns = ec.graph.sparql_query.queryWithSparql(
+            "repo_select_graphs", graphendpoint, {"repo": repo})['g']
+    graph_shas = list(map(lambda u: pydash.strings.substr_right_end(u, ":"), graph_urns))
     response["graph_sha_urn_time"] = time.time() - t
     dif_summon_graph = pydash.arrays.difference(summoned_sha_list, graph_shas)
     response["graph_urn_count"] = pydash.collections.size(graph_shas)
@@ -357,59 +367,79 @@ def readSourceCSV(csv_url):
     data_list = list(csv_reader)
     return data_list
 
-def generateReportStats(url, bucket, datastore: bucketDatastore, graphendpoint, community):
+
+def sourcesFromCSV(url, community):
+    """Sources for a community, read from the published sources sheet.
+
+    Returned in the same shape as a gleanerconfig.yaml ``sources:`` entry --
+    name/propername/domain/url/description -- so generateReportStats has one
+    input shape whether the sources came from the sheet or from a gleaner
+    config.
+
+    An unmatched community gives an empty list, which renders as an empty
+    report; the caller decides whether that is worth uploading.
+    """
     sources = readSourceCSV(url)
     if community != "all":
         sources = list(filter(lambda source: community in source.get('Community'), sources))
-        if len(sources) == 0:
-            return None
     else:
         sources = list(filter(lambda source: source.get('Active') == "TRUE", sources))
 
-    # graphendpoint needs to be summary for this sparql
+    return [{
+        "name": source.get('Name'),
+        "propername": source.get('ProperName'),
+        "domain": source.get('Domain'),
+        "url": source.get('URL'),
+        "description": source.get('Description'),
+    } for source in sources]
+
+
+def countsFromSummaryEndpoint(graphendpoint):
+    """{repo: dataset count} from a summary namespace.
+
+    The repo has to be recovered from the graph urn, which only lands on the
+    repo for urns shaped like urn:gleaner.io:eco:{repo}:data:{id}; a release
+    that mints urn:ec-geocodes:{repo}:{sha} scores index 3 as the sha and the
+    count silently comes out empty. Counting the named graphs in a release is
+    exact and needs no such guess -- this is kept for callers that have a
+    summary endpoint and no releases to hand.
+    """
     df = queryWithSparql("repo_count_graphs_summary", graphendpoint)
     # dropping null value columns to avoid errors
     df.dropna(inplace=True)
     df["repo"] = df["g"].str.split(":", n=-1, expand=True)[3]
     df = df.groupby(["repo"])["g"].nunique().reset_index(name='DistinctCount')
+    return {repo: int(count) for repo, count in zip(df["repo"], df["DistinctCount"])}
 
+
+def generateReportStats(sources, counts, community):
+    """Render the per source report_stats.json for one community.
+
+    Parameters:
+       sources: source dicts keyed as a gleanerconfig.yaml ``sources:`` entry
+          is -- name, propername, domain, url, and optionally description.
+          sourcesFromCSV puts the published sheet into this shape.
+       counts: {source name: record count}. A source missing from the mapping
+          reports 0, which is what an absent row in the summary graph gave.
+       community: written to every entry's "community" field.
+
+    Returns a json string. Doing no i/o of its own is the point: the caller
+    decides where the source list and the counts come from.
+    """
     report = []
-    for i in sources:
-        source_url = i.get('URL')
-        source_landing_page = i.get('Domain')
-        source_name = i.get('Name')
-        source_proper_name = i.get('ProperName')
-        source_community = i.get('Community')
-        source_des = i.get('Description')
-
-        df_repo = df[df["repo"] == source_name]
-        try:
-            sm = Sitemap(source_url)
-            if not sm.validUrl():
-                logging.error(f"Invalid or unreachable URL: {source_url} ")
-
-            source_records = 0
-            if df_repo.empty:
-                logging.info(f"Repo is empty in graph: {source_name} ")
-            else:
-                source_records = df_repo["DistinctCount"].values[0].astype(str)
-
-            dict = {
-                "source": source_name,
-                "title": source_proper_name,
-                "website": source_landing_page,
-                "sitemap": source_url,
-                "image": f"{source_name}.png",
-                "community": source_community,
-                "description": source_des,
-                "records": source_records
-            }
-
-            report.append(dict)
-
-        except Exception as e:
-            logging.error(
-                f"could not write report stats for {source_name} {bucket} error:{str(e)}")
+    for source in sources:
+        source_name = source.get('name')
+        report.append({
+            "source": source_name,
+            "title": source.get('propername'),
+            "website": source.get('domain'),
+            "sitemap": source.get('url'),
+            "image": f"{source_name}.png",
+            "community": community,
+            "description": source.get('description') or "",
+            # a string, as it was when it came off a numpy column
+            "records": str(counts.get(source_name, 0))
+        })
 
     report_json = json.dumps(report, indent=4)
 

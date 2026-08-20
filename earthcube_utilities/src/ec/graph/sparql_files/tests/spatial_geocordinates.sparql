@@ -1,0 +1,15 @@
+prefix schema: <https://schema.org/>
+select * where {
+
+      GRAPH ?g { ?s ?a schema:Place .
+                ?s  schema:geo ?o.
+                ?o ?a schema:GeoCoordinates .
+
+                  ?o schema:latitude  ?lat .
+
+                ?o schema:longitude   ?lon .
+                OPTIONAL {?o schema:name ?placename}
+               }
+
+
+   } limit 100
