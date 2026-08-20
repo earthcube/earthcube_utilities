@@ -65,8 +65,12 @@ class ManageGraph( ABC): #really a manage graph namespace, bc a graph has severa
     url= minio bucket url
     tenant = tenant object from the tenant.yaml file. This is not the whole file, but just one object
     source = list of source names, if a tenant is passed, or tenant.sources=all 
-    At present, this will only rebuild the main namespace'''
-    @abstractmethod
+    At present, this will only rebuild the main namespace
+
+    Concrete on purpose: it is a template method over deleteNamespace,
+    createNamespace and loadReleaseFromUrl, which are the abstract ones. It was
+    decorated @abstractmethod, which left every subclass unable to instantiate
+    because none of them override it.'''
     def rebuildNamespaceFromReleases(self, tenant=None, sources=None, namespace=None, url=None, suffix='release'):
         if sources is  None and  tenant is not None:
             log.error('Must include tenant object or sources array')
