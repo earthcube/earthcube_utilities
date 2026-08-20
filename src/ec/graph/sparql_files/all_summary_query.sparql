@@ -1,0 +1,86 @@
+PREFIX schema: <https://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?subj ?g ?resourceType ?name ?description ?pubname
+       (GROUP_CONCAT(DISTINCT ?placename; SEPARATOR=", ") AS ?placenames)
+       (GROUP_CONCAT(DISTINCT ?kwu; SEPARATOR=", ") AS ?kw)
+       ?datep ?sosType
+       (MAX(?maxDepth1) AS ?maxDepth) (MIN(?minDepth1) AS ?minDepth)
+       (SAMPLE(?temporalCoverageOut) AS ?temporalCoverage)
+WHERE {
+  GRAPH ?g {
+    VALUES ?sosType { schema:Dataset }
+
+    ?subj a ?sosType ;
+          schema:name ?name ;
+          schema:description ?description .
+
+    MINUS { ?subj a schema:Person } .
+
+    BIND(
+      IF (
+        EXISTS { ?subj a schema:Dataset . } || EXISTS { ?subj a schema:DataCatalog . },
+        "data",
+        "tool"
+      ) AS ?resourceType
+    ).
+
+    OPTIONAL { ?subj schema:datePublished ?datep . }
+    OPTIONAL { ?subj schema:publisher/schema:name|schema:sdPublisher|schema:provider/schema:name ?pub_name . }
+    OPTIONAL { ?subj schema:spatialCoverage/schema:name ?place_name . }
+    OPTIONAL { ?subj schema:keywords ?kw1 . }
+
+    # ---- temporalCoverage: keep year only; if missing -> 2010 ----
+    OPTIONAL {
+      ?subj schema:temporalCoverage ?tcRaw .
+
+      # split on "/"
+      BIND(STRBEFORE(STR(?tcRaw), "/") AS ?tcStartRaw)
+      BIND(STRAFTER(STR(?tcRaw), "/")  AS ?tcEndRaw)
+
+      # if no "/", STRBEFORE gives "", so fallback to whole string
+      BIND(IF(?tcStartRaw = "", STR(?tcRaw), ?tcStartRaw) AS ?tcStart)
+      BIND(IF(?tcEndRaw   = "", STR(?tcRaw), ?tcEndRaw)   AS ?tcEnd)
+
+      # year = first 4 chars (works for "2017" and "1993-10-27")
+      BIND(SUBSTR(?tcStart, 1, 4) AS ?tcStartYear)
+      BIND(SUBSTR(?tcEnd,   1, 4) AS ?tcEndYear)
+
+      # format: "YYYY/YYYY" (or "YYYY" if start=end)
+      BIND(
+        IF(?tcStartYear = ?tcEndYear, ?tcStartYear, CONCAT(?tcStartYear, "/", ?tcEndYear))
+        AS ?temporalCoverageYear
+      )
+    }
+
+    # fallback if null
+    BIND(IF(BOUND(?temporalCoverageYear), ?temporalCoverageYear, "2010") AS ?temporalCoverageOut)
+
+    # ---- depth block ----
+    OPTIONAL {
+      ?subj schema:variableMeasured ?vm .
+      ?vm a schema:PropertyValue .
+
+      OPTIONAL { ?vm schema:name ?vmName . }
+      OPTIONAL { ?vm schema:propertyID ?propId . }
+
+      FILTER (
+        LCASE(STR(COALESCE(?vmName, ""))) IN ("package_depth", "depth")
+        || STR(COALESCE(?propId, "")) = "http://vocab.nerc.ac.uk/standard_name/depth"
+      )
+
+      OPTIONAL { ?vm schema:maxValue ?maxDepthRaw . }
+      OPTIONAL { ?vm schema:minValue ?minDepthRaw . }
+
+      # Cast so MAX/MIN behaves numerically (not lexicographically)
+      BIND(xsd:decimal(?maxDepthRaw) AS ?maxDepth1)
+      BIND(xsd:decimal(?minDepthRaw) AS ?minDepth1)
+    }
+
+    # need these to get rdflib to work
+    BIND(COALESCE(?kw1, "") AS ?kwu) .
+    BIND(IF(BOUND(?pub_name), ?pub_name, "No Publisher") AS ?pubname) .
+    BIND(COALESCE(?place_name, "") AS ?placename) .
+  }
+}
+GROUP BY ?subj ?g ?resourceType ?name ?description ?pubname ?datep ?sosType

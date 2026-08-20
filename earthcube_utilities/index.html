@@ -1,0 +1,1028 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="../notebook_proxy/" rel="prev"/>
+<link href="earthcube_utilities_scripts/" rel="next"/>
+<link href="../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>Documentation - Earthcube Utilities</title>
+<link href="../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../assets/_mkdocstrings.css" rel="stylesheet"/>
+<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#earthcube-utilities">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Earthcube Utilities" class="md-header__button md-logo" data-md-component="logo" href=".." title="Earthcube Utilities">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Earthcube Utilities
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Documentation
+            
+          </span>
+</div>
+</div>
+</div>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/earthcube/earthcube_utilities" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../notebook_proxy/">
+        
+  
+  
+    
+  
+  Notebook Proxy
+
+      </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="./">
+          
+  
+  
+  Earthcube Utilities
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="earthcube_utilities_code/">
+          
+  
+  
+  Code Reference
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Earthcube Utilities" class="md-nav__button md-logo" data-md-component="logo" href=".." title="Earthcube Utilities">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Earthcube Utilities
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/earthcube/earthcube_utilities" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../notebook_proxy/">
+<span class="md-ellipsis">
+    
+  
+    Notebook Proxy
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Earthcube Utilities
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Earthcube Utilities
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Documentation
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    Documentation
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#features">
+<span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#installation">
+<span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+</a>
+<nav aria-label="Installation" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#requirements">
+<span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#install-from-pypi">
+<span class="md-ellipsis">
+      
+        Install from PyPI
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#development-install">
+<span class="md-ellipsis">
+      
+        Development Install
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#command-line-tools">
+<span class="md-ellipsis">
+      
+        Command-Line Tools
+      
+    </span>
+</a>
+<nav aria-label="Command-Line Tools" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#graph-and-reporting-tools">
+<span class="md-ellipsis">
+      
+        Graph and Reporting Tools
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qlever-manager-qleverctl">
+<span class="md-ellipsis">
+      
+        qLever Manager (qleverctl)
+      
+    </span>
+</a>
+<nav aria-label="qLever Manager (qleverctl)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generate-qlever-configurations">
+<span class="md-ellipsis">
+      
+        Generate qLever Configurations
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#portainer-integration">
+<span class="md-ellipsis">
+      
+        Portainer Integration
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#end-to-end-deployment">
+<span class="md-ellipsis">
+      
+        End-to-End Deployment
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#environment-variables">
+<span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+</a>
+<nav aria-label="Environment Variables" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#graph-database">
+<span class="md-ellipsis">
+      
+        Graph Database
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#minios3">
+<span class="md-ellipsis">
+      
+        MinIO/S3
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#portainer">
+<span class="md-ellipsis">
+      
+        Portainer
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#documentation">
+<span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#development">
+<span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+</a>
+<nav aria-label="Development" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#setup-development-environment">
+<span class="md-ellipsis">
+      
+        Setup Development Environment
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#running-tests">
+<span class="md-ellipsis">
+      
+        Running Tests
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#building-package">
+<span class="md-ellipsis">
+      
+        Building Package
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#after-editing-pyprojecttoml">
+<span class="md-ellipsis">
+      
+        After Editing pyproject.toml
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#architecture">
+<span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+</a>
+<nav aria-label="Architecture" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#core-components">
+<span class="md-ellipsis">
+      
+        Core Components
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#design-principles">
+<span class="md-ellipsis">
+      
+        Design Principles
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#contributing">
+<span class="md-ellipsis">
+      
+        Contributing
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#links">
+<span class="md-ellipsis">
+      
+        Links
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="earthcube_utilities_scripts/">
+<span class="md-ellipsis">
+    
+  
+    Scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="reporting/">
+<span class="md-ellipsis">
+    
+  
+    Reporting
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="summarize/">
+<span class="md-ellipsis">
+    
+  
+    Summarize
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Code Reference
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Code Reference
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="earthcube_utilities_code/">
+<span class="md-ellipsis">
+    
+  
+    Earthcube Utilites
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#features">
+<span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#installation">
+<span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+</a>
+<nav aria-label="Installation" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#requirements">
+<span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#install-from-pypi">
+<span class="md-ellipsis">
+      
+        Install from PyPI
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#development-install">
+<span class="md-ellipsis">
+      
+        Development Install
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#command-line-tools">
+<span class="md-ellipsis">
+      
+        Command-Line Tools
+      
+    </span>
+</a>
+<nav aria-label="Command-Line Tools" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#graph-and-reporting-tools">
+<span class="md-ellipsis">
+      
+        Graph and Reporting Tools
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#qlever-manager-qleverctl">
+<span class="md-ellipsis">
+      
+        qLever Manager (qleverctl)
+      
+    </span>
+</a>
+<nav aria-label="qLever Manager (qleverctl)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generate-qlever-configurations">
+<span class="md-ellipsis">
+      
+        Generate qLever Configurations
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#portainer-integration">
+<span class="md-ellipsis">
+      
+        Portainer Integration
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#end-to-end-deployment">
+<span class="md-ellipsis">
+      
+        End-to-End Deployment
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#environment-variables">
+<span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+</a>
+<nav aria-label="Environment Variables" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#graph-database">
+<span class="md-ellipsis">
+      
+        Graph Database
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#minios3">
+<span class="md-ellipsis">
+      
+        MinIO/S3
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#portainer">
+<span class="md-ellipsis">
+      
+        Portainer
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#documentation">
+<span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#development">
+<span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+</a>
+<nav aria-label="Development" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#setup-development-environment">
+<span class="md-ellipsis">
+      
+        Setup Development Environment
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#running-tests">
+<span class="md-ellipsis">
+      
+        Running Tests
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#building-package">
+<span class="md-ellipsis">
+      
+        Building Package
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#after-editing-pyprojecttoml">
+<span class="md-ellipsis">
+      
+        After Editing pyproject.toml
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#architecture">
+<span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+</a>
+<nav aria-label="Architecture" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#core-components">
+<span class="md-ellipsis">
+      
+        Core Components
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#design-principles">
+<span class="md-ellipsis">
+      
+        Design Principles
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#contributing">
+<span class="md-ellipsis">
+      
+        Contributing
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#links">
+<span class="md-ellipsis">
+      
+        Links
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/earthcube/earthcube_utilities/edit/docs/docs/earthcube_utilities/index.md" rel="edit" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
+</a>
+<a class="md-content__button md-icon" href="https://github.com/earthcube/earthcube_utilities/raw/docs/docs/earthcube_utilities/index.md" title="View source of this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"></path></svg>
+</a>
+<h1 id="earthcube-utilities">Earthcube Utilities<a class="headerlink" href="#earthcube-utilities" title="Permanent link"></a></h1>
+<p>A package of utilities for the NSF Earthcube Geocodes Project.</p>
+<p><strong>Version:</strong> 0.2.00
+<strong>Python:</strong> &gt;= 3.11
+<strong>PyPI:</strong> https://pypi.org/project/earthcube-utilities/</p>
+<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link"></a></h2>
+<ul>
+<li><strong>Graph Management</strong>: Create, delete, and manage graph database namespaces (BlazegraphDB, GraphDB)</li>
+<li><strong>SPARQL Querying</strong>: Template-based SPARQL queries with sparqldataframe wrapper</li>
+<li><strong>qLever Manager</strong>: Generate and deploy qLever configurations for EarthCube communities</li>
+<li><strong>Portainer Integration</strong>: Deploy qLever instances to Portainer as Docker stacks</li>
+<li><strong>Data Stores</strong>: S3-compatible storage utilities (MinIO)</li>
+<li><strong>Reporting</strong>: Generate reports on repository status and metadata</li>
+<li><strong>Validation</strong>: Science on Schema JSON-LD validation and summarization</li>
+<li><strong>Collections</strong>: RO-Crate archive handling</li>
+</ul>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link"></a></h2>
+<h3 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link"></a></h3>
+<ul>
+<li>Python 3.11 or higher</li>
+</ul>
+<h3 id="install-from-pypi">Install from PyPI<a class="headerlink" href="#install-from-pypi" title="Permanent link"></a></h3>
+<pre class="highlight"><code class="language-bash">pip install earthcube-utilities</code></pre>
+<h3 id="development-install">Development Install<a class="headerlink" href="#development-install" title="Permanent link"></a></h3>
+<pre class="highlight"><code class="language-bash">cd earthcube_utilities
+pip install -e '.[dev]'</code></pre>
+<h2 id="command-line-tools">Command-Line Tools<a class="headerlink" href="#command-line-tools" title="Permanent link"></a></h2>
+<p>The package provides several CLI tools:</p>
+<h3 id="graph-and-reporting-tools">Graph and Reporting Tools<a class="headerlink" href="#graph-and-reporting-tools" title="Permanent link"></a></h3>
+<pre class="highlight"><code class="language-bash">generategraphstats      # Generate graph statistics
+check_sitemap           # Check sitemap validity
+query_graph             # Query the graph database
+missing_report          # Generate missing metadata reports
+summarize_identifier_metadata  # Summarize identifier metadata
+ec_reports              # Generate EC reports
+bucketutil              # S3 bucket utilities</code></pre>
+<h3 id="qlever-manager-qleverctl">qLever Manager (<code>qleverctl</code>)<a class="headerlink" href="#qlever-manager-qleverctl" title="Permanent link"></a></h3>
+<p>Manage qLever instances for EarthCube communities.</p>
+<h4 id="generate-qlever-configurations">Generate qLever Configurations<a class="headerlink" href="#generate-qlever-configurations" title="Permanent link"></a></h4>
+<p>Generate Qleverfiles from tenant configuration:
+<pre class="highlight"><code class="language-bash">qleverctl generate \
+  --tenant path/to/tenant.yaml \
+  --gleaner path/to/gleanerconfig.yaml \
+  --base-release https://oss.geocodes-aws.earthcube.org/decoder/graphs/latest \
+  --out build/qlever_generated</code></pre></p>
+<p>Generate from shared configuration location:
+<pre class="highlight"><code class="language-bash">qleverctl generate-from-location \
+  --config-base earthcube_utilities/resources/gleanerio \
+  --base-release https://oss.geocodes-aws.earthcube.org/decoder/graphs/latest \
+  --out build/qlever_generated</code></pre></p>
+<h4 id="portainer-integration">Portainer Integration<a class="headerlink" href="#portainer-integration" title="Permanent link"></a></h4>
+<p>List all Portainer stacks:
+<pre class="highlight"><code class="language-bash">export PORTAINER_TOKEN=ptr_xxx
+qleverctl portainer-list --portainer-url http://localhost:9000</code></pre></p>
+<p>Restart a stack:
+<pre class="highlight"><code class="language-bash">qleverctl portainer-restart \
+  --portainer-url http://localhost:9000 \
+  --stack-name my-stack</code></pre></p>
+<p>Deploy configurations to Portainer:
+<pre class="highlight"><code class="language-bash">qleverctl portainer-deploy \
+  --portainer-url http://localhost:9000 \
+  --stack-name qlever-test \
+  --config-dir build/qlever_generated/test \
+  --community test \
+  --compose-file earthcube_utilities/resources/qlever/deployment/qlever_namespace.yaml</code></pre></p>
+<p>Update existing stack:
+<pre class="highlight"><code class="language-bash">qleverctl portainer-update \
+  --portainer-url http://localhost:9000 \
+  --stack-name qlever-test \
+  --config-dir build/qlever_generated/test \
+  --community test \
+  --restart</code></pre></p>
+<h4 id="end-to-end-deployment">End-to-End Deployment<a class="headerlink" href="#end-to-end-deployment" title="Permanent link"></a></h4>
+<p>Deploy from tenant configuration to Portainer in one command:
+<pre class="highlight"><code class="language-bash">qleverctl deploy-from-tenant \
+  --config-base earthcube_utilities/resources/gleanerio \
+  --base-release https://oss.geocodes-aws.earthcube.org/decoder/graphs/latest \
+  --portainer-url http://localhost:9000 \
+  --stack-prefix qlever- \
+  --dry-run</code></pre></p>
+<p>Remove <code>--dry-run</code> to actually deploy.</p>
+<h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link"></a></h2>
+<h3 id="graph-database">Graph Database<a class="headerlink" href="#graph-database" title="Permanent link"></a></h3>
+<ul>
+<li><code>GRAPHUSER</code> - Username for GraphDB</li>
+<li><code>GRAPHPASSWORD</code> - Password for GraphDB</li>
+</ul>
+<h3 id="minios3">MinIO/S3<a class="headerlink" href="#minios3" title="Permanent link"></a></h3>
+<ul>
+<li><code>MINIO_ENDPOINT</code> or <code>S3_ENDPOINT</code> - MinIO/S3 endpoint (default: localhost:9000)</li>
+<li><code>MINIO_ACCESS_KEY</code> - MinIO access key</li>
+<li><code>MINIO_SECRET_KEY</code> - MinIO secret key</li>
+<li><code>MINIO_SECURE</code> - Use HTTPS (default: false)</li>
+</ul>
+<h3 id="portainer">Portainer<a class="headerlink" href="#portainer" title="Permanent link"></a></h3>
+<ul>
+<li><code>PORTAINER_TOKEN</code> - Portainer API authentication token (required for all Portainer commands)</li>
+</ul>
+<h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link"></a></h2>
+<ul>
+<li><a href="https://earthcube.github.io/earthcube_utilities/earthcube_utilities/reporting/">Reporting</a></li>
+<li><a href="https://earthcube.github.io/earthcube_utilities/earthcube_utilities/summarize/">Summarize a namespace</a></li>
+<li><a href="https://www.earthcube.org/">Project Homepage</a></li>
+<li><a href="https://earthcube.github.io/geocodes_documentation/">Geocodes Documentation</a></li>
+</ul>
+<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link"></a></h2>
+<h3 id="setup-development-environment">Setup Development Environment<a class="headerlink" href="#setup-development-environment" title="Permanent link"></a></h3>
+<p>Create and activate a virtual environment:
+<pre class="highlight"><code class="language-bash">python3 -m venv venv
+source venv/bin/activate</code></pre></p>
+<p>Install in editable mode with dev dependencies:
+<pre class="highlight"><code class="language-bash">cd earthcube_utilities
+pip install -e '.[dev]'</code></pre></p>
+<h3 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link"></a></h3>
+<p>Run all tests:
+<pre class="highlight"><code class="language-bash">python -m unittest discover -s earthcube_utilities/tests</code></pre></p>
+<p>Run specific test file:
+<pre class="highlight"><code class="language-bash">python -m unittest earthcube_utilities/tests/managegraph_test.py</code></pre></p>
+<p>Run specific test case:
+<pre class="highlight"><code class="language-bash">python -m unittest summarize_materializedview_test.SummarizeMaterializedViewTestCase.test_summaryDF2ttl</code></pre></p>
+<h3 id="building-package">Building Package<a class="headerlink" href="#building-package" title="Permanent link"></a></h3>
+<p>Install build tools:
+<pre class="highlight"><code class="language-bash">python -m pip install build</code></pre></p>
+<p>Build wheel:
+<pre class="highlight"><code class="language-bash">python -m build --wheel</code></pre></p>
+<p>The <code>dist/</code> directory will contain the package. You can unzip the wheel to inspect contents.</p>
+<h3 id="after-editing-pyprojecttoml">After Editing pyproject.toml<a class="headerlink" href="#after-editing-pyprojecttoml" title="Permanent link"></a></h3>
+<p>If you edit <code>pyproject.toml</code> and want to test changes:
+<pre class="highlight"><code class="language-bash">pip uninstall earthcube-utilities
+pip install -e .</code></pre></p>
+<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link"></a></h2>
+<h3 id="core-components">Core Components<a class="headerlink" href="#core-components" title="Permanent link"></a></h3>
+<ul>
+<li><strong><code>ec.graph.manageGraph</code></strong> - Create, delete namespaces and insert data into graph databases</li>
+<li><strong><code>ec.graph.qlever_manager</code></strong> - Generate and deploy qLever configurations</li>
+<li><strong><code>ec.graph.sparql_query</code></strong> - Template-based SPARQL queries</li>
+<li><strong><code>ec.datastore</code></strong> - S3-compatible storage handlers</li>
+<li><strong><code>ec.reporting</code></strong> - Repository status reports</li>
+<li><strong><code>ec.summarize</code></strong> - Repository data summarization</li>
+<li><strong><code>ec.collection</code></strong> - RO-Crate archives and collections</li>
+</ul>
+<h3 id="design-principles">Design Principles<a class="headerlink" href="#design-principles" title="Permanent link"></a></h3>
+<ul>
+<li>Abstract interfaces for graph databases (BlazegraphDB, GraphDB)</li>
+<li>Template-based configuration generation (Jinja2)</li>
+<li>Unit tests with approval testing pattern</li>
+<li>Configuration via environment variables</li>
+<li>CLI-first design for automation</li>
+</ul>
+<h2 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link"></a></h2>
+<p>See <a href="./CLAUDE.md">CLAUDE.md</a> for development guidelines and architecture notes.</p>
+<h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link"></a></h2>
+<ul>
+<li><strong>Source</strong>: https://github.com/earthcube/earthcube_utilities</li>
+<li><strong>Bug Tracker</strong>: https://github.com/earthcube/earthcube_utilities/issues</li>
+<li><strong>Documentation</strong>: https://earthcube.github.io/geocodes_documentation/</li>
+</ul>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.action.view", "content.action.edit", "content.code.annotate", "navigation.sections", "navigation.tabs", "navigation.path"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</body>
+</html>
